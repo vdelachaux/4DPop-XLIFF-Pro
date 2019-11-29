@@ -1,0 +1,7 @@
+Data
+.*
+!.gitignore
+Resources/_*
+userPreferences.*
+.DS_Store
+Project/Trash
