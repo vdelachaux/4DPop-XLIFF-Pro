@@ -6,11 +6,16 @@ No need to read the specification or be an XML expert, everything is done automa
 
 
 ## Multi Languages
+
 * Define the reference language then add as many languages as you want, files and folder are automatically created/updated.
+
 * Manage all standards ie. Language-Regional Codes, ISO639-1 and Legacy names.
 <img src="./assets/multilanguages.png">
+
 * When a localization isn't done, the file is updated with the source string as target string  (so **all localized files are always synchronized**).
+
 * Automatically update the "state" attribute for the "target" string ("new", "need translation") according to the XLIFF specification, so that the created files can be edited with another XLIFF editor.
+
 * In the editor, the not translated strings are highlighted depending the translate status (solarized light background).
 <img src="./assets/all.png">
 
