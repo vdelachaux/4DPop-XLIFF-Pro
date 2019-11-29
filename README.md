@@ -9,31 +9,35 @@ No need to read the specification or be an XML expert, everything is done automa
 * Define the reference language then add as many languages as you want, files and folder are automatically created/updated.
 * Manage all standards ie. Language-Regional Codes, ISO639-1 and Legacy names.
 <img src="./assets/multilanguages.png">
-* When a localization isn't done, the file is updated with the source string as target string  (so _all localized files are always synchronized_).
+* When a localization isn't done, the file is updated with the source string as target string  (so **all localized files are always synchronized**).
 * Automatically update the "state" attribute for the "target" string ("new", "need translation") according to the XLIFF specification, so that the created files can be edited with another XLIFF editor.
 * In the editor, the not translated strings are highlighted depending the translate status (solarized light background).
 <img src="./assets/all.png">
 
 ## Duplicate resnames
 
-* _Detecting the uniqueness of resname into a file_ with auto-expanding & highlighting of duplicated items.
+* **Detecting the uniqueness of resname into a file** with auto-expanding & highlighting of duplicated items.
 * The "resname" is case-sensitive, so the same resname but with a case difference is not considered duplicated.
 * A "resname" is also not considered duplicated if it is loaded only on a platform.
 <img src="./assets/duplicateResnames.png">
 
 ## Notes & platform
 
-* _Note management_.
+* **Note management**
+
 <img src="./assets/notes.png">
-* _Platform Management_. Allows you to load a different string depending on the platform.
+
+* **Platform Management**. Allows you to load a different string depending on the platform.
+
 <img src="./assets/platform.png">
 
 ## Working language
 
-* _Filter the working language_ - Keep only at screen the reference and one localization language, all other languages continue to be synchronized.
+* **Filter the working language** - Keep only at screen the reference and one localization language, all other languages continue to be synchronized.
+
 <img src="./assets/fr.png">
 
-##Action menu
+## Action menu
 
 * Auto formatting of the resname according to the source string.
 * Choosing platform.
@@ -43,8 +47,8 @@ No need to read the specification or be an XML expert, everything is done automa
 
 ## Miscellaneous
 
-* _Automatic ID_ to ensure uniqueness in the file.
-* _Backup in real time_. A modification is immediatly saved and all the languages are synchronized.
+* **Automatic ID** to ensure uniqueness in the file.
+* **Backup in real time**. A modification is immediatly saved and all the languages are synchronized.
 * Keyboard layout & spell check according to each language.
 * Import files from another project
 
