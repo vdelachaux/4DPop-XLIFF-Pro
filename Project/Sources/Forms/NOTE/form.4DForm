@@ -1,0 +1,93 @@
+﻿{
+	"destination": "detailScreen",
+	"rightMargin": 0,
+	"bottomMargin": 0,
+	"markerBody": 51,
+	"markerBreak": 51,
+	"markerFooter": 51,
+	"events": [
+		"onLoad",
+		"onActivate",
+		"onUnload",
+		"onTimer",
+		"onBoundVariableChange"
+	],
+	"method": "method.4dm",
+	"pageFormat": {
+		"paperName": "A4",
+		"paperWidth": "595pt",
+		"paperHeight": "842pt"
+	},
+	"pages": [
+		null,
+		{
+			"objects": {
+				"note.border": {
+					"type": "rectangle",
+					"top": 0,
+					"left": 0,
+					"width": 339,
+					"height": 50,
+					"sizingX": "grow",
+					"sizingY": "grow",
+					"fill": "#F8FFCB",
+					"stroke": "#CCCCCC",
+					"borderRadius": 5
+				},
+				"note": {
+					"type": "input",
+					"top": 9,
+					"left": 7,
+					"width": 314,
+					"height": 33,
+					"sizingX": "grow",
+					"sizingY": "grow",
+					"stroke": "#696969",
+					"fill": "transparent",
+					"borderStyle": "none",
+					"hideFocusRing": true,
+					"method": "ObjectMethods/note.4dm",
+					"events": [
+						"onLosingFocus",
+						"onDataChange"
+					]
+				},
+				"close": {
+					"type": "button",
+					"top": 0,
+					"left": 317,
+					"width": 20,
+					"height": 20,
+					"sizingX": "move",
+					"focusable": false,
+					"icon": "/RESOURCES/Images/close.png",
+					"iconFrames": 4,
+					"style": "custom",
+					"method": "ObjectMethods/close.4dm",
+					"events": [
+						"onClick"
+					]
+				}
+			}
+		}
+	],
+	"editor": {
+		"activeLayer": "default",
+		"layers": {
+			"default": {},
+			"View 1": {},
+			"View 2": {},
+			"View 3": {},
+			"View 4": {},
+			"View 5": {},
+			"View 6": {},
+			"View 7": {},
+			"View 8": {
+				"objects": [
+					"note.border",
+					"note"
+				]
+			}
+		}
+	}
+}

@@ -1,0 +1,211 @@
+﻿{
+	"destination": "detailScreen",
+	"rightMargin": 19,
+	"bottomMargin": 20,
+	"markerHeader": 15,
+	"markerBody": 200,
+	"markerBreak": 220,
+	"markerFooter": 240,
+	"events": [
+		"onTimer"
+	],
+	"method": "method.4dm",
+	"pageFormat": {
+		"paperName": "A4",
+		"paperWidth": "595pt",
+		"paperHeight": "842pt"
+	},
+	"pages": [
+		null,
+		{
+			"objects": {
+				"Variable": {
+					"type": "input",
+					"top": 42,
+					"left": 43,
+					"width": 189,
+					"height": 17,
+					"hideFocusRing": true,
+					"dragging": "none",
+					"dropping": "custom",
+					"events": [
+						"onDataChange"
+					]
+				},
+				"Variable1": {
+					"type": "input",
+					"top": 86,
+					"left": 43,
+					"width": 189,
+					"height": 17,
+					"dataSourceTypeHint": "number",
+					"hideFocusRing": true,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "custom",
+					"events": [
+						"onDataChange"
+					]
+				},
+				"Button": {
+					"type": "button",
+					"top": 205,
+					"left": 27,
+					"width": 67,
+					"height": 19,
+					"text": "Test",
+					"focusable": false,
+					"method": "ObjectMethods/Button.4dm",
+					"events": [
+						"onClick"
+					]
+				},
+				"Variable2": {
+					"type": "input",
+					"top": 123,
+					"left": 43,
+					"width": 189,
+					"height": 17,
+					"hideFocusRing": true,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "custom",
+					"events": [
+						"onDataChange"
+					]
+				},
+				"Check Box": {
+					"type": "checkbox",
+					"top": 160,
+					"left": 43,
+					"width": 133,
+					"height": 17,
+					"text": "Check Box",
+					"events": [
+						"onClick"
+					]
+				},
+				"Variable3": {
+					"type": "input",
+					"top": 12,
+					"left": 27,
+					"width": 240,
+					"height": 17,
+					"focusable": false,
+					"fill": "transparent",
+					"enterable": false,
+					"hideFocusRing": true,
+					"dragging": "none",
+					"dropping": "custom",
+					"events": [
+						"onDataChange"
+					]
+				},
+				"Button1": {
+					"type": "button",
+					"top": 197,
+					"left": 114,
+					"width": 179,
+					"height": 29,
+					"text": ":xliff:index_1",
+					"events": [
+						"onClick"
+					]
+				},
+				"Variable4": {
+					"type": "input",
+					"top": 49,
+					"left": 333,
+					"width": 221,
+					"height": 209,
+					"dataSourceTypeHint": "picture",
+					"hideFocusRing": true,
+					"scrollbarVertical": "automatic",
+					"scrollbarHorizontal": "automatic",
+					"dragging": "custom",
+					"events": [
+						"onDataChange"
+					]
+				},
+				"search.button": {
+					"type": "button",
+					"top": 371,
+					"left": 90,
+					"width": 193,
+					"height": 21,
+					"sizingX": "move",
+					"display": false,
+					"method": "ObjectMethods/search.button.4dm",
+					"events": [
+						"onClick"
+					]
+				},
+				"unit.search": {
+					"type": "input",
+					"top": 373,
+					"left": 175,
+					"width": 105,
+					"height": 17,
+					"sizingX": "move",
+					"borderStyle": "none",
+					"hideFocusRing": true,
+					"contextMenu": "none",
+					"placeholder": "Search",
+					"dragging": "none",
+					"method": "ObjectMethods/unit.search.4dm",
+					"events": [
+						"onLoad",
+						"onLosingFocus",
+						"onGettingFocus",
+						"onDataChange",
+						"onUnload",
+						"onAfterEdit"
+					]
+				},
+				"restart_": {
+					"type": "button",
+					"top": 369,
+					"left": 259,
+					"width": 27,
+					"height": 25,
+					"visibility": "hidden",
+					"sizingX": "move",
+					"focusable": false,
+					"icon": "/RESOURCES/Images/sync.png",
+					"iconFrames": 4,
+					"style": "custom"
+				},
+				"search.glass": {
+					"type": "picture",
+					"top": 374,
+					"left": 160,
+					"width": 14,
+					"height": 14,
+					"sizingX": "move",
+					"pictureFormat": "scaled",
+					"picture": "/RESOURCES/Images/glass.png"
+				},
+				"search.border": {
+					"type": "rectangle",
+					"top": 371,
+					"left": 90,
+					"width": 193,
+					"height": 21,
+					"sizingX": "move",
+					"fill": "transparent",
+					"stroke": "#CCCCCC",
+					"borderRadius": 5
+				}
+			},
+			"entryOrder": [
+				"Variable",
+				"Variable1",
+				"Button",
+				"Variable2",
+				"Check Box",
+				"Button1",
+				"Variable4"
+			]
+		}
+	]
+}

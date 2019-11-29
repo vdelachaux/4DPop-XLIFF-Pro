@@ -1,0 +1,268 @@
+﻿{
+	"destination": "detailScreen",
+	"windowSizingX": "fixed",
+	"windowSizingY": "fixed",
+	"rightMargin": 0,
+	"bottomMargin": 0,
+	"markerHeader": 3840,
+	"markerBody": -14336,
+	"markerBreak": -9216,
+	"markerFooter": -4096,
+	"events": [
+		"onLoad",
+		"onResize"
+	],
+	"method": "method.4dm",
+	"pageFormat": {
+		"paperName": "A4",
+		"paperWidth": "595pt",
+		"paperHeight": "842pt"
+	},
+	"pages": [
+		{
+			"objects": {
+				"Rectangle": {
+					"type": "rectangle",
+					"top": 0,
+					"left": 0,
+					"width": 440,
+					"height": 227,
+					"fill": "automatic",
+					"stroke": "transparent"
+				},
+				"Ligne1": {
+					"type": "line",
+					"top": 0,
+					"left": 220,
+					"height": 195,
+					"visibility": "hidden",
+					"stroke": "#0000FF",
+					"strokeDashArray": "1 1"
+				},
+				"_OK": {
+					"type": "button",
+					"top": 189,
+					"left": 333,
+					"width": 85,
+					"height": 22,
+					"sizingX": "move",
+					"sizingY": "move",
+					"dataSource": "OK",
+					"action": "accept",
+					"text": "OK",
+					"class": "default",
+					"focusable": false,
+					"defaultButton": true,
+					"events": [
+						"onClick",
+						"onHeader",
+						"onPrintingBreak",
+						"onPrintingFooter",
+						"onDisplayDetail",
+						"onPrintingDetail"
+					]
+				},
+				"Variable2": {
+					"type": "input",
+					"top": 29,
+					"left": 183,
+					"width": 176,
+					"height": 17,
+					"sizingX": "grow",
+					"dataSource": "Form:C1466.creation",
+					"textAlign": "left",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "none"
+				},
+				"Variable3": {
+					"type": "input",
+					"top": 49,
+					"left": 183,
+					"width": 176,
+					"height": 17,
+					"sizingX": "grow",
+					"dataSource": "Form:C1466.modification",
+					"textAlign": "left",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "none"
+				},
+				"Variable4": {
+					"type": "input",
+					"top": 69,
+					"left": 183,
+					"width": 176,
+					"height": 17,
+					"sizingX": "grow",
+					"dataSource": "Form:C1466.size",
+					"textAlign": "left",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "none"
+				},
+				"Texte1": {
+					"type": "text",
+					"top": 29,
+					"left": 35,
+					"width": 144,
+					"height": 17,
+					"stroke": "#B1B1B1",
+					"textAlign": "right",
+					"text": ":xliff:FileCreated"
+				},
+				"Texte2": {
+					"type": "text",
+					"top": 49,
+					"left": 35,
+					"width": 144,
+					"height": 17,
+					"stroke": "#B1B1B1",
+					"textAlign": "right",
+					"text": ":xliff:FileModified"
+				},
+				"Texte3": {
+					"type": "text",
+					"top": 69,
+					"left": 35,
+					"width": 144,
+					"height": 17,
+					"stroke": "#B1B1B1",
+					"textAlign": "right",
+					"text": ":xliff:Size"
+				},
+				"Round Rectangle": {
+					"type": "rectangle",
+					"top": 111,
+					"left": 65,
+					"width": 98,
+					"height": 21,
+					"fill": "#808080",
+					"stroke": "transparent",
+					"borderRadius": 5
+				},
+				"Variable1": {
+					"type": "input",
+					"top": 113,
+					"left": 65,
+					"width": 98,
+					"height": 17,
+					"sizingX": "grow",
+					"dataSource": "\"<file> \"+String:C10(Form:C1466.file)",
+					"stroke": "#FFFFFF",
+					"textAlign": "center",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "none"
+				},
+				"Round Rectangle1": {
+					"type": "rectangle",
+					"top": 111,
+					"left": 171,
+					"width": 98,
+					"height": 21,
+					"fill": "#808080",
+					"stroke": "transparent",
+					"borderRadius": 5
+				},
+				"Round Rectangle2": {
+					"type": "rectangle",
+					"top": 111,
+					"left": 277,
+					"width": 98,
+					"height": 21,
+					"fill": "#808080",
+					"stroke": "transparent",
+					"borderRadius": 5
+				},
+				"Variable5": {
+					"type": "input",
+					"top": 113,
+					"left": 172,
+					"width": 98,
+					"height": 17,
+					"sizingX": "grow",
+					"dataSource": "\"<group> \"+String:C10(Form:C1466.group)",
+					"stroke": "#FFFFFF",
+					"textAlign": "center",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "none"
+				},
+				"Variable6": {
+					"type": "input",
+					"top": 113,
+					"left": 277,
+					"width": 98,
+					"height": 17,
+					"sizingX": "grow",
+					"dataSource": "\"<unit> \"+String:C10(Form:C1466.unit)",
+					"stroke": "#FFFFFF",
+					"textAlign": "center",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "none"
+				},
+				"automatic_font": {
+					"type": "input",
+					"top": 192,
+					"left": 5,
+					"width": 150,
+					"height": 16,
+					"visibility": "hidden",
+					"stroke": "#FF6600",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "dotted",
+					"enterable": false,
+					"hideFocusRing": true,
+					"dragging": "none",
+					"dropping": "none",
+					"method": "ObjectMethods/automatic_font.4dm",
+					"events": [
+						"onLoad"
+					]
+				}
+			}
+		},
+		null
+	],
+	"editor": {
+		"activeLayer": "default",
+		"layers": {
+			"default": {},
+			"Vue 2": {},
+			"Vue 3": {},
+			"Vue 4": {},
+			"Vue 5": {},
+			"Vue 6": {},
+			"Vue 7": {},
+			"Vue 8": {},
+			"Vue 9": {}
+		}
+	}
+}

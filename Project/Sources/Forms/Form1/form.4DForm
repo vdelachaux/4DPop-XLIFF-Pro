@@ -1,0 +1,96 @@
+﻿{
+	"destination": "detailScreen",
+	"rightMargin": 19,
+	"bottomMargin": 20,
+	"markerHeader": 15,
+	"markerBody": 200,
+	"markerBreak": 220,
+	"markerFooter": 240,
+	"events": [
+		"onLoad"
+	],
+	"method": "method.4dm",
+	"pageFormat": {
+		"paperName": "A4",
+		"paperWidth": "595pt",
+		"paperHeight": "842pt"
+	},
+	"pages": [
+		null,
+		{
+			"objects": {
+				"Variable": {
+					"type": "input",
+					"top": 15,
+					"left": 15,
+					"width": 465,
+					"height": 145,
+					"sizingX": "grow",
+					"hideFocusRing": true,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "custom",
+					"events": [
+						"onDataChange"
+					]
+				},
+				"Rectangle": {
+					"type": "rectangle",
+					"top": 192,
+					"left": 14,
+					"width": 467,
+					"height": 142,
+					"sizingX": "grow",
+					"fill": "#DDA0DD",
+					"stroke": "#808080"
+				},
+				"Button": {
+					"type": "button",
+					"top": 570,
+					"left": 393,
+					"width": 87,
+					"height": 19,
+					"text": "Bouton",
+					"focusable": false,
+					"events": [
+						"onClick"
+					]
+				},
+				"handle": {
+					"type": "picture",
+					"top": 151,
+					"left": 471,
+					"width": 9,
+					"height": 9,
+					"sizingX": "move",
+					"pictureFormat": "scaled",
+					"picture": "/RESOURCES/Images/handle.png"
+				},
+				"Invisible Button": {
+					"type": "button",
+					"top": 151,
+					"left": 471,
+					"width": 9,
+					"height": 9,
+					"sizingX": "move",
+					"action": "automaticSplitter",
+					"display": false,
+					"method": "ObjectMethods/Invisible Button.4dm",
+					"events": [
+						"onClick",
+						"onMouseLeave"
+					]
+				},
+				"Line": {
+					"type": "line",
+					"top": 370,
+					"left": 15,
+					"width": 465,
+					"visibility": "hidden",
+					"stroke": "#FFD700",
+					"strokeDashArray": "1 1"
+				}
+			}
+		}
+	]
+}

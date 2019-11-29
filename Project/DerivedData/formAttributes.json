@@ -1,0 +1,52 @@
+﻿{
+	"forms": {
+		"COUNTERS": {
+			"timeStamp": "2019-11-29T08:54:19.000Z",
+			"destination": "detailScreen"
+		},
+		"DISPLAY": {
+			"timeStamp": "2019-11-29T08:54:19.000Z",
+			"destination": "detailScreen"
+		},
+		"EDITOR": {
+			"timeStamp": "2019-11-29T08:54:19.000Z",
+			"destination": "detailScreen"
+		},
+		"FILE_INFOS": {
+			"timeStamp": "2019-11-29T08:54:19.000Z",
+			"destination": "detailScreen"
+		},
+		"Form1": {
+			"timeStamp": "2019-11-29T08:54:19.000Z",
+			"destination": "detailScreen"
+		},
+		"Form2": {
+			"timeStamp": "2019-11-29T08:54:19.000Z",
+			"destination": "detailScreen"
+		},
+		"HDI_PATH_PICKER": {
+			"timeStamp": "2019-11-29T08:54:19.000Z",
+			"destination": "detailScreen"
+		},
+		"LANGUE": {
+			"timeStamp": "2019-11-29T08:54:19.000Z",
+			"destination": "detailScreen"
+		},
+		"NOTE": {
+			"timeStamp": "2019-11-29T08:54:19.000Z",
+			"destination": "detailScreen"
+		},
+		"PATH PICKER": {
+			"timeStamp": "2019-11-29T08:54:19.000Z",
+			"destination": "detailScreen"
+		},
+		"PROJECT_SETTINGS": {
+			"timeStamp": "2019-11-29T08:54:19.000Z",
+			"destination": "detailScreen"
+		},
+		"WRAP_AROUND": {
+			"timeStamp": "2019-11-29T08:54:19.000Z",
+			"destination": "detailScreen"
+		}
+	}
+}

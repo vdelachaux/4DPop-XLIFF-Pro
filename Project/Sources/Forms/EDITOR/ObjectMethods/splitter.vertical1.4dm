@@ -1,0 +1,1 @@
+obj_CENTER ("wrap";Form:C1466.widgets.strings;Horizontally centered:K39:1)

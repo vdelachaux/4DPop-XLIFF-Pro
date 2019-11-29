@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?><preferences stamp="24">
+	<com.4d>
+		<web>
+			<standalone_server>
+				<configuration allowHttp="false" allow_ssl="true" automatic_session_management="true" https_port_number="8443" port_number="80"/>
+			</standalone_server>
+			<remote>
+				<configuration automatic_session_management="true"/>
+			</remote>
+		</web>
+		<general execute_host_database_event="true"/>
+		<compiler>
+			<options compilation_path="3" fat_binary="true"/>
+			<typage default_for_button="2"/>
+			<method_suffix arrays="" interprocess_arrays="" interprocess_variables="" methods="" variables=""/>
+		</compiler>
+		<interface>
+			<shortcuts>
+				<accept_input_form alt="false" command="false" ctrl="false" key_code="0" shift="false"/>
+				<cancel_input_form alt="false" command="false" ctrl="false" key_code="0" shift="false"/>
+				<add_subform alt="false" command="false" ctrl="false" key_code="0" shift="false"/>
+			</shortcuts>
+		</interface>
+		<php ip_address="127.0.0.1"/>
+		<sql>
+			<publication port_number="19812"/>
+		</sql>
+		<server>
+			<network>
+				<options publish_at_startup="false" use_legacy_network_layer="false"/>
+				<sso spn=""/>
+			</network>
+		</server>
+		<database>
+			<misc use_ast_interpreter="false"/>
+		</database>
+		<deployment>
+			<options/>
+		</deployment>
+	</com.4d>
+</preferences>

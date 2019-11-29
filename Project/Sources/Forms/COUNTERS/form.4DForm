@@ -1,0 +1,124 @@
+﻿{
+	"destination": "detailScreen",
+	"bottomMargin": 2,
+	"markerHeader": 15,
+	"markerBody": 200,
+	"markerBreak": 220,
+	"markerFooter": 240,
+	"events": [
+		"onLoad",
+		"onValidate",
+		"onClick",
+		"onOutsideCall",
+		"onDoubleClick",
+		"onDrop",
+		"onMenuSelect",
+		"onPluginArea",
+		"onDataChange",
+		"onDragOver",
+		"onTimer",
+		"onAfterKeystroke",
+		"onAfterEdit",
+		"onBeginDragOver",
+		"onBoundVariableChange",
+		"onPageChange"
+	],
+	"pageFormat": {
+		"paperName": "A4",
+		"paperWidth": "842pt",
+		"paperHeight": "595pt"
+	},
+	"pages": [
+		null,
+		{
+			"objects": {
+				"Variable5": {
+					"type": "input",
+					"top": 3,
+					"left": 23,
+					"width": 28,
+					"height": 17,
+					"sizingX": "grow",
+					"dataSource": "Form:C1466.group",
+					"dataSourceTypeHint": "number",
+					"stroke": "#696969",
+					"textAlign": "left",
+					"fontWeight": "bold",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "none"
+				},
+				"Oval": {
+					"type": "oval",
+					"top": 2,
+					"left": 1,
+					"width": 18,
+					"height": 18,
+					"fill": "#808080",
+					"stroke": "transparent"
+				},
+				"Text": {
+					"type": "text",
+					"top": 2,
+					"left": 1,
+					"width": 18,
+					"height": 18,
+					"stroke": "#FFFFFF",
+					"textAlign": "center",
+					"text": "G"
+				},
+				"Variable1": {
+					"type": "input",
+					"top": 3,
+					"left": 80,
+					"width": 28,
+					"height": 17,
+					"sizingX": "grow",
+					"dataSource": "Form:C1466.unit",
+					"dataSourceTypeHint": "number",
+					"stroke": "#696969",
+					"textAlign": "left",
+					"fontWeight": "bold",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "none"
+				},
+				"Oval1": {
+					"type": "oval",
+					"top": 2,
+					"left": 58,
+					"width": 18,
+					"height": 18,
+					"fill": "#808080",
+					"stroke": "transparent"
+				},
+				"Text1": {
+					"type": "text",
+					"top": 2,
+					"left": 58,
+					"width": 18,
+					"height": 18,
+					"stroke": "#FFFFFF",
+					"textAlign": "center",
+					"text": "U"
+				}
+			}
+		}
+	],
+	"editor": {
+		"groups": {
+			"Group2": [
+				"Oval",
+				"Text"
+			]
+		}
+	}
+}
