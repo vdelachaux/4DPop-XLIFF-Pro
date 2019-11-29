@@ -210,15 +210,24 @@ If (Form:C1466#Null:C1517)
 				
 				  // Display the theme label
 				$Dom_ref:=Form:C1466.$current.$dom
-				xml_GET_ATTRIBUTE ($Dom_ref;"d4:groupName";->$Txt_buffer)
 				
-				$Dom_root:=DOM Get root XML element:C1053($Dom_ref)
-				$Dom_ref:=xml_Find_by_attribute ($Dom_root;"/xliff/file/body/group/trans-unit/@resname";$Txt_buffer)
-				
-				If (xml_IsValidReference ($Dom_ref))
+				If (Length:C16($Dom_ref)>0)
 					
-					$Dom_ref:=Form:C1466.target($Dom_ref)
-					xml_GET_ELEMENT_VALUE ($Dom_ref;Form:C1466.dynamic("resname.box"))
+					xml_GET_ATTRIBUTE ($Dom_ref;"d4:groupName";->$Txt_buffer)
+					
+					$Dom_root:=DOM Get root XML element:C1053($Dom_ref)
+					$Dom_ref:=xml_Find_by_attribute ($Dom_root;"/xliff/file/body/group/trans-unit/@resname";$Txt_buffer)
+					
+					If (xml_IsValidReference ($Dom_ref))
+						
+						$Dom_ref:=Form:C1466.target($Dom_ref)
+						xml_GET_ELEMENT_VALUE ($Dom_ref;Form:C1466.dynamic("resname.box"))
+						
+					End if 
+					
+				Else 
+					
+					  // A "If" statement should never omit "Else" 
 					
 				End if 
 				

@@ -86,7 +86,7 @@ If (Length:C16(Storage:C1525.editor.directory)>0)
 	Form:C1466.parse:=Formula from string:C1601("CALL FORM:C1391(This:C1470.window;\"FILE_PARSE\";$1)")
 	Form:C1466.refresh:=Formula from string:C1601("CALL FORM:C1391(This:C1470.window;\"EDITOR_UI\";$1)")
 	
-	Form:C1466.showLocalization:=Formula:C1597("CALL FORM:C1391(This:C1470.window;\"EDITOR_DISPLAY\")")
+	  //Form.showLocalization:=Formula("CALL FORM:C1391(This:C1470.window;\"EDITOR_DISPLAY\")")
 	Form:C1466.message:=Formula from string:C1601("CALL FORM:C1391(Current form window:C827;\"EDITOR_CALL\";$1)")
 	
 	Form:C1466.isUnit:=Formula:C1597(String:C10(Form:C1466.$target)="unit")

@@ -97,12 +97,6 @@ Else
 End if 
 
 (Form:C1466.dynamic(Form:C1466.widgets.localizations))->:=Form:C1466
-Form:C1466.touch(Form:C1466.widgets.localizations)
-
-Form:C1466.showLocalization()
-  //Form.touch(Form.widgets.localizations)
-
-
 
   // Update UI
 Form:C1466.refresh(Null:C1517)

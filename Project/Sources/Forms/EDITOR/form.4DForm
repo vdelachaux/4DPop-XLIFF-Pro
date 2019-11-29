@@ -74,7 +74,9 @@
 					"top": 5,
 					"left": 362,
 					"height": 40,
-					"stroke": "#E3E3E3"
+					"stroke": "#E3E3E3",
+					"width": 0,
+					"startPoint": "topLeft"
 				},
 				"file.list": {
 					"type": "listbox",
@@ -385,14 +387,18 @@
 					"height": 420,
 					"sizingX": "move",
 					"sizingY": "grow",
-					"stroke": "#999999"
+					"stroke": "#999999",
+					"width": 0,
+					"startPoint": "topLeft"
 				},
 				"line.splitter.vertical1": {
 					"type": "line",
 					"top": 5,
 					"left": 160,
 					"height": 40,
-					"stroke": "#E3E3E3"
+					"stroke": "#E3E3E3",
+					"width": 0,
+					"startPoint": "topLeft"
 				},
 				"unit.delete": {
 					"type": "button",
@@ -540,7 +546,9 @@
 					"left": 0,
 					"width": 800,
 					"sizingX": "grow",
-					"stroke": "#999999"
+					"stroke": "#999999",
+					"height": 0,
+					"startPoint": "topLeft"
 				},
 				"0.splitter.vertical": {
 					"type": "button",
@@ -557,7 +565,9 @@
 					"left": 160,
 					"height": 420,
 					"sizingY": "grow",
-					"stroke": "#999999"
+					"stroke": "#999999",
+					"width": 0,
+					"startPoint": "topLeft"
 				},
 				"automatic_font": {
 					"type": "input",
@@ -668,5 +678,9 @@
 				]
 			}
 		}
+	},
+	"$4d": {
+		"version": "1",
+		"kind": "form"
 	}
 }

@@ -54,15 +54,15 @@ Case of
 				obj_Dynamic ("value")->:=""
 				OBJECT SET PLACEHOLDER:C1295(*;"value";Form:C1466.value)
 				
-				If (ui_darkMode )
-					
-					OBJECT SET RGB COLORS:C628(*;"value";Foreground color:K23:1;Background color none:K23:10)
-					
-				Else 
-					
-					OBJECT SET RGB COLORS:C628(*;"value";Foreground color:K23:1;0x00FFF8EA)
-					
-				End if 
+				  //If (ui_darkMode )
+				
+				  //OBJECT SET RGB COLORS(*;"value";Foreground color;Background color none)
+				
+				  //Else 
+				
+				OBJECT SET RGB COLORS:C628(*;"value";Foreground color:K23:1;0x00FFF8EA)
+				
+				  //End if 
 				
 				
 			Else 
@@ -72,15 +72,15 @@ Case of
 				
 				If (Position:C15(String:C10(Form:C1466.state);"needs-review-translation";*)>0)
 					
-					If (ui_darkMode )
-						
-						OBJECT SET RGB COLORS:C628(*;"value";Disable highlight item color:K23:9;Dark shadow color:K23:3)
-						
-					Else 
-						
-						OBJECT SET RGB COLORS:C628(*;"value";Foreground color:K23:1;0x00FFEFC8)
-						
-					End if 
+					  //If (ui_darkMode )
+					
+					  //OBJECT SET RGB COLORS(*;"value";Disable highlight item color;Dark shadow color)
+					
+					  //Else 
+					
+					OBJECT SET RGB COLORS:C628(*;"value";Foreground color:K23:1;0x00FFEFC8)
+					
+					  //End if 
 					
 				Else 
 					

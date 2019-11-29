@@ -51,9 +51,13 @@ Case of
 				
 				Form:C1466.$target:="group"
 				
+			Else 
+				
+				
 			End if 
 		End if 
 		
+		  //Form.showLocalization()
 		EDITOR_DISPLAY 
 		
 		  //______________________________________________________

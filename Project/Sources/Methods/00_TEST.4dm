@@ -1,12 +1,18 @@
 //%attributes = {}
 C_LONGINT:C283($Lon_i)
-C_TEXT:C284($Dom_node;$Dom_root;$File_source;$File_target;$Txt_buffer;$Txt_cmd)
-C_TEXT:C284($Txt_error;$Txt_input;$Txt_output;$Txt_path;$Txt_xPath)
+C_TEXT:C284($Dom_node;$Dom_root;$File_source;$File_target;$Txt_buffer;$Txt_path)
+C_TEXT:C284($Txt_xPath)
 C_OBJECT:C1216($Obj_;$Obj_child;$Obj_doc_File;$Obj_doc_Folder;$Obj_parent;$Obj_path)
+C_COLLECTION:C1488($c)
 
   //
 
 Case of 
+		
+		  //______________________________________________________
+	: (True:C214)
+		
+		$c:=Folder:C1567(fk applications folder:K87:20).parent.files(fk recursive:K87:7)
 		
 		  //______________________________________________________
 	: (True:C214)

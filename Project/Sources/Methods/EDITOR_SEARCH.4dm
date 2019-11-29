@@ -96,7 +96,8 @@ If (Length:C16($Txt_search)>0)
 		
 	End if 
 	
-	Form:C1466.showLocalization()
+	  //Form.showLocalization()
+	EDITOR_DISPLAY 
 	
 Else 
 	
