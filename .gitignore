@@ -1,12 +1,17 @@
 Data
 .*
 !.gitignore
+
 Resources/_*
+
 userPreferences.*
-.DS_Store
-Project/Trash
-Preferences/4DPop XLIFF.xml
-Preferences/4DPop
-Preferences/4DPop Explorer.json
-Project/DerivedData
-Project/DerivedData
+
+Project/Trash/
+
+Preferences/
+!Preferences/4DPop AppMaker.xml
+
+Project/DerivedData/
+
+Settings/
+!Settings/buildApp.4DSettings
