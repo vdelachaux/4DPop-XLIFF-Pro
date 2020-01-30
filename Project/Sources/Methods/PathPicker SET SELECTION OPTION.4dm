@@ -55,4 +55,4 @@ $Ptr_widget->:=JSON Stringify:C1217($Obj_widget)
   // Return
   // <NONE>
   // ----------------------------------------------------
-  // End
+  // End 

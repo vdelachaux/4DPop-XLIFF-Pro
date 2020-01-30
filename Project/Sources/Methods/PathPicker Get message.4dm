@@ -52,4 +52,4 @@ $Txt_message:=OB Get:C1224($Obj_widget;"message";Is text:K8:3)
 $0:=$Txt_message
 
   // ----------------------------------------------------
-  // End
+  // End 

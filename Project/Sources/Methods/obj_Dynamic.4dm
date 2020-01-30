@@ -68,4 +68,4 @@ End if
 $0:=$Ptr_pointer  // Pointer to the object
 
   // ----------------------------------------------------
-  // End
+  // End 

@@ -52,4 +52,4 @@ If (Match regex:C1019($Txt_pattern;$Txt_file;1;$Lon_position;$Lon_length))
 End if 
 
   // ----------------------------------------------------
-  // End
+  // End 

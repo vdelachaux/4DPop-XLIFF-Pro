@@ -193,8 +193,8 @@ Case of
 			  //Use ($Obj_editor)
 			  //If (Test path name($File_project)=Is a document)
 			  //$Obj_editor.project:=System folder(Documents folder)+"4DPop XLIFF Pro.project"
-			  // End if
-			  // End use
+			  // End  if
+			  // End  use
 			
 		End if 
 		

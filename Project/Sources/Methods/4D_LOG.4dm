@@ -61,4 +61,4 @@ LOG EVENT:C667($Lon_where;$Txt_message;$Lon_type)
 $0:=True:C214  // For a use with ASSERT
 
   // ----------------------------------------------------
-  // End
+  // End 

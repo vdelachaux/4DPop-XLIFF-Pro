@@ -122,6 +122,6 @@ $Txt_xml:=Replace string:C233($Txt_xml;"_§§";"&lt;")
 $Txt_xml:=Replace string:C233($Txt_xml;"_¿¿";"&gt;")
 
   // ----------------------------------------------------
-  // End
+  // End 
 
 $0:=$Txt_xml

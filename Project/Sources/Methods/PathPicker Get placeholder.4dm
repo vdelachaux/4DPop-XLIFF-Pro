@@ -52,4 +52,4 @@ $Txt_placeholder:=OB Get:C1224($Obj_widget;"placeHolder";Is text:K8:3)
 $0:=$Txt_placeholder
 
   // ----------------------------------------------------
-  // End
+  // End 

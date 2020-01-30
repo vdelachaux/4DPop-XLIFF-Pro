@@ -64,4 +64,4 @@ If (Asserted:C1132(Not:C34(Is nil pointer:C315($Ptr_object))))
 End if 
 
   // ----------------------------------------------------
-  // End
+  // End 

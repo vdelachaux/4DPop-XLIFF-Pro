@@ -72,4 +72,4 @@ End if
 $0:=$Ptr_widget  //Pointer to the widget object
 
   // ----------------------------------------------------
-  // End
+  // End 

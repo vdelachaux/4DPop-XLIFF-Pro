@@ -52,4 +52,4 @@ $Lon_type:=OB Get:C1224($Obj_widget;"type";Is longint:K8:6)
 $0:=$Lon_type  //0 = folder | 1 = document
 
   // ----------------------------------------------------
-  // End
+  // End 

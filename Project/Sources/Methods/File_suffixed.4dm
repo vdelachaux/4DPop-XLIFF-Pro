@@ -58,4 +58,4 @@ $Boo_suffixed:=(Position:C15(Uppercase:C13($Txt_language);$Txt_buffer;*)=(Length
 $0:=$Boo_suffixed
 
   // ----------------------------------------------------
-  // End
+  // End 

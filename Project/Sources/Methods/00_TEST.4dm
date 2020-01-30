@@ -178,7 +178,7 @@ Case of
 		  //ARRAY TEXT($tTxt_properties;0)
 		  //For ($Lon_i;1;maMethode ($Obj_1;->$tTxt_properties);1)
 		  //$Txt_buffer:=$tTxt_properties{$Lon_i}
-		  // End for
+		  // End  for
 		  //  // MaMethode {
 		  //$Obj_:=$1
 		  //$Ptr_:=$2
