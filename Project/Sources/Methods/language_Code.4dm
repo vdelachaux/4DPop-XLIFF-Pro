@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : language_Code
   // Database: 4DPop XLIFF Pro

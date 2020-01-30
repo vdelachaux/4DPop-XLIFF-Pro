@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
 
   // ----------------------------------------------------
   // Method : Compiler_Rgx

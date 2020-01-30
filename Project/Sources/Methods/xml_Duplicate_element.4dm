@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Method : xml_DUPLICATE_ELEMENT
   // Created 05/09/08 by Vincent de Lachaux

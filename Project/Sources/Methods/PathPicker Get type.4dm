@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : PathPicker Get type
   // ID[9B2F3EC320594A1AB1E85BC49AAEBB25]

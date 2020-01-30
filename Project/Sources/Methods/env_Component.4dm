@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Method : env_Boo_Is_a_Component
   // Created 27/10/06 by vdl

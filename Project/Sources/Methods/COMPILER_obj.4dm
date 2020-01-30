@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
 C_OBJECT:C1216(Obj_buffer)
 C_LONGINT:C283(Lon_buffer)
 

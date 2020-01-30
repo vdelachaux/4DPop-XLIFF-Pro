@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   //C_LONGINT($1;$charCode)
   //C_REAL($2;$fontSize)
 

@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Method :  doc_getFromPath
   // Created 20/05/10 by Vincent de Lachaux

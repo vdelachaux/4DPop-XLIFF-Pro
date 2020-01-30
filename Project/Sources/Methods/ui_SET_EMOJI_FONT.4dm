@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : ui_SET_EMOJI_FONT
   // Database: 4DPop XLIFF Pro

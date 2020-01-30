@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : xlf_DELETE_ELEMENT
   // Database: 4DPop XLIFF Pro

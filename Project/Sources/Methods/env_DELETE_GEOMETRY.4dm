@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : env_DELETE_GEOMETRY
   // Database: 4DPop XLIFF Pro

@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : EDITOR_ON_PAGE_CHANGE
   // Database: 4DPop XLIFF Pro

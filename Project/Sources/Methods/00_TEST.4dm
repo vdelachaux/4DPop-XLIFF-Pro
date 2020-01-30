@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes  = {}
 C_LONGINT:C283($Lon_i)
 C_TEXT:C284($Dom_node;$Dom_root;$File_source;$File_target;$Txt_buffer;$Txt_path)
 C_TEXT:C284($Txt_xPath)

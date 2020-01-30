@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes  = {}
   //Le contenu textuel d'un élément 'text' peut consister soit en données textuelles
   //directement incorporées dans l'élément 'text', soit du contenu de données
   //textuelles d'un élément appelé, où l'appel est spécifié avec un élément 'tref'.

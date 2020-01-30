@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : obj_ADAPT_SEPARATOR_LINE
   // Database: 4D Labels

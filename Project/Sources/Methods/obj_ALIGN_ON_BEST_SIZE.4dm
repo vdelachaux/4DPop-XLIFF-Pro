@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : obj_ALIGN_ON_BEST_SIZE
   // Database: runtime

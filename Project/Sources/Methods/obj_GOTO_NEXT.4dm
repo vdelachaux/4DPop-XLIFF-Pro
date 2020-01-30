@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : obj_GOTO_NEXT
   // Database: 4DPop XLIFF Pro

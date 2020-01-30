@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
 If (False:C215)
 	
 	C_BOOLEAN:C305(debug_SAVE ;$0)

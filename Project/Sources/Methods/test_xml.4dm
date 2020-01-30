@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes  = {}
   // unitTest
 
 If (True:C214)  //xml_IsValidReference

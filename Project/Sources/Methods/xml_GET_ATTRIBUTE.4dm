@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : xml_GET_ATTRIBUTE
   // Database: 4DPop XLIFF Pro

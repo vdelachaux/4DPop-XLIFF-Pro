@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true,"shared":true}
+//%attributes  = {"invisible":true,"shared":true}
 C_POINTER:C301($1)
 
 If (False:C215)

@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Méthode : Tool_gTxt_BytesToString
   // Créée le 28/09/05 par vdl

@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : object_ASSIGNMENT
   // ID[A06314A54F4D42C49615BF1917B7CDA4]

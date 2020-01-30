@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : path_picker_INIT
   // ID[9639159F9EBF4D44976176215E23838B]

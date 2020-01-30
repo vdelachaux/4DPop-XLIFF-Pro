@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true,"preemptive":"capable"}
+//%attributes  = {"invisible":true,"preemptive":"capable"}
   // ----------------------------------------------------
   // Project method : xml_attributes
   // Database: 4DPop XLIFF Pro

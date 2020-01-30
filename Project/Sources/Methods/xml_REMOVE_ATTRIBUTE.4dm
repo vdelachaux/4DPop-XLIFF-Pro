@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : xml_REMOVE_ATTRIBUTE
   // Project method : xml_remove_attribute

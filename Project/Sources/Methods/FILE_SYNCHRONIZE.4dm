@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : FILE_SYNCHRONIZE
   // Database: 4DPop XLIFF Pro

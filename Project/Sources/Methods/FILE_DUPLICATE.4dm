@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : FILE_DUPLICATE
   // Database: 4DPop XLIFF Pro

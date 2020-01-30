@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Method : xml_COPY_ELEMENT
   // Created 08/09/08 by Vincent de Lachaux

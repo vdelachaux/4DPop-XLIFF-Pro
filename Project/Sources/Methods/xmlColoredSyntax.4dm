@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : xmlColoredSyntax
   // ID[20858E31C6A94C829CD0963124FCD4C1]

@@ -1,4 +1,4 @@
-//%attributes = {}
+//%attributes  = {}
   // ----------------------------------------------------
   // Project method: HDI_PATH_PICKER
   // ID[B9E4C0C8755B4287980CF03451A7C3F2]

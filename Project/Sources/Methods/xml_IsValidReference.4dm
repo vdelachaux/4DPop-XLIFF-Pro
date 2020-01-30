@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : xml_IsValidReference
   // ID[0A18547EC8AD4F96B4C9EC4933FAA1A3]

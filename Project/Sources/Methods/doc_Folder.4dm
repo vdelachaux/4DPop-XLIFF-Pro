@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true,"preemptive":"capable"}
+//%attributes  = {"invisible":true,"preemptive":"capable"}
   // ----------------------------------------------------
   // Project method : doc_Folder
   // Database: 4D Mobile App

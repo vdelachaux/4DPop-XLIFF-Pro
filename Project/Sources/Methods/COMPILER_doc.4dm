@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
 If (False:C215)
 	
 	C_OBJECT:C1216(doc_Folder ;$0)

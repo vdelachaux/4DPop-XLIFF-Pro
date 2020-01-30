@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : debug_VIEW_IN_JSON_LAB
   // Database: 4DPop XLIFF Pro

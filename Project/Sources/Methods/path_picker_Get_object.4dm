@@ -1,4 +1,4 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
   // ----------------------------------------------------
   // Project method : path_picker_Get_object
   // ID[54AF9A672A2847FEAE71180159E52D38]

@@ -1,2 +1,2 @@
-//%attributes = {"invisible":true}
+//%attributes  = {"invisible":true}
 rgx_Lon_Error:=ERROR
