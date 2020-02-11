@@ -1,3 +1,7 @@
+[![language](https://img.shields.io/static/v1?label=language&message=4d&color=blue)](https://developer.4d.com/)
+[![language](https://img.shields.io/github/languages/top/vdelachaux/4DPop-XLIFF-Pro.svg)](https://developer.4d.com/)
+![code-size](https://img.shields.io/github/languages/code-size/vdelachaux/4DPop-XLIFF-Pro.svg)
+
 # 4DPop XLIFF Pro
 
 4DPop XLIFF Pro makes it clean and simple to edit XLIFF files and so localize your project.
