@@ -24,11 +24,7 @@
 			"COMPILER_4DPop"
 		]
 	},
-	"4dUnit": {
-		"methods": [
-			"unit_EXECUTE_ALL"
-		]
-	},
+	"4dUnit": {},
 	"convert": {
 		"methods": [
 			"COMPILER_convert",
