@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?><preferences stamp="24">
+<?xml version="1.0" encoding="UTF-8"?><preferences stamp="28">
 	<com.4d>
 		<web>
 			<standalone_server>
@@ -32,7 +32,7 @@
 			</network>
 		</server>
 		<database>
-			<misc use_ast_interpreter="false"/>
+			<misc standard_xpath="true" use_ast_interpreter="false"/>
 		</database>
 		<deployment>
 			<options/>

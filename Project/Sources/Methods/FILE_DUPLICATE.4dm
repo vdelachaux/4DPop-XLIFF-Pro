@@ -62,7 +62,7 @@ COPY DOCUMENT:C541($File_source; $File_target)
 
 If (Asserted:C1132(OK=1))
 	
-	$Dom_root:=xlf_Open($File_target)
+	$Dom_root:=_o_xlf_Open($File_target)
 	
 	If (Asserted:C1132(OK=1))
 		
@@ -152,4 +152,4 @@ End if
 // Return
 // <NONE>
 // ----------------------------------------------------
-// End 
+// End

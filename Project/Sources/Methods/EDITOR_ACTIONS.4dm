@@ -1,33 +1,33 @@
-//%attributes  = {"invisible":true}
-  // ----------------------------------------------------
-  // Project method : EDITOR_ACTIONS
-  // Database: 4DPop XLIFF Pro
-  // ID[A67EAB147D5648AC838B1387C2256628]
-  // Created #24-5-2018 by Vincent de Lachaux
-  // ----------------------------------------------------
-  // Description:
-  //
-  // ----------------------------------------------------
-  // Declarations
+//%attributes = {"invisible":true}
+// ----------------------------------------------------
+// Project method : EDITOR_ACTIONS
+// Database: 4DPop XLIFF Pro
+// ID[A67EAB147D5648AC838B1387C2256628]
+// Created #24-5-2018 by Vincent de Lachaux
+// ----------------------------------------------------
+// Description:
+//
+// ----------------------------------------------------
+// Declarations
 C_TEXT:C284($1)
 
-C_LONGINT:C283($Lon_parameters;$Win_hdl)
+C_LONGINT:C283($Lon_parameters; $Win_hdl)
 C_TEXT:C284($Txt_action)
 C_OBJECT:C1216($Obj_file)
 
 If (False:C215)
-	C_TEXT:C284(EDITOR_ACTIONS ;$1)
+	C_TEXT:C284(EDITOR_ACTIONS; $1)
 End if 
 
-  // ----------------------------------------------------
-  // Initialisations
+// ----------------------------------------------------
+// Initialisations
 $Lon_parameters:=Count parameters:C259
 
-If (Asserted:C1132($Lon_parameters>=0;"Missing parameter"))
+If (Asserted:C1132($Lon_parameters>=0; "Missing parameter"))
 	
-	  // NO PARAMETERS REQUIRED
+	// NO PARAMETERS REQUIRED
 	
-	  // Optional parameters
+	// Optional parameters
 	If ($Lon_parameters>=1)
 		
 		$Txt_action:=$1
@@ -44,86 +44,86 @@ Else
 	
 End if 
 
-  // ----------------------------------------------------
+// ----------------------------------------------------
 Case of 
 		
-		  //______________________________________________________
+		//______________________________________________________
 	: (Length:C16($Txt_action)=0)
 		
-		  // Nothing selected
-		  //______________________________________________________
+		// Nothing selected
+		//______________________________________________________
 	: ($Txt_action="new_file")
 		
-		FILE_NEW 
+		FILE_NEW
 		
-		  //______________________________________________________
+		//______________________________________________________
 	: ($Txt_action="new_group")
 		
-		EDITOR_NEW_GROUP 
+		EDITOR_NEW_GROUP
 		
-		  //______________________________________________________
+		//______________________________________________________
 	: ($Txt_action="new_unit")
 		
-		EDITOR_NEW_UNIT 
+		EDITOR_NEW_UNIT
 		
-		  //______________________________________________________
+		//______________________________________________________
 	: ($Txt_action="projectSettings")
 		
 		FORM GOTO PAGE:C247(2)
 		
-		  //______________________________________________________
+		//______________________________________________________
 	: ($Txt_action="fileInfos")
 		
-		$Win_hdl:=Open form window:C675("FILE_INFOS";Sheet form window:K39:12)
-		DIALOG:C40("FILE_INFOS";New object:C1471(\
-			"nativePath";Form:C1466.file.nativePath))
+		$Win_hdl:=Open form window:C675("FILE_INFOS"; Sheet form window:K39:12)
+		DIALOG:C40("FILE_INFOS"; New object:C1471(\
+			"platformPath"; Form:C1466.file.platformPath))
 		
 		CLOSE WINDOW:C154
 		
-		  //______________________________________________________
+		//______________________________________________________
 	: ($Txt_action="show")
 		
-		SHOW ON DISK:C922(Form:C1466.file.nativePath)
+		SHOW ON DISK:C922(Form:C1466.file.platformPath)
 		
-		  //______________________________________________________
+		//______________________________________________________
 	: ($Txt_action="delete")
 		
-		FILE_DELETE 
+		FILE_DELETE
 		
-		  //______________________________________________________
+		//______________________________________________________
 	: ($Txt_action="import")  // Import from another project
 		
 		$Obj_file:=New object:C1471
-		$Obj_file.name:=Select document:C905(8858;".xlf";Get localized string:C991("selectTheXliffFileToImport");Package open:K24:8+Use sheet window:K24:11)
+		$Obj_file.name:=Select document:C905(8858; ".xlf"; Get localized string:C991("selectTheXliffFileToImport"); Package open:K24:8+Use sheet window:K24:11)
 		
 		If (OK=1)
 			
-			EDITOR_CLEANUP 
+			EDITOR_CLEANUP
 			
-			FILE_IMPORT (DOCUMENT)
+			FILE_IMPORT(DOCUMENT)
 			
 		End if 
 		
-		  //______________________________________________________
+		//______________________________________________________
 	: ($Txt_action="export")
 		
-		  //#TO_BE_DONE
+		//#TO_BE_DONE
 		
-		  //______________________________________________________
+		//______________________________________________________
 	: ($Txt_action="close")
 		
 		CANCEL:C270
 		
-		  //______________________________________________________
+		//______________________________________________________
 	Else 
 		
-		ASSERT:C1129(False:C215;"Unknown menu action ("+$Txt_action+")")
+		ASSERT:C1129(False:C215; "Unknown menu action ("+$Txt_action+")")
 		
-		  //______________________________________________________
+		//______________________________________________________
 End case 
 
-  // ----------------------------------------------------
-  // Return
-  // <NONE>
-  // ----------------------------------------------------
-  // End 
+// ----------------------------------------------------
+// Return
+// <NONE>
+// ----------------------------------------------------
+// End 

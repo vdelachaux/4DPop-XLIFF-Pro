@@ -1,4 +1,4 @@
-﻿{
+{
 	"00_IN_WORKS": {
 		"methods": [
 			"00_RUN",
@@ -84,7 +84,6 @@
 			"EDITOR_ON_UNLOAD",
 			"EDITOR_OPEN",
 			"EDITOR_Preferences",
-			"EDITOR_Project_folder",
 			"EDITOR_SEARCH",
 			"EDITOR_UI"
 		],
@@ -244,7 +243,6 @@
 			"xlf_Find_target",
 			"xlf_Find_trans_unit",
 			"xlf_New_unit",
-			"xlf_Open",
 			"xlf_PROP_GROUP",
 			"xlf_SAVE",
 			"xlf_SET_ATTRIBUTE",
