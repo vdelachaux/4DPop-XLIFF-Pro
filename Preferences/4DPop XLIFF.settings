@@ -1,29 +1,1 @@
-{
-	"reference": "en",
-	"languages": [
-		"en",
-		"cs",
-		"de",
-		"es",
-		"fr",
-		"ja",
-		"pt"
-	],
-	"files": [
-		"4D Constant",
-		"_test",
-		"_testEN",
-		"Common",
-		"Demo",
-		"Documents",
-		"NEW",
-		"newEN",
-		"one",
-		"Untitled",
-		"widgets",
-		"Xliff Editor",
-		"zzz"
-	],
-	"digest": "a757f5d25958ca77586187df678545a8",
-	"file": "_test"
-}
+﻿{	"reference": "en",	"languages": [		"en",		"cs",		"de",		"es",		"fr",		"ja",		"pt"	],	"files": [		"Demo",		"Xliff Editor",		"4D Constant",		"widgets",		"_testEN",		"_test",		"Common",		"Untitled",		"newEN",		"NEW",		"zzz",		"one",		"Documents"	],	"digest": "d2cac8ff37e97b65d7ba49c020577129",	"file": "_test"}

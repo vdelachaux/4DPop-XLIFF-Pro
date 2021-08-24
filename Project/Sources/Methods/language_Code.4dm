@@ -1,44 +1,44 @@
-//%attributes  = {"invisible":true}
-  // ----------------------------------------------------
-  // Project method : language_Code
-  // Database: 4DPop XLIFF Pro
-  // ID[025E9E9134A44C0A92EFF21AE1CD9CD7]
-  // Created #12-10-2015 by Vincent de Lachaux
-  // ----------------------------------------------------
-  // Description:
-  // Return the language-regional code (lproj folder name) from the legacy language
-  // Name or ISO639-1 language coding or language-Regional code
-  // ----------------------------------------------------
-  // Declarations
+//%attributes = {"invisible":true}
+// ----------------------------------------------------
+// Project method : language_Code
+// Database: 4DPop XLIFF Pro
+// ID[025E9E9134A44C0A92EFF21AE1CD9CD7]
+// Created #12-10-2015 by Vincent de Lachaux
+// ----------------------------------------------------
+// Description:
+// Return the language-regional code (lproj folder name) from the legacy language
+// Name or ISO639-1 language coding or language-Regional code
+// ----------------------------------------------------
+// Declarations
 C_TEXT:C284($0)
 C_TEXT:C284($1)
 
-C_LONGINT:C283($Lon_index;$Lon_parameters)
+C_LONGINT:C283($Lon_index; $Lon_parameters)
 C_TEXT:C284($Txt_language)
 C_OBJECT:C1216($Obj_resources)
 
 If (False:C215)
-	C_TEXT:C284(language_Code ;$0)
-	C_TEXT:C284(language_Code ;$1)
+	C_TEXT:C284(language_Code; $0)
+	C_TEXT:C284(language_Code; $1)
 End if 
 
-  // ----------------------------------------------------
-  // Initialisations
+// ----------------------------------------------------
+// Initialisations
 $Lon_parameters:=Count parameters:C259
 
-If (Asserted:C1132($Lon_parameters>=1;"Missing parameter"))
+If (Asserted:C1132($Lon_parameters>=1; "Missing parameter"))
 	
-	  // Required parameters
+	// Required parameters
 	$Txt_language:=$1  // Language code
 	
-	  // Optional parameters
+	// Optional parameters
 	If ($Lon_parameters>=2)
 		
-		  // <NONE>
+		// <NONE>
 		
 	End if 
 	
-	$Obj_resources:=JSON Parse:C1218(Document to text:C1236(Get 4D folder:C485(Current resources folder:K5:16)+"languages.json"))
+	$Obj_resources:=JSON Parse:C1218(File:C1566("/RESOURCES/languages.json").getText())
 	
 Else 
 	
@@ -46,28 +46,28 @@ Else
 	
 End if 
 
-  // ----------------------------------------------------
+// ----------------------------------------------------
 Case of 
 		
-		  //______________________________________________________
-	: (Match regex:C1019("(?mi-s)^[a-zA-Z]{2}-[a-zA-Z]{2,}$";$Txt_language;1))
+		//______________________________________________________
+	: (Match regex:C1019("(?mi-s)^[a-zA-Z]{2}-[a-zA-Z]{2,}$"; $Txt_language; 1))
 		
-		  // Language-Regional Codes
+		// Language-Regional Codes
 		$Lon_index:=$Obj_resources["lproj"].indexOf($Txt_language)
 		
-		  //______________________________________________________
-	: (Match regex:C1019("(?mi-s)^[a-zA-Z]{2}$";$Txt_language;1))
+		//______________________________________________________
+	: (Match regex:C1019("(?mi-s)^[a-zA-Z]{2}$"; $Txt_language; 1))
 		
-		  // ISO639-1
+		// ISO639-1
 		$Lon_index:=$Obj_resources["ISO639-1"].indexOf($Txt_language)
 		
-		  //______________________________________________________
+		//______________________________________________________
 	Else 
 		
-		  // Legacy
+		// Legacy
 		$Lon_index:=$Obj_resources["legacy"].indexOf($Txt_language)
 		
-		  //______________________________________________________
+		//______________________________________________________
 End case 
 
 If ($Lon_index#-1)
@@ -76,9 +76,9 @@ If ($Lon_index#-1)
 	
 End if 
 
-  // ----------------------------------------------------
-  // Return
+// ----------------------------------------------------
+// Return
 $0:=$Txt_language
 
-  // ----------------------------------------------------
-  // End 
+// ----------------------------------------------------
+// End 

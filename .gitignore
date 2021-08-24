@@ -17,3 +17,4 @@ Settings/
 !Settings/buildApp.4DSettings
 
 Resources/php.ini
+Libraries/lib4d-arm64.dylib

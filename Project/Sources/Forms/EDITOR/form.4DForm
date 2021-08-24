@@ -660,8 +660,9 @@
 		}
 	],
 	"editor": {
-		"activeLayer": "default",
-		"layers": {
+		"activeView": "default",
+		"defaultView": "default",
+		"views": {
 			"default": {},
 			"View 1": {},
 			"View 2": {},
@@ -682,5 +683,6 @@
 	"$4d": {
 		"version": "1",
 		"kind": "form"
-	}
+	},
+	"geometryStamp": 2
 }
