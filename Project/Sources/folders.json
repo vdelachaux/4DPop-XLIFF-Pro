@@ -1,4 +1,19 @@
 {
+	"_o_OBSOLETES": {
+		"methods": [
+			"_o_EDITOR_Project_folder",
+			"_o_xlf_Open"
+		]
+	},
+	"_WIP": {
+		"classes": [
+			"EDITOR",
+			"language",
+			"menu",
+			"xliff",
+			"xml"
+		]
+	},
 	"00_IN_WORKS": {
 		"methods": [
 			"00_RUN",
