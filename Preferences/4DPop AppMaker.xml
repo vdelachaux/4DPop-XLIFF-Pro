@@ -3,7 +3,7 @@
 
   <info.plist CFBundleGetInfoString="DEV" CFBundleLongVersionString="DEV" CFBundleShortVersionString="DEV" NSHumanReadableCopyright="© 4D SAS 2007-{CurrentYear}"/>
 
-  <options close="true" delete_mac_content="true" exportStructure="true" gitRepository="true" increment_version="true" launch="false" zip_source="true"/>
+  <options close="true" delete_mac_content="true" exportStructure="true" gitRepository="true" increment_version="true" launch="false" notarize="true"/>
 
   <methods/>
 
