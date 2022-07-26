@@ -31,7 +31,7 @@
 					"height": 14,
 					"shortcutKey": "[down arrow]",
 					"shortcutAlt": true,
-					"fontFamily": ".SF NS Text",
+					"fontFamily": "System Font Regular",
 					"fontSize": 9,
 					"stroke": "#FF6600",
 					"focusable": false,
@@ -305,8 +305,9 @@
 		}
 	],
 	"editor": {
-		"activeLayer": "default",
-		"layers": {
+		"activeView": "default",
+		"defaultView": "default",
+		"views": {
 			"default": {},
 			"View 1": {},
 			"View 2": {},
@@ -323,5 +324,10 @@
 				]
 			}
 		}
-	}
+	},
+	"$4d": {
+		"version": "1",
+		"kind": "form"
+	},
+	"geometryStamp": 2
 }
