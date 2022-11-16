@@ -25,7 +25,17 @@ var $languages : Collection
 var $file : 4D:C1709.File
 var $folder; $resources : 4D:C1709.Folder
 
-$languages:=$in.inactivated ? $in.inactivated : New collection:C1472("")
+
+If ($in.inactivated)
+	
+	$languages:=$in.inactivated
+	
+Else 
+	
+	$languages:=New collection:C1472("")
+	
+End if 
+
 $displayIsoLanguageCodes:=Bool:C1537($in.displayIsoLanguageCodes)
 
 $file:=Folder:C1567(fk resources folder:K87:11).file("languages.json")
@@ -66,13 +76,13 @@ If ($file.exists)
 			
 		End if 
 		
-		$index+=1
+		$index:=$index+1
 		
 	End for each 
 	
 	$languageCode:=Dynamic pop up menu:C1006($menu)
 	RELEASE MENU:C978($menu)
 	
-	return $languageCode
+	$0:=$languageCode
 	
 End if 
