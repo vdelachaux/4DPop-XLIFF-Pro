@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><preferences stamp="26">
+<?xml version="1.0" encoding="UTF-8"?><preferences stamp="27">
 	<com.4d>
 		<web>
 			<standalone_server>
@@ -20,6 +20,7 @@
 				<cancel_input_form alt="false" command="false" ctrl="false" key_code="0" shift="false"/>
 				<add_subform alt="false" command="false" ctrl="false" key_code="0" shift="false"/>
 			</shortcuts>
+			<developper display_toolbar="true"/>
 		</interface>
 		<php ip_address="127.0.0.1"/>
 		<sql>
