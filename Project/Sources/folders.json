@@ -1,5 +1,5 @@
 {
-	"_📦 MAIN": {
+	"-📦 MAIN": {
 		"methods": [
 			"COMPILER_component",
 			"EDITOR CALLBACK",
@@ -97,18 +97,16 @@
 	},
 	"♻️ LIBRAIRIES": {
 		"groups": [
-			"👩‍💻 UI"
+			"👩‍💻 UI",
+			"database"
 		],
 		"methods": [
-			"COMPILER_database",
 			"COMPILER_env",
-			"databaseNonThreadSafe",
 			"envScreens"
 		],
 		"classes": [
 			"_classCore",
 			"_singleton",
-			"database",
 			"env",
 			"menu",
 			"menuBar",
@@ -164,8 +162,17 @@
 	},
 	"4️⃣ 4DPop": {
 		"methods": [
-			"4DPop_XLIFF_EDITOR",
+			"4DPop XLIFF EDITOR",
 			"COMPILER_4DPop"
+		]
+	},
+	"database": {
+		"methods": [
+			"COMPILER_database",
+			"databaseNonThreadSafe"
+		],
+		"classes": [
+			"database"
 		]
 	},
 	"trash": {

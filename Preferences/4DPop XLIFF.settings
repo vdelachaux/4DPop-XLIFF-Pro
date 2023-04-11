@@ -9,8 +9,7 @@
 			"es",
 			"fr",
 			"ja",
-			"pt",
-			"ZU"
+			"pt"
 		],
 		"files": [
 			"_0_test",
@@ -27,7 +26,7 @@
 			"widgets",
 			"Xliff Editor"
 		],
-		"file": "_0_test",
-		"digest": "f43254feccf6d563931bf25e9f191940"
+		"file": "Xliff Editor",
+		"digest": "ffa5597c9294f5ceb7cddcf6ac6df025"
 	}
 }
