@@ -1,0 +1,3 @@
+var $c : Collection
+$c:=New collection:C1472<!--#4DEACH $o in $1.transunits-->
+$c.push(Get localized string:C991("<!--#4DTEXT $o.resname-->"))<!--#4DENDEACH-->	

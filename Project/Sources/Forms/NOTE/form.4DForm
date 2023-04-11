@@ -6,11 +6,10 @@
 	"markerBreak": 51,
 	"markerFooter": 51,
 	"events": [
-		"onLoad",
+		"onClick",
 		"onActivate",
-		"onUnload",
-		"onTimer",
-		"onBoundVariableChange"
+		"onLosingFocus",
+		"onGettingFocus"
 	],
 	"method": "method.4dm",
 	"pageFormat": {
@@ -42,15 +41,16 @@
 					"height": 33,
 					"sizingX": "grow",
 					"sizingY": "grow",
-					"stroke": "#696969",
 					"fill": "transparent",
 					"borderStyle": "none",
 					"hideFocusRing": true,
-					"method": "ObjectMethods/note.4dm",
 					"events": [
 						"onLosingFocus",
-						"onDataChange"
-					]
+						"onGettingFocus"
+					],
+					"dataSource": "Form:C1466.note",
+					"class": "comment",
+					"stroke": "#696969"
 				},
 				"close": {
 					"type": "button",
@@ -59,11 +59,10 @@
 					"width": 20,
 					"height": 20,
 					"sizingX": "move",
-					"focusable": false,
+					"focusable": true,
 					"icon": "/RESOURCES/Images/close.png",
 					"iconFrames": 4,
 					"style": "custom",
-					"method": "ObjectMethods/close.4dm",
 					"events": [
 						"onClick"
 					]
@@ -72,8 +71,9 @@
 		}
 	],
 	"editor": {
-		"activeLayer": "default",
-		"layers": {
+		"activeView": "default",
+		"defaultView": "default",
+		"views": {
 			"default": {},
 			"View 1": {},
 			"View 2": {},
@@ -89,5 +89,10 @@
 				]
 			}
 		}
-	}
+	},
+	"$4d": {
+		"version": "1",
+		"kind": "form"
+	},
+	"geometryStamp": 6
 }

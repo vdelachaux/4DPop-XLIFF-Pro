@@ -21,7 +21,8 @@ Project/DerivedData/
 # Ignore settings & preferences
 #--------------------------------
 Preferences/
-!4DPop AppMaker.*
+!Preferences/4DPop AppMaker.xml
+!Preferences/4DPop XLIFF.settings
 
 Settings/
 !buildApp.4DSettings
@@ -67,6 +68,4 @@ DEV/
 #--------------------------------
 # Added by user
 #--------------------------------
-zzz.xlf
-Resources/_fr-ch.lproj
-Resources/_root.xlf
+Resources/_*

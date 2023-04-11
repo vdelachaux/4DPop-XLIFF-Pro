@@ -1,5 +1,6 @@
-.default {
-	font-family: Lucida Grande;
-	font-size: 13px;
+checkbox,
+radio,
+button,
+[type="dropdown"] {
+	focusable: false;
 }
-

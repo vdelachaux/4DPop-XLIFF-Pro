@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><preferences stamp="26">
+<?xml version="1.0" encoding="UTF-8"?><preferences stamp="27">
 	<com.4d>
 		<web>
 			<standalone_server>
@@ -31,9 +31,6 @@
 				<sso spn=""/>
 			</network>
 		</server>
-		<database>
-			<misc mac_use_lf="true" no_bom="true" prefer_null_than_blank_values="false" standard_xpath="false" use_ast_interpreter="false"/>
-		</database>
 		<deployment>
 			<options/>
 		</deployment>

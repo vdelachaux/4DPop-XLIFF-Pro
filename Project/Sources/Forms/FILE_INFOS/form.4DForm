@@ -5,14 +5,13 @@
 	"rightMargin": 0,
 	"bottomMargin": 0,
 	"markerHeader": 3840,
-	"markerBody": -14336,
-	"markerBreak": -9216,
-	"markerFooter": -4096,
+	"markerBody": 3840,
+	"markerBreak": 3840,
+	"markerFooter": 3840,
 	"events": [
 		"onLoad",
 		"onResize"
 	],
-	"method": "method.4dm",
 	"pageFormat": {
 		"paperName": "A4",
 		"paperWidth": "595pt",
@@ -226,34 +225,15 @@
 					"contextMenu": "none",
 					"dragging": "none",
 					"dropping": "none"
-				},
-				"automatic_font": {
-					"type": "input",
-					"top": 192,
-					"left": 5,
-					"width": 150,
-					"height": 16,
-					"visibility": "hidden",
-					"stroke": "#FF6600",
-					"focusable": false,
-					"fill": "transparent",
-					"borderStyle": "dotted",
-					"enterable": false,
-					"hideFocusRing": true,
-					"dragging": "none",
-					"dropping": "none",
-					"method": "ObjectMethods/automatic_font.4dm",
-					"events": [
-						"onLoad"
-					]
 				}
 			}
 		},
 		null
 	],
 	"editor": {
-		"activeLayer": "default",
-		"layers": {
+		"activeView": "default",
+		"defaultView": "default",
+		"views": {
 			"default": {},
 			"Vue 2": {},
 			"Vue 3": {},
@@ -264,5 +244,10 @@
 			"Vue 8": {},
 			"Vue 9": {}
 		}
+	},
+	"geometryStamp": 1,
+	"$4d": {
+		"version": "1",
+		"kind": "form"
 	}
 }

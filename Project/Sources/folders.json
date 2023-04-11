@@ -1,283 +1,181 @@
 {
-	"00_IN_WORKS": {
+	"_📦 MAIN": {
 		"methods": [
-			"00_RUN",
-			"00_TEST",
-			"00_TO_DO",
-			"Create_emoji_image"
+			"COMPILER_component",
+			"EDITOR CALLBACK",
+			"EDITOR CLOSE",
+			"EDITOR OPEN"
 		],
 		"forms": [
-			"Form1",
-			"Form2"
+			"EDITOR",
+			"LANGUAGE",
+			"NOTE",
+			"STRING",
+			"WRAP_AROUND"
+		],
+		"classes": [
+			"_EDITOR_Controller",
+			"_LANGUAGE_Controller",
+			"_STRING_Controller"
 		]
 	},
-	"4D": {
+	"(📦 COMPONENT)": {},
+	"(🛠️ Tools)": {},
+	"(lib)": {},
+	"(rgx)": {
 		"methods": [
-			"4D_LOG",
-			"4D_NO_ERROR",
-			"COMPILER_4D"
+			"(Compiler_Rgx)",
+			"(Rgx_ExtractText)",
+			"(Rgx_Get_Pattern)",
+			"(Rgx_MatchText)",
+			"(rgx_NO_ERROR)",
+			"(rgx_Options)",
+			"(Rgx_SplitText)",
+			"(Rgx_SubstituteText)"
 		]
 	},
-	"4DPop": {
+	"(xlf)": {
+		"methods": [
+			"(COMPILER_xlf)",
+			"(xlf_Copyright)",
+			"(xlf_DELETE_ELEMENT)",
+			"(xlf_Dom_group_from_resname)",
+			"(xlf_Dom_source)",
+			"(xlf_Dom_target_from_resname)",
+			"(xlf_Dom_target)",
+			"(xlf_Dom_unit_from_resname)",
+			"(xlf_Dom_unit)",
+			"(xlf_Find_target)",
+			"(xlf_Find_trans_unit)",
+			"(xlf_New_unit)",
+			"(xlf_Open)",
+			"(xlf_PROP_GROUP)",
+			"(xlf_SAVE)",
+			"(xlf_SET_ATTRIBUTE)",
+			"(xlf_SET_VALUE)",
+			"(xlf_To_translate)"
+		]
+	},
+	"(xml)": {
+		"methods": [
+			"(COMPILER_xml)",
+			"(xml_attributes)",
+			"(xml_cleanup)",
+			"(xml_CLOSE)",
+			"(xml_COPY_ELEMENT)",
+			"(xml_Create_if_not_exist)",
+			"(xml_Duplicate_element)",
+			"(xml_elementToObject)",
+			"(xml_Escape_characters)",
+			"(xml_Find_by_attribute)",
+			"(xml_GET_ATTRIBUTE_ARRAYS)",
+			"(xml_GET_ATTRIBUTE)",
+			"(xml_GET_ATTRIBUTES)",
+			"(xml_GET_ELEMENT_VALUE)",
+			"(xml_Identical_attributes)",
+			"(xml_IsValidReference)",
+			"(xml_noError)",
+			"(xml_Parent)",
+			"(xml_refToObject)",
+			"(xml_REMOVE_ATTRIBUTE)",
+			"(xml_SAVE_IN_FILE)",
+			"(xmlColoredSyntax)"
+		]
+	},
+	"# 🚧 DEV": {
+		"methods": [
+			"_test_computeFile",
+			"_test_getFiles",
+			"_test_synchro",
+			"00_RUN"
+		],
+		"forms": [
+			"COUNTERS",
+			"FILE_INFOS",
+			"SEARCH_PICKER"
+		]
+	},
+	"♻️ LIBRAIRIES": {
+		"groups": [
+			"👩‍💻 UI"
+		],
+		"methods": [
+			"COMPILER_database",
+			"COMPILER_env",
+			"databaseNonThreadSafe",
+			"envScreens"
+		],
+		"classes": [
+			"_classCore",
+			"_singleton",
+			"database",
+			"env",
+			"menu",
+			"menuBar",
+			"motor",
+			"pathPicker",
+			"str",
+			"tools",
+			"xml"
+		]
+	},
+	"⚙️ MACROS": {},
+	"👥 NAMESPACE": {
+		"classes": [
+			"Group",
+			"Preferences",
+			"Transunit",
+			"Xliff"
+		]
+	},
+	"👩‍💻 UI": {
+		"methods": [
+			"COMPILER_UI",
+			"dropableWidgetMethod",
+			"form_spreadToSubforms",
+			"formGetInstance",
+			"formMenuHandle",
+			"formMethod",
+			"subformWidgetMethod"
+		],
+		"classes": [
+			"buttonDelegate",
+			"colour",
+			"comboBoxDelegate",
+			"coord",
+			"dim",
+			"dropDownDelegate",
+			"evt",
+			"formDelegate",
+			"groupDelegate",
+			"hListDelegate",
+			"inputDelegate",
+			"listboxDelegate",
+			"pictureDelegate",
+			"scrollableDelegate",
+			"selectorDelegate",
+			"staticDelegate",
+			"stepperDelegate",
+			"subformDelegate",
+			"thermometerDelegate",
+			"widgetDelegate",
+			"windowDelegate"
+		]
+	},
+	"4️⃣ 4DPop": {
 		"methods": [
 			"4DPop_XLIFF_EDITOR",
 			"COMPILER_4DPop"
 		]
 	},
-	"4dUnit": {},
-	"convert": {
-		"methods": [
-			"COMPILER_convert",
-			"convert_camelCase",
-			"convert_Hex_to_Real",
-			"convert_titleCase",
-			"convert_Unicode_to_UTF16"
-		]
-	},
-	"debug": {
-		"methods": [
-			"COMPILER_debug",
-			"debug_SAVE",
-			"debug_VIEW_IN_JSON_LAB"
-		]
-	},
-	"doc": {
-		"methods": [
-			"COMPILER_doc",
-			"doc_DELETE_FOLDER",
-			"doc_File",
-			"doc_Folder",
-			"doc_Get_extension",
-			"doc_Get_folder_pathname",
-			"doc_Get_name",
-			"doc_getFromPath",
-			"doc_gTxt_BytesToString",
-			"doc_Path_add_folders",
-			"doc_SET_EXTENSION",
-			"doc_SET_WRITABLE",
-			"doc_volumeName"
-		]
-	},
-	"EDITOR": {
+	"trash": {
 		"groups": [
-			"FILE",
-			"language",
-			"LOCALIZATION",
-			"PROJECT"
-		],
-		"methods": [
-			"COMPILER_EDITOR",
-			"EDITOR_ACTIONS",
-			"EDITOR_CALL",
-			"EDITOR_CLEANUP",
-			"EDITOR_DELETE",
-			"EDITOR_DISPLAY",
-			"EDITOR_DRAG",
-			"EDITOR_Highlight_duplicated",
-			"EDITOR_INIT",
-			"EDITOR_LOCALIZATION",
-			"EDITOR_MENU",
-			"EDITOR_NEW_GROUP",
-			"EDITOR_NEW_UNIT",
-			"EDITOR_ON_LOAD",
-			"EDITOR_ON_PAGE_CHANGE",
-			"EDITOR_ON_UNLOAD",
-			"EDITOR_OPEN",
-			"EDITOR_Preferences",
-			"EDITOR_Project_folder",
-			"EDITOR_SEARCH",
-			"EDITOR_UI"
-		],
-		"forms": [
-			"COUNTERS",
-			"EDITOR"
+			"(📦 COMPONENT)",
+			"(🛠️ Tools)",
+			"(lib)",
+			"(rgx)",
+			"(xlf)",
+			"(xml)"
 		]
-	},
-	"env": {
-		"methods": [
-			"COMPILER_env",
-			"env_Component",
-			"env_DELETE_GEOMETRY",
-			"env_UPDATE_RESOURCES"
-		]
-	},
-	"FILE": {
-		"methods": [
-			"COMPILER_file",
-			"FILE_DELETE",
-			"FILE_DUPLICATE",
-			"FILE_IMPORT",
-			"File_Name_suffixed",
-			"FILE_NEW",
-			"FILE_PARSE",
-			"File_suffixed",
-			"FILE_SYNCHRONIZE"
-		],
-		"forms": [
-			"FILE_INFOS"
-		]
-	},
-	"language": {
-		"methods": [
-			"COMPILER_language",
-			"language_Code",
-			"language_Find",
-			"language_Flag",
-			"language_Menu",
-			"language_Reference"
-		]
-	},
-	"lib": {
-		"groups": [
-			"4D",
-			"4dUnit",
-			"convert",
-			"debug",
-			"doc",
-			"env",
-			"obj",
-			"rgx",
-			"ui",
-			"xlf",
-			"xml"
-		]
-	},
-	"LOCALIZATION": {
-		"methods": [
-			"DISPLAY",
-			"DISPLAY_INIT"
-		],
-		"forms": [
-			"DISPLAY",
-			"LANGUE",
-			"NOTE"
-		]
-	},
-	"obj": {
-		"methods": [
-			"COMPILER_obj",
-			"obj_ADAPT_SEPARATOR_LINE",
-			"obj_ALIGN",
-			"obj_ALIGN_ON_BEST_SIZE",
-			"obj_ASSIGNMENT",
-			"obj_BEST_WIDTH",
-			"obj_BOUND_WITH_LIST",
-			"obj_BOUND_WITH_OBJECT",
-			"obj_CENTER",
-			"obj_Container",
-			"obj_Dynamic",
-			"obj_GOTO_NEXT",
-			"obj_OFF_SCREEN",
-			"obj_SET_ENABLED",
-			"obj_TOUCH"
-		]
-	},
-	"PATH PICKER": {
-		"methods": [
-			"COMPILER_PATH PICKER",
-			"HDI_PATH_PICKER",
-			"path_picker_Get_object",
-			"path_picker_INIT",
-			"path_picker_SET_LABEL",
-			"path_picker_SET_TEXT_ATTRIBUTE",
-			"path_picker_UPDATE_UI",
-			"PathPicker Get message",
-			"PathPicker Get option",
-			"PathPicker Get placeholder",
-			"PathPicker Get type",
-			"pathPicker SET DIRECTORY",
-			"pathPicker SET FILE TYPES",
-			"pathPicker SET MESSAGE",
-			"PathPicker SET OPTIONS",
-			"PathPicker SET PLACEHOLDER",
-			"PathPicker SET SELECTION OPTION",
-			"PathPicker SET TYPE"
-		],
-		"forms": [
-			"HDI_PATH_PICKER",
-			"PATH PICKER"
-		]
-	},
-	"PROJECT": {
-		"forms": [
-			"PROJECT_SETTINGS"
-		]
-	},
-	"rgx": {
-		"methods": [
-			"Compiler_Rgx",
-			"Rgx_ExtractText",
-			"Rgx_Get_Pattern",
-			"Rgx_MatchText",
-			"rgx_NO_ERROR",
-			"rgx_Options",
-			"Rgx_SplitText",
-			"Rgx_SubstituteText"
-		]
-	},
-	"ui": {
-		"methods": [
-			"COMPILER_ui",
-			"ui_darkMode",
-			"ui_SET_EMOJI_FONT"
-		]
-	},
-	"WIDGETS": {
-		"groups": [
-			"PATH PICKER"
-		],
-		"forms": [
-			"WRAP_AROUND"
-		]
-	},
-	"xlf": {
-		"methods": [
-			"COMPILER_xlf",
-			"xlf_Copyright",
-			"xlf_DELETE_ELEMENT",
-			"xlf_Dom_group_from_resname",
-			"xlf_Dom_source",
-			"xlf_Dom_target",
-			"xlf_Dom_target_from_resname",
-			"xlf_Dom_unit",
-			"xlf_Dom_unit_from_resname",
-			"xlf_Find_target",
-			"xlf_Find_trans_unit",
-			"xlf_New_unit",
-			"xlf_Open",
-			"xlf_PROP_GROUP",
-			"xlf_SAVE",
-			"xlf_SET_ATTRIBUTE",
-			"xlf_SET_VALUE",
-			"xlf_To_translate"
-		]
-	},
-	"xml": {
-		"methods": [
-			"COMPILER_xml",
-			"test_xml",
-			"xml_attributes",
-			"xml_cleanup",
-			"xml_CLOSE",
-			"xml_COPY_ELEMENT",
-			"xml_Create_if_not_exist",
-			"xml_Duplicate_element",
-			"xml_elementToObject",
-			"xml_Escape_characters",
-			"xml_Find_by_attribute",
-			"xml_GET_ATTRIBUTE",
-			"xml_GET_ATTRIBUTE_ARRAYS",
-			"xml_GET_ATTRIBUTES",
-			"xml_GET_ELEMENT_VALUE",
-			"xml_Identical_attributes",
-			"xml_IsValidReference",
-			"xml_noError",
-			"xml_Parent",
-			"xml_refToObject",
-			"xml_REMOVE_ATTRIBUTE",
-			"xml_SAVE_IN_FILE",
-			"xmlColoredSyntax"
-		]
-	},
-	"trash": {}
+	}
 }

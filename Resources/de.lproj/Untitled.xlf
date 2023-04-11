@@ -87,7 +87,7 @@
         </trans-unit>
         <trans-unit id="U4c0uopaO9Q6eJ2pyhtyMA" resname="String 400">
           <source>zz</source>
-          <target state="needs-translation">zz</target>
+          <target state="new">zz</target>
         </trans-unit>
       </group>
     </body>

@@ -17,20 +17,6 @@ This file is distributed under the same license as the product package.
       </prop-group>
     </header>
     <body>
-      <group resname="GROUP_ONE">
-        <trans-unit id="1" resname="one_">
-          <source>One</source>
-          <target state="needs-translation">One</target>
-        </trans-unit>
-        <trans-unit id="3" resname="two_">
-          <source>Two</source>
-          <target>Two</target>
-        </trans-unit>
-        <trans-unit id="9" resname="three_">
-          <source>Three</source>
-          <target state="needs-translation">Three</target>
-        </trans-unit>
-      </group>
       <group resname="GROUP_1">
         <trans-unit id="1" resname="one">
           <source>One_1111</source>
@@ -41,17 +27,17 @@ This file is distributed under the same license as the product package.
       <group resname="GROUP_2">
         <trans-unit id="tY8SQ+klYR2/0c0MtkYZOQ" resname="testStringtest">
           <source>String_1</source>
-          <target state="needs-translation">String_1</target>
+          <target state="new">String_1</target>
         </trans-unit>
       </group>
       <group resname="New Group X">
         <trans-unit id="E9glcPgCTUulsrHvsBe6Zw" resname="New Element X">
           <source>AAA</source>
-          <target state="needs-translation">AAA</target>
+          <target state="new">AAA</target>
         </trans-unit>
         <trans-unit id="LqNqp8h1Lrfat7iWSnk3wg" resname="New Element 2">
           <source>aaa</source>
-          <target state="needs-translation">aaa</target>
+          <target state="new">aaa</target>
         </trans-unit>
         <trans-unit id="SBEh54X0WM6mYGZ6CfkoDw" resname="String 1">
           <source/>

@@ -1,0 +1,323 @@
+ /* =====================================================
+    MAIN 
+  =====================================================*/	
+* {
+	fontTheme: "normal";
+	stroke: automatic;
+}
+
+text.label {
+	text-align: right;
+}
+
+input {
+	contextMenu: automatic
+}
+
+input.infos {
+	enterable: false;
+	focusable: true;
+	fill: transparent;
+	borderStyle: "none";
+}
+
+.mini {
+	fontSize:11;
+}
+
+.tiny {
+	fontSize:9;
+}
+.comment {
+	stroke: #808080;
+	fontStyle: italic;
+}
+	@media (prefers-color-scheme: dark) {
+			.comment {
+				stroke: white;
+			}
+		}
+		
+.title {
+	fontWeight: bold;
+}
+
+.error {
+	stroke: #EE0000;
+}
+
+.warning {
+	stroke: #F09700;
+}
+
+button.link {
+	style: "custom";
+	text-decoration: underline;
+	stroke: #1E90FF;
+	cursor: pointer;
+}
+
+.dev {
+	focusable: false;
+	stroke: #CD14CC;
+	style: "flat";
+	fontSize:11;
+}
+
+line, 
+rectangle {
+	stroke: #C0C0C0;
+}
+	@media (prefers-color-scheme: dark) {
+			line, 
+			rectangle {
+				stroke: #404040;
+			}
+		}
+
+rectangle {
+	fill: transparent;
+}
+
+listbox {
+	scrollbarHorizontal: hidden;
+	resizingMode: legacy;
+	horizontalLineStroke: transparent;
+	horizontalPadding:2;
+	fill: automatic;
+	verticalAlign: middle;
+	alternateFill: automatic;
+	dragging: none;
+	dropping: none;
+	sortable: false;
+	movableRows: false;
+	hideExtraBlankRows: true;
+	hideFocusRing: true;
+	selectionMode: "single";
+	borderStyle: none;
+}
+
+header {
+	fontWeight: bold;
+}
+
+list {
+	enterable: false;
+	hideFocusRing: true;
+	scrollbarVertical: "automatic";
+	scrollbarHorizontal: "hidden";
+}
+
+#OK,
+#bOK {
+	defaultButton: true;
+	shortcutKey:[Return];
+	action: accept;
+	text: ":xliff:bOK";
+}
+
+#Cancel,
+#bCancel {
+	shortcutKey:[Esc];
+	action: "cancel";
+	text: ":xliff:bCancel";
+}
+
+#help,
+#bHelp {
+	style: "help";
+	tooltip: ":xliff:moreInformation";
+}
+
+[defaultButton] {
+	shortcutKey:[Return];
+	action: accept;
+}
+
+[action="cancel"] {
+	shortcutKey:[Esc];
+}
+
+[style="toolbar"],
+[type="radio"],
+[style="custom"] {
+	focusable: false;
+}
+
+[style="toolbar"],
+[type="radio"] {
+	iconFrames: 4;
+	fontSize:11;
+}
+
+[style="help"] {
+	tooltip: ":xliff:moreInformation";
+}
+
+ /* =====================================================
+    WIDGET ASSISTANT 
+  =====================================================*/
+.widgetAssistantLabel {
+	stroke: rgb(90, 90, 100);
+}
+	@media (prefers-color-scheme: dark) {
+		.widgetAssistantLabel {
+			stroke: rgb(197, 196, 196);
+		}
+	}
+
+.widgetAssistantBackground {
+	stroke: rgb(252, 252, 252);
+	stroke: transparent;
+}
+	@media (prefers-color-scheme: dark) {
+
+		.widgetAssistantBackground {
+			background-color: rgb(40, 40, 40);
+			stroke: transparent;
+
+		}
+	}
+
+.buildappBorder {
+	stroke: rgb(205, 205, 205);
+}
+	@media (prefers-color-scheme: dark) {
+	  .buildappBorder
+	  {
+		stroke: rgb(170, 170, 170);
+		}
+	}
+
+ /* =====================================================
+    TOOLBAR 
+  =====================================================*/
+.toolbarBackground {
+	fill: rgb(244, 244, 244);
+	stroke: transparent;
+}
+	@media (prefers-color-scheme: dark) {
+		.toolbarBackground {
+			fill: rgb(46, 47, 51);
+			stroke: transparent;
+		}
+	}
+
+.toolbarBackgroundNew {
+	fill: white;
+	stroke: transparent;
+}
+	@media (prefers-color-scheme: dark) {
+		.toolbarBackgroundNew {
+			fill: #323232;
+			stroke: transparent;
+		}
+	}
+
+ /* =====================================================
+    INSPECTORS 
+  =====================================================*/
+.inspectorBackgroundBouton {
+	fill: rgb(179, 179, 179);
+	stroke: transparent;
+
+}
+	@media (prefers-color-scheme: dark) {
+		.inspectorBackgroundBouton {
+			fill: rgb(70, 70, 70);
+			stroke: transparent;
+
+		}
+
+	}
+
+ /* =====================================================
+    TOOLBOX 
+  =====================================================*/
+.toolboxBackground {
+	fill:transparent;
+	stroke: #C0C0C0;
+
+}
+	@media (prefers-color-scheme: dark) {
+		.toolboxBackground {
+			fill: rgb(70, 70, 70);
+			stroke: rgb(64, 64, 64);
+
+		}
+
+	}
+
+.toolboxTipsExampleBackground {
+	fill: rgb(255, 254, 172);
+	stroke: transparent;
+
+}
+	@media (prefers-color-scheme: dark) {
+		.toolboxTipsExampleBackground {
+			fill: rgb(93, 93, 93);
+			stroke: transparent;
+
+		}
+
+	}
+
+ /* =====================================================
+    METHOD EDITOR 
+  =====================================================*/
+.mePasteboardsNumber { /* #Multiple pasteboards */
+	stroke: #FCFCFC;
+}	
+.meListBorderLine {
+	stroke: #BDBDBD;
+}	
+	@media (prefers-color-scheme: dark) {
+		.mePasteboardsNumber {
+			stroke: black;
+		}
+		.meListBorderLine {
+			stroke: #5F5F5F;
+		}
+	}
+
+ /* =====================================================
+    STRUCTURE EDITOR 
+  =====================================================*/
+.searchSliceBackground { /* #Search area */
+	fill: #9097B3;
+}
+.searchSeparator {
+	stroke: #ABBAC0;
+}
+.searchSliceBottom {
+	stroke: #9097B3;
+}
+.searchSliceText {
+	stroke: #1F2236;
+}
+.searchButtonBackground {
+	fill: #53A5D9;
+}
+.statusNameBackgrounds { /* #footer */
+	fill: #DBDBDB;
+}
+	@media (prefers-color-scheme: dark) {
+		.searchSliceBackground {
+			fill: #ECF5F9;
+		}
+		.searchSeparator {
+			stroke: #3A3E5A;
+		}
+		.searchSliceBottom {
+			stroke: #DCEBF1;
+		}
+		.searchSliceText {
+			stroke: #27627B;
+		}
+		.searchButtonBackground {
+			fill: #3A3E5A;
+		}
+		.statusNameBackgrounds {
+			fill: #555555;
+		}
+	}

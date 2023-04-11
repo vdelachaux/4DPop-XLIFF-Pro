@@ -1,0 +1,2 @@
+<!--#4DCODE var $o : Object-->ARRAY TEXT:C222($array; 0) !--#4DEACH $o in $1.transunits-->
+APPEND TO ARRAY:C911($array; Get localized string:C991("<!--#4DTEXT $o.resname-->")) <!--#4DENDEACH-->	

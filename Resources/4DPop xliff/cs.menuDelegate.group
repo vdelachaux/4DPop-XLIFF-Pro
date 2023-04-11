@@ -1,0 +1,20 @@
+<!--#4DCODE var $o : Object	
+	var $intl :Boolean
+	$intl:=Command name:C538(1)="Sum"	
+	var $c : Collection
+	$c:=New collection:C1472-->var $menu : cs.menuDelegate
+$menu:=cs.menuDelegate.new()<!--#4DEACH $o in $1.transunits-->
+<!--#4DCODE $c.push($o.resname)-->$menu.append(":xliff:<!--#4DTEXT $o.resname-->"; "<!--#4DTEXT $o.resname-->")<!--#4DENDEACH-->
+$menu.popup()
+<!--#4DCODE $t := $intl ? "Case of" : "Au cas ou"-->
+<!--#4DTEXT $t-->
+
+	: (Not:C34($menu.selected))
+		
+		// Nothing selected		
+	<!--#4DEACH $t in $c-->
+	: ($menu.choice="<!--#4DTEXT $t-->")
+		
+		//		
+	<!--#4DENDEACH-->	
+<!--#4DCODE $t := $intl ? "End case" : "Fin de cas"--><!--#4DTEXT $t-->

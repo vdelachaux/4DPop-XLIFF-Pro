@@ -1,0 +1,82 @@
+{
+	"$4d": {
+		"version": "1",
+		"kind": "form"
+	},
+	"windowSizingX": "variable",
+	"windowSizingY": "variable",
+	"windowMinWidth": 0,
+	"windowMinHeight": 0,
+	"windowMaxWidth": 32767,
+	"windowMaxHeight": 32767,
+	"rightMargin": 0,
+	"bottomMargin": 0,
+	"events": [],
+	"windowTitle": "window title",
+	"destination": "detailScreen",
+	"pages": [
+		{
+			"objects": {}
+		},
+		{
+			"objects": {
+				"search.button": {
+					"type": "button",
+					"top": 2,
+					"left": 0,
+					"width": 193,
+					"height": 21,
+					"sizingX": "move",
+					"display": false,
+					"events": [
+						"onClick"
+					]
+				},
+				"unit.search": {
+					"type": "input",
+					"top": 4,
+					"left": 85,
+					"width": 105,
+					"height": 17,
+					"sizingX": "move",
+					"fill": "transparent",
+					"borderStyle": "none",
+					"hideFocusRing": true,
+					"showSelection": true,
+					"contextMenu": "none",
+					"placeholder": "Search",
+					"dragging": "none",
+					"events": [
+						"onLoad",
+						"onLosingFocus",
+						"onGettingFocus",
+						"onDataChange",
+						"onUnload",
+						"onAfterEdit"
+					]
+				},
+				"search.glass": {
+					"type": "picture",
+					"top": 5,
+					"left": 70,
+					"width": 14,
+					"height": 14,
+					"sizingX": "move",
+					"pictureFormat": "truncatedTopLeft",
+					"picture": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/methodEditor/search.png"
+				},
+				"search.border": {
+					"type": "rectangle",
+					"top": 2,
+					"left": 0,
+					"width": 193,
+					"height": 21,
+					"sizingX": "move",
+					"fill": "transparent",
+					"borderRadius": 5
+				}
+			}
+		}
+	],
+	"geometryStamp": 13
+}

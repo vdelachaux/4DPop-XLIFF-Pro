@@ -1,50 +1,45 @@
-  // ----------------------------------------------------
-  // Form method : NOTE - (4DPop XLIFF Pro)
-  // ID[FA7DB5B98D2D4E8EADB6A101D8983968]
-  // Created #3-1-2017 by Vincent de Lachaux
-  // ----------------------------------------------------
-  // Declarations
-C_LONGINT:C283($Lon_formEvent)
-C_POINTER:C301($Ptr_me)
+// ----------------------------------------------------
+// Form method : NOTE - (4DPop XLIFF Pro)
+// ID[FA7DB5B98D2D4E8EADB6A101D8983968]
+// Created #3-1-2017 by Vincent de Lachaux
+// ----------------------------------------------------
+var $e : cs:C1710.evt
 
-  // ----------------------------------------------------
-  // Initialisations
-$Lon_formEvent:=Form event code:C388
-$Ptr_me:=OBJECT Get pointer:C1124(Object subform container:K67:4)
-
-  // ----------------------------------------------------
+$e:=FORM Event:C1606
 
 Case of 
 		
-		  //______________________________________________________
-	: ($Lon_formEvent=On Load:K2:1)
+		//______________________________________________________
+	: ($e.code=On Activate:K2:9)
 		
-		SET TIMER:C645(-1)
+		// Backup cuttent value
+		Form:C1466.$note:=Form:C1466.note
 		
-		  //______________________________________________________
-	: ($Lon_formEvent=On Bound Variable Change:K2:52)
+		GOTO OBJECT:C206(*; "note")
 		
-		SET TIMER:C645(-1)
+		//______________________________________________________
+	: ($e.code=On Getting Focus:K2:7)
 		
-		  //______________________________________________________
-	: ($Lon_formEvent=On Activate:K2:9)
+		HIGHLIGHT TEXT:C210(*; "note"; Length:C16(String:C10(Form:C1466.note))+1; Length:C16(String:C10(Form:C1466.note))+1)
 		
-		GOTO OBJECT:C206(*;"note")
+		//______________________________________________________
+	: ($e.code=On Losing Focus:K2:8)
 		
-		  //______________________________________________________
-	: ($Lon_formEvent=On Unload:K2:2)
+		If (Form:C1466.note#Form:C1466.$note)
+			
+			CALL SUBFORM CONTAINER:C1086(-On Data Change:K2:15)
+			
+		Else 
+			
+			CALL SUBFORM CONTAINER:C1086(-On Close Box:K2:21)
+			
+		End if 
 		
-		  //______________________________________________________
-	: ($Lon_formEvent=On Timer:K2:25)
+		//______________________________________________________
+	: (($e.code=On Clicked:K2:4)\
+		 & ($e.objectName="close"))
 		
-		SET TIMER:C645(0)
+		GOTO OBJECT:C206(*; "")
 		
-		(OBJECT Get pointer:C1124(Object named:K67:5;"note"))->:=$Ptr_me->
-		
-		  //______________________________________________________
-	Else 
-		
-		ASSERT:C1129(False:C215;"Form event activated unnecessarily ("+String:C10($Lon_formEvent)+")")
-		
-		  //______________________________________________________
+		//______________________________________________________
 End case 

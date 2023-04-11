@@ -4,8 +4,7 @@ Translation file.
 Copyright (C) 2007-2018 4D SAS.
 This file is distributed under the same license as the product package.
 -->
-<xliff xmlns:d4="http://www.4d.com/d4-ns" d4:includeIf="mac" version="1.0">
-
+<xliff version="1.0" xmlns:d4="http://www.4d.com/d4-ns">
   <file datatype="x-STR#" original="Undefined" source-language="en" target-language="fr">
     <header>
       <prop-group name="Xliff-Editor.4dbase">
@@ -18,7 +17,7 @@ This file is distributed under the same license as the product package.
       </prop-group>
     </header>
     <body>
-      <group id="group_1" resname="GROUP_ONE">
+      <group resname="firstgroups">
         <trans-unit id="726EDAD96CDF4A8B9189E1DDEC6B27A1" resname="no-translate" translate="no">
           <source>www.4d.com</source>
           <note>Main site URL</note>
@@ -36,7 +35,7 @@ This file is distributed under the same license as the product package.
           <target>Bonjour le monde !</target>
           <note>A "Hello, World!" program is a computer program that outputs or displays "Hello, World!" to the user.</note>
         </trans-unit>
-        <trans-unit id="0B94AF98448241E5B86D6DC5F7255D2D" resname="NEW ELEMENT">
+        <trans-unit id="0B94AF98448241E5B86D6DC5F7255D2D" resname="NEW">
           <source>Not the same resname as "new element".</source>
           <target state="needs-translation">Not the same resname as "new element".</target>
         </trans-unit>
@@ -68,24 +67,31 @@ This file is distributed under the same license as the product package.
           <target state="needs-translation">Duplicate_resname_1</target>
         </trans-unit>
       </group>
-      <group resname="New group">
-        <trans-unit id="FeNrY6DSpP9l9mzAeCn7jg" resname="New element 7">
+      <group resname="newGroup2">
+        <trans-unit id="FeNrY6DSpP9l9mzAeCn7jg" resname="TEST_23">
           <source>zzzzzz</source>
           <target state="needs-translation">zzzzzz</target>
         </trans-unit>
-        <trans-unit id="zBX/6sXvLqDmOoj5lqJzVA" resname="New element 8" translate="en">
+        <trans-unit id="zBX/6sXvLqDmOoj5lqJzVA" resname="zzzTEST_20" translate="en">
           <source>en</source>
           <target state="needs-translation">en</target>
         </trans-unit>
-      </group>
-      <group resname="newGroup2">
-        <trans-unit id="525B8FB18B0C47359FA2D0AEC03AF7B2" resname="TEST_23" translate="no">
-          <source>TEST_23</source>
+        <trans-unit id="wvp67kfhNL0/IF9eAXxTIQ" resname="unitResname">
+          <source>en</source>
+          <target state="new">en</target>
+        </trans-unit><trans-unit id="QhMeC9kCSQzMOJHEDWDTvw" resname="unitResname_8" translate="no">
+          <source>XXXX</source>
+        </trans-unit></group>
+      <group resname="agroup">
+        <trans-unit id="525B8FB18B0C47359FA2D0AEC03AF7B2" resname="New element 7" translate="no">
+          <source>TEST_23</source>aaa
+        
         </trans-unit>
-        <trans-unit id="1C7368614EC44BCF975463E793ADE2E5" resname="TEST_20">
+        <trans-unit id="1C7368614EC44BCF975463E793ADE2E5" resname="New element 8">
           <source>TEST_20</source>
           <target state="needs-translation">TEST_20</target>
-          <note>TEST_20TEST_20</note>
+          <note>TEST_20TEST_20</note>8858
+        
         </trans-unit>
         <trans-unit id="ZAM7+gSvosRelroUsIoBzg" resname="New element 3">
           <source>New element 3</source>
@@ -110,7 +116,6 @@ This file is distributed under the same license as the product package.
       </group>
     </body>
   </file>
-
   <note>TEST_TEST_TEST_TEST_TEST</note>
 
 </xliff>

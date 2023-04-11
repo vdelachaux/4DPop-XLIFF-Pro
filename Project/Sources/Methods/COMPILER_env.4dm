@@ -1,14 +1,2 @@
-//%attributes  = {"invisible":true}
-If (False:C215)
-	
-	  // ----------------------------------------------------
-	C_BOOLEAN:C305(env_Component ;$0)
-	
-	  // ----------------------------------------------------
-	C_TEXT:C284(env_DELETE_GEOMETRY ;$1)
-	
-	  // ----------------------------------------------------
-	C_BLOB:C604(env_UPDATE_RESOURCES ;$1)
-	
-	  // ----------------------------------------------------
-End if 
+//%attributes = {"invisible":true}
+C_OBJECT:C1216(envScreens; $1)

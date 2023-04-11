@@ -1,1 +1,0 @@
-EDITOR_ACTIONS ("fileInfos")

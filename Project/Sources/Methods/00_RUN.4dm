@@ -1,2 +1,2 @@
-//%attributes  = {}
-EDITOR_OPEN 
+//%attributes = {}
+EDITOR OPEN

@@ -1,0 +1,301 @@
+{
+	"destination": "detailScreen",
+	"memorizeGeometry": true,
+	"rightMargin": 0,
+	"bottomMargin": 0,
+	"markerHeader": 15,
+	"markerBody": 200,
+	"markerBreak": 220,
+	"markerFooter": 240,
+	"events": [
+		"onLoad",
+		"onTimer"
+	],
+	"pageFormat": {
+		"paperName": "A4",
+		"paperWidth": "595pt",
+		"paperHeight": "842pt"
+	},
+	"pages": [
+		{
+			"objects": {
+				"shortcut": {
+					"type": "button",
+					"top": 206,
+					"left": 4,
+					"width": 102,
+					"height": 21,
+					"shortcutKey": "[down arrow]",
+					"shortcutAlt": true,
+					"events": [
+						"onClick"
+					],
+					"class": "dev",
+					"text": "⌥ + [down arrow]"
+				}
+			}
+		},
+		{
+			"objects": {
+				"_template": {
+					"type": "subform",
+					"top": 130,
+					"left": 0,
+					"width": 434,
+					"height": 90,
+					"visibility": "hidden",
+					"sizingX": "grow",
+					"detailForm": "LANGUAGE",
+					"deletableInList": false,
+					"doubleClickInRowAction": "editSubrecord",
+					"doubleClickInEmptyAreaAction": "addSubrecord",
+					"selectionMode": "multiple",
+					"printFrame": "variable",
+					"events": [
+						"onGettingFocus"
+					],
+					"dataSourceTypeHint": "undefined"
+				},
+				"Rectangle": {
+					"type": "rectangle",
+					"top": 130,
+					"left": 0,
+					"width": 434,
+					"height": 11,
+					"visibility": "hidden",
+					"fill": "transparent",
+					"stroke": "#0099FF",
+					"strokeDashArray": "1 1"
+				},
+				"Line": {
+					"type": "line",
+					"top": 1,
+					"left": 417,
+					"height": 230,
+					"visibility": "hidden",
+					"stroke": "#0099FF",
+					"strokeDashArray": "1 1"
+				},
+				"resname.box": {
+					"type": "input",
+					"top": 12,
+					"left": 81,
+					"width": 310,
+					"height": 17,
+					"sizingX": "grow",
+					"hideFocusRing": true,
+					"events": [
+						"onLosingFocus"
+					],
+					"dataSource": "Form:C1466.string.resname"
+				},
+				"unit.notranslate": {
+					"type": "checkbox",
+					"top": 112,
+					"left": 78,
+					"width": 158,
+					"height": 16,
+					"visibility": "hidden",
+					"text": "No translation",
+					"events": [
+						"onClick"
+					],
+					"dataSourceTypeHint": "boolean",
+					"dataSource": "Form:C1466.string.noTranslate"
+				},
+				"unit.source": {
+					"type": "input",
+					"top": 42,
+					"left": 81,
+					"width": 335,
+					"height": 65,
+					"sizingX": "grow",
+					"hideFocusRing": true,
+					"events": [
+						"onLosingFocus",
+						"onGettingFocus"
+					],
+					"dataSource": "Form:C1466.string.source.value"
+				},
+				"resname.label": {
+					"type": "text",
+					"top": 12,
+					"left": 7,
+					"width": 61,
+					"height": 17,
+					"text": "resname",
+					"class": "label"
+				},
+				"unit.flag": {
+					"type": "input",
+					"top": 42,
+					"left": 7,
+					"width": 68,
+					"height": 29,
+					"visibility": "hidden",
+					"dataSource": "Form:C1466.main.regional",
+					"textAlign": "center",
+					"fontFamily": ".Helvetica Neue DeskInterface",
+					"fontSize": 24,
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"hideFocusRing": true,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "none"
+				},
+				"Line1": {
+					"type": "line",
+					"top": -29,
+					"left": 79,
+					"height": 260,
+					"visibility": "hidden",
+					"stroke": "#0099FF",
+					"strokeDashArray": "1 1"
+				},
+				"unit.lang": {
+					"type": "input",
+					"top": 69,
+					"left": 15,
+					"width": 53,
+					"height": 17,
+					"visibility": "hidden",
+					"dataSource": "Form:C1466.main.language",
+					"stroke": "#B1B1B1",
+					"textAlign": "center",
+					"focusable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"enterable": false,
+					"hideFocusRing": true,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "none"
+				},
+				"action": {
+					"type": "button",
+					"top": 8,
+					"left": 394,
+					"width": 24,
+					"height": 24,
+					"sizingX": "move",
+					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/common/more.png",
+					"iconFrames": 4,
+					"popupPlacement": "separated",
+					"style": "custom",
+					"events": [
+						"onClick",
+						"onAlternateClick",
+						"onLongClick"
+					]
+				},
+				"unit.handle": {
+					"type": "picture",
+					"top": 98,
+					"left": 407,
+					"width": 9,
+					"height": 9,
+					"visibility": "hidden",
+					"sizingX": "move",
+					"pictureFormat": "scaled",
+					"picture": "/RESOURCES/Images/handle.png"
+				},
+				"unit.handle.button": {
+					"type": "button",
+					"top": 98,
+					"left": 407,
+					"width": 9,
+					"height": 9,
+					"visibility": "hidden",
+					"sizingX": "move",
+					"action": "automaticSplitter",
+					"display": false,
+					"events": [
+						"onClick"
+					]
+				},
+				"unit.note": {
+					"type": "button",
+					"top": 114,
+					"left": 402,
+					"width": 16,
+					"height": 12,
+					"visibility": "hidden",
+					"sizingX": "move",
+					"tooltip": "Edit note (⌘ ⌥ N)",
+					"shortcutKey": "n",
+					"shortcutAccel": true,
+					"shortcutAlt": true,
+					"focusable": false,
+					"icon": "/RESOURCES/Images/note_off.png",
+					"style": "custom",
+					"events": [
+						"onClick"
+					]
+				},
+				"NOTE": {
+					"type": "subform",
+					"top": 59,
+					"left": 79,
+					"width": 339,
+					"height": 50,
+					"visibility": "hidden",
+					"sizingX": "grow",
+					"detailForm": "NOTE",
+					"deletableInList": false,
+					"doubleClickInRowAction": "editSubrecord",
+					"selectionMode": "multiple",
+					"printFrame": "variable",
+					"events": [
+						"onLosingFocus"
+					],
+					"dataSource": "Form:C1466.string",
+					"dataSourceTypeHint": "object"
+				},
+				"unit.win": {
+					"type": "picture",
+					"top": 112,
+					"left": 379,
+					"width": 16,
+					"height": 16,
+					"visibility": "hidden",
+					"sizingX": "move",
+					"pictureFormat": "scaled",
+					"picture": "/RESOURCES/Images/windows.svg"
+				},
+				"unit.mac": {
+					"type": "picture",
+					"top": 112,
+					"left": 379,
+					"width": 16,
+					"height": 16,
+					"visibility": "hidden",
+					"sizingX": "move",
+					"pictureFormat": "scaled",
+					"picture": "/RESOURCES/Images/maOS.svg"
+				}
+			}
+		}
+	],
+	"editor": {
+		"activeView": "default",
+		"defaultView": "default",
+		"views": {
+			"default": {},
+			"NOTE": {
+				"visible": false,
+				"objects": [
+					"NOTE"
+				]
+			}
+		}
+	},
+	"$4d": {
+		"version": "1",
+		"kind": "form"
+	},
+	"geometryStamp": 134,
+	"method": "formMethod"
+}
