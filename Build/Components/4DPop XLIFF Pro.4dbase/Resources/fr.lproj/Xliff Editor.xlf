@@ -172,6 +172,10 @@ Les modifications seront enregistrées et ne pourront pas être annulées.</targ
           <source>Short cuts for the current actions.</source>
           <target>Raccourcis pour les actions courantes.</target>
         </trans-unit>
+        <trans-unit id="0hEob2kqeSEVlL24_e+5Lw" resname="ToolTip">
+          <source>A multilingual XLIFF editor</source>
+          <target>Un éditeur XLIFF multilingue</target>
+        </trans-unit>
       </group>
       <group resname="Default Values">
         <trans-unit id="TFjzAWkDKqXsC_63Tk6lzA" resname="NewGroup">
@@ -465,6 +469,7 @@ Les modifications seront enregistrées et ne pourront pas être annulées.</targ
       
     </body>
   </file>
+
 
 
 

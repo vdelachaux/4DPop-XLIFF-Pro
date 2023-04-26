@@ -87,7 +87,8 @@
 			"_test_computeFile",
 			"_test_getFiles",
 			"_test_synchro",
-			"00_RUN"
+			"00 OPEN EDIROR",
+			"00 TEST"
 		],
 		"forms": [
 			"COUNTERS",
@@ -162,8 +163,9 @@
 	},
 	"4️⃣ 4DPop": {
 		"methods": [
-			"4DPop XLIFF EDITOR",
-			"COMPILER_4DPop"
+			"_4DPopXliff",
+			"COMPILER_4DPop",
+			"editor"
 		]
 	},
 	"database": {

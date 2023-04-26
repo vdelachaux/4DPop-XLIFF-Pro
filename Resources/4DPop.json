@@ -1,8 +1,9 @@
 {
   "name": "Xliff Pro",
   "picture": "4DPop.png",
-  "tool": {
-    "name": ":xliff:WindowEditor",
-    "method": "4DPop XLIFF EDITOR"
+  "helptip": ":xliff:ToolTip",
+  "handler": "_4DPopXliff",
+  "tools": {
+    "method": "editor"
   }
 }

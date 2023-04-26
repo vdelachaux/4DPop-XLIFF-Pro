@@ -1,10 +1,6 @@
 //%attributes = {"invisible":true}
 #DECLARE($run : Boolean)
 
-If (False:C215)
-	C_BOOLEAN:C305(EDITOR OPEN; $1)
-End if 
-
 var $data : Object
 var $database : cs:C1710.database
 

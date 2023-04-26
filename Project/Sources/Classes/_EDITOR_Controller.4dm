@@ -16,9 +16,11 @@ property current : cs:C1710.Xliff
 property folders; opened; languages : Collection
 property main; resources : Object
 
-property menu; Xliff : 4D:C1709.Class
-property Preferences : cs:C1710.Preferences
+property menu : cs:C1710.menu
 property menuBar : cs:C1710.menuBar
+
+property Xliff : cs:C1710.Xliff
+property Preferences : cs:C1710.Preferences
 
 Class constructor($mainLanguage : Text)
 	

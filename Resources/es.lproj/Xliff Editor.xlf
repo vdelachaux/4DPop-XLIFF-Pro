@@ -164,6 +164,10 @@ Changes will be saved and cannot be undone.</target>
           <source>Short cuts for the current actions.</source>
           <target state="new">Short cuts for the current actions.</target>
         </trans-unit>
+        <trans-unit id="0hEob2kqeSEVlL24_e+5Lw" resname="ToolTip">
+          <source>A multilingual XLIFF editor</source>
+          <target state="new">A multilingual XLIFF editor</target>
+        </trans-unit>
       </group>
       <group resname="Default Values">
         <trans-unit id="TFjzAWkDKqXsC_63Tk6lzA" resname="NewGroup">
@@ -457,6 +461,7 @@ Changes will be saved and cannot be undone.</target>
       
     </body>
   </file>
+
 
 
 
