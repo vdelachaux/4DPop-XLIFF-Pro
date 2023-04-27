@@ -447,6 +447,10 @@ Changes will be saved and cannot be undone.</target>
           <source>Filter</source>
           <target>Filter</target>
         </trans-unit>
+        <trans-unit id="xOVu10HXcP2Aj1hE3UGMmg" resname="file">
+          <source>File</source>
+          <target>File</target>
+        </trans-unit>
       </group>
       
       <group resname="DO NOT TRANSLATE">
@@ -461,6 +465,7 @@ Changes will be saved and cannot be undone.</target>
       
     </body>
   </file>
+
 
 
 

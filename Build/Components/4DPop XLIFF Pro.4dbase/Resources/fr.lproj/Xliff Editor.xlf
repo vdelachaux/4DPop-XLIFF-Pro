@@ -455,6 +455,10 @@ Les modifications seront enregistrées et ne pourront pas être annulées.</targ
           <source>Filter</source>
           <target>Filtrer</target>
         </trans-unit>
+        <trans-unit id="xOVu10HXcP2Aj1hE3UGMmg" resname="file">
+          <source>File</source>
+          <target>Fichier</target>
+        </trans-unit>
       </group>
       
       <group resname="DO NOT TRANSLATE">
@@ -469,6 +473,7 @@ Les modifications seront enregistrées et ne pourront pas être annulées.</targ
       
     </body>
   </file>
+
 
 
 

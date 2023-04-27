@@ -84,12 +84,12 @@
 				},
 				"toolbarNewTransUnit": {
 					"type": "button",
-					"top": 2,
+					"top": 3,
 					"left": 239,
 					"width": 82,
 					"height": 28,
 					"tooltip": ":xliff:TipNewTransUnit",
-					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/formEditor/objects/list.png",
+					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/toolbar/new.png",
 					"style": "toolbar",
 					"events": [
 						"onClick"
@@ -104,12 +104,12 @@
 				},
 				"toolbarNewGroup": {
 					"type": "button",
-					"top": 2,
+					"top": 3,
 					"left": 161,
 					"width": 74,
 					"height": 28,
 					"tooltip": ":xliff:TipNewGroup",
-					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/formEditor/objects/listBox.png",
+					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/toolbar/new.png",
 					"style": "toolbar",
 					"events": [
 						"onClick"
@@ -426,7 +426,7 @@
 						"onClick"
 					],
 					"customBackgroundPicture": "/RESOURCES/Images/newFile.svg",
-					"text": "Xliff",
+					"text": ":xliff:file",
 					"style": "toolbar",
 					"shortcutAccel": false,
 					"shortcutControl": false,
@@ -544,6 +544,6 @@
 		"version": "1",
 		"kind": "form"
 	},
-	"geometryStamp": 892,
+	"geometryStamp": 896,
 	"method": "formMethod"
 }
