@@ -1,8 +1,3 @@
 //%attributes = {"invisible":true}
-If (False:C215)
-	
-	//______________________________________________________
-	C_OBJECT:C1216(_4DPopXliff; $0)
-	
-	//______________________________________________________
-End if 
+C_OBJECT:C1216(_4DPopXliff; $0)
+C_OBJECT:C1216(editor; $1)
