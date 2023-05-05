@@ -10,8 +10,8 @@ Class constructor($options)
 	This:C1470.metacharacters:=False:C215
 	This:C1470.selected:=False:C215
 	This:C1470.choice:=""
-	This:C1470.submenus:=New collection:C1472
-	This:C1470.data:=New collection:C1472
+	This:C1470.submenus:=[]
+	This:C1470.data:=[]
 	
 	If (Count parameters:C259>=1)
 		
@@ -64,7 +64,7 @@ Class constructor($options)
 								This:C1470.metacharacters:=True:C214
 								
 								//-----------------
-							Else   // Menu bar name
+							Else   // Menu bar name 
 								
 								This:C1470.ref:=Create menu:C408($options)
 								
@@ -180,7 +180,7 @@ Function append($item; $param; $mark; $afterItem : Integer) : cs:C1710.menu
 			
 			$t:=$t || $item
 			
-			If (Count parameters:C259>=2)
+			If ($param#Null:C1517)
 				
 				If (Value type:C1509($param)=Is object:K8:27)  // Submenu
 					
@@ -575,10 +575,11 @@ Function setData($name : Text; $value : Variant; $index : Integer) : cs:C1710.me
 	
 	If ($o=Null:C1517)
 		
-		This:C1470.data.push(New object:C1471(\
-			"ref"; $ref; \
-			"name"; $name; \
-			"value"; $value))
+		This:C1470.data.push({\
+			ref: $ref; \
+			name: $name; \
+			value: $value\
+			})
 		
 	Else 
 		
@@ -680,13 +681,24 @@ Function icon($icon : Text; $index : Integer) : cs:C1710.menu
 	var $path : Text
 	
 	Case of 
+			
 			//______________________________________________________
 		: ($icon="path:@")
 			
 			$path:=$icon
 			
 			//______________________________________________________
-		: ($icon="/RESOURCES/@")
+		: ($icon="#@")
+			
+			$path:="path:/RESOURCES/"+Delete string:C232($icon; 1; 1)
+			
+			//______________________________________________________
+		: ($icon="|@")
+			
+			$path:="path:/.PRODUCT_RESOURCES/"+Delete string:C232($icon; 1; 1)
+			
+			//______________________________________________________
+		: ($icon="/@")
 			
 			$path:="path:"+$icon
 			
@@ -809,10 +821,11 @@ Function menuSelected()->$selected : Object
 	
 	$menuSelected:=Menu selected:C152($menuRef)
 	
-	$selected:=New object:C1471(\
-		"ref"; $menuRef; \
-		"menu"; $menuSelected\65536; \
-		"item"; $menuSelected%65536)
+	$selected:={\
+		ref: $menuRef; \
+		menu: $menuSelected\65536; \
+		item: $menuSelected%65536\
+		}
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns a menu item from its title or index
@@ -886,7 +899,7 @@ Function items()->$items : Collection
 	
 	var $i : Integer
 	
-	$items:=New collection:C1472
+	$items:=[]
 	
 	For ($i; 1; This:C1470.itemCount(); 1)
 		
@@ -975,21 +988,22 @@ Function windows($callback : Text) : cs:C1710.menu
 	ARRAY LONGINT:C221($windows; 0x0000)
 	WINDOW LIST:C442($windows)
 	
-	$c:=New collection:C1472
+	$c:=[]
 	
 	For ($i; 1; Size of array:C274($windows); 1)
 		
-		$c.push(New object:C1471(\
-			"ref"; $windows{$i}; \
-			"name"; Get window title:C450($windows{$i}); \
-			"process"; Window process:C446($windows{$i})))
+		$c.push({\
+			ref: $windows{$i}; \
+			name: Get window title:C450($windows{$i}); \
+			process: Window process:C446($windows{$i})\
+			})
 		
 	End for 
 	
-	$c:=$c.orderBy(New collection:C1472(\
-		New object:C1471("propertyPath"; "process"; "descending"; True:C214); \
-		New object:C1471(\
-		"propertyPath"; "name")))
+	$c:=$c.orderBy([\
+		{propertyPath: "process"; descending: True:C214}; \
+		{propertyPath: "name"}\
+		])
 	
 	If ($c.length>0)
 		

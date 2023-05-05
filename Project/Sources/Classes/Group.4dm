@@ -71,7 +71,7 @@ child element.
 	This:C1470.XPATH:=String:C10($attributes.XPATH)
 	This:C1470.isconstant:=String:C10(This:C1470.attributes.restype)="x-4DK#"
 	
-	This:C1470.transunits:=New collection:C1472
+	This:C1470.transunits:=[]
 	
 	This:C1470._xpathPattern:="(?mi-s)(?<=group\\[@resname=\")([^\"]*)"
 	
