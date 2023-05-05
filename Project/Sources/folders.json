@@ -1,24 +1,4 @@
 {
-	"-📦 MAIN": {
-		"methods": [
-			"COMPILER_component",
-			"EDITOR CALLBACK",
-			"EDITOR CLOSE",
-			"EDITOR OPEN"
-		],
-		"forms": [
-			"EDITOR",
-			"LANGUAGE",
-			"NOTE",
-			"STRING",
-			"WRAP_AROUND"
-		],
-		"classes": [
-			"_EDITOR_Controller",
-			"_LANGUAGE_Controller",
-			"_STRING_Controller"
-		]
-	},
 	"(📦 COMPONENT)": {},
 	"(🛠️ Tools)": {},
 	"(lib)": {},
@@ -159,6 +139,26 @@
 			"thermometerDelegate",
 			"widgetDelegate",
 			"windowDelegate"
+		]
+	},
+	"📦 MAIN": {
+		"methods": [
+			"COMPILER_component",
+			"EDITOR CALLBACK",
+			"EDITOR CLOSE",
+			"EDITOR OPEN"
+		],
+		"forms": [
+			"EDITOR",
+			"LANGUAGE",
+			"NOTE",
+			"STRING",
+			"WRAP_AROUND"
+		],
+		"classes": [
+			"_EDITOR_Controller",
+			"_LANGUAGE_Controller",
+			"_STRING_Controller"
 		]
 	},
 	"4️⃣ 4DPop": {
