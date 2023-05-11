@@ -8,7 +8,7 @@ property lock; lockMessage : cs:C1710.staticDelegate
 property wrap : cs:C1710.widgetDelegate
 property newFile; newGroup; newString; filterLanguage : cs:C1710.buttonDelegate
 property stringSplitter; lockButton : cs:C1710.buttonDelegate
-property detail : cs:C1710.subformDelegate
+property detail; searchPicker : cs:C1710.subformDelegate
 property fileList; stringList : cs:C1710.listboxDelegate
 property strings; locked; withFile : cs:C1710.groupDelegate
 
@@ -53,27 +53,29 @@ Class constructor($mainLanguage : Text)
 	This:C1470.main.files:=This:C1470.getFiles()
 	This:C1470.main.regional:=This:C1470.getFlag(This:C1470.main.language)
 	
-	This:C1470.default:=New object:C1471
-	This:C1470.default.language:=This:C1470.main.language
+	This:C1470.default:={\
+		language: This:C1470.main.language\
+		}
 	
 	// FIXME:Retrieve component version
 	This:C1470.default.version:="3.0"
 	
 	// MARK: Get the other languages present
-	This:C1470.languages:=New collection:C1472
+	This:C1470.languages:=[]
 	
 	var $folder : 4D:C1709.Folder
 	For each ($folder; This:C1470.folders.query("name != :1"; This:C1470.main.language).orderBy("name"))
 		
 		// TODO: Change languages.language to languages.code
-		This:C1470.languages.push(New object:C1471(\
-			"language"; $folder.name; \
-			"regional"; This:C1470.getFlag($folder.name)))
+		This:C1470.languages.push({\
+			language: $folder.name; \
+			regional: This:C1470.getFlag($folder.name)\
+			})
 		
 	End for each 
 	
 	// MARK: Memorize open XML trees to be able to close them when unloading
-	This:C1470.opened:=New collection:C1472
+	This:C1470.opened:=[]
 	
 	This:C1470.form.init()
 	
@@ -124,13 +126,6 @@ Function init()
 	
 	This:C1470.filterLanguage:=This:C1470.form.button.new("localization")
 	
-	// MARK: Search Picker
-	This:C1470.searchBox:=This:C1470.form.input.new("searchBox")
-	This:C1470.searchBorder:=This:C1470.form.static.new("searchBorder")
-	This:C1470.searchGlass:=This:C1470.form.button.new("searchGlass")
-	This:C1470.searchButton:=This:C1470.form.button.new("searchButton")
-	This:C1470.searchBox.starts:=0
-	
 	// MARK: File list
 	This:C1470.fileList:=This:C1470.form.listbox.new("fileList")
 	
@@ -143,7 +138,9 @@ Function init()
 	
 	// MARK: Detail subform
 	var $events : Object
-	$events:=New object:C1471("onDataChange"; -On Data Change:K2:15)
+	$events:={\
+		onDataChange: -On Data Change:K2:15\
+		}
 	This:C1470.detail:=This:C1470.form.subform.new("detail"; $events; This:C1470)
 	
 	// MARK: Lock
@@ -151,6 +148,9 @@ Function init()
 	This:C1470.lock:=This:C1470.form.static.new("lock").addToGroup(This:C1470.locked)
 	This:C1470.lockMessage:=This:C1470.form.static.new("lockMessage").addToGroup(This:C1470.locked)
 	This:C1470.lockButton:=This:C1470.form.button.new("lockButton").addToGroup(This:C1470.locked)
+	
+	// MARK: Search Picker
+	This:C1470.searchPicker:=This:C1470.form.subform.new("searchPicker"; {}; This:C1470)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function handleEvents($e : cs:C1710.evt)
@@ -179,12 +179,10 @@ Function handleEvents($e : cs:C1710.evt)
 				This:C1470.strings.center(True:C214)
 				This:C1470.locked.center(True:C214)
 				
-				If (This:C1470.form.focused#This:C1470.searchBox.name)
-					
-					This:C1470.searchBox.backupCoordinates()
-					This:C1470.searchGlass.backupCoordinates()
-					
-				End if 
+				//______________________________________________________
+			: ($e.code=On Activate:K2:9)
+				
+				This:C1470.updateMenus()
 				
 				//______________________________________________________
 			: ($e.code=On Deactivate:K2:10)
@@ -193,6 +191,8 @@ Function handleEvents($e : cs:C1710.evt)
 				
 				//______________________________________________________
 			: ($e.code=On Unload:K2:2)
+				
+				RELOAD PROJECT:C1739  // Force the reloading of XLIFF
 				
 				This:C1470.deinit()
 				
@@ -251,16 +251,6 @@ Function handleEvents($e : cs:C1710.evt)
 				This:C1470.locked.center(True:C214)
 				
 				//==============================================
-			: (This:C1470.searchBox.catch($e))
-				
-				This:C1470.searchManager($e)
-				
-				//==============================================
-			: (This:C1470.searchButton.catch($e))
-				
-				This:C1470.searchBox.focus()
-				
-				//==============================================
 		End case 
 	End if 
 	
@@ -292,7 +282,14 @@ Function onLoad()
 	
 	This:C1470.form.focus(This:C1470.fileList.name)
 	
-	This:C1470.form.setEntryOrder(New collection:C1472(This:C1470.fileList; This:C1470.stringList; This:C1470.detail))
+	This:C1470.form.setEntryOrder([This:C1470.fileList; This:C1470.stringList; This:C1470.detail])
+	
+	// Initialize the search widget
+	This:C1470.searchPicker.data:={\
+		value: Null:C1517; \
+		start: 0; \
+		borderColor: 0x00C0C0C0\
+		}
 	
 	This:C1470.form.refresh()
 	
@@ -358,14 +355,10 @@ Function updateMenus($isWritable : Boolean)
 		
 	End if 
 	
-	This:C1470.menuBar.enableItem("findNext"; (This:C1470.searchBox.value#"") & (This:C1470.fileList.item#Null:C1517))
+	This:C1470.menuBar.enableItem("findNext"; (This:C1470.searchPicker.data.value#Null:C1517) && (String:C10(This:C1470.searchPicker.data.value)#"") && (This:C1470.fileList.item#Null:C1517))
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function deinit()
-	
-	// Reset the position for memorization
-	This:C1470.searchBox.restorePosition()
-	This:C1470.searchGlass.restorePosition()
 	
 	CALL WORKER:C1389("$4DPop XLIFF Pro"; Formula:C1597(EDITOR CLOSE).source; Form:C1466)
 	
@@ -379,8 +372,7 @@ Function handleMenus($what : Text)
 			//______________________________________________________
 		: ($what="find")
 			
-			This:C1470.searchBox.focus()
-			This:C1470.doSearch("doesNotDoIt")
+			This:C1470.form.focus(This:C1470.searchPicker)
 			
 			//______________________________________________________
 		: ($what="findNext")
@@ -469,9 +461,8 @@ Function _fileListManager($e : cs:C1710.evt)
 			This:C1470.stringList.item:=Null:C1517
 			
 			// Reset the search
-			This:C1470.searchBox.starts:=0
-			This:C1470.searchBox.setColors(Foreground color:K23:1; Background color:K23:2)
-			This:C1470.searchBorder.setColors(0x00E5E5E5; Background color none:K23:10)
+			This:C1470.searchPicker.data.start:=0
+			
 			This:C1470.withFile.disable()
 			This:C1470.strings.hide()
 			This:C1470.stringList.hide()
@@ -833,7 +824,7 @@ Function newFileManager()
 	$indx:=This:C1470.main.files.indices("fullName = :1"; $name)[0]
 	This:C1470.fileList.select($indx+1)
 	This:C1470.stringList.item:=Null:C1517
-	This:C1470._fileListManager(New object:C1471("code"; On Selection Change:K2:29))
+	This:C1470._fileListManager({code: On Selection Change:K2:29})
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function newGroupManager()
@@ -930,70 +921,16 @@ Function newStringManager()
 	// FIXME: Update the duplicates
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function searchManager($e : cs:C1710.evt)
+Function _searchPickerManager($e : cs:C1710.evt)
 	
-	var $searchText : Text
-	$searchText:=This:C1470.searchBox.getValue()
+	$e:=$e || FORM Event:C1606
 	
-	Case of 
-			
-			//______________________________________________________
-		: ($e.code=On Load:K2:1)
-			
-			This:C1470.searchBorder.setColors(0x00E5E5E5)
-			
-			//______________________________________________________
-		: ($e.code=On Unload:K2:2)
-			
-			// Restore default positions
-			//This.searchBox.restorePosition()
-			//This.searchGlass.restorePosition()
-			
-			//______________________________________________________
-		: ($e.code=On Getting Focus:K2:7)
-			
-			If (Length:C16($searchText)=0)  // Expand
-				
-				This:C1470.searchGlass.moveHorizontally(-67)
-				This:C1470.searchBox.moveAndResizeHorizontally(-67)
-				This:C1470.searchBorder.setColors(Highlight text background color:K23:5; Background color none:K23:10)
-				
-			End if 
-			
-			//______________________________________________________
-		: ($e.code=On Losing Focus:K2:8)
-			
-			If (Length:C16(Get edited text:C655)=0)  // Collapse
-				
-				This:C1470.searchBox.restorePosition()
-				This:C1470.searchGlass.restorePosition()
-				
-			End if 
-			
-			This:C1470.searchBorder.setColors(0x00E5E5E5)
-			
-			//______________________________________________________
-		: ($e.code=On After Edit:K2:43)
-			
-			// Restore default colors
-			This:C1470.searchBox.setColors(Foreground color:K23:1; Background color:K23:2)
-			This:C1470.searchBorder.setColors(Highlight text background color:K23:5; Background color none:K23:10)
-			
-			//______________________________________________________
-		: ($e.code=On Data Change:K2:15)
-			
-			If (Length:C16($searchText)#0)
-				
-				// Perform the search
-				This:C1470.doSearch($searchText)
-				
-				// Stay on the current object
-				This:C1470.searchBox.focus()
-				
-			End if 
-			
-			//______________________________________________________
-	End case 
+	If ($e.code=On Data Change:K2:15)
+		
+		// Perform the search
+		This:C1470.doSearch(String:C10(This:C1470.searchPicker.data.value))
+		
+	End if 
 	
 	//MARK:-
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
@@ -1213,71 +1150,73 @@ indexes < 10 are prefixed by 0.
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function doSearch($searchText : Text; $e : cs:C1710.evt)
 	
-	$e:=$e || FORM Event:C1606
-	$searchText:=$searchText || This:C1470.searchBox.getValue()
+	var $data : Object
 	
-	If (Length:C16($searchText)>0)\
-		 && ($searchText#"doesNotDoIt")
+	$e:=$e || FORM Event:C1606
+	
+	$data:=This:C1470.searchPicker.data
+	
+	If ($data.value=Null:C1517)
 		
-		// Perform a search by content
-		$searchText:="@"+$searchText+"@"  // Contains
+		return 
 		
-		// Manage the starts searching element number
-		This:C1470.searchBox.starts:=This:C1470.searchBox.starts<=0 ? 0 : This:C1470.searchBox.starts
-		This:C1470.searchBox.starts+=1
+	End if 
+	
+	$searchText:=$searchText || $data.value
+	
+	If (Length:C16($searchText)=0)
 		
+		$data.start:=0
+		return 
 		
-		// Doing the search from the current position
-		This:C1470.searchBox.starts:=Find in array:C230((This:C1470.resnamePtr)->; $searchText; This:C1470.searchBox.starts)
+	End if 
+	
+	If (This:C1470.stringList.item=Null:C1517)
 		
-		If (This:C1470.searchBox.starts<0)
-			
-			// Start from scratch
-			This:C1470.searchBox.starts:=Find in array:C230((This:C1470.resnamePtr)->; $searchText)
-			This:C1470.wrap.timer:=10
-			This:C1470.wrap.show()
-			
-		End if 
+		This:C1470.doSelectGroup(1; $e)
 		
-		If (This:C1470.searchBox.starts>0)
-			
-			// Restore default colors
-			This:C1470.searchBox.setColors(Foreground color:K23:1; Background color:K23:2)
-			This:C1470.searchBorder.setColors(Highlight text background color:K23:5; Background color none:K23:10)
-			
-			// Select & scroll
-			This:C1470.stringList.cellPosition($e)
-			$e.row:=This:C1470.searchBox.starts
-			This:C1470.setCurrentString($e)
-			This:C1470.doSelectUnit(This:C1470.searchBox.starts)
-			
-			// Give the focus to the string list
-			This:C1470.stringList.focus()
-			
-			This:C1470.form.refresh()
-			
-		Else 
-			
-			BEEP:C151
-			
-			This:C1470.searchBox.starts:=0
-			This:C1470.wrap.timer:=0
-			This:C1470.wrap.hide()
-			
-			// Highlight with red color
-			This:C1470.searchBox.setColors("white"; "red")
-			This:C1470.searchBorder.setColors(Highlight text background color:K23:5; "red")
-			
-		End if 
+	End if 
+	
+	// Perform a search by content
+	$searchText:="@"+$searchText+"@"  // Contains
+	
+	// Manage the starts searching element number
+	$data.start:=Num:C11($data.start)<=0 ? 0 : $data.start
+	$data.start+=1
+	
+	// Doing the search from the current position
+	$data.start:=Find in array:C230((This:C1470.resnamePtr)->; $searchText; $data.start)
+	
+	If ($data.start<0)
 		
-		This:C1470.detail.refresh()
+		// Start from scratch
+		$data.start:=Find in array:C230((This:C1470.resnamePtr)->; $searchText)
+		This:C1470.wrap.timer:=10
+		This:C1470.wrap.show()
+		
+	End if 
+	
+	If ($data.start>0)
+		
+		// Select & scroll
+		This:C1470.stringList.cellPosition($e)
+		$e.row:=$data.start
+		This:C1470.setCurrentString($e)
+		This:C1470.doSelectUnit($data.start)
+		
+		This:C1470.form.refresh()
 		
 	Else 
 		
-		// Just give the focus to the search box
-		This:C1470.searchBox.focus()
+		BEEP:C151
+		
+		$data.start:=0
+		This:C1470.wrap.timer:=0
+		This:C1470.wrap.hide()
 		
 	End if 
+	
+	This:C1470.detail.refresh()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function uniqueResname($what : Text) : Text
@@ -1335,7 +1274,7 @@ Function _populateString($column : Integer; $row : Integer) : Object
 	If ($string.localizations=Null:C1517 ? True:C214 : ($string.localizations.length=0))
 		
 		// Open or create the target language
-		$string.localizations:=New collection:C1472
+		$string.localizations:=[]
 		
 		For each ($language; This:C1470.languages)
 			
@@ -1410,7 +1349,7 @@ Function doSelectUnit($row : Integer)
 	
 	This:C1470.stringList.select($row)
 	
-	This:C1470.form.callMeBack("_SELECT_STRING"; New object:C1471("row"; $row))
+	This:C1470.form.callMeBack("_SELECT_STRING"; {row: $row})
 	
 	This:C1470.stringList.focus()
 	
@@ -1434,7 +1373,7 @@ Function getFiles($language : Text) : Collection
 	var $folder : 4D:C1709.Folder
 	var $xliff : cs:C1710.Xliff
 	
-	$files:=New collection:C1472
+	$files:=[]
 	
 	$folder:=This:C1470.folders.query("name = :1"; $language || This:C1470.main.language).pop()
 	
@@ -1475,9 +1414,10 @@ Function parse($file : 4D:C1709.File) : cs:C1710.Xliff
 	
 	If (Not:C34($xliff.success))
 		
-		return New object:C1471(\
-			"success"; False:C215; \
-			"error"; "Failed to open the file "+$file.path)
+		return {\
+			success: False:C215; \
+			error: "Failed to open the file "+$file.path\
+			}
 		
 	End if 
 	
@@ -1601,7 +1541,7 @@ Function deDuplicateIDs()
 			
 			// Reload
 			This:C1470.stringList.item:=This:C1470._populateString(1; 1)
-			This:C1470._fileListManager(New object:C1471("code"; On Selection Change:K2:29))
+			This:C1470._fileListManager({code: On Selection Change:K2:29})
 			
 			This:C1470.form.refresh()
 			
@@ -1690,7 +1630,7 @@ Function _DISPLAY_FILE()
 		If ($xliff.success) | ($xliff.error=Null:C1517)
 			
 			// Prepare the languages
-			This:C1470.current.languages:=New collection:C1472
+			This:C1470.current.languages:=[]
 			
 			For each ($language; This:C1470.languages)
 				

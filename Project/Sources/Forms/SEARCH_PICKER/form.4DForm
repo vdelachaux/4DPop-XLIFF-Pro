@@ -11,8 +11,16 @@
 	"windowMaxHeight": 32767,
 	"rightMargin": 0,
 	"bottomMargin": 0,
-	"events": [],
-	"windowTitle": "window title",
+	"events": [
+		"onLoad",
+		"onActivate",
+		"onLosingFocus",
+		"onGettingFocus",
+		"onDataChange",
+		"onUnload",
+		"onTimer",
+		"onAfterEdit"
+	],
 	"destination": "detailScreen",
 	"pages": [
 		{
@@ -20,63 +28,61 @@
 		},
 		{
 			"objects": {
-				"search.button": {
-					"type": "button",
-					"top": 2,
+				"searchBorder": {
+					"type": "rectangle",
+					"top": 0,
 					"left": 0,
 					"width": 193,
 					"height": 21,
 					"sizingX": "move",
-					"display": false,
-					"events": [
-						"onClick"
-					]
+					"fill": "transparent",
+					"borderRadius": 5,
+					"stroke": "transparent",
+					"visibility": "hidden"
 				},
-				"unit.search": {
+				"searchBox": {
 					"type": "input",
-					"top": 4,
+					"top": 2,
 					"left": 85,
 					"width": 105,
 					"height": 17,
 					"sizingX": "move",
 					"fill": "transparent",
-					"borderStyle": "none",
 					"hideFocusRing": true,
-					"showSelection": true,
-					"contextMenu": "none",
-					"placeholder": "Search",
-					"dragging": "none",
+					"placeholder": ":xliff:searchlabel",
 					"events": [
-						"onLoad",
 						"onLosingFocus",
 						"onGettingFocus",
 						"onDataChange",
-						"onUnload",
 						"onAfterEdit"
-					]
+					],
+					"borderStyle": "none",
+					"visibility": "hidden"
 				},
-				"search.glass": {
-					"type": "picture",
-					"top": 5,
+				"searchGlass": {
+					"type": "button",
+					"top": 3,
 					"left": 70,
-					"width": 14,
-					"height": 14,
+					"width": 13,
+					"height": 15,
+					"tooltip": ":xliff:TipAddFile",
+					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/methodEditor/search.png",
+					"style": "toolbar",
+					"events": [],
 					"sizingX": "move",
-					"pictureFormat": "truncatedTopLeft",
-					"picture": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/methodEditor/search.png"
-				},
-				"search.border": {
-					"type": "rectangle",
-					"top": 2,
-					"left": 0,
-					"width": 193,
-					"height": 21,
-					"sizingX": "move",
-					"fill": "transparent",
-					"borderRadius": 5
+					"iconFrames": 1,
+					"visibility": "hidden"
 				}
 			}
 		}
 	],
-	"geometryStamp": 13
+	"geometryStamp": 52,
+	"editor": {
+		"activeView": "View 1",
+		"defaultView": "View 1",
+		"views": {
+			"View 1": {}
+		}
+	},
+	"method": "formMethod"
 }

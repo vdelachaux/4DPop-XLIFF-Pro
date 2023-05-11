@@ -1,79 +1,15 @@
 {
-	"(📦 COMPONENT)": {},
-	"(🛠️ Tools)": {},
-	"(lib)": {},
-	"(rgx)": {
-		"methods": [
-			"(Compiler_Rgx)",
-			"(Rgx_ExtractText)",
-			"(Rgx_Get_Pattern)",
-			"(Rgx_MatchText)",
-			"(rgx_NO_ERROR)",
-			"(rgx_Options)",
-			"(Rgx_SplitText)",
-			"(Rgx_SubstituteText)"
-		]
-	},
-	"(xlf)": {
-		"methods": [
-			"(COMPILER_xlf)",
-			"(xlf_Copyright)",
-			"(xlf_DELETE_ELEMENT)",
-			"(xlf_Dom_group_from_resname)",
-			"(xlf_Dom_source)",
-			"(xlf_Dom_target_from_resname)",
-			"(xlf_Dom_target)",
-			"(xlf_Dom_unit_from_resname)",
-			"(xlf_Dom_unit)",
-			"(xlf_Find_target)",
-			"(xlf_Find_trans_unit)",
-			"(xlf_New_unit)",
-			"(xlf_Open)",
-			"(xlf_PROP_GROUP)",
-			"(xlf_SAVE)",
-			"(xlf_SET_ATTRIBUTE)",
-			"(xlf_SET_VALUE)",
-			"(xlf_To_translate)"
-		]
-	},
-	"(xml)": {
-		"methods": [
-			"(COMPILER_xml)",
-			"(xml_attributes)",
-			"(xml_cleanup)",
-			"(xml_CLOSE)",
-			"(xml_COPY_ELEMENT)",
-			"(xml_Create_if_not_exist)",
-			"(xml_Duplicate_element)",
-			"(xml_elementToObject)",
-			"(xml_Escape_characters)",
-			"(xml_Find_by_attribute)",
-			"(xml_GET_ATTRIBUTE_ARRAYS)",
-			"(xml_GET_ATTRIBUTE)",
-			"(xml_GET_ATTRIBUTES)",
-			"(xml_GET_ELEMENT_VALUE)",
-			"(xml_Identical_attributes)",
-			"(xml_IsValidReference)",
-			"(xml_noError)",
-			"(xml_Parent)",
-			"(xml_refToObject)",
-			"(xml_REMOVE_ATTRIBUTE)",
-			"(xml_SAVE_IN_FILE)",
-			"(xmlColoredSyntax)"
-		]
-	},
 	"# 🚧 DEV": {
 		"methods": [
 			"_test_computeFile",
 			"_test_getFiles",
 			"_test_synchro",
-			"00 OPEN EDIROR",
+			"00 OPEN EDITOR",
 			"00 TEST"
 		],
 		"forms": [
 			"COUNTERS",
-			"FILE_INFOS",
-			"SEARCH_PICKER"
+			"FILE_INFOS"
 		]
 	},
 	"♻️ LIBRAIRIES": {
@@ -177,14 +113,18 @@
 			"database"
 		]
 	},
-	"trash": {
-		"groups": [
-			"(📦 COMPONENT)",
-			"(🛠️ Tools)",
-			"(lib)",
-			"(rgx)",
-			"(xlf)",
-			"(xml)"
+	"SEARH PICKER": {
+		"forms": [
+			"SEARCH_PICKER"
+		],
+		"classes": [
+			"_SEARCH_PICKER_Controller"
 		]
-	}
+	},
+	"Widgets": {
+		"groups": [
+			"SEARH PICKER"
+		]
+	},
+	"trash": {}
 }

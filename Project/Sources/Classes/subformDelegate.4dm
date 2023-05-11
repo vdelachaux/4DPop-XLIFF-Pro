@@ -8,6 +8,7 @@ Class constructor($name : Text; $events : Object; $super : Object)
 	This:C1470.setPrivateEvents($events)
 	
 	This:C1470.parent:=This:C1470._getParent()
+	This:C1470.parent.container:=$name
 	
 	// MARK:Delegates 📦
 	This:C1470.form:=cs:C1710.formDelegate.new(This:C1470)
@@ -16,7 +17,7 @@ Class constructor($name : Text; $events : Object; $super : Object)
 	// The events will be available in the subform in the __CONTAINER__ property.
 Function setPrivateEvents($events : Object)
 	
-	This:C1470.privateEvents:=$events || New object:C1471
+	This:C1470.privateEvents:=$events || {}
 	
 	// MARK:-[Timer]
 	
@@ -118,11 +119,11 @@ Function _getParent() : Object
 	
 	OBJECT GET SUBFORM CONTAINER SIZE:C1148($width; $height)
 	
-	return New object:C1471(\
-		"name"; Current form name:C1298; \
-		"dimensions"; New object:C1471(\
-		"width"; $width; \
-		"height"; $height))
+	return {\
+		name: Current form name:C1298; \
+		dimensions: {\
+		width: $width; \
+		height: $height}}
 	
 	// MARK:-
 	

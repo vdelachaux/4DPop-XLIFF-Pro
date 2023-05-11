@@ -1,7 +1,6 @@
 {
 	"destination": "detailScreen",
 	"windowTitle": ":xliff:WindowEditor",
-	"memorizeGeometry": true,
 	"width": 800,
 	"height": 470,
 	"markerHeader": 15,
@@ -10,6 +9,7 @@
 	"markerFooter": 240,
 	"events": [
 		"onLoad",
+		"onActivate",
 		"onDeactivate",
 		"onLosingFocus",
 		"onGettingFocus",
@@ -42,17 +42,6 @@
 		},
 		{
 			"objects": {
-				"searchBorder": {
-					"type": "rectangle",
-					"top": 6,
-					"left": 598,
-					"width": 193,
-					"height": 21,
-					"sizingX": "move",
-					"fill": "transparent",
-					"borderRadius": 5,
-					"stroke": "#c0c0c0"
-				},
 				"stringSplitterToolbarLine": {
 					"type": "line",
 					"top": 5,
@@ -152,26 +141,6 @@
 					"height": 25,
 					"width": 0,
 					"startPoint": "topLeft"
-				},
-				"searchBox": {
-					"type": "input",
-					"top": 8,
-					"left": 683,
-					"width": 105,
-					"height": 17,
-					"sizingX": "move",
-					"fill": "transparent",
-					"hideFocusRing": true,
-					"placeholder": ":xliff:searchlabel",
-					"events": [
-						"onLoad",
-						"onLosingFocus",
-						"onGettingFocus",
-						"onDataChange",
-						"onUnload",
-						"onAfterEdit"
-					],
-					"borderStyle": "none"
 				},
 				"localization": {
 					"type": "button",
@@ -469,44 +438,33 @@
 					"picture": "/RESOURCES/Images/wait.gif",
 					"visibility": "hidden"
 				},
-				"searchGlass": {
-					"type": "button",
-					"top": 9,
-					"left": 668,
-					"width": 13,
-					"height": 15,
-					"tooltip": ":xliff:TipAddFile",
-					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/methodEditor/search.png",
-					"style": "toolbar",
-					"events": [],
-					"sizingX": "move",
-					"iconFrames": 1
-				},
-				"searchButton": {
-					"type": "button",
-					"top": 6,
-					"left": 598,
+				"searchPicker": {
+					"type": "subform",
+					"left": 597,
+					"top": 7,
 					"width": 193,
 					"height": 21,
-					"sizingX": "move",
-					"display": false,
+					"detailForm": "SEARCH_PICKER",
 					"events": [
-						"onClick"
-					]
+						"onGettingFocus",
+						"onDataChange"
+					],
+					"dataSourceTypeHint": "undefined",
+					"sizingX": "move",
+					"method": "subformWidgetMethod"
 				}
 			},
 			"entryOrder": [
 				"fileList",
 				"wrap",
 				"detail",
-				"searchBox",
 				"stringList",
 				"lockButton",
-				"searchGlass",
 				"toolbarSetting",
 				"toolbarInfos",
 				"toolbarNewFile",
-				"localization"
+				"localization",
+				"searchPicker"
 			]
 		}
 	],
@@ -544,6 +502,7 @@
 		"version": "1",
 		"kind": "form"
 	},
-	"geometryStamp": 896,
-	"method": "formMethod"
+	"geometryStamp": 934,
+	"method": "formMethod",
+	"memorizeGeometry": true
 }

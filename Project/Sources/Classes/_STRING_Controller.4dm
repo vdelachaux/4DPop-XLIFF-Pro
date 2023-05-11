@@ -188,14 +188,15 @@ Function update()
 	var $color : cs:C1710.colour
 	var $string; $xliff : cs:C1710.Xliff
 	
+	$parent:=This:C1470.form.container
+	
 	If (This:C1470.form.toBeInitialized)
 		
-		This:C1470.initGeometry(This:C1470.form.container)
+		This:C1470.initGeometry($parent)
 		This:C1470.form.toBeInitialized:=False:C215
 		
 	End if 
 	
-	$parent:=This:C1470.form.container
 	$string:=$parent.stringList.item
 	
 	// Set shortcuts

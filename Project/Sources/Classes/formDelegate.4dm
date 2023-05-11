@@ -37,7 +37,7 @@ Class constructor($param)
 	FORM GET PROPERTIES:C674(String:C10(This:C1470.currentForm); $width; $height; $numPages)
 	This:C1470.pageNumber:=$numPages
 	
-	This:C1470.pages:=New object:C1471
+	This:C1470.pages:={}
 	
 	var $i : Integer
 	For ($i; 1; $numPages; 1)
@@ -315,11 +315,27 @@ Function get focused() : Text
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 	/// Gives the focus to a widget in the current form
-Function focus($widget : Text)
+Function focus($widget)
 	
-	// TODO: allow a widget instance (same as subform)
-	
-	GOTO OBJECT:C206(*; $widget)
+	Case of 
+			
+			//______________________________________________________
+		: (Value type:C1509($widget)=Is text:K8:3)
+			
+			GOTO OBJECT:C206(*; $widget)
+			
+			//______________________________________________________
+		: (Value type:C1509($widget)=Is object:K8:27) && (OB Instance of:C1731($widget; cs:C1710.widgetDelegate))
+			
+			GOTO OBJECT:C206(*; $widget.name)
+			
+			//______________________________________________________
+		Else 
+			
+			ASSERT:C1129(False:C215; "Widget must be a widget object or a name!")
+			
+			//______________________________________________________
+	End case 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 	/// Remove any focus in the current form
@@ -519,12 +535,31 @@ Function callWorker($method; $param; $param1; $paramN)
 	End if 
 	
 	// MARK:-[Subform]
+	
+	//<== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get containerName() : Text
+	
+	If (Asserted:C1132(This:C1470.isSubform; "Warning: This form is not declared as a subform"))
+		
+		return This:C1470.__SUPER__.__CONTAINER__.parent.container
+		
+	End if 
+	
 	//<== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get container() : Object
 	
 	If (Asserted:C1132(This:C1470.isSubform; "Warning: This form is not declared as a subform"))
 		
 		return This:C1470.__SUPER__.__CONTAINER__.__SUPER__
+		
+	End if 
+	
+	//<== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get containerInstance() : Object
+	
+	If (Asserted:C1132(This:C1470.isSubform; "Warning: This form is not declared as a subform"))
+		
+		return This:C1470.container[This:C1470.containerName]
 		
 	End if 
 	
