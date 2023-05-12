@@ -4,19 +4,18 @@ Common tools to have at hand
 
 */
 
-//=== === === === === === === === === === === === === === === === === === === === === === === === === ===
 Class constructor
 	
 	This:C1470.success:=False:C215
 	This:C1470.lastError:=""
-	This:C1470.errors:=New collection:C1472
+	This:C1470.errors:=[]
 	
-	//=== === === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function clone($class : Object) : Object
 	
 	return OB Copy:C1225($class)
 	
-	//=== === === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function first($c : Collection) : Variant
 	
 	If ($c#Null:C1517)
@@ -28,7 +27,7 @@ Function first($c : Collection) : Variant
 		End if 
 	End if 
 	
-	//=== === === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function last($c : Collection) : Variant
 	
 	If ($c#Null:C1517)
@@ -40,26 +39,26 @@ Function last($c : Collection) : Variant
 		End if 
 	End if 
 	
-	//=== === === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function next($c : Collection; $current : Integer) : Variant
 	
 	If ($c#Null:C1517)
 		
 		If ($c.length>$current)
 			
-			return ($c[$current+1])
+			return $c[$current+1]
 			
 		End if 
 	End if 
 	
-	//=== === === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _pushError($desription : Text)
 	
 	This:C1470.success:=False:C215
 	This:C1470.lastError:=Get call chain:C1662[1].name+" - "+$desription
 	This:C1470.errors.push(This:C1470.lastError)
 	
-	//====================================================================
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// A very simple execution of LAUNCH EXTERNAL PROCESS
 Function lep($command : Text; $inputStream) : Object
 	
@@ -93,8 +92,7 @@ Function lep($command : Text; $inputStream) : Object
 			//______________________________________________________
 	End case 
 	
-	$o:=New object:C1471(\
-		"success"; False:C215)
+	$o:={success: False:C215}
 	
 	SET ENVIRONMENT VARIABLE:C812("_4D_OPTION_HIDE_CONSOLE"; "true")
 	LAUNCH EXTERNAL PROCESS:C811($command; $inputStream; $out; $error; $pid)
@@ -123,7 +121,7 @@ Function lep($command : Text; $inputStream) : Object
 	
 	return $o
 	
-	//====================================================================
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function escape($tring : Text) : Text
 	
 	var $t : Text
@@ -139,7 +137,7 @@ Function escape($tring : Text) : Text
 	
 	return $tring
 	
-	//=== === === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Compare two string version
 	// -  0 if the version and the reference are equal
 	// -  1 if the version is higher than the reference
@@ -200,25 +198,25 @@ Function versionCompare($version : Text; $reference : Text; $separator : Text) :
 	
 	return $result
 	
-	//====================================================================
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Enclose, if necessary, the string in single quotation marks
 Function singleQuoted($tring : Text) : Text
 	
 	return Match regex:C1019("^'.*'$"; $tring; 1) ? $tring : "'"+$tring+"'"
 	
-	//====================================================================
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns the string between quotes
 Function quoted($tring : Text) : Text
 	
 	return Match regex:C1019("^\".*\"$"; $tring; 1) ? $tring : "\""+$tring+"\""
 	
-	//====================================================================
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns the localized string corresponding to the $resname resname & made replacement if any
-Function localized($resname : Text; $replacement; $replacementN : Text)->$localizedString : Text
+Function localized($resname : Text; $replacement; $replacementN : Text) : Text
 	
 	var ${3} : Text
 	
-	var $t : Text
+	var $t; $localizedString : Text
 	var $continue : Boolean
 	var $i; $len; $pos : Integer
 	
@@ -296,13 +294,15 @@ Function localized($resname : Text; $replacement; $replacementN : Text)->$locali
 		End if 
 	End if 
 	
-	//====================================================================
+	return $localizedString
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns True if text match given pattern
 Function match($pattern : Text; $tring : Text) : Boolean
 	
 	return Match regex:C1019($pattern; $tring; 1)
 	
-	//====================================================================
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns a string that can be used in multistyles texts
 Function multistyleCompatible($tring : Text) : Text
 	
@@ -312,10 +312,11 @@ Function multistyleCompatible($tring : Text) : Text
 	
 	return $tring
 	
-	//====================================================================
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns a digest signature of the contents of a folder
-Function folderDigest($folder : 4D:C1709.Folder)->$digest : Text
+Function folderDigest($folder : 4D:C1709.Folder) : Text
 	
+	var $digest : Text
 	var $o : Object
 	var $x : Blob
 	var $onErrCallMethod : Text
@@ -332,5 +333,5 @@ Function folderDigest($folder : 4D:C1709.Folder)->$digest : Text
 	
 	ON ERR CALL:C155($onErrCallMethod)
 	
-	$digest:=Generate digest:C1147($digest; SHA1 digest:K66:2)
+	return Generate digest:C1147($digest; SHA1 digest:K66:2)
 	

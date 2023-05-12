@@ -19,11 +19,11 @@
 		],
 		"methods": [
 			"COMPILER_env",
-			"envScreens"
+			"envScreens",
+			"noError"
 		],
 		"classes": [
 			"_classCore",
-			"_singleton",
 			"env",
 			"menu",
 			"menuBar",

@@ -113,7 +113,7 @@ Function handleEvents($e : cs:C1710.evt)
 					
 					If (Length:C16($searchText)#0)
 						
-						// Stay on the current object
+						// Stay in the widget
 						This:C1470.box.focus()
 						
 					End if 

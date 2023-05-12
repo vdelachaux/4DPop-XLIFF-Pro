@@ -34,7 +34,6 @@
 					"left": 0,
 					"width": 193,
 					"height": 21,
-					"sizingX": "move",
 					"fill": "transparent",
 					"borderRadius": 5,
 					"stroke": "transparent",
@@ -46,7 +45,6 @@
 					"left": 85,
 					"width": 105,
 					"height": 17,
-					"sizingX": "move",
 					"fill": "transparent",
 					"hideFocusRing": true,
 					"placeholder": ":xliff:searchlabel",
@@ -69,14 +67,13 @@
 					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/methodEditor/search.png",
 					"style": "toolbar",
 					"events": [],
-					"sizingX": "move",
 					"iconFrames": 1,
 					"visibility": "hidden"
 				}
 			}
 		}
 	],
-	"geometryStamp": 52,
+	"geometryStamp": 55,
 	"editor": {
 		"activeView": "View 1",
 		"defaultView": "View 1",

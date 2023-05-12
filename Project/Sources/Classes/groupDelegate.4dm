@@ -31,7 +31,7 @@ Class constructor($members : Variant)
 			//___________________________
 		: (Count parameters:C259=0)
 			
-			This:C1470.members:=New collection:C1472
+			This:C1470.members:=[]
 			
 			//___________________________
 		: (Value type:C1509($members)=Is collection:K8:32)
@@ -41,7 +41,7 @@ Class constructor($members : Variant)
 			//___________________________
 		: (Value type:C1509($members)=Is object:K8:27)  // 1 to N objects (could be groups)
 			
-			This:C1470.members:=New collection:C1472
+			This:C1470.members:=[]
 			
 			For ($i; 1; Count parameters:C259; 1)
 				
@@ -52,14 +52,14 @@ Class constructor($members : Variant)
 			//___________________________
 		: (Value type:C1509($members)=Is text:K8:3)  // Comma separated list of object names
 			
-			This:C1470.members:=New collection:C1472
+			This:C1470.members:=[]
 			
 			This:C1470.addMember($members)
 			
 			//___________________________
 		Else 
 			
-			This:C1470.members:=New collection:C1472
+			This:C1470.members:=[]
 			
 			//___________________________
 	End case 
@@ -70,20 +70,20 @@ The .data property is used to get or set this data.
 */
 	This:C1470._data:=Null:C1517
 	
-	//<== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 	/// Returns the user data attached to the group
 Function get data() : Variant
 	
-	return (This:C1470._data)
+	return This:C1470._data
 	
-	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 	/// Defines the user data attached to the group
 Function set data($data)
 	
 	This:C1470._data:=$data
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function addMember($member)->$this : cs:C1710.groupDelegate
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function addMember($member) : cs:C1710.groupDelegate
 	
 	var $t : Text
 	
@@ -126,7 +126,8 @@ Function addMember($member)->$this : cs:C1710.groupDelegate
 	
 	return This:C1470
 	
-/*════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+/**
 Returns True if the passed object or object name is part of the group
 	
 .belongsTo(obj) --> bool
@@ -135,7 +136,7 @@ or
 	
 .belongsTo("name") --> bool
 	
-══════════════════════════*/
+**/
 Function belongsTo($formObject : Variant) : Boolean
 	
 	Case of 
@@ -143,12 +144,12 @@ Function belongsTo($formObject : Variant) : Boolean
 			//______________________________________________________
 		: (Value type:C1509($formObject)=Is object:K8:27)
 			
-			return (This:C1470.members.indexOf($formObject)#-1)
+			return This:C1470.members.indexOf($formObject)#-1
 			
 			//______________________________________________________
 		: (Value type:C1509($formObject)=Is text:K8:3)
 			
-			return (This:C1470.members.query("name=:1"; $formObject).pop()#Null:C1517)
+			return This:C1470.members.query("name=:1"; $formObject).pop()#Null:C1517
 			
 			//______________________________________________________
 		Else 
@@ -158,12 +159,13 @@ Function belongsTo($formObject : Variant) : Boolean
 			//______________________________________________________
 	End case 
 	
-	//════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns the coordinates of the rectangle enclosing the group.
-Function enclosingRect($gap : Integer)->$coordinates : cs:C1710.coord
+Function enclosingRect($gap : Integer) : cs:C1710.coord
 	
 	var $left; $top; $right; $bottom : Integer
 	var $o : cs:C1710.staticDelegate
+	var $coordinates : Object
 	
 	For each ($o; This:C1470.members)
 		
@@ -171,11 +173,11 @@ Function enclosingRect($gap : Integer)->$coordinates : cs:C1710.coord
 		
 		If ($coordinates=Null:C1517)
 			
-			$coordinates:=New object:C1471(\
-				"left"; $left; \
-				"top"; $top; \
-				"right"; $right; \
-				"bottom"; $bottom)
+			$coordinates:={\
+				left: $left; \
+				top: $top; \
+				right: $right; \
+				bottom: $bottom}
 			
 		Else 
 			
@@ -196,7 +198,9 @@ Function enclosingRect($gap : Integer)->$coordinates : cs:C1710.coord
 		
 	End if 
 	
-	//════════════════════════════════════════════
+	return $coordinates
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function moveVertically($offset : Integer)
 	
 	var $o : cs:C1710.staticDelegate
@@ -207,7 +211,7 @@ Function moveVertically($offset : Integer)
 		
 	End for each 
 	
-	//════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function hiddenFromView()
 	
 	var $o : cs:C1710.staticDelegate
@@ -218,7 +222,7 @@ Function hiddenFromView()
 		
 	End for each 
 	
-	//════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function moveHorizontally($offset : Integer)
 	
 	var $o : cs:C1710.staticDelegate
@@ -229,7 +233,8 @@ Function moveHorizontally($offset : Integer)
 		
 	End for each 
 	
-/*════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+/**
 Performs a horizontal distribution, from left to right,
 of the elements according to their best size
 	
@@ -241,18 +246,18 @@ The optional object type parameter allow to specify:
 - The minimum width to respect in pixels (minWidth)
 - The maximum width to respect in pixels (maxWidth)
 	
-══════════════════════════*/
+**/
 Function distributeLeftToRight($params : Object) : cs:C1710.groupDelegate
 	
 	var $e; $o : Object
 	var $key : Text
 	
-	$e:=New object:C1471(\
-		"start"; 0; \
-		"spacing"; 0; \
-		"minWidth"; 0; \
-		"maxWidth"; 0; \
-		"alignment"; Align left:K42:2)
+	$e:={\
+		start: 0; \
+		spacing: 0; \
+		minWidth: 0; \
+		maxWidth: 0; \
+		alignment: Align left:K42:2}
 	
 	If (Count parameters:C259>=1)
 		
@@ -306,7 +311,8 @@ Function distributeLeftToRight($params : Object) : cs:C1710.groupDelegate
 	
 	return This:C1470
 	
-/*════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+/**
 Performs a horizontal distribution, from right to left,
 of the elements according to their best size
 	
@@ -318,18 +324,18 @@ The optional object type parameter allow to specify:
 - The minimum width to respect in pixels (minWidth)
 - The maximum width to respect in pixels (maxWidth)
 	
-══════════════════════════*/
+**/
 Function distributeRigthToLeft($params : Object) : cs:C1710.groupDelegate
 	
 	var $e; $o : Object
 	var $key : Text
 	
-	$e:=New object:C1471(\
-		"start"; 0; \
-		"spacing"; 0; \
-		"minWidth"; 0; \
-		"maxWidth"; 0; \
-		"alignment"; Align right:K42:4)
+	$e:={\
+		start: 0; \
+		spacing: 0; \
+		minWidth: 0; \
+		maxWidth: 0; \
+		alignment: Align right:K42:4}
 	
 	If (Count parameters:C259>=1)
 		
@@ -383,7 +389,7 @@ Function distributeRigthToLeft($params : Object) : cs:C1710.groupDelegate
 	
 	return This:C1470
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	/// Center all members on the first
 Function center($horizontally : Boolean; $vertically : Boolean)
 	
@@ -420,14 +426,15 @@ Function center($horizontally : Boolean; $vertically : Boolean)
 		
 	End if 
 	
-/*════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+/**
 Performs a centered alignment of the elements according to their best size
 	
 .centerVertically({obj})
 	
 The optional widget name parameter allow to specify the reference
 If ommited, the distribution is relative to the form
-══════════════════════════*/
+**/
 Function centerVertically($reference : Text) : cs:C1710.groupDelegate
 	
 	var $bottom; $height; $left; $middle; $right; $top; $width : Integer
@@ -457,7 +464,7 @@ Function centerVertically($reference : Text) : cs:C1710.groupDelegate
 	
 	return This:C1470
 	
-	//════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function alignLeft($reference) : cs:C1710.groupDelegate
 	
 	var $left : Integer
@@ -508,7 +515,7 @@ Function alignLeft($reference) : cs:C1710.groupDelegate
 	
 	return This:C1470
 	
-	//════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function alignRight($reference) : cs:C1710.groupDelegate
 	
 	var $right : Integer
@@ -559,7 +566,7 @@ Function alignRight($reference) : cs:C1710.groupDelegate
 	
 	return This:C1470
 	
-	//════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function show($visible : Boolean) : cs:C1710.groupDelegate
 	
 	var $o : cs:C1710.staticDelegate
@@ -583,7 +590,7 @@ Function show($visible : Boolean) : cs:C1710.groupDelegate
 	
 	return This:C1470
 	
-	//════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function hide : cs:C1710.groupDelegate
 	
 	var $o : cs:C1710.staticDelegate
@@ -596,7 +603,7 @@ Function hide : cs:C1710.groupDelegate
 	
 	return This:C1470
 	
-	//════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function enable($enabled : Boolean) : cs:C1710.groupDelegate
 	
 	var $o : cs:C1710.staticDelegate
@@ -635,7 +642,7 @@ Function enable($enabled : Boolean) : cs:C1710.groupDelegate
 	
 	return This:C1470
 	
-	//════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function disable : cs:C1710.groupDelegate
 	
 	var $o : cs:C1710.staticDelegate
@@ -648,7 +655,7 @@ Function disable : cs:C1710.groupDelegate
 	
 	return This:C1470
 	
-	//════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setFontStyle($style : Integer) : cs:C1710.groupDelegate
 	
 	var $o : cs:C1710.staticDelegate

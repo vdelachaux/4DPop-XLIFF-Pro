@@ -2,6 +2,7 @@
 /*
 Non-thread-safe screen commands to be called in a cooperative process
 */
+
 #DECLARE($signal : 4D:C1709.Signal)
 
 If (False:C215)
@@ -12,14 +13,15 @@ var $bottom; $i; $left; $right; $top : Integer
 var $screen : Object
 var $screens : Collection
 
-$screens:=New collection:C1472
+$screens:=[]
 
 For ($i; 1; Count screens:C437; 1)
 	
-	$screen:=New object:C1471(\
-		"coordinates"; New object:C1471; \
-		"dimensions"; New object:C1471; \
-		"workArea"; New object:C1471)
+	$screen:={\
+		coordinates: {}; \
+		dimensions: {}; \
+		workArea: {}\
+		}
 	
 	SCREEN COORDINATES:C438($left; $top; $right; $bottom; $i; Screen size:K27:9)
 	$screen.coordinates.left:=$left

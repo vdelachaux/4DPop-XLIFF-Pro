@@ -33,7 +33,7 @@ Class constructor($menus : Collection)
 		End for 
 	End for 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Replaces the current menu bar with the current one
 Function set() : cs:C1710.menuBar
 	
@@ -49,7 +49,7 @@ Function set() : cs:C1710.menuBar
 	
 	return This:C1470
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function enableItem($item : Text; $enabled : Boolean)
 	
 	var $o : Object
@@ -69,7 +69,7 @@ Function enableItem($item : Text; $enabled : Boolean)
 		End if 
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function disableItem($item : Text)
 	
 	var $o : Object
@@ -82,7 +82,7 @@ Function disableItem($item : Text)
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Create a default minimal menu bar
 Function defaultMinimalMenuBar() : cs:C1710.menuBar
 	

@@ -1,6 +1,5 @@
 Class extends staticDelegate
 
-//=== === === === === === === === === === === === === === === === === === ===
 Class constructor($name : Text)
 	
 	Super:C1705($name)
@@ -20,7 +19,7 @@ The .data property is used to get or set this data.
 	This:C1470._setEvents()
 	
 	//MARK:-[Data Source]
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setDatasource($datasource)
 	
 	This:C1470.dataSource:=$datasource
@@ -50,7 +49,7 @@ Function setDatasource($datasource)
 	End case 
 	
 	//mark:-[Value]
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function getValue() : Variant
 	
 	If (This:C1470.type=Object type text input:K79:4)\
@@ -64,7 +63,7 @@ Function getValue() : Variant
 		
 	End if 
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setValue($value) : cs:C1710.widgetDelegate
 	
 	If (Not:C34(Undefined:C82($value)))
@@ -76,7 +75,7 @@ Function setValue($value) : cs:C1710.widgetDelegate
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function clear : cs:C1710.widgetDelegate
 	
 	var $type : Integer
@@ -130,7 +129,7 @@ Function clear : cs:C1710.widgetDelegate
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function touch() : cs:C1710.widgetDelegate
 	
 	var $value
@@ -145,29 +144,29 @@ Function touch() : cs:C1710.widgetDelegate
 	return This:C1470
 	
 	//MARK:-[Entry]
-	//=== === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 	// Returns a pointer to the widget
 Function get pointer() : Pointer
 	
 	// ⚠️ Could return a nil pointer if data source is an expression
 	return OBJECT Get pointer:C1124(Object named:K67:5; This:C1470.name)
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get enterable() : Boolean
 	
 	return OBJECT Get enterable:C1067(*; This:C1470.name)
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set enterable($on : Boolean)
 	
 	OBJECT SET ENTERABLE:C238(*; This:C1470.name; $on)
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get helpTip() : Text
 	
 	return OBJECT Get help tip:C1182(*; This:C1470.name)
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set helpTip($helpTip : Text)
 	
 	var $t : Text
@@ -192,7 +191,7 @@ Function set helpTip($helpTip : Text)
 	
 	OBJECT SET HELP TIP:C1181(*; This:C1470.name; $helpTip)
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setEnterable($enterable : Boolean) : cs:C1710.widgetDelegate
 	
 	$enterable:=Count parameters:C259>=1 ? $enterable : True:C214
@@ -200,19 +199,19 @@ Function setEnterable($enterable : Boolean) : cs:C1710.widgetDelegate
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function notEnterable() : cs:C1710.widgetDelegate
 	
 	OBJECT SET ENTERABLE:C238(*; This:C1470.name; False:C215)
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function getHelpTip() : Text
 	
 	return OBJECT Get help tip:C1182(*; This:C1470.name)
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setHelpTip($helpTip : Text) : cs:C1710.widgetDelegate
 	
 	var $t : Text
@@ -239,14 +238,14 @@ Function setHelpTip($helpTip : Text) : cs:C1710.widgetDelegate
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function removeHelpTip() : cs:C1710.widgetDelegate
 	
 	OBJECT SET HELP TIP:C1181(*; This:C1470.name; "")
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function getShortcut : Object
 	
 	C_TEXT:C284($t)
@@ -254,11 +253,11 @@ Function getShortcut : Object
 	
 	OBJECT GET SHORTCUT:C1186(*; This:C1470.name; $t; $l)
 	
-	return New object:C1471(\
-		"key"; $t; \
-		"modifier"; $l)
+	return {\
+		key: $t; \
+		modifier: $l}
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setShortcut($key : Text; $modifier : Integer) : cs:C1710.widgetDelegate
 	
 	If (Count parameters:C259>=2)
@@ -273,48 +272,48 @@ Function setShortcut($key : Text; $modifier : Integer) : cs:C1710.widgetDelegate
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function focus() : cs:C1710.widgetDelegate
 	
 	GOTO OBJECT:C206(*; This:C1470.name)
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function isFocused() : Boolean
 	
 	return OBJECT Get name:C1087(Object with focus:K67:3)=This:C1470.name
 	
 	//MARK:-[Events]
-	//=== === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get events() : Collection
 	
-	return This:C1470._events#Null:C1517 ? This:C1470._events : New collection:C1472
+	return This:C1470._events#Null:C1517 ? This:C1470._events : []
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set events($events)
 	
 	This:C1470._setEvents($events; Enable events disable others:K42:37)
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function addEvent($events) : cs:C1710.widgetDelegate
 	
 	This:C1470._setEvents($events; Enable events others unchanged:K42:38)
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function removeEvent($events) : cs:C1710.widgetDelegate
 	
 	This:C1470._setEvents($events; Disable events others unchanged:K42:39)
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setEvents($events) : cs:C1710.widgetDelegate
 	
 	This:C1470._setEvents($events; Enable events disable others:K42:37)
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function catch($e; $events) : Boolean
 	
 	var $catch : Boolean
@@ -365,7 +364,7 @@ Function catch($e; $events) : Boolean
 	
 	return $catch
 	
-	//=== === === === === === === === === === === === === === === === === === === === === 
+	// === === === === === === === === === === === === === === === === === === === === === === === === === === 
 Function _setEvents($events; $mode : Integer)
 	
 	ARRAY LONGINT:C221($eventCodes; 0x0000)
@@ -402,44 +401,44 @@ Function _setEvents($events; $mode : Integer)
 	// Update widget events
 	// FIXME:Note that the arrEvents array is returned empty if no object method is associated with the object or if no form method is associated with the form.
 	OBJECT GET EVENTS:C1238(*; This:C1470.name; $eventCodes)
-	This:C1470._events:=New collection:C1472
+	This:C1470._events:=[]
 	ARRAY TO COLLECTION:C1563(This:C1470._events; $eventCodes)
 	
 	//mark:-[Attached data]
-	//=== === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 	/// Returns the user data attached to the widget
 Function get data() : Variant
 	
 	return This:C1470._data
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 	/// Defines the user data attached to the widget
 Function set data($data)
 	
 	This:C1470._data:=$data
 	
 	//mark:-[Drag & drop]
-	//=== === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 	// Defines the uri associated with the widget
 Function get uri() : Text
 	
 	return This:C1470._uri
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 	// Returns the uri associated with the widget
 Function set uri($uri : Text)
 	
 	This:C1470._uri:=$uri
 	
 	//mark:-
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setFormat($format : Text) : cs:C1710.widgetDelegate
 	
 	OBJECT SET FORMAT:C236(*; This:C1470.name; $format)
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setPicture($proxy : Text) : cs:C1710.widgetDelegate
 	
 	If (Count parameters:C259>=1)
@@ -508,7 +507,7 @@ Function setPicture($proxy : Text) : cs:C1710.widgetDelegate
 	End if 
 	
 	//mark:-[Actions]
-	//=== === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get draggable() : Boolean
 	
 	var $automaticDrag; $automaticDrop; $draggable; $droppable : Boolean
@@ -517,7 +516,7 @@ Function get draggable() : Boolean
 	
 	return $draggable
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set draggable($on : Boolean)
 	
 	var $automaticDrag; $automaticDrop; $draggable; $droppable : Boolean
@@ -525,7 +524,7 @@ Function set draggable($on : Boolean)
 	OBJECT GET DRAG AND DROP OPTIONS:C1184(*; This:C1470.name; $draggable; $automaticDrag; $droppable; $automaticDrop)
 	OBJECT SET DRAG AND DROP OPTIONS:C1183(*; This:C1470.name; $on; $automaticDrag; $droppable; $automaticDrop)
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get droppable() : Boolean
 	
 	var $automaticDrag; $automaticDrop; $draggable; $droppable : Boolean
@@ -534,7 +533,7 @@ Function get droppable() : Boolean
 	
 	return $droppable
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set droppable($on : Boolean)
 	
 	var $automaticDrag; $automaticDrop; $draggable; $droppable : Boolean
@@ -542,7 +541,7 @@ Function set droppable($on : Boolean)
 	OBJECT GET DRAG AND DROP OPTIONS:C1184(*; This:C1470.name; $draggable; $automaticDrag; $droppable; $automaticDrop)
 	OBJECT SET DRAG AND DROP OPTIONS:C1183(*; This:C1470.name; $draggable; $automaticDrag; $on; $automaticDrop)
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setDraggable($enabled : Boolean; $automatic : Boolean) : cs:C1710.widgetDelegate
 	
 	var $automaticDrag; $automaticDrop; $draggable; $droppable : Boolean
@@ -576,7 +575,7 @@ Function setDraggable($enabled : Boolean; $automatic : Boolean) : cs:C1710.widge
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setNotDraggable() : cs:C1710.widgetDelegate
 	
 	var $automaticDrag; $automaticDrop; $draggable; $droppable : Boolean
@@ -586,7 +585,7 @@ Function setNotDraggable() : cs:C1710.widgetDelegate
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setDroppable($enabled : Boolean; $automatic : Boolean) : cs:C1710.widgetDelegate
 	
 	var $automaticDrag; $automaticDrop; $draggable; $droppable : Boolean
@@ -620,7 +619,7 @@ Function setDroppable($enabled : Boolean; $automatic : Boolean) : cs:C1710.widge
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setNotDroppable() : cs:C1710.widgetDelegate
 	
 	var $automaticDrag; $automaticDrop; $draggable; $droppable : Boolean
@@ -631,7 +630,7 @@ Function setNotDroppable() : cs:C1710.widgetDelegate
 	return This:C1470
 	
 	// MARK:-[Callback]
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setCallback($formula) : cs:C1710.widgetDelegate
 	
 	Case of 
@@ -673,7 +672,7 @@ Function setCallback($formula) : cs:C1710.widgetDelegate
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function execute
 	
 	If (Asserted:C1132(This:C1470._callback#Null:C1517; "No callback method define"))
@@ -682,7 +681,7 @@ Function execute
 		
 	End if 
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function on
 	
 	C_BOOLEAN:C305($0)
@@ -725,7 +724,7 @@ Function on
 	
 	// MARK:-[OBSOLETE]
 	
-	//=== === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function updatePointer()
 	
 	This:C1470._pointer:=OBJECT Get pointer:C1124(Object named:K67:5; This:C1470.name)

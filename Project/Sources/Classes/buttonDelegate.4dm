@@ -1,15 +1,12 @@
 Class extends widgetDelegate
 
-//═════════════════════════════════════════════════
 Class constructor($name : Text)
 	
 	Super:C1705($name)
 	
-/*═════════════════════════════════════════════════
-Tryes to underline the first capital letter or,
-if not found the first letter, corresponding to
-the associated key shortcut
-*/
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	///Tryes to underline the first capital letter or, 
+	///if not found the first letter, corresponding to the associated key shortcut
 Function highlightShortcut() : cs:C1710.buttonDelegate
 	
 	var $key; $t : Text
@@ -44,22 +41,22 @@ Function highlightShortcut() : cs:C1710.buttonDelegate
 	
 	return This:C1470
 	
-	//═════════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setLinkedPopupMenu() : cs:C1710.buttonDelegate
 	
-	return (This:C1470._setPopupMenu("linked"))
+	return This:C1470._setPopupMenu("linked")
 	
-	//═════════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setSeparatePopupMenu() : cs:C1710.buttonDelegate
 	
-	return (This:C1470._setPopupMenu("separate"))
+	return This:C1470._setPopupMenu("separate")
 	
-	//═════════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setNoPopupMenu() : cs:C1710.buttonDelegate
 	
-	return (This:C1470._setPopupMenu("none"))
+	return This:C1470._setPopupMenu("none")
 	
-	//═════════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	/// Picture linked to a button
 Function setPicture($proxy : Text) : cs:C1710.buttonDelegate
 	
@@ -99,18 +96,18 @@ Function setPicture($proxy : Text) : cs:C1710.buttonDelegate
 	
 	return This:C1470
 	
-	//═════════════════════════════════════════════════
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 	/// Returns the number of pixels delimiting the inside left and right margins of the button
 	/// (areas that the icon and the text must not encroach upon).
-Function get horizontalMargin()->$pixels : Integer
+Function get horizontalMargin() : Integer
 	
 	If (This:C1470.is3DButton("horizontalMargin is only managed for 3D buttons"))
 		
-		$pixels:=Num:C11(Split string:C1554(OBJECT Get format:C894(*; This:C1470.name); ";")[7])
+		return Num:C11(Split string:C1554(OBJECT Get format:C894(*; This:C1470.name); ";")[7])
 		
 	End if 
 	
-	//═════════════════════════════════════════════════
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 	/// Sets the number of pixels delimiting the inside left and right margins of the button
 	/// (areas that the icon and the text must not encroach upon).
 Function set horizontalMargin($pixels : Integer) : cs:C1710.buttonDelegate
@@ -123,7 +120,7 @@ Function set horizontalMargin($pixels : Integer) : cs:C1710.buttonDelegate
 	
 	return This:C1470
 	
-	//═════════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Background picture linked to a button (Custom style)
 Function setBackgroundPicture($proxy : Text) : cs:C1710.buttonDelegate
 	
@@ -147,9 +144,14 @@ Function setBackgroundPicture($proxy : Text) : cs:C1710.buttonDelegate
 			This:C1470.setFormat(";;path:/RESOURCES/"+Replace string:C233($proxy; "#"; ""; 1))
 			
 			//______________________________________________________
+		: ($proxy="|@")
+			
+			This:C1470.setFormat(";;path:/.PRODUCT_RESOURCES/"+Delete string:C232($proxy; 1; 1))
+			
+			//______________________________________________________
 		: (Position:C15("/"; $proxy)=1)
 			
-			This:C1470.setFormat(";;path:/RESOURCES"+$proxy)
+			This:C1470.setFormat(";;path:"+$proxy)
 			
 			//______________________________________________________
 		Else 
@@ -161,9 +163,9 @@ Function setBackgroundPicture($proxy : Text) : cs:C1710.buttonDelegate
 	
 	return This:C1470
 	
-	//═════════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Number of states present in picture used as icon for the 3D button, and which
-	// will be used by 4D to represent the standard button states (from 0 to 4)
+	// will be used by 4D to represent the standard button states (from 0 to 6)
 Function setNumStates($states : Integer) : cs:C1710.buttonDelegate
 	
 	If (Count parameters:C259>=1)
@@ -179,11 +181,11 @@ Function setNumStates($states : Integer) : cs:C1710.buttonDelegate
 	
 	return This:C1470
 	
-	//═════════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Button style
 Function setStyle($style : Integer) : cs:C1710.buttonDelegate
 	
-/*
+/**
 style = 0: None (default)
 style = 1: Background offset
 style = 2: Push button
@@ -198,22 +200,24 @@ style = 10: Collapse/Expand
 style = 11: Help
 style = 12: OS X Textured
 style = 13: OS X Gradient
-*/
+**/
 	
 	This:C1470.setFormat(";;;;;;"+String:C10($style))
 	
 	return This:C1470
 	
-	//═════════════════════════════════════════════════
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	/// Returns True if the current button is a 3D button
 Function is3DButton($message : Text) : Boolean
 	
-	return (New collection:C1472(Object type 3D button:K79:17; Object type 3D checkbox:K79:27; Object type 3D radio button:K79:24).indexOf(This:C1470.type)#-1)
+	return [Object type 3D button:K79:17; Object type 3D checkbox:K79:27; Object type 3D radio button:K79:24].indexOf(This:C1470.type)#-1
 	
 	
-	//MARK:-[PRIVATE]
-	//═════════════════════════════════════════════════
+	//MARK:-
+	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 	/// Association of a pop-up menu with a 3D button
+Function _setPopupMenu($value : Variant) : cs:C1710.buttonDelegate
+	
 /**
 If no parameter is passed the pop menu is removed, if any.
 Otherwise, the possible values are :
@@ -221,7 +225,6 @@ Otherwise, the possible values are :
   - 1 or "linked": With linked pop-up menu
   - 2 or "separate": With separate pop-up menu
 **/
-Function _setPopupMenu($value : Variant) : cs:C1710.buttonDelegate
 	
 	If (This:C1470.type=Object type 3D button:K79:17)
 		

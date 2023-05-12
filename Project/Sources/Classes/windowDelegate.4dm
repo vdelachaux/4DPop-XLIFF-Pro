@@ -43,7 +43,7 @@ Class constructor($param)
 	
 	This:C1470.ready:=True:C214
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get type() : Integer
 	
 	If (This:C1470.ready)\
@@ -53,7 +53,7 @@ Function get type() : Integer
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get process() : Integer
 	
 	If (This:C1470.ready)\
@@ -63,7 +63,7 @@ Function get process() : Integer
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get next() : Integer
 	
 	If (This:C1470.ready)\
@@ -73,7 +73,7 @@ Function get next() : Integer
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function isFrontmost() : Boolean
 	
 	If (This:C1470.ref#Null:C1517)
@@ -90,7 +90,7 @@ Function isFrontmost() : Boolean
 	End if 
 	
 	//MARK:-[COORDINATES]
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get width() : Integer
 	
 	If (This:C1470.ready)
@@ -99,7 +99,7 @@ Function get width() : Integer
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set width($width : Integer)
 	
 	var $bottom; $left; $right; $top : Integer
@@ -111,7 +111,7 @@ Function set width($width : Integer)
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get height() : Integer
 	
 	If (This:C1470.ready)
@@ -120,7 +120,7 @@ Function get height() : Integer
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set height($height : Integer)
 	
 	var $bottom; $left; $right; $top : Integer
@@ -132,7 +132,7 @@ Function set height($height : Integer)
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get left() : Integer
 	
 	If (This:C1470.ready)
@@ -141,7 +141,7 @@ Function get left() : Integer
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set left($left : Integer)
 	
 	var $_; $bottom; $top; $right : Integer
@@ -153,7 +153,7 @@ Function set left($left : Integer)
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get top() : Integer
 	
 	If (This:C1470.ready)
@@ -162,7 +162,7 @@ Function get top() : Integer
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set top($top : Integer)
 	
 	var $_; $bottom; $left; $right : Integer
@@ -174,7 +174,7 @@ Function set top($top : Integer)
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get right() : Integer
 	
 	If (This:C1470.ready)
@@ -183,7 +183,7 @@ Function get right() : Integer
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set right($right : Integer)
 	
 	var $_; $bottom; $left; $top : Integer
@@ -196,7 +196,7 @@ Function set right($right : Integer)
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get bottom() : Integer
 	
 	If (This:C1470.ready)
@@ -205,7 +205,7 @@ Function get bottom() : Integer
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set bottom($bottom : Integer)
 	
 	var $_; $left; $right; $top : Integer
@@ -218,7 +218,7 @@ Function set bottom($bottom : Integer)
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get title() : Text
 	
 	If (This:C1470.ready)\
@@ -228,7 +228,7 @@ Function get title() : Text
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set title($title : Text)
 	
 	var $t : Text
@@ -236,7 +236,7 @@ Function set title($title : Text)
 	$t:=Get localized string:C991($title)
 	SET WINDOW TITLE:C213($t ? $t : $title; This:C1470.ref)
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get coordinates() : Object
 	
 	var $bottom; $left; $right; $top : Integer
@@ -246,15 +246,15 @@ Function get coordinates() : Object
 		
 		GET WINDOW RECT:C443($left; $top; $right; $bottom; This:C1470.ref)
 		
-		return New object:C1471(\
-			"left"; $left; \
-			"top"; $top; \
-			"right"; $right; \
-			"bottom"; $bottom)
+		return {\
+			left: $left; \
+			top: $top; \
+			right: $right; \
+			bottom: $bottom}
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setCoordinates($left : Integer; $top : Integer; $right : Integer; $bottom : Integer)
 	
 	If (This:C1470.ref#Null:C1517)
@@ -263,7 +263,7 @@ Function setCoordinates($left : Integer; $top : Integer; $right : Integer; $bott
 		
 	End if 
 	
-	// <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==> <==>
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get dimensions() : Object
 	
 	var $height; $width : Integer
@@ -273,13 +273,13 @@ Function get dimensions() : Object
 		
 		OBJECT GET SUBFORM CONTAINER SIZE:C1148($width; $height)
 		
-		return (New object:C1471(\
-			"width"; $width; \
-			"height"; $height))
+		return {\
+			width: $width; \
+			height: $height}
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setDimensions($width : Integer; $height : Integer)
 	
 	var $bottom; $left; $right; $top : Integer
@@ -292,42 +292,42 @@ Function setDimensions($width : Integer; $height : Integer)
 	End if 
 	
 	//MARK:-[HANDLING]
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function hide()
 	
 	HIDE WINDOW:C436(This:C1470.ref)
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function show()
 	
 	SHOW WINDOW:C435(This:C1470.ref)
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function close()
 	
 	CLOSE WINDOW:C154(This:C1470.ref)
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function erase()
 	
 	ERASE WINDOW:C160(This:C1470.ref)
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function maximize()
 	
 	MAXIMIZE WINDOW:C453(This:C1470.ref)
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function minimize()
 	
 	MINIMIZE WINDOW:C454(This:C1470.ref)
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function resize($width : Integer; $height : Integer)
 	
 	RESIZE FORM WINDOW:C890($width; $height)
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function redraw()
 	
 	REDRAW WINDOW:C456(This:C1470.ref)
@@ -345,7 +345,7 @@ to be redrawn without any effect apparent for the user.
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function bringToFront()
 	
 	var $bottom; $left; $right; $top : Integer
@@ -354,7 +354,7 @@ Function bringToFront()
 	SET WINDOW RECT:C444($left; $top; $right; $bottom; This:C1470.ref)
 	This:C1470.show()
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Create a visual effect when an event occurs.
 	// This is mandatory for a login window when the action fails, for example, to alert a hearing impaired user
 Function vibrate($count : Integer)

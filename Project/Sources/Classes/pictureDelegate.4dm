@@ -1,6 +1,5 @@
 Class extends scrollableDelegate
 
-// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Class constructor($name : Text; $picture)
 	
 	Super:C1705($name)
@@ -116,6 +115,7 @@ Function getCoordinates()->$coordinates : Object
 	This:C1470.getScrollPosition()
 	This:C1470.getDimensions()
 	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function getDimensions() : Object
 	
 	var $p : Picture
@@ -125,9 +125,9 @@ Function getDimensions() : Object
 	
 	PICTURE PROPERTIES:C457($p; $width; $height)
 	
-	return New object:C1471(\
-		"width"; $width; \
-		"height"; $height)
+	return {\
+		width: $width; \
+		height: $height}
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function read($file : 4D:C1709.File) : cs:C1710.pictureDelegate
@@ -220,7 +220,7 @@ Function superImposition($file : 4D:C1709.File; $horOffset : Integer; $vertOffse
 	
 	return This:C1470
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 Function __combine($file : 4D:C1709.File; $operator : Integer; $horOffset : Integer; $vertOffset : Integer) : Picture
 	
 	var $image; $picture : Picture

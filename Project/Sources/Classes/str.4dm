@@ -157,14 +157,14 @@ Function containsString($target : Text; $toFind; $diacritical : Boolean) : Boole
 				
 			Else 
 				
-				return (Position:C15($toFind; $target)#0)
+				return Position:C15($toFind; $target)#0
 				
 			End if 
 			
 			//______________________________________________________
 		Else 
 			
-			return (Position:C15($target; This:C1470.value)#0)
+			return Position:C15($target; This:C1470.value)#0
 			
 			//______________________________________________________
 	End case 
@@ -400,7 +400,7 @@ Function base64($target; $html : Boolean) : Text
 	// Returns an URL-safe base64url encoded UTF-8 string
 Function urlBase64Encode($target : Text) : Text
 	
-	return (Count parameters:C259=0 ? This:C1470.base64(True:C214) : This:C1470.base64($target; True:C214))
+	return Count parameters:C259=0 ? This:C1470.base64(True:C214) : This:C1470.base64($target; True:C214)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns an URL encoded string
@@ -503,7 +503,7 @@ Function distinctLetters($delimitor : Text) : Variant
 	$c:=Split string:C1554(This:C1470.value; "").distinct().sort()
 	
 	// As string if delimiter is passed else as collection
-	return (Count parameters:C259>=1 ? $c.join($delimitor) : $c)
+	return Count parameters:C259>=1 ? $c.join($delimitor) : $c
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Replace spaces, accented characters & special characters

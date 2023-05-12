@@ -1,6 +1,5 @@
 Class extends dropDownDelegate
 
-// === === === === === === === === === === === === === === === === === === === === ===
 Class constructor($name : Text; $data : Object)
 	
 	Super:C1705($name; $data)
@@ -8,12 +7,18 @@ Class constructor($name : Text; $data : Object)
 	This:C1470._ordered:=Bool:C1537($data.ordered)
 	This:C1470.automaticExpand:=Bool:C1537($data.automaticExpand)
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	If (This:C1470.automaticExpand)
+		
+		This:C1470._automaticExpandInit()
+		
+	End if 
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get automaticExpand() : Boolean
 	
 	return Bool:C1537(This:C1470.data.automaticExpand)
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set automaticExpand($auto : Boolean)
 	
 	This:C1470.data.automaticExpand:=$auto
@@ -24,12 +29,12 @@ Function set automaticExpand($auto : Boolean)
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get filter() : Text
 	
 	return OBJECT Get filter:C1073(*; This:C1470.name)
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set filter($filter)
 	
 	var $separator : Text
@@ -78,7 +83,7 @@ Function set filter($filter)
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Display the selection list (to use in the On getting focus event)
 Function expand()
 	
@@ -91,7 +96,7 @@ Function expand()
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Display the selection list (to use in the On Data change event)
 Function automaticInsertion($ordered : Boolean)
 	
@@ -115,7 +120,7 @@ Function automaticInsertion($ordered : Boolean)
 	
 	This:C1470.data.index:=$index
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 	// Set On Getting focus event, if any
 Function _automaticExpandInit()
 	

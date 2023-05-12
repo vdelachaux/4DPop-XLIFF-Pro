@@ -10,11 +10,11 @@ Class constructor($name : Text; $values : Collection)
 	
 	// The "binding" property is designed to store a collection of values linked to the values
 	// This allows to display a localized widget while keeping the uniqueness of the associated value
-	This:C1470.data:=New object:C1471(\
-		"values"; New collection:C1472; \
-		"binding"; New collection:C1472; \
-		"currentValue"; ""; \
-		"index"; -1)
+	This:C1470.data:={\
+		values: []; \
+		binding: []; \
+		currentValue: ""; \
+		index: -1}
 	
 	If ($values#Null:C1517)
 		
@@ -24,56 +24,55 @@ Class constructor($name : Text; $values : Collection)
 	
 	// Todo: get the datasource type to return a correct value
 	
-	// MARK:-COMPUTED ATTRIBUTES
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get values() : Collection
 	
-	return (This:C1470.data ? This:C1470.data.values : Null:C1517)
+	return This:C1470.data ? This:C1470.data.values : Null:C1517
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set values($values : Collection)
 	
 	This:C1470.data.values:=$values
 	
 	// Todo: manage binding length if any
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get binding() : Collection
 	
-	return (This:C1470.data ? This:C1470.data.binding : Null:C1517)
+	return This:C1470.data ? This:C1470.data.binding : Null:C1517
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set binding($values : Collection)
 	
 	This:C1470.data.binding:=$values
 	
 	// Todo: manage values length if any
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get index() : Integer
 	
-	return (This:C1470.data ? This:C1470.data.index : -1)
+	return This:C1470.data ? This:C1470.data.index : -1
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set index($index : Integer)
 	
 	This:C1470.data.index:=$index
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get current() : Text
 	
 	If (This:C1470.data.binding.length>0)\
 		 && (This:C1470.data.binding.length=This:C1470.data.values.length)
 		
-		return (This:C1470.data.index#-1 ? This:C1470.data.binding[This:C1470.data.index] : This:C1470.data.currentValue)
+		return This:C1470.data.index#-1 ? This:C1470.data.binding[This:C1470.data.index] : This:C1470.data.currentValue
 		
 	Else 
 		
-		return (This:C1470.data.currentValue)
+		return This:C1470.data.currentValue
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set current($current)
 	
 	If (This:C1470.data.binding.length>0)\
@@ -101,8 +100,7 @@ Function set current($current)
 		
 	End if 
 	
-	// MARK:-FUNCTIONS
-	// === === === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Selects an element by its position or by its value (or that of the linked data).
 Function select($element)
 	

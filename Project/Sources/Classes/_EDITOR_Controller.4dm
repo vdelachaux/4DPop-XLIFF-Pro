@@ -48,11 +48,12 @@ Class constructor($mainLanguage : Text)
 	This:C1470.folders:=Folder:C1567(fk resources folder:K87:11; *).folders().query("extension = :1 & name != :2"; This:C1470.folderExtension; "_@")
 	
 	// MARK: Define the main language
-	This:C1470.main:=New object:C1471
+	This:C1470.main:={}
 	This:C1470.main.language:=$mainLanguage || This:C1470._mainLanguage()
 	This:C1470.main.files:=This:C1470.getFiles()
 	This:C1470.main.regional:=This:C1470.getFlag(This:C1470.main.language)
 	
+	// MARK: default
 	This:C1470.default:={\
 		language: This:C1470.main.language\
 		}
@@ -60,7 +61,6 @@ Class constructor($mainLanguage : Text)
 	// FIXME:Retrieve component version
 	This:C1470.default.version:="3.0"
 	
-	// MARK: Get the other languages present
 	This:C1470.languages:=[]
 	
 	var $folder : 4D:C1709.Folder
@@ -110,9 +110,9 @@ Function init()
 		.append(":xliff:findNext"; "findNext"; -1).method($menuHandle).shortcut("G")\
 		.line(-1)
 	
-	This:C1470.menuBar:=cs:C1710.menuBar.new(New collection:C1472(\
+	This:C1470.menuBar:=cs:C1710.menuBar.new([\
 		":xliff:CommonMenuFile"; $menuFile; \
-		":xliff:CommonMenuEdit"; $menuEdit)).set()
+		":xliff:CommonMenuEdit"; $menuEdit]).set()
 	
 	// MARK: Callback
 	This:C1470.form.callback:=Formula:C1597(EDITOR CALLBACK).source
@@ -137,11 +137,7 @@ Function init()
 	This:C1470.wrap:=This:C1470.form.widget.new("wrap").addToGroup(This:C1470.strings)
 	
 	// MARK: Detail subform
-	var $events : Object
-	$events:={\
-		onDataChange: -On Data Change:K2:15\
-		}
-	This:C1470.detail:=This:C1470.form.subform.new("detail"; $events; This:C1470)
+	This:C1470.detail:=This:C1470.form.subform.new("detail"; {onDataChange: -On Data Change:K2:15}; This:C1470)
 	
 	// MARK: Lock
 	This:C1470.locked:=This:C1470.form.group.new()
@@ -355,7 +351,21 @@ Function updateMenus($isWritable : Boolean)
 		
 	End if 
 	
-	This:C1470.menuBar.enableItem("findNext"; (This:C1470.searchPicker.data.value#Null:C1517) && (String:C10(This:C1470.searchPicker.data.value)#"") && (This:C1470.fileList.item#Null:C1517))
+	If (This:C1470.fileList.item#Null:C1517)
+		
+		This:C1470.searchPicker.enable()
+		
+		This:C1470.menuBar.enableItem("find"; True:C214)
+		This:C1470.menuBar.enableItem("findNext"; (This:C1470.searchPicker.data.value#Null:C1517) && (String:C10(This:C1470.searchPicker.data.value)#""))
+		
+	Else 
+		
+		This:C1470.searchPicker.disable()
+		
+		This:C1470.menuBar.disableItem("find")
+		This:C1470.menuBar.disableItem("findNext")
+		
+	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function deinit()
@@ -537,12 +547,9 @@ Function _fileListManager($e : cs:C1710.evt)
 			End if 
 			
 			//______________________________________________________
-		Else 
-			
-			This:C1470.updateMenus()
-			
-			//______________________________________________________
 	End case 
+	
+	This:C1470.updateMenus()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _stringListManager($e : cs:C1710.evt)
@@ -699,14 +706,11 @@ Function _stringListManager($e : cs:C1710.evt)
 			//______________________________________________________
 		: ($e.code=On Getting Focus:K2:7)
 			
-			If ($item=Null:C1517)\
-				 && (This:C1470.stringList.rowsNumber>0)
-				
-				// Select the first group
-				This:C1470.doSelectGroup(1; $e)
-				This:C1470.form.refresh()
-				
-			End if 
+			//If ($item=Null) && (This.stringList.rowsNumber>0)
+			//// Select the first group
+			//This.doSelectGroup(1; $e)
+			//This.form.refresh()
+			//End if 
 			
 			//______________________________________________________
 		: ($e.code=On Begin Drag Over:K2:44)
@@ -1173,7 +1177,7 @@ Function doSearch($searchText : Text; $e : cs:C1710.evt)
 	
 	If (This:C1470.stringList.item=Null:C1517)
 		
-		This:C1470.doSelectGroup(1; $e)
+		This:C1470.doSelectGroup(1)  //; $e)
 		
 	End if 
 	
@@ -1202,7 +1206,7 @@ Function doSearch($searchText : Text; $e : cs:C1710.evt)
 		This:C1470.stringList.cellPosition($e)
 		$e.row:=$data.start
 		This:C1470.setCurrentString($e)
-		This:C1470.doSelectUnit($data.start)
+		This:C1470.doSelectUnit($e.row)
 		
 		This:C1470.form.refresh()
 		
@@ -1213,6 +1217,8 @@ Function doSearch($searchText : Text; $e : cs:C1710.evt)
 		$data.start:=0
 		This:C1470.wrap.timer:=0
 		This:C1470.wrap.hide()
+		
+		This:C1470.menuBar.disableItem("findNext")
 		
 	End if 
 	
@@ -1869,7 +1875,7 @@ Function _UPDATE_SOURCE($context : Object)
 		This:C1470.save($xliff)
 		
 		// Updating of UI elements
-		$language.properties:=$language.properties || New object:C1471
+		$language.properties:=$language.properties || {}
 		$language.properties.state:=$xliff.needsReviewTranslation
 		
 	End for each 
@@ -1997,7 +2003,7 @@ Function _UPDATE_TRANSLATE($context : Object)
 			This:C1470.save($xliff)
 			
 			// Updating of UI elements
-			$language.properties:=$language.properties || New object:C1471
+			$language.properties:=$language.properties || {}
 			$language.properties.state:=$xliff.needsTranslation
 			$language.value:=$string.source.value
 			
@@ -2024,7 +2030,7 @@ Function _UPDATE_TRANSLATE($context : Object)
 			This:C1470.save($xliff)
 			
 			// Updating of UI elements
-			$language.properties:=$language.properties || New object:C1471
+			$language.properties:=$language.properties || {}
 			OB REMOVE:C1226($language.properties; "state")
 			
 		End for each 
@@ -2133,7 +2139,7 @@ Function _PROPAGATE_REFERENCE($context : Object)
 		This:C1470.save($xliff)
 		
 		// Updating of UI elements
-		$language.properties:=$language.properties || New object:C1471
+		$language.properties:=$language.properties || {}
 		$language.properties.state:=$xliff.needsTranslation
 		$language.value:=$string.source.value
 		
@@ -2169,7 +2175,7 @@ Function filterNew() : Collection
 	//var $group : cs.Group
 	//var $xliff : cs.Xliff
 	//$xliff:=This.current
-	//$filtered:=New collection
+	//$filtered:=[]
 	//For each ($group; $xliff.groups.query("units[].target[@state=\"new\"]"))
 	//$c:=$group.transunits.query("target[@state=\"new\"]")
 	//If ($c.length>0)
@@ -2186,7 +2192,7 @@ Function filterNeedstranslation() : Collection
 	//var $group : cs.Group
 	//var $xliff : cs.Xliff
 	//$xliff:=This.current
-	//$filtered:=New collection
+	//$filtered:=[]
 	//For each ($group; $xliff.groups.query("units[].target[@state=\"needs-translation\"]"))
 	//$c:=$group.transunits.query("target[@state=\"needs-translation\"]")
 	//If ($c.length>0)

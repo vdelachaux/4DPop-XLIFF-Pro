@@ -1,20 +1,20 @@
 Class extends widgetDelegate
 
-//=== === === === === === === === === === === === === === === === === === === === === 
+// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Class constructor($name : Text)
 	
 	Super:C1705($name)
 	
-	ASSERT:C1129(New collection:C1472(\
+	ASSERT:C1129([\
 		Object type subform:K79:40; \
 		Object type listbox:K79:8; \
 		Object type picture input:K79:5; \
 		Object type hierarchical list:K79:7; \
-		Object type text input:K79:4).indexOf(This:C1470.type)#-1)
+		Object type text input:K79:4].indexOf(This:C1470.type)#-1)
 	
 	This:C1470.getScrollbars()
 	
-	//=== === === === === === === === === === === === === === === === === === === === === 
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function getScrollPosition() : Variant
 	
 	var $h; $v : Integer
@@ -25,9 +25,9 @@ Function getScrollPosition() : Variant
 		 | (This:C1470.type=Object type listbox:K79:8)\
 		 | (This:C1470.type=Object type subform:K79:40)
 		
-		This:C1470.scroll:=New object:C1471(\
-			"vertical"; $v; \
-			"horizontal"; $h)
+		This:C1470.scroll:={\
+			vertical: $v; \
+			horizontal: $h}
 		
 	Else 
 		
@@ -35,9 +35,9 @@ Function getScrollPosition() : Variant
 		
 	End if 
 	
-	return (This:C1470.scroll)
+	return This:C1470.scroll
 	
-	//=== === === === === === === === === === === === === === === === === === === === === 
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setScrollPosition($vertical; $horizontal) : cs:C1710.scrollableDelegate
 	
 	var $h; $v : Integer
@@ -53,9 +53,9 @@ Function setScrollPosition($vertical; $horizontal) : cs:C1710.scrollableDelegate
 		
 		OBJECT SET SCROLL POSITION:C906(*; This:C1470.name; $v; $h; *)
 		
-		This:C1470.scroll:=New object:C1471(\
-			"vertical"; $v; \
-			"horizontal"; $h)
+		This:C1470.scroll:={\
+			vertical: $v; \
+			horizontal: $h}
 		
 	Else 
 		
@@ -67,25 +67,25 @@ Function setScrollPosition($vertical; $horizontal) : cs:C1710.scrollableDelegate
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === === === === 
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function getScrollbars
 	
 	var $horizontal; $vertical : Integer
 	
 	OBJECT GET SCROLLBAR:C1076(*; This:C1470.name; $horizontal; $vertical)
 	
-	This:C1470.scrollbars:=New object:C1471(\
-		"vertical"; $vertical; \
-		"horizontal"; $horizontal)
+	This:C1470.scrollbars:={\
+		vertical: $vertical; \
+		horizontal: $horizontal}
 	
-	//=== === === === === === === === === === === === === === === === === === === === === 
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setScrollbars($horizontal; $vertical) : cs:C1710.scrollableDelegate
 	
 	OBJECT SET SCROLLBAR:C843(*; This:C1470.name; Num:C11($horizontal); Num:C11($vertical))
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === === === === 
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setHorizontalScrollbar($display) : cs:C1710.scrollableDelegate
 	
 	This:C1470.getScrollbars()
@@ -94,7 +94,7 @@ Function setHorizontalScrollbar($display) : cs:C1710.scrollableDelegate
 	
 	return This:C1470
 	
-	//=== === === === === === === === === === === === === === === === === === === === === 
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setVerticalScrollbar($display) : cs:C1710.scrollableDelegate
 	
 	This:C1470.getScrollbars()
