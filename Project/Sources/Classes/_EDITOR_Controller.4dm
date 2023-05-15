@@ -490,7 +490,9 @@ Function _fileListManager($e : cs:C1710.evt)
 			
 			If (Contextual click:C713)
 				
+				//%W-550.2
 				$menu:=This:C1470.menu.new()
+				//%W+550.2
 				
 				$menu.append(":xliff:projectSettings"; "projectSettings").disable()
 				
@@ -579,16 +581,20 @@ Function _stringListManager($e : cs:C1710.evt)
 				var $isWritable : Boolean
 				var $copy; $menu : cs:C1710.menu
 				
+				//%W-550.2
 				$menu:=This:C1470.menu.new()
+				//%W+550.2
 				
 				$isWritable:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
 				
 				If ($item#Null:C1517)
 					
+					//%W-550.2
 					$copy:=This:C1470.menu.new()\
 						.append(":xliff:copyAsXliffReference"; "copy").shortcut("C").enable(OB Instance of:C1731($item; cs:C1710.Transunit))\
 						.append(":xliff:copyResname"; "resname")\
 						.append(":xliff:copyTheCode"; "code")
+					//%W+550.2
 					
 					var $files : Collection
 					$files:=Folder:C1567("/RESOURCES/4DPop xliff").files()
@@ -1387,7 +1393,9 @@ Function getFiles($language : Text) : Collection
 		
 		For each ($file; $folder.files().query("extension = :1"; This:C1470.fileExtension))
 			
+			//%W-550.2
 			$xliff:=This:C1470.Xliff.new($file)
+			//%W+550.2
 			
 			If (Not:C34($xliff.success))
 				
@@ -1416,7 +1424,9 @@ Function getFiles($language : Text) : Collection
 Function parse($file : 4D:C1709.File) : cs:C1710.Xliff
 	
 	var $xliff : cs:C1710.Xliff
+	//%W-550.2
 	$xliff:=This:C1470.Xliff.new($file)
+	//%W+550.2
 	
 	If (Not:C34($xliff.success))
 		

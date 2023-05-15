@@ -1,3 +1,3 @@
-//%attributes = {"invisible":true}
+//%attributes = {}
 #DECLARE($data : Object)
 EDITOR OPEN

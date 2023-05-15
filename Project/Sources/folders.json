@@ -4,7 +4,6 @@
 			"_test_computeFile",
 			"_test_getFiles",
 			"_test_synchro",
-			"00 OPEN EDITOR",
 			"00 TEST"
 		],
 		"forms": [
@@ -88,8 +87,7 @@
 			"EDITOR",
 			"LANGUAGE",
 			"NOTE",
-			"STRING",
-			"WRAP_AROUND"
+			"STRING"
 		],
 		"classes": [
 			"_EDITOR_Controller",
@@ -124,6 +122,9 @@
 	"Widgets": {
 		"groups": [
 			"SEARH PICKER"
+		],
+		"forms": [
+			"WRAP_AROUND"
 		]
 	},
 	"trash": {}

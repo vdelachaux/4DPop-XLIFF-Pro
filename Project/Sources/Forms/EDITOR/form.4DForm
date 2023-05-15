@@ -268,7 +268,6 @@
 						"onBeginDragOver",
 						"onDeleteAction"
 					],
-					"rowHeight": "1em",
 					"right": 361,
 					"verticalLineStroke": "transparent",
 					"showHeaders": false,

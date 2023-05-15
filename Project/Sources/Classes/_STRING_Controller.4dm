@@ -631,14 +631,14 @@ Function initGeometry($editor : cs:C1710._EDITOR_Controller)
 	var $index : Integer
 	var $nil : Pointer
 	var $language : Object
-	var $coordinates; $o : cs:C1710.coord
+	var $coordinates; $position : cs:C1710.coord
 	var $dimensions : cs:C1710.dim
 	
 	ARRAY TEXT:C222($objects; 0)
 	ARRAY TEXT:C222($tabOrder; 0)
 	
-	$o:=This:C1470.source.coordinates
-	$o.right+=18
+	$position:=This:C1470.source.coordinates
+	$position.right+=18
 	
 	// Get the source line height…
 	$dimensions:=This:C1470.source.dimensions
@@ -646,7 +646,7 @@ Function initGeometry($editor : cs:C1710._EDITOR_Controller)
 	
 	// …and the total source height
 	$coordinates:=This:C1470.noTranslate.coordinates
-	$o.top:=$coordinates.bottom+2
+	$position.top:=$coordinates.bottom+2
 	
 	APPEND TO ARRAY:C911($tabOrder; "resname.box")
 	APPEND TO ARRAY:C911($tabOrder; "unit.source")
@@ -664,18 +664,16 @@ Function initGeometry($editor : cs:C1710._EDITOR_Controller)
 			
 			// Create
 			OBJECT DUPLICATE:C1111(*; "_template"; $widget; $nil; "lang_"+String:C10($index-1); 0; 0)
-			
-			//This[$widget]:=This.form.widget.new($widget).addToGroup(This.languageGroup)
 			This:C1470[$widget]:=This:C1470.form.subform.new($widget).addToGroup(This:C1470.languageGroup)
 			
 		End if 
 		
 		// Position
 		$coordinates:=This:C1470[$widget].coordinates
-		$o.left:=$coordinates.left
-		$o.bottom:=$o.top+$dimensions.height
+		$position.left:=$coordinates.left
+		$position.bottom:=$position.top+$dimensions.height
 		
-		This:C1470[$widget].setCoordinates($o)
+		This:C1470[$widget].setCoordinates($position)
 		This:C1470[$widget].hide()
 		
 		// Asign it the language object
@@ -684,7 +682,7 @@ Function initGeometry($editor : cs:C1710._EDITOR_Controller)
 		APPEND TO ARRAY:C911($tabOrder; $widget)
 		
 		$index+=1
-		$o.top:=$o.bottom+5
+		$position.top:=$position.bottom+5
 		
 	End for each 
 	
