@@ -290,9 +290,10 @@ Function distributeLeftToRight($params : Object) : cs:C1710.groupDelegate
 			Case of 
 					
 					//_______________________________
-				: ($o.type=Object type push button:K79:16)
+				: ($o.type=Object type push button:K79:16)\
+					 || ($o.type=Object type 3D button:K79:17)
 					
-					$e.start:=$o.coordinates.right+Choose:C955(Is macOS:C1572; 20; 20)
+					$e.start:=$o.coordinates.right+(Is macOS:C1572 ? 20 : 20)
 					
 					//_______________________________
 				Else 
@@ -368,9 +369,10 @@ Function distributeRigthToLeft($params : Object) : cs:C1710.groupDelegate
 			Case of 
 					
 					//_______________________________
-				: ($o.type=Object type push button:K79:16)
+				: ($o.type=Object type push button:K79:16)\
+					 || ($o.type=Object type 3D button:K79:17)
 					
-					$e.start:=$o.coordinates.left-Choose:C955(Is macOS:C1572; 20; 20)
+					$e.start:=$o.coordinates.left-(Is macOS:C1572 ? 20 : 20)
 					
 					//_______________________________
 				Else 

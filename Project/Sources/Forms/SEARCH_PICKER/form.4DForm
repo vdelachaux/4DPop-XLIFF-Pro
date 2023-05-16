@@ -9,8 +9,6 @@
 	"windowMinHeight": 0,
 	"windowMaxWidth": 32767,
 	"windowMaxHeight": 32767,
-	"rightMargin": 0,
-	"bottomMargin": 0,
 	"events": [
 		"onLoad",
 		"onActivate",
@@ -19,6 +17,7 @@
 		"onDataChange",
 		"onUnload",
 		"onTimer",
+		"onResize",
 		"onAfterEdit"
 	],
 	"destination": "detailScreen",
@@ -73,7 +72,7 @@
 			}
 		}
 	],
-	"geometryStamp": 55,
+	"geometryStamp": 63,
 	"editor": {
 		"activeView": "View 1",
 		"defaultView": "View 1",
@@ -81,5 +80,7 @@
 			"View 1": {}
 		}
 	},
-	"method": "formMethod"
+	"method": "formMethod",
+	"width": 193,
+	"height": 21
 }

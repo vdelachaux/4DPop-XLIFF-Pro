@@ -500,7 +500,8 @@ Function bestSize($alignment; $minWidth : Integer; $maxWidth : Integer) : cs:C17
 			// <NOTHING MORE TO DO>
 			
 			//______________________________________________________
-		: (This:C1470.type=Object type push button:K79:16)
+		: (This:C1470.type=Object type push button:K79:16)\
+			 || (This:C1470.type=Object type 3D button:K79:17)
 			
 			$o.minWidth:=60
 			
@@ -547,7 +548,8 @@ Function bestSize($alignment; $minWidth : Integer; $maxWidth : Integer) : cs:C17
 				End if 
 				
 				//______________________________
-			: (This:C1470.type=Object type push button:K79:16)
+			: (This:C1470.type=Object type push button:K79:16)\
+				 || (This:C1470.type=Object type 3D button:K79:17)
 				
 				// Add 10% for margins
 				$width:=Round:C94($width*1.1; 0)

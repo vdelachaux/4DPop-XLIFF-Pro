@@ -469,8 +469,8 @@ Function _actionManager($e : cs:C1710.evt)
 		$sub:=This:C1470.menu.new()
 		$sub.append("all"; "all").mark($string.attributes["d4:includeIf"]=Null:C1517)\
 			.line()\
-			.append("macOS"; "mac").mark(String:C10($string.attributes["d4:includeIf"])="mac")\
-			.append("Windows"; "win").mark(String:C10($string.attributes["d4:includeIf"])="win")
+			.append("macOS"; "mac").icon("#images/maOS.png").mark(String:C10($string.attributes["d4:includeIf"])="mac")\
+			.append("Windows"; "win").icon("#images/windows.png").mark(String:C10($string.attributes["d4:includeIf"])="win")
 		
 		$menu.append("operatingSystems"; $sub)
 		$menu.line()
