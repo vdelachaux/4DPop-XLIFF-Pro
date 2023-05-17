@@ -14,16 +14,14 @@
 	"♻️ LIBRAIRIES": {
 		"groups": [
 			"👩‍💻 UI",
-			"database"
+			"database",
+			"env"
 		],
 		"methods": [
-			"COMPILER_env",
-			"envScreens",
 			"noError"
 		],
 		"classes": [
 			"_classCore",
-			"env",
 			"menu",
 			"menuBar",
 			"motor",
@@ -109,6 +107,15 @@
 		],
 		"classes": [
 			"database"
+		]
+	},
+	"env": {
+		"methods": [
+			"COMPILER_env",
+			"envScreens"
+		],
+		"classes": [
+			"env"
 		]
 	},
 	"SEARH PICKER": {

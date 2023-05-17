@@ -162,6 +162,43 @@ Function isJsonArray($value) : Boolean
 	return Match regex:C1019("(?m-si)^\\[.*\\]$"; $value; 1)
 	
 	// Mark:-
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function digest($tgt : Object) : Text
+	
+	var $digest : Text
+	var $blb : 4D:C1709.Blob
+	var $file : 4D:C1709.File
+	
+	Case of 
+			//______________________________________________________
+		: (OB Instance of:C1731($tgt; 4D:C1709.File))\
+			 && ($tgt.exists)
+			
+			$blb:=$tgt.getContent()
+			return Generate digest:C1147($blb; MD5 digest:K66:1)
+			
+			//______________________________________________________
+		: (OB Instance of:C1731($tgt; 4D:C1709.Folder))\
+			 && ($tgt.exists)
+			
+			For each ($file; $tgt.files(fk ignore invisible:K87:22+fk recursive:K87:7))
+				
+				$blb:=$file.getContent()
+				$digest+=Generate digest:C1147($blb; MD5 digest:K66:1)
+				
+			End for each 
+			
+			return Generate digest:C1147($digest; MD5 digest:K66:1)
+			
+			//______________________________________________________
+		Else 
+			
+			ASSERT:C1129(False:C215; "The parameter must be a 4D file or folder or the target does not exist.")
+			
+			//______________________________________________________
+	End case 
+	
+	// Mark:-
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get _() : Object
 	
