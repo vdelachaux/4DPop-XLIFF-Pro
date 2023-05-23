@@ -163,22 +163,25 @@ Function isJsonArray($value) : Boolean
 	
 	// Mark:-
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function digest($tgt : Object) : Text
+Function digest($tgt) : Text
 	
 	var $digest : Text
 	var $blb : 4D:C1709.Blob
 	var $file : 4D:C1709.File
 	
 	Case of 
+			
 			//______________________________________________________
-		: (OB Instance of:C1731($tgt; 4D:C1709.File))\
+		: (Value type:C1509($tgt)=Is object:K8:27)\
+			 && (OB Instance of:C1731($tgt; 4D:C1709.File))\
 			 && ($tgt.exists)
 			
 			$blb:=$tgt.getContent()
 			return Generate digest:C1147($blb; MD5 digest:K66:1)
 			
 			//______________________________________________________
-		: (OB Instance of:C1731($tgt; 4D:C1709.Folder))\
+		: (Value type:C1509($tgt)=Is object:K8:27)\
+			 && (OB Instance of:C1731($tgt; 4D:C1709.Folder))\
 			 && ($tgt.exists)
 			
 			For each ($file; $tgt.files(fk ignore invisible:K87:22+fk recursive:K87:7))
@@ -189,6 +192,11 @@ Function digest($tgt : Object) : Text
 			End for each 
 			
 			return Generate digest:C1147($digest; MD5 digest:K66:1)
+			
+			//______________________________________________________
+		: (Value type:C1509($tgt)=Is text:K8:3)
+			
+			return Generate digest:C1147($tgt; MD5 digest:K66:1)
 			
 			//______________________________________________________
 		Else 

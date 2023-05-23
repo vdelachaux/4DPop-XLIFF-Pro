@@ -90,9 +90,6 @@ Class constructor($param)
 	// MARK:Delegates 📦
 	This:C1470.__DELEGATES__:=[]
 	
-	This:C1470.static:=cs:C1710.staticDelegate
-	This:C1470.__DELEGATES__.push(This:C1470.static)
-	
 	This:C1470.button:=cs:C1710.buttonDelegate
 	This:C1470.__DELEGATES__.push(This:C1470.button)
 	
@@ -119,6 +116,9 @@ Class constructor($param)
 	
 	This:C1470.selector:=cs:C1710.selectorDelegate
 	This:C1470.__DELEGATES__.push(This:C1470.selector)
+	
+	This:C1470.static:=cs:C1710.staticDelegate
+	This:C1470.__DELEGATES__.push(This:C1470.static)
 	
 	This:C1470.stepper:=cs:C1710.stepperDelegate
 	This:C1470.__DELEGATES__.push(This:C1470.stepper)
