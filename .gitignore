@@ -21,8 +21,7 @@ Project/DerivedData/
 # Ignore settings & preferences
 #--------------------------------
 Preferences/
-!Preferences/4DPop AppMaker.xml
-!Preferences/4DPop XLIFF.settings
+!Preferences/4DPop*
 
 Settings/
 !buildApp.4DSettings

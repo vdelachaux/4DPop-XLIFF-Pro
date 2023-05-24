@@ -1,10 +1,18 @@
 Class extends _classCore
 
-property local; remote : Object
+property folders; local; remote : Object
+property destination : 4D:C1709.Folder
+property brew : cs:C1710.pref
 
-Class constructor($folder : Text; $tgt : 4D:C1709.Folder)
+Class constructor($folderName : Text; $destination : 4D:C1709.Folder)
 	
 	Super:C1705()
+	
+	This:C1470.source:=$folderName
+	This:C1470.destination:=$destination
+	
+	// Get the 4D folder tree
+	This:C1470.folders:=JSON Parse:C1218(File:C1566("/SOURCES/folders.json").getText())
 	
 	This:C1470.local:={\
 		Classes: Folder:C1567("/SOURCES/Classes"; *); \
@@ -16,13 +24,9 @@ Class constructor($folder : Text; $tgt : 4D:C1709.Folder)
 		Methods: Folder:C1567("/PACKAGE/Documentation/Methods"; *)\
 		}}
 	
-	This:C1470.src:=$folder
-	
-	This:C1470.tgt:=$tgt
-	
-	// FIXME:Use This.tgt when the bug is fixed
+	// FIXME:Use This.destination when the bug is fixed
 	var $o : Object
-	$o:=This:C1470.tgt
+	$o:=This:C1470.destination
 	
 	This:C1470.remote:={\
 		Classes: $o.folder("Project/Sources/Classes"); \
@@ -34,85 +38,66 @@ Class constructor($folder : Text; $tgt : 4D:C1709.Folder)
 		Methods: $o.folder("Documentation/Methods")\
 		}}
 	
-	$o:=This:C1470.brew()
-	$o.src:={name: $folder}
-	$o.src.content:=JSON Parse:C1218(File:C1566("/SOURCES/folders.json").getText())[This:C1470.src]
-	This:C1470.brew($o)
+	// Update the local tree structure
+	This:C1470.brew:=cs:C1710.pref.new(This:C1470.destination.file("4DPop brew.json"))
+	
+	var $brew : Object
+	$brew:=This:C1470.brew.get()
+	$brew.local:={}
+	$brew.local[This:C1470.source]:=This:C1470.folders[This:C1470.source]
+	This:C1470._groups($brew.local[This:C1470.source]; $brew.local)
+	This:C1470.brew.set($brew)
 	
 	This:C1470.remote.Resources.create()
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function brew($value : Object) : Object
-	
-	var $file : 4D:C1709.File
-	
-	$file:=This:C1470.tgt.file("4DPop brew.json")
-	
-	If ($value=Null:C1517)
-		
-		return $file.exists ? JSON Parse:C1218($file.getText()) : {}
-		
-	Else 
-		
-		$file.setText(JSON Stringify:C1217($value; *))
-		
-	End if 
 	
 	// MARK:-
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	/// Push, to the remote, the local files/folders that are modified
 Function push()
 	
-	var $brew; $latest; $local; $stamps : Object
+	var $brew; $latest; $local; $digests : Object
 	
-	$brew:=This:C1470.brew()
+	$brew:=This:C1470.brew.get()
 	$latest:=$brew.stamps || {}
 	
-	$stamps:={}
+	$digests:={}
 	
 	For each ($local; This:C1470._src())
 		
-		//TODO:only src
-		//This._push($src.type; $src.name; $latest; $stamps)
-		
-		This:C1470._push($local; $latest; $stamps)
-		//This._pushDocumentation($o.type; $o.name; $latest; $stamps)
+		This:C1470._push($local; $latest; $digests)
 		
 	End for each 
 	
-	$brew.stamps:=$stamps
-	This:C1470.brew($brew)
+	$brew.stamps:=$digests
+	This:C1470.brew.set($brew)
 	
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
-Function _push($local : Object; $latest : Object; $stamp : Object)
+Function _push($local : Object; $latest : Object; $digests : Object)
 	
-	var $digest; $name; $type : Text
-	var $o; $src : Object
-	var $dependencies; $documentation : 4D:C1709.File
-	var $documentationAssets : 4D:C1709.Folder
+	var $digest; $key; $name; $tgt; $type : Text
+	var $source : Object
+	var $documentation; $manifest : 4D:C1709.File
+	var $assets : 4D:C1709.Folder
 	
 	$name:=$local.name
-	$type:=$local.type
 	
-	$o:=This:C1470._map($type; $name)
+	$source:=This:C1470._source($local.type; $name)
+	$type:=$source.type
 	
-	$src:=$o.src
-	$type:=$o.tgt
+	// MARK:Source
+	$digest:=This:C1470.digest($source.file)
 	
-	$digest:=This:C1470.digest($src)
-	
-	$stamp[$type]:=$stamp[$type] || {}
+	$digests[$type]:=$digests[$type] || {}
 	
 	If ($latest[$type][$name]=Null:C1517)\
-		 && ($latest[$type][$name]#$digest)
+		 || ($latest[$type][$name]#$digest)
 		
 		This:C1470.remote[$type].create()
-		
-		$src.copyTo(This:C1470.remote[$type]; fk overwrite:K87:5)
+		$source.file.copyTo(This:C1470.remote[$type]; fk overwrite:K87:5)
 		
 	End if 
 	
-	$stamp[$type][$name]:=$digest
+	$digests[$type][$name]:=$digest
 	
 	// MARK:Documentation
 	$documentation:=This:C1470.local.Documentation[$type].file($name+".md")
@@ -121,95 +106,89 @@ Function _push($local : Object; $latest : Object; $stamp : Object)
 		
 		This:C1470.remote.Documentation[$type].create()
 		
-		$stamp.Documentation:=$stamp.Documentation || {}
-		$stamp.Documentation[$type]:=$stamp.Documentation[$type] || {}
+		$digests.Documentation:=$digests.Documentation || {}
+		$digests.Documentation[$type]:=$digests.Documentation[$type] || {}
 		
 		$digest:=This:C1470.digest($documentation)
 		
-		$documentationAssets:=This:C1470.local.Documentation[$type].folder($name)
+		// The documentation media must be in a folder with the same name as the method/class
+		$assets:=This:C1470.local.Documentation[$type].folder($name)
 		
-		If ($documentationAssets.exists)
+		If ($assets.exists)
 			
-			$digest:=This:C1470.digest($digest+This:C1470.digest($documentationAssets))
+			$digest:=This:C1470.digest($digest+This:C1470.digest($assets))
 			
 		End if 
 		
 		If ($latest.Documentation[$type][$name]=Null:C1517)\
-			 && ($latest.Documentation[$type][$name]#$digest)
+			 || ($latest.Documentation[$type][$name]#$digest)
 			
 			$documentation.copyTo(This:C1470.remote.Documentation[$type]; fk overwrite:K87:5)
 			
-			If ($documentationAssets.exists)
+			If ($assets.exists)
 				
-				$documentationAssets.copyTo(This:C1470.remote.Documentation[$type]; fk overwrite:K87:5)
+				$assets.copyTo(This:C1470.remote.Documentation[$type]; fk overwrite:K87:5)
 				
 			End if 
 			
 		End if 
 		
-		$stamp.Documentation[$type][$name]:=$digest
+		$digests.Documentation[$type][$name]:=$digest
 		
 	End if 
 	
 	// TODO: Dependencies
-	$dependencies:=This:C1470.local[$type].file($name+".manifest")
+	$manifest:=This:C1470.local[$type].file($name+".manifest")
 	
-	If ($dependencies.exists)
+	If ($manifest.exists)
 		
-		//$manifest:=JSON Parse($dependencies.getText())
+		For each ($key; JSON Parse:C1218($manifest.getText()))
+			
+			Case of 
+					
+					//______________________________________________________
+				: ($key="[class]/@")
+					
+					// Path of class definition
+					$tgt:="Classes"
+					
+					//______________________________________________________
+				: ($key="[projectForm]/@")
+					
+					// Path of project form methods and all their object methods
+					$tgt:="Forms"
+					
+					//______________________________________________________
+				: ($key="[resources]/@")
+					
+					// Path of a resource (file or folder)
+					$tgt:="Resources"
+					
+					//______________________________________________________
+				: ($key="[image]/@")
+					
+					// Path of a media into the Resources/Images folder
+					$tgt:="Resources/Images/"
+					
+					//______________________________________________________
+				: ($key="[localized]/@")
+					
+					// Path of a localized file (in all .lproj folders)
+					$tgt:="Resources/"
+					
+					//______________________________________________________
+				Else   // Name of method
+					
+					$tgt:="Methods"
+					
+					//______________________________________________________
+			End case 
+			
+		End for each 
+		
 		//$digest:=This.digest($digest+This.digest($manifest))
 		
 	End if 
-	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
-Function _pushDocumentation($tgt : Text; $name : Text; $latest : Object; $stamp : Object)
-	
-	var $digest : Text
-	var $src : 4D:C1709.File
-	
-	$tgt:=This:C1470._map($tgt; $name).tgt
-	
-	// Documentation
-	$src:=This:C1470.local.Documentation[$tgt].file($name+".md")
-	
-	If (Not:C34($src.exists))
-		
-		return 
-		
-	End if 
-	
-	$digest:=This:C1470.digest($src)
-	
-	var $documentationAssets : 4D:C1709.Folder
-	$documentationAssets:=This:C1470.local.Documentation[$tgt].folder($name)
-	
-	If ($documentationAssets.exists)
-		
-		$digest:=This:C1470.digest($digest+This:C1470.digest($documentationAssets))
-		
-	End if 
-	
-	$stamp.Documentation:=$stamp.Documentation || {}
-	$stamp.Documentation[$tgt]:=$stamp.Documentation[$tgt] || {}
-	
-	If ($latest.Documentation[$tgt][$name]#Null:C1517)\
-		 && ($latest.Documentation[$tgt][$name]=$digest)
-		
-		$stamp.Documentation[$tgt][$name]:=$latest.Documentation[$tgt][$name]
-		return 
-		
-	End if 
-	
-	This:C1470.remote.Documentation[$tgt].create()
-	$src.copyTo(This:C1470.remote.Documentation[$tgt]; fk overwrite:K87:5)
-	
-	If ($documentationAssets.exists)
-		
-		$documentationAssets.copyTo(This:C1470.remote.Documentation[$tgt]; fk overwrite:K87:5)
-		
-	End if 
-	
-	$stamp.Documentation[$tgt][$name]:=$digest
 	
 	// MARK:-
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
@@ -220,7 +199,7 @@ Function fetch() : Collection
 	var $c : Collection
 	var $file : 4D:C1709.File
 	
-	$file:=This:C1470.tgt.file("4DPop brew.json")
+	$file:=This:C1470.destination.file("4DPop brew.json")
 	$latest:=$file.exists ? JSON Parse:C1218($file.getText()) : {}
 	
 	$c:=[]
@@ -237,19 +216,18 @@ Function fetch() : Collection
 	return $c
 	
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
-Function _fetch($tgt : Text; $name : Text; $latest : Object) : Boolean
+Function _fetch($type : Text; $name : Text; $latest : Object) : Boolean
 	
 	var $digest : Text
-	var $o; $src : Object
+	var $source : Object
 	
-	$o:=This:C1470._map($tgt; $name)
-	$src:=$o.src
-	$tgt:=$o.tgt
+	$source:=This:C1470._source($type; $name)
+	$type:=$source.type
 	
-	$digest:=This:C1470.digest($src)
+	$digest:=This:C1470.digest($source.file)
 	
-	If ($latest[$tgt][$name]=Null:C1517)\
-		 || ($latest[$tgt][$name]#$digest)
+	If ($latest[$type][$name]=Null:C1517)\
+		 || ($latest[$type][$name]#$digest)
 		
 		return True:C214
 		
@@ -264,11 +242,11 @@ Function pull()
 	var $latest; $src : Object
 	var $file; $dependencies : 4D:C1709.File
 	
-	$file:=This:C1470.tgt.file("4DPop brew.json")
+	$file:=This:C1470.destination.file("4DPop brew.json")
 	$latest:=$file.exists ? JSON Parse:C1218($file.getText()) : {}
 	
 	var $folders : Object
-	$folders:=JSON Parse:C1218(File:C1566("/SOURCES/folders.json").getText())
+	$folders:=This:C1470.folders
 	
 	For each ($family; $latest)
 		
@@ -312,7 +290,22 @@ Function pull()
 	
 	// MARK:-
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
-Function _map($tgt : Text; $name : Text; $remote : Boolean) : Object
+Function _groups($folder : Object; $container : Object)
+	
+	var $key : Text
+	
+	If ($folder.groups#Null:C1517)
+		
+		For each ($key; $folder.groups)
+			
+			$container[$key]:=This:C1470.folders[$key]
+			This:C1470._groups($container[$key]; $container)
+			
+		End for each 
+	End if 
+	
+	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+Function _source($type : Text; $name : Text; $remote : Boolean) : Object
 	
 	var $direction : Text
 	$direction:=$remote ? "remote" : "local"
@@ -320,47 +313,47 @@ Function _map($tgt : Text; $name : Text; $remote : Boolean) : Object
 	Case of 
 			
 			//______________________________________________________
-		: ($tgt="method")
+		: ($type="method")
 			
 			return New object:C1471(\
-				"src"; This:C1470[$direction].Methods.file($name+".4dm"); \
-				"tgt"; "Methods")
+				"file"; This:C1470[$direction].Methods.file($name+".4dm"); \
+				"type"; "Methods")
 			
 			//______________________________________________________
-		: ($tgt="class")
+		: ($type="class")
 			
 			return New object:C1471(\
-				"src"; This:C1470[$direction].Classes.file($name+".4dm"); \
-				"tgt"; "Classes")
+				"file"; This:C1470[$direction].Classes.file($name+".4dm"); \
+				"type"; "Classes")
 			
 			//______________________________________________________
-		: ($tgt="form")
+		: ($type="form")
 			
 			return New object:C1471(\
-				"src"; This:C1470[$direction].Forms.folder($name); \
-				"tgt"; "Forms")
+				"file"; This:C1470[$direction].Forms.folder($name); \
+				"type"; "Forms")
 			
 			//______________________________________________________
 		Else 
 			
-			// TODO: Resources, CSS, …
+			// TODO: Resources, CSS, … ?
 			
 			//______________________________________________________
 	End case 
 	
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
-Function _src($name : Text; $subfolders : Collection) : Collection
+Function _src($name : Text) : Collection
 	
 	var $src : Object
-	var $members; $subfolder : Collection
+	var $members : Collection
 	
 	If (Count parameters:C259=0)
 		
-		$src:=JSON Parse:C1218(File:C1566("/SOURCES/folders.json").getText())[This:C1470.src]
+		$src:=This:C1470.folders[This:C1470.source]
 		
 	Else 
 		
-		$src:=JSON Parse:C1218(File:C1566("/SOURCES/folders.json").getText())[$name]
+		$src:=This:C1470.folders[$name]
 		
 	End if 
 	
@@ -372,7 +365,6 @@ Function _src($name : Text; $subfolders : Collection) : Collection
 	
 	$members:=[]
 	
-	$subfolder:=$subfolder || []
 	
 	If ($src.forms#Null:C1517)
 		
@@ -405,9 +397,9 @@ Function _src($name : Text; $subfolders : Collection) : Collection
 		
 		For each ($name; $src.groups)
 			
-			$members.combine(This:C1470._src($name; $subfolder))
+			$members.combine(This:C1470._src($name))
 			
 		End for each 
 	End if 
 	
-	return $members
+	return $members.orderBy("type,name")

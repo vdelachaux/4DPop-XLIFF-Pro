@@ -199,9 +199,15 @@ Function digest($tgt) : Text
 			return Generate digest:C1147($tgt; MD5 digest:K66:1)
 			
 			//______________________________________________________
+		: (Value type:C1509($tgt)#Is text:K8:3)\
+			 & (Value type:C1509($tgt)#Is object:K8:27)
+			
+			ASSERT:C1129(False:C215; "The parameter must be a Text or 4D file/folder")
+			
+			//______________________________________________________
 		Else 
 			
-			ASSERT:C1129(False:C215; "The parameter must be a 4D file or folder or the target does not exist.")
+			ASSERT:C1129(False:C215; "The 4D file/folder does not exist")
 			
 			//______________________________________________________
 	End case 

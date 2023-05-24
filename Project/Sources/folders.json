@@ -1,4 +1,17 @@
 {
+	"(Folder)": {
+		"methods": [
+			"(Method84)"
+		]
+	},
+	"(TEST)": {
+		"groups": [
+			"(Folder)"
+		],
+		"methods": [
+			"(test)"
+		]
+	},
 	"# 🚧 DEV": {
 		"methods": [
 			"_test_computeFile",
@@ -26,6 +39,7 @@
 			"menuBar",
 			"motor",
 			"pathPicker",
+			"pref",
 			"str",
 			"tools",
 			"xml"
@@ -134,5 +148,9 @@
 			"WRAP_AROUND"
 		]
 	},
-	"trash": {}
+	"trash": {
+		"groups": [
+			"(TEST)"
+		]
+	}
 }
