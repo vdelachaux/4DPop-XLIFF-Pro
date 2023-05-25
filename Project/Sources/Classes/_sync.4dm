@@ -8,47 +8,59 @@ Class constructor($folderName : Text; $destination : 4D:C1709.Folder)
 	
 	Super:C1705()
 	
-	This:C1470.source:=$folderName
-	This:C1470.destination:=$destination
+	ARRAY TEXT:C222($names; 0x0000)
+	METHOD GET FOLDERS:C1206($names; *)
+	This:C1470.succeed(Find in array:C230($names; $folderName)>0)
 	
-	// Get the 4D folder tree
-	This:C1470.folders:=JSON Parse:C1218(File:C1566("/SOURCES/folders.json").getText())
-	
-	This:C1470.local:={\
-		Classes: Folder:C1567("/SOURCES/Classes"; *); \
-		Forms: Folder:C1567("/SOURCES/Forms"; *); \
-		Methods: Folder:C1567("/SOURCES/Methods"; *); \
-		Resources: Folder:C1567("/PACKAGE/Resources"; *); \
-		Documentation: {\
-		Classes: Folder:C1567("/PACKAGE/Documentation/Classes"; *); \
-		Methods: Folder:C1567("/PACKAGE/Documentation/Methods"; *)\
-		}}
-	
-	// FIXME:Use This.destination when the bug is fixed
-	var $o : Object
-	$o:=This:C1470.destination
-	
-	This:C1470.remote:={\
-		Classes: $o.folder("Project/Sources/Classes"); \
-		Forms: $o.folder("Project/Sources/Forms"); \
-		Methods: $o.folder("Project/Sources/Methods"); \
-		Resources: $o.folder("Resources"); \
-		Documentation: {\
-		Classes: $o.folder("Documentation/Classes"); \
-		Methods: $o.folder("Documentation/Methods")\
-		}}
-	
-	// Update the local tree structure
-	This:C1470.brew:=cs:C1710.pref.new(This:C1470.destination.file("4DPop brew.json"))
-	
-	var $brew : Object
-	$brew:=This:C1470.brew.get()
-	$brew.local:={}
-	$brew.local[This:C1470.source]:=This:C1470.folders[This:C1470.source]
-	This:C1470._groups($brew.local[This:C1470.source]; $brew.local)
-	This:C1470.brew.set($brew)
-	
-	This:C1470.remote.Resources.create()
+	If (This:C1470.success)
+		
+		This:C1470.source:=$folderName
+		This:C1470.destination:=$destination
+		
+		// Get the 4D folder tree
+		This:C1470.folders:=JSON Parse:C1218(File:C1566("/SOURCES/folders.json").getText())
+		
+		This:C1470.local:={\
+			Classes: Folder:C1567("/SOURCES/Classes"; *); \
+			Forms: Folder:C1567("/SOURCES/Forms"; *); \
+			Methods: Folder:C1567("/SOURCES/Methods"; *); \
+			Resources: Folder:C1567("/PACKAGE/Resources"; *); \
+			Documentation: {\
+			Classes: Folder:C1567("/PACKAGE/Documentation/Classes"; *); \
+			Methods: Folder:C1567("/PACKAGE/Documentation/Methods"; *)\
+			}}
+		
+		// FIXME:Use This.destination when the bug is fixed
+		var $o : Object
+		$o:=This:C1470.destination
+		
+		This:C1470.remote:={\
+			Classes: $o.folder("Project/Sources/Classes"); \
+			Forms: $o.folder("Project/Sources/Forms"); \
+			Methods: $o.folder("Project/Sources/Methods"); \
+			Resources: $o.folder("Resources"); \
+			Documentation: {\
+			Classes: $o.folder("Documentation/Classes"); \
+			Methods: $o.folder("Documentation/Methods")\
+			}}
+		
+		// Update the local tree structure
+		This:C1470.brew:=cs:C1710.pref.new(This:C1470.destination.file("4DPop brew.json"))
+		
+		var $brew : Object
+		$brew:=This:C1470.brew.get()
+		$brew.local:={}
+		$brew.local[This:C1470.source]:=This:C1470.folders[This:C1470.source]
+		This:C1470._groups($brew.local[This:C1470.source]; $brew.local)
+		This:C1470.brew.set($brew)
+		
+		This:C1470.remote.Resources.create()
+		
+	Else 
+		
+		This:C1470._pushError("The \""+$folderName+"\" folder does not exist in the project")
+		
+	End if 
 	
 	// MARK:-
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===

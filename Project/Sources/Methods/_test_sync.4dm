@@ -39,6 +39,12 @@ End if
 
 $sync:=cs:C1710._sync.new($pref.get("target"); $folder)
 
+If (Not:C34($sync.success))
+	
+	TRACE:C157
+	
+End if 
+
 If (True:C214)
 	
 	$sync.push()
