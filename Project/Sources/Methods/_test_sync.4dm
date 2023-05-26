@@ -1,58 +1,62 @@
 //%attributes = {}
 var $path : Text
-var $c : Collection
-var $folder : 4D:C1709.Folder
 var $sync : cs:C1710._sync
-var $pref : cs:C1710.pref
 
-// Get the sync folder
-$pref:=cs:C1710.pref.new().session("4DPop brew.remote")
+//// Get the sync folder
+//$pref:=cs.pref.new().session("4DPop brew.remote")
+//If ($pref.exists)
+//$folder:=Folder($pref.get("target"))
+//Else
+//$path:=Select folder("Select the synchronization folder")
+//If (OK=0)
+//return
+//End if
+//$folder:=Folder($path; fk platform path)
+//$pref.set("target"; $folder.path)
+//End if
+//// Get the local folder
+//$pref:=cs.pref.new().database("4DPop brew.local")
+//If (Not($pref.exists))
+//$pref.set("target"; "♻️ LIBRAIRIES")
+//End if
+//$sync:=cs._sync.new($pref.get("target"); $folder)
+//If (Not($sync.success))
+//TRACE
+//End if
+//If (True)
+//$sync.push()
+//Else
+//$c:=$sync.fetch()
+//$sync.pull()
+//End if
 
-If ($pref.exists)
+$sync:=cs:C1710._sync.new()
+
+If ($sync.fail)
 	
-	$folder:=Folder:C1567($pref.get("target"))
-	
-Else 
-	
-	$path:=Select folder:C670("Select the synchronization folder")
-	
-	If (OK=0)
+	If (Not:C34($sync.remoteValid))
 		
-		return 
+		$path:=Select folder:C670("Select the synchronization folder")
+		
+		If (OK=0)
+			
+			return 
+			
+		End if 
+		
+		$sync.setRemoteFolder(Folder:C1567($path; fk platform path:K87:2).path)
 		
 	End if 
 	
-	$folder:=Folder:C1567($path; fk platform path:K87:2)
-	
-	$pref.set("target"; $folder.path)
-	
+	If (Not:C34($sync.localValid))
+		
+		$sync.setLocalFolder("♻️ LIBRAIRIES")
+		
+	End if 
 End if 
 
-// Get the local folder
-$pref:=cs:C1710.pref.new().database("4DPop brew.local")
-
-If (Not:C34($pref.exists))
-	
-	$pref.set("target"; "♻️ LIBRAIRIES")
-	
-End if 
-
-$sync:=cs:C1710._sync.new($pref.get("target"); $folder)
-
-If (Not:C34($sync.success))
-	
-	TRACE:C157
-	
-End if 
-
-If (True:C214)
+If ($sync.success)
 	
 	$sync.push()
-	
-Else 
-	
-	$c:=$sync.fetch()
-	
-	$sync.pull()
 	
 End if 

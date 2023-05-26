@@ -36,7 +36,7 @@ Class constructor($e : cs:C1710.evt)
 		
 	End for each 
 	
-	//MARK:-Form
+	// MARK:-Form
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get load() : Boolean
 	
@@ -73,7 +73,7 @@ Function get validate() : Boolean
 	return This:C1470.code=On Validate:K2:3
 	
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
-Function get menuSelect() : Boolean
+Function get menuSelected() : Boolean
 	
 	return This:C1470.code=On Menu Selected:K2:14
 	
@@ -88,16 +88,21 @@ Function get pageChange() : Boolean
 	return This:C1470.code=On Page Change:K2:54
 	
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
-Function get onTimer() : Boolean
+Function get timer() : Boolean
 	
 	return This:C1470.code=On Timer:K2:25
 	
-	//MARK:-Printing
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get header() : Boolean
 	
 	return This:C1470.code=On Header:K2:17
 	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get plugin() : Boolean
+	
+	return This:C1470.code=On Plug in Area:K2:16
+	
+	// MARK:-Printing
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get printingBreak() : Boolean
 	
@@ -113,7 +118,7 @@ Function get printingFooter() : Boolean
 	
 	return This:C1470.code=On Printing Footer:K2:20
 	
-	//MARK:-Widgets
+	// MARK:-Widgets
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get click() : Boolean
 	
@@ -134,7 +139,7 @@ Function get alternateClick() : Boolean
 	
 	return This:C1470.code=On Alternative Click:K2:36
 	
-	//MARK:-
+	// MARK:-
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get gettingFocus() : Boolean
 	
@@ -145,7 +150,7 @@ Function get losingFocus() : Boolean
 	
 	return This:C1470.code=On Losing Focus:K2:8
 	
-	//MARK:-
+	// MARK:-
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get beforeKeystroke() : Boolean
 	
@@ -171,7 +176,7 @@ Function get dataChange() : Boolean
 	
 	return This:C1470.code=On Data Change:K2:15
 	
-	//MARK:-
+	// MARK:-
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get beginDragOver() : Boolean
 	
@@ -187,7 +192,7 @@ Function get drop() : Boolean
 	
 	return This:C1470.code=On Drop:K2:12
 	
-	//MARK:-
+	// MARK:-
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get mouseEnter() : Boolean
 	
@@ -208,12 +213,13 @@ Function get mouseUp() : Boolean
 	
 	return This:C1470.code=On Mouse Up:K2:58
 	
-	//MARK:-
+	// MARK:-
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get boundVariableChange() : Boolean
 	
 	return This:C1470.code=On Bound Variable Change:K2:52
 	
+	// MARK:-Lists
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get selectionChange() : Boolean
 	
@@ -224,7 +230,42 @@ Function get scroll() : Boolean
 	
 	return This:C1470.code=On Scroll:K2:57
 	
-	//MARK:-Listboxes
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get expand() : Boolean
+	
+	return This:C1470.code=On Expand:K2:41
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get collapse() : Boolean
+	
+	return This:C1470.code=On Collapse:K2:42
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get delete() : Boolean
+	
+	return This:C1470.code=On Delete Action:K2:56
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get displayDetail() : Boolean
+	
+	return This:C1470.code=On Display Detail:K2:22
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get openDetail() : Boolean
+	
+	return This:C1470.code=On Open Detail:K2:23
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get loadRecord() : Boolean
+	
+	return This:C1470.code=On Load Record:K2:38
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get closeDetail() : Boolean
+	
+	return This:C1470.code=On Close Detail:K2:24
+	
+	// MARK:-Listboxes
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get columnMoved() : Boolean
 	
@@ -255,5 +296,75 @@ Function get footerClick() : Boolean
 	
 	return This:C1470.code=On Footer Click:K2:55
 	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get sort() : Boolean
 	
+	return This:C1470.code=On After Sort:K2:28
 	
+	// MARK:-Host Database
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get beforeHostDatabaseStartup() : Boolean
+	
+	return This:C1470.code=On before host database startup:K74:3
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get afterHostDatabaseStartup() : Boolean
+	
+	return This:C1470.code=On after host database startup:K74:4
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get beforeHostDatabaseExit() : Boolean
+	
+	return This:C1470.code=On before host database exit:K74:5
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get afterHostDatabaseExit() : Boolean
+	
+	return This:C1470.code=On after host database exit:K74:6
+	
+	// MARK:-Web Area
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get beginUrlLoading() : Boolean
+	
+	return This:C1470.code=On Begin URL Loading:K2:45
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get endUrlLoading() : Boolean
+	
+	return This:C1470.code=On End URL Loading:K2:47
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get urlLoadingError() : Boolean
+	
+	return This:C1470.code=On URL Loading Error:K2:48
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get urlFiltering() : Boolean
+	
+	return This:C1470.code=On URL Filtering:K2:49
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get urlResourceLoading() : Boolean
+	
+	return This:C1470.code=On URL Resource Loading:K2:46
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get openExternalLink() : Boolean
+	
+	return This:C1470.code=On Open External Link:K2:50
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get windowOpeningDenied() : Boolean
+	
+	return This:C1470.code=On Window Opening Denied:K2:51
+	
+	// MARK:-View Pro
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get vpReady() : Boolean
+	
+	return This:C1470.code=On VP Ready:K2:59
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get vpRange() : Boolean
+	
+	return This:C1470.code=On VP Range Changed:K2:61

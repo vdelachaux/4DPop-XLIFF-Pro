@@ -34,7 +34,7 @@
 					"columns": [
 						{
 							"header": {
-								"text": "Folders",
+								"text": "Project",
 								"name": "Header1"
 							},
 							"name": "Column1",

@@ -2,47 +2,52 @@ Class extends _classCore
 
 property folders; local; remote : Object
 property destination : 4D:C1709.Folder
-property brew : cs:C1710.pref
+property brew; localPrefs; remotePrefs : cs:C1710.pref
 
-Class constructor($folderName : Text; $destination : 4D:C1709.Folder)
+Class constructor
 	
 	Super:C1705()
 	
-	ARRAY TEXT:C222($names; 0x0000)
-	METHOD GET FOLDERS:C1206($names; *)
-	This:C1470.succeed(Find in array:C230($names; $folderName)>0)
+	This:C1470.localValid:=False:C215
+	This:C1470.remoteValid:=False:C215
+	
+	// Get preferences
+	This:C1470.localPrefs:=cs:C1710.pref.new().database("4DPop brew.local")
+	This:C1470.remotePrefs:=cs:C1710.pref.new().session("4DPop brew.remote")
+	
+	This:C1470.setLocalFolder(This:C1470.localPrefs.get("target"); True:C214)
+	This:C1470.setRemoteFolder(This:C1470.remotePrefs.get("target"); True:C214)
+	
+	This:C1470.succeed(This:C1470.localValid & This:C1470.remoteValid)
+	
+	// Get the 4D folder tree
+	This:C1470.folders:=JSON Parse:C1218(File:C1566("/SOURCES/folders.json").getText())
+	
+	This:C1470.local:={\
+		Classes: Folder:C1567("/SOURCES/Classes"; *); \
+		Forms: Folder:C1567("/SOURCES/Forms"; *); \
+		Methods: Folder:C1567("/SOURCES/Methods"; *); \
+		Resources: Folder:C1567("/PACKAGE/Resources"; *); \
+		Documentation: {\
+		Classes: Folder:C1567("/PACKAGE/Documentation/Classes"; *); \
+		Methods: Folder:C1567("/PACKAGE/Documentation/Methods"; *)\
+		}}
+	
+	// FIXME:Use This.destination when the bug is fixed
+	var $o : Object
+	$o:=This:C1470.destination
+	
+	This:C1470.remote:={\
+		Classes: $o.folder("Project/Sources/Classes"); \
+		Forms: $o.folder("Project/Sources/Forms"); \
+		Methods: $o.folder("Project/Sources/Methods"); \
+		Resources: $o.folder("Resources"); \
+		Documentation: {\
+		Classes: $o.folder("Documentation/Classes"); \
+		Methods: $o.folder("Documentation/Methods")\
+		}}
 	
 	If (This:C1470.success)
-		
-		This:C1470.source:=$folderName
-		This:C1470.destination:=$destination
-		
-		// Get the 4D folder tree
-		This:C1470.folders:=JSON Parse:C1218(File:C1566("/SOURCES/folders.json").getText())
-		
-		This:C1470.local:={\
-			Classes: Folder:C1567("/SOURCES/Classes"; *); \
-			Forms: Folder:C1567("/SOURCES/Forms"; *); \
-			Methods: Folder:C1567("/SOURCES/Methods"; *); \
-			Resources: Folder:C1567("/PACKAGE/Resources"; *); \
-			Documentation: {\
-			Classes: Folder:C1567("/PACKAGE/Documentation/Classes"; *); \
-			Methods: Folder:C1567("/PACKAGE/Documentation/Methods"; *)\
-			}}
-		
-		// FIXME:Use This.destination when the bug is fixed
-		var $o : Object
-		$o:=This:C1470.destination
-		
-		This:C1470.remote:={\
-			Classes: $o.folder("Project/Sources/Classes"); \
-			Forms: $o.folder("Project/Sources/Forms"); \
-			Methods: $o.folder("Project/Sources/Methods"); \
-			Resources: $o.folder("Resources"); \
-			Documentation: {\
-			Classes: $o.folder("Documentation/Classes"); \
-			Methods: $o.folder("Documentation/Methods")\
-			}}
 		
 		// Update the local tree structure
 		This:C1470.brew:=cs:C1710.pref.new(This:C1470.destination.file("4DPop brew.json"))
@@ -54,11 +59,48 @@ Class constructor($folderName : Text; $destination : 4D:C1709.Folder)
 		This:C1470._groups($brew.local[This:C1470.source]; $brew.local)
 		This:C1470.brew.set($brew)
 		
-		This:C1470.remote.Resources.create()
+		// This.remote.Resources.create()
+		
+	End if 
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	/// Sets the name of the local folder to be synchronized
+Function setLocalFolder($name : Text; $validate : Boolean)
+	
+	This:C1470.source:=$name
+	
+	If (Not:C34($validate))
+		
+		This:C1470.localPrefs.set("target"; $name)
+		
+	End if 
+	
+	ARRAY TEXT:C222($names; 0x0000)
+	METHOD GET FOLDERS:C1206($names; *)
+	
+	This:C1470.localValid:=Find in array:C230($names; This:C1470.source)>0 ? True:C214 : False:C215
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	/// Defines the path of the synchronization folder
+Function setRemoteFolder($path : Text; $validate : Boolean)
+	
+	If (Length:C16($path)>0)
+		
+		This:C1470.destination:=Folder:C1567($path)
+		This:C1470.destination.create()
+		
+		If (Not:C34($validate))
+			
+			This:C1470.remotePrefs.set("target"; $path)
+			
+		End if 
+		
+		This:C1470.remoteValid:=This:C1470.destination.exists
 		
 	Else 
 		
-		This:C1470._pushError("The \""+$folderName+"\" folder does not exist in the project")
+		This:C1470.destination:=Null:C1517
+		This:C1470.remoteValid:=False:C215
 		
 	End if 
 	
