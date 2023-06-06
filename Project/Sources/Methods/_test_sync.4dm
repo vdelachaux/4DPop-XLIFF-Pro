@@ -44,19 +44,19 @@ If ($sync.fail)
 			
 		End if 
 		
-		$sync.setRemoteFolder(Folder:C1567($path; fk platform path:K87:2).path)
+		$sync.SetRemoteFolder(Folder:C1567($path; fk platform path:K87:2).path)
 		
 	End if 
 	
 	If (Not:C34($sync.localValid))
 		
-		$sync.setLocalFolder("♻️ LIBRAIRIES")
+		$sync.SetLocalFolder("♻️ LIBRAIRIES")
 		
 	End if 
 End if 
 
 If ($sync.success)
 	
-	$sync.push()
+	$sync.Push()
 	
 End if 

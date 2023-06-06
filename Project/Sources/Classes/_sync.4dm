@@ -15,10 +15,10 @@ Class constructor
 	This:C1470.localPrefs:=cs:C1710.pref.new().database("4DPop brew.local")
 	This:C1470.remotePrefs:=cs:C1710.pref.new().session("4DPop brew.remote")
 	
-	This:C1470.setLocalFolder(This:C1470.localPrefs.get("target"); True:C214)
-	This:C1470.setRemoteFolder(This:C1470.remotePrefs.get("target"); True:C214)
+	This:C1470.SetLocalFolder(This:C1470.localPrefs.get("target"); True:C214)
+	This:C1470.SetRemoteFolder(This:C1470.remotePrefs.get("target"); True:C214)
 	
-	This:C1470.succeed(This:C1470.localValid & This:C1470.remoteValid)
+	This:C1470.Succeed(This:C1470.localValid & This:C1470.remoteValid)
 	
 	// Get the 4D folder tree
 	This:C1470.folders:=JSON Parse:C1218(File:C1566("/SOURCES/folders.json").getText())
@@ -65,7 +65,7 @@ Class constructor
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	/// Sets the name of the local folder to be synchronized
-Function setLocalFolder($name : Text; $validate : Boolean)
+Function SetLocalFolder($name : Text; $validate : Boolean)
 	
 	This:C1470.source:=$name
 	
@@ -82,7 +82,7 @@ Function setLocalFolder($name : Text; $validate : Boolean)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	/// Defines the path of the synchronization folder
-Function setRemoteFolder($path : Text; $validate : Boolean)
+Function SetRemoteFolder($path : Text; $validate : Boolean)
 	
 	If (Length:C16($path)>0)
 		
@@ -107,7 +107,7 @@ Function setRemoteFolder($path : Text; $validate : Boolean)
 	// MARK:-
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	/// Push, to the remote, the local files/folders that are modified
-Function push()
+Function Push()
 	
 	var $brew; $latest; $local; $digests : Object
 	
@@ -139,7 +139,7 @@ Function _push($local : Object; $latest : Object; $digests : Object)
 	$type:=$source.type
 	
 	// MARK:Source
-	$digest:=This:C1470.digest($source.file)
+	$digest:=This:C1470.Digest($source.file)
 	
 	$digests[$type]:=$digests[$type] || {}
 	
@@ -163,14 +163,14 @@ Function _push($local : Object; $latest : Object; $digests : Object)
 		$digests.Documentation:=$digests.Documentation || {}
 		$digests.Documentation[$type]:=$digests.Documentation[$type] || {}
 		
-		$digest:=This:C1470.digest($documentation)
+		$digest:=This:C1470.Digest($documentation)
 		
 		// The documentation media must be in a folder with the same name as the method/class
 		$assets:=This:C1470.local.Documentation[$type].folder($name)
 		
 		If ($assets.exists)
 			
-			$digest:=This:C1470.digest($digest+This:C1470.digest($assets))
+			$digest:=This:C1470.Digest($digest+This:C1470.Digest($assets))
 			
 		End if 
 		
@@ -240,14 +240,14 @@ Function _push($local : Object; $latest : Object; $digests : Object)
 			
 		End for each 
 		
-		//$digest:=This.digest($digest+This.digest($manifest))
+		//$digest:=This.Digest($digest+This.Digest($manifest))
 		
 	End if 
 	
 	// MARK:-
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	/// Returns a collection of remote files/folders that are different from the local equivalent
-Function fetch() : Collection
+Function Fetch() : Collection
 	
 	var $latest; $o : Object
 	var $c : Collection
@@ -278,7 +278,7 @@ Function _fetch($type : Text; $name : Text; $latest : Object) : Boolean
 	$source:=This:C1470._source($type; $name)
 	$type:=$source.type
 	
-	$digest:=This:C1470.digest($source.file)
+	$digest:=This:C1470.Digest($source.file)
 	
 	If ($latest[$type][$name]=Null:C1517)\
 		 || ($latest[$type][$name]#$digest)
@@ -290,7 +290,7 @@ Function _fetch($type : Text; $name : Text; $latest : Object) : Boolean
 	// MARK:-
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	/// Get the remote files/folders that are modified
-Function pull()
+Function Pull()
 	
 	var $family; $name : Text
 	var $latest; $src : Object

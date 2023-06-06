@@ -1,3 +1,5 @@
+property __CLASS__ : 4D:C1709.Class
+
 Class constructor
 	
 	This:C1470[""]:=New shared object:C1526(\
@@ -14,11 +16,11 @@ Function get success() : Boolean
 	return This:C1470._.success
 	
 	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
-Function set success($success : Boolean)
+Function set success($value : Boolean)
 	
 	Use (This:C1470._)
 		
-		This:C1470._.success:=Count parameters:C259=0 ? True:C214 : $success
+		This:C1470._.success:=Count parameters:C259=0 ? True:C214 : $value
 		
 	End use 
 	
@@ -76,7 +78,7 @@ Function get matrix() : Boolean  // Return True if it's the fisrt inastance of t
 	
 	// Mark:-
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function singletonize($instance : Object)  // Make the class a singleton
+Function Singletonize($instance : Object)  // Make the class a singleton
 	
 	// Get the class of the object passed in parameter
 	This:C1470.__CLASS__:=OB Class:C1730($instance)
@@ -99,71 +101,35 @@ Function singletonize($instance : Object)  // Make the class a singleton
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function succeed($success : Boolean) : cs:C1710._classCore
+Function Succeed($value : Boolean) : cs:C1710._classCore
 	
 	Use (This:C1470._)
 		
-		This:C1470._.success:=Count parameters:C259=0 ? True:C214 : $success
+		This:C1470._.success:=Count parameters:C259=0 ? True:C214 : $value
 		
 	End use 
 	
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function failure($failure : Boolean) : cs:C1710._classCore
+Function Fail($value : Boolean) : cs:C1710._classCore
 	
 	Use (This:C1470._)
 		
-		This:C1470._.success:=Count parameters:C259=0 ? False:C215 : Not:C34($failure)
+		This:C1470._.success:=Count parameters:C259=0 ? False:C215 : Not:C34($value)
 		
 	End use 
 	
 	return This:C1470
 	
-	// Mark:-
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function isNum($value) : Boolean
+Function Obfuscate($key : Text; $value)
 	
-	return (Value type:C1509($value)=Is longint:K8:6) | (Value type:C1509($value)=Is real:K8:4)
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function isText($value) : Boolean
-	
-	return Value type:C1509($value)=Is text:K8:3
+	This:C1470[""]:=This:C1470[""] || {}
+	This:C1470[""][$key]:=$value
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function isFile($value) : Boolean
-	
-	return (Value type:C1509($value)=Is object:K8:27) && (OB Instance of:C1731($value; 4D:C1709.File))
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function isFolder($value) : Boolean
-	
-	return (Value type:C1509($value)=Is object:K8:27) && (OB Instance of:C1731($value; 4D:C1709.Folder))
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function isPlatformPath($value) : Boolean
-	
-	return Match regex:C1019("(?mi-s)^(?:(?:\\\\{2})|(?:[a-zA-Z]:\\\\?)|(?:[^:]+:)|(?:[^.:/\\n\\\\]+)).*$"; $value; 1)
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function isJson($value) : Boolean
-	
-	return Match regex:C1019("\"(?si-m)^(?:\\\\{.*\\\\}$)|(?:^\\\\[.*\\\\]$)\""; $value; 1)
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function isJsonObject($value) : Boolean
-	
-	return Match regex:C1019("(?m-si)^\\{.*\\}$"; $value; 1)
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function isJsonArray($value) : Boolean
-	
-	return Match regex:C1019("(?m-si)^\\[.*\\]$"; $value; 1)
-	
-	// Mark:-
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function digest($tgt) : Text
+Function Digest($tgt) : Text
 	
 	var $digest : Text
 	var $blb : 4D:C1709.Blob
@@ -211,6 +177,47 @@ Function digest($tgt) : Text
 			
 			//______________________________________________________
 	End case 
+	
+	// Mark:-
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isNum($value) : Boolean
+	
+	return (Value type:C1509($value)=Is longint:K8:6) | (Value type:C1509($value)=Is real:K8:4)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isText($value) : Boolean
+	
+	return Value type:C1509($value)=Is text:K8:3
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isFile($value) : Boolean
+	
+	return (Value type:C1509($value)=Is object:K8:27) && (OB Instance of:C1731($value; 4D:C1709.File))
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isFolder($value) : Boolean
+	
+	return (Value type:C1509($value)=Is object:K8:27) && (OB Instance of:C1731($value; 4D:C1709.Folder))
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isPlatformPath($value) : Boolean
+	
+	return Match regex:C1019("(?mi-s)^(?:(?:\\\\{2})|(?:[a-zA-Z]:\\\\?)|(?:[^:]+:)|(?:[^.:/\\n\\\\]+)).*$"; $value; 1)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isJson($value) : Boolean
+	
+	return Match regex:C1019("\"(?si-m)^(?:\\\\{.*\\\\}$)|(?:^\\\\[.*\\\\]$)\""; $value; 1)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isJsonObject($value) : Boolean
+	
+	return Match regex:C1019("(?m-si)^\\{.*\\}$"; $value; 1)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isJsonArray($value) : Boolean
+	
+	return Match regex:C1019("(?m-si)^\\[.*\\]$"; $value; 1)
 	
 	// Mark:-
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==

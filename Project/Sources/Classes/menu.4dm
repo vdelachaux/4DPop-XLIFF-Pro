@@ -1,3 +1,7 @@
+property data; submenus : Collection
+property choice; ref : Text
+property autoRelease; localize; metacharacters; selected : Boolean
+
 Class constructor($options)
 	
 	var $c : Collection
