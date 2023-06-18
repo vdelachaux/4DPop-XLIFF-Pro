@@ -541,7 +541,6 @@ Function bestSize($alignment; $minWidth : Integer; $maxWidth : Integer) : cs:C17
 				
 				If (Num:C11($o.alignment)=Align left:K42:2)
 					
-					// Add 10 pixels
 					$width:=$width+10
 					
 				End if 
@@ -553,9 +552,18 @@ Function bestSize($alignment; $minWidth : Integer; $maxWidth : Integer) : cs:C17
 				$width:=Round:C94($width*1.1; 0)
 				
 				//______________________________
+			: (This:C1470.type=Object type 3D button:K79:17)
+				
+				// Fixme:Best size has been improved with 20R2
+				If (Num:C11(Application version:C493)<2020)
+					
+					$width:=$width+10
+					
+				End if 
+				
+				//______________________________
 			Else 
 				
-				// Add 10 pixels
 				$width:=$width+10
 				
 				//______________________________
@@ -567,22 +575,39 @@ Function bestSize($alignment; $minWidth : Integer; $maxWidth : Integer) : cs:C17
 			
 		End if 
 		
-		If ($o.alignment=Align right:K42:4)
-			
-			$left:=$right-$width
-			
-		Else 
-			
-			$right:=$left+$width
-			
-		End if 
+		
+		Case of 
+				//______________________________________________________
+			: ($o.alignment=Align right:K42:4)
+				
+				$left:=$right-$width
+				
+				//______________________________________________________
+			: ($o.alignment=Align center:K42:3)
+				
+				var $offset : Integer
+				$offset:=($width\2)-(This:C1470.width\2)
+				$left:=$left-$offset
+				$right:=$right+$offset
+				
+				//______________________________________________________
+			: ($o.alignment=Align left:K42:2)
+				
+				$right:=$left+$width
+				
+				//______________________________________________________
+			Else 
+				
+				TRACE:C157
+				
+				//______________________________________________________
+		End case 
 		
 		OBJECT SET COORDINATES:C1248(*; This:C1470.name; $left; $top; $right; $bottom)
 		
 	End if 
 	
 	This:C1470.updateCoordinates($left; $top; $right; $bottom)
-	
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===

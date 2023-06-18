@@ -32,6 +32,8 @@ var $sync : cs:C1710._sync
 
 $sync:=cs:C1710._sync.new()
 
+//  $sync.Failure()
+
 If ($sync.fail)
 	
 	If (Not:C34($sync.remoteValid))
@@ -44,6 +46,7 @@ If ($sync.fail)
 			
 		End if 
 		
+		//SetRemoteFolder
 		$sync.SetRemoteFolder(Folder:C1567($path; fk platform path:K87:2).path)
 		
 	End if 

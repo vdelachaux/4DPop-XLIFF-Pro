@@ -24,6 +24,17 @@ Function set success($value : Boolean)
 		
 	End use 
 	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function Succeed($value : Boolean) : cs:C1710._classCore
+	
+	Use (This:C1470._)
+		
+		This:C1470._.success:=Count parameters:C259=0 ? True:C214 : $value
+		
+	End use 
+	
+	return This:C1470
+	
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get ready() : Boolean
 	
@@ -42,6 +53,17 @@ Function set ready()
 Function get fail() : Boolean
 	
 	return Not:C34(This:C1470._.success)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function Failure($value : Boolean) : cs:C1710._classCore
+	
+	Use (This:C1470._)
+		
+		This:C1470._.success:=Count parameters:C259=0 ? False:C215 : Not:C34($value)
+		
+	End use 
+	
+	return This:C1470
 	
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get notReady() : Boolean
@@ -99,28 +121,6 @@ Function Singletonize($instance : Object)  // Make the class a singleton
 			
 		End use 
 	End if 
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function Succeed($value : Boolean) : cs:C1710._classCore
-	
-	Use (This:C1470._)
-		
-		This:C1470._.success:=Count parameters:C259=0 ? True:C214 : $value
-		
-	End use 
-	
-	return This:C1470
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function Fail($value : Boolean) : cs:C1710._classCore
-	
-	Use (This:C1470._)
-		
-		This:C1470._.success:=Count parameters:C259=0 ? False:C215 : Not:C34($value)
-		
-	End use 
-	
-	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function Obfuscate($key : Text; $value)
@@ -232,11 +232,12 @@ Function _pushError($message : Text)
 	var $c : Collection
 	$c:=Get call chain:C1662
 	
-	For each ($o; $c) While ($current=Null:C1517)
+	For each ($o; $c)
 		
 		If (Position:C15("_classCore."; $o.name)#1)
 			
 			$current:=$o
+			break
 			
 		End if 
 	End for each 
