@@ -3,6 +3,7 @@
 ![code-size](https://img.shields.io/github/languages/code-size/vdelachaux/4DPop-XLIFF-Pro.svg)
 [![license](https://img.shields.io/github/license/vdelachaux/4DPop-XLIFF-Pro)](LICENSE)
 [![release](https://img.shields.io/github/v/release/vdelachaux/4DPop-XLIFF-Pro?include_prereleases)](https://github.com/vdelachaux/4DPop-XLIFF-Pro/releases/latest)
+[![Build](https://github.com/vdelachaux/4DPop-XLIFF-Pro/actions/workflows/build.yml/badge.svg)](https://github.com/vdelachaux/4DPop-XLIFF-Pro/actions/workflows/build.yml)
 
 # 4DPop XLIFF Pro
 
