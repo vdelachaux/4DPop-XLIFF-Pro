@@ -2,5 +2,5 @@
 <!DOCTYPE base SYSTEM "http://www.4d.com/dtd/2007/base.dtd" >
 <base name="4DPop XLIFF Pro" uuid="75F09E21C9CC43198E8BA6880B955B75" collation_locale="en">
 	<schema name="DEFAULT_SCHEMA"/>
-	<base_extra __stringCompHash="icu:72.1.0" __keywordBuildingHash="icu:72.1.0" package_name="4DPop XLIFF Pro" structure_file_name="4DPop XLIFF Pro" data_file_path=":4DPop XLIFF Pro.4DD"/>
+	<base_extra package_name="4DPop XLIFF Pro" structure_file_name="4DPop XLIFF Pro" data_file_path=":4DPop XLIFF Pro.4DD"/>
 </base>
