@@ -291,7 +291,7 @@ Function set font($font : Text)
 				
 				For each ($font; $desiredFonts)
 					
-					If (This:C1470._fontList().indexOf($font)#-1)
+					If (This:C1470._fontList().includes($font))
 						
 						OBJECT SET FONT:C164(*; This:C1470.name; $font)
 						break
@@ -522,7 +522,7 @@ Function bestSize($alignment; $minWidth : Integer; $maxWidth : Integer) : cs:C17
 		Object type radio button:K79:23; \
 		Object type static picture:K79:3; \
 		Object type static text:K79:2; \
-		Object type listbox:K79:8].indexOf(This:C1470.type)#-1)
+		Object type listbox:K79:8].includes(This:C1470.type))
 		
 		If ($o.maxWidth#Null:C1517)
 			

@@ -144,7 +144,7 @@ Function belongsTo($formObject : Variant) : Boolean
 			//______________________________________________________
 		: (Value type:C1509($formObject)=Is object:K8:27)
 			
-			return This:C1470.members.indexOf($formObject)#-1
+			return This:C1470.members.includes($formObject)
 			
 			//______________________________________________________
 		: (Value type:C1509($formObject)=Is text:K8:3)
