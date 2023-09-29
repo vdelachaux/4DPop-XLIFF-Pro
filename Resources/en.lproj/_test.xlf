@@ -81,11 +81,11 @@ This file is distributed under the same license as the product package.
           <source>New element 3</source>
           <target>New element 3</target>
         </trans-unit>
-        <trans-unit id="wvp67kfhNL0/IF9eAXxTIQ" resname="unitResname">
+        <trans-unit id="wvp67kfhNL0_IF9eAXxTIQ" resname="unitResname">
           <source>en</source>
           <target>en</target>
         </trans-unit>
-        <trans-unit id="ARpsD191/XNMKyAQdDD/qQ" resname="TEST_5">
+        <trans-unit id="ARpsD191_XNMKyAQdDD_qQ" resname="TEST_5">
           <source>New element 5</source>
           <target>New element 5</target>
           <note>TEST_5</note>
@@ -103,7 +103,7 @@ This file is distributed under the same license as the product package.
           <source>zzzzzz</source>
           <target>zzzzzz</target>
         </trans-unit>
-        <trans-unit id="zBX/6sXvLqDmOoj5lqJzVA" resname="New element 8">
+        <trans-unit id="zBX_6sXvLqDmOoj5lqJzVA" resname="New element 8">
           <source>en</source>
           <target>en</target>
         </trans-unit>

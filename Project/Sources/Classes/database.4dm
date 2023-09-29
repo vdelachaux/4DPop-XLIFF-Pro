@@ -277,7 +277,11 @@ Function compile($options : Object) : Boolean
 		
 	End if 
 	
-	This:C1470.errors:=$compile.errors.query("isError = :1"; True:C214)
+	Use (This:C1470[""].errors)
+		
+		This:C1470[""].errors:=$compile.errors.query("isError = :1"; True:C214).copy(ck shared:K85:29; This:C1470[""].errors)
+		
+	End use 
 	
 	return $compile.success
 	
@@ -453,3 +457,38 @@ Function _restart($compiled : Boolean; $userParam) : Object
 	
 	return $signal.result
 	//%W+550.2
+	
+	//MARK:-[PROCESSES]
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function getRunningUserProcesses() : Collection
+	
+	var $c : Collection
+	
+	$c:=Get process activity:C1495(Processes only:K5:35).processes
+	
+	return $c.query("state >= :1 & type > 0"; Executing:K13:4)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isProcessRunning($name : Text) : Boolean
+	
+	return This:C1470.getRunningUserProcesses().query("name = :1"; $name).pop()#Null:C1517
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isProcessExists($name : Text; $bringToFront : Boolean) : Boolean
+	
+	var $process : Object
+	
+	$process:=This:C1470.getRunningUserProcesses().query("name = :1"; $name).pop()
+	
+	If ($process#Null:C1517)
+		
+		If ($bringToFront)
+			
+			SHOW PROCESS:C325($process.number)
+			BRING TO FRONT:C326($process.number)
+			
+		End if 
+		
+		return True:C214
+		
+	End if 

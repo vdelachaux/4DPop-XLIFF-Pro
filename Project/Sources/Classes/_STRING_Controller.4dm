@@ -88,7 +88,7 @@ Function handleEvents($e : cs:C1710.evt)
 		Case of 
 				
 				//==============================================
-			: (This:C1470.resname.catch($e))
+			: (This:C1470.resname.catch($e; On Losing Focus:K2:8))
 				
 				This:C1470._resnameManager($e)
 				
@@ -198,6 +198,8 @@ Function update()
 	End if 
 	
 	$string:=$parent.stringList.item
+	
+	ASSERT:C1129($string#Null:C1517)
 	
 	// Set shortcuts
 	Form:C1466.main:=$parent.main
@@ -367,7 +369,7 @@ Function _resnameManager($e : cs:C1710.evt)
 	
 	If ($e.code#On Losing Focus:K2:8)
 		
-		ASSERT:C1129(False:C215; "Form event activated unnecessarily ("+$e.description+")")
+		//ASSERT(False; "Form event activated unnecessarily ("+$e.description+")")
 		return 
 		
 	End if 
@@ -572,11 +574,6 @@ Function _sourceManager($e : cs:C1710.evt)
 		: ($e.code=On Losing Focus:K2:8)
 			
 			This:C1470.updateSource()
-			
-			//______________________________________________________
-		Else 
-			
-			ASSERT:C1129(False:C215; "Form event activated unnecessarily ("+$e.description+")")
 			
 			//______________________________________________________
 	End case 

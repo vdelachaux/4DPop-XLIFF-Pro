@@ -14,18 +14,16 @@
 	"♻️ LIBRAIRIES": {
 		"groups": [
 			"👩‍💻 UI",
-			"database"
+			"database",
+			"env",
+			"Menus"
 		],
 		"methods": [
 			"COMPILER_env",
-			"envScreens",
 			"noError"
 		],
 		"classes": [
 			"_classCore",
-			"env",
-			"menu",
-			"menuBar",
 			"motor",
 			"pathPicker",
 			"str",
@@ -77,22 +75,18 @@
 		]
 	},
 	"📦 MAIN": {
+		"groups": [
+			"EDITOR",
+			"LANGUAGE",
+			"NOTE",
+			"STRING",
+			"UPDATES"
+		],
 		"methods": [
 			"COMPILER_component",
 			"EDITOR CALLBACK",
 			"EDITOR CLOSE",
 			"EDITOR OPEN"
-		],
-		"forms": [
-			"EDITOR",
-			"LANGUAGE",
-			"NOTE",
-			"STRING"
-		],
-		"classes": [
-			"_EDITOR_Controller",
-			"_LANGUAGE_Controller",
-			"_STRING_Controller"
 		]
 	},
 	"4️⃣ 4DPop": {
@@ -111,12 +105,60 @@
 			"database"
 		]
 	},
+	"EDITOR": {
+		"forms": [
+			"EDITOR"
+		],
+		"classes": [
+			"_EDITOR_Controller"
+		]
+	},
+	"env": {
+		"methods": [
+			"envScreens"
+		],
+		"classes": [
+			"env"
+		]
+	},
+	"LANGUAGE": {
+		"forms": [
+			"LANGUAGE"
+		],
+		"classes": [
+			"_LANGUAGE_Controller"
+		]
+	},
+	"Menus": {
+		"classes": [
+			"menu",
+			"menuBar"
+		]
+	},
+	"NOTE": {
+		"forms": [
+			"NOTE"
+		]
+	},
 	"SEARH PICKER": {
 		"forms": [
 			"SEARCH_PICKER"
 		],
 		"classes": [
 			"_SEARCH_PICKER_Controller"
+		]
+	},
+	"STRING": {
+		"forms": [
+			"STRING"
+		],
+		"classes": [
+			"_STRING_Controller"
+		]
+	},
+	"UPDATES": {
+		"methods": [
+			"fixIDsWithSlashes"
 		]
 	},
 	"Widgets": {

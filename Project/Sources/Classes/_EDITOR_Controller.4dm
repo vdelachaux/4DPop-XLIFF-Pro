@@ -31,7 +31,7 @@ Class constructor($mainLanguage : Text)
 	This:C1470.folderExtension:=".lproj"
 	
 	This:C1470.generator:=File:C1566(Structure file:C489; fk platform path:K87:2).name
-	This:C1470.version:="3.0"
+	This:C1470.version:="3.1"
 	
 	// TODO:Could be a preference
 	This:C1470.autoSave:=True:C214  // Flag for automatic saving
@@ -1698,6 +1698,7 @@ Function _LOAD_STRINGS()
 	var $unit : cs:C1710.Transunit
 	var $main : cs:C1710.Xliff
 	
+	//FIXME:Optimize 
 	ARRAY TEXT:C222($groupResnames; 0x0000)
 	ARRAY TEXT:C222($stringResnames; 0x0000)
 	ARRAY OBJECT:C1221($units; 0x0000)

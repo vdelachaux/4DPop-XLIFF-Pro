@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <appMaker>
   <info.plist CFBundleGetInfoString="DEV" CFBundleLongVersionString="0.0" CFBundleShortVersionString="0" NSHumanReadableCopyright="©vdl 2020-{CurrentYear}"/>
-  <options close="true" delete_mac_content="true" increment_version="true" notarize="true"/>
   <methods/>
   <copy>
     <array>
@@ -54,4 +53,6 @@
       <item>./Resources/ja.lproj/zzz.xlf</item>
     </array>
   </delete>
+  <reveal path="./"/>
+  <options close="true" delete_mac_content="true" increment_version="true" notarize="true"/>
 </appMaker>

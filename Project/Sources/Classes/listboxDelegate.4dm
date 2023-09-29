@@ -454,7 +454,8 @@ Function cellPosition($e : cs:C1710.evt) : Object
 		 | ($e.code=On Double Clicked:K2:5)\
 		 | ($e.code=On Selection Change:K2:29)\
 		 | ($e.code=On Expand:K2:41)\
-		 | ($e.code=On Delete Action:K2:56)
+		 | ($e.code=On Delete Action:K2:56)\
+		 | ($e.code=On Losing Focus:K2:8)
 		
 		// ⚠️  Column is always 0
 		LISTBOX GET CELL POSITION:C971(*; This:C1470.name; $column; $row)

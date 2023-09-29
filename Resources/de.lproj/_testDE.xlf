@@ -7,13 +7,13 @@ This file is distributed under the same license as the product package.
 <xliff version="1.0" xmlns:d4="http://www.4d.com/d4-ns">
   <file datatype="plaintext" original="Undefined" source-language="en" target-language="de">
     <header>
-      <prop-group name="Xliff-Editor.4dbase">
-        <prop prop-type="resname-autofill">1</prop>
-        <prop prop-type="resname-prefix">Menus_</prop>
-        <prop prop-type="resname-separator"/>
-        <prop prop-type="version">2.0</prop>
-        <prop prop-type="separator">_</prop>
-        <prop prop-type="prefix">4D_</prop>
+      <prop-group name="4DPop XLIFF Pro">
+        
+        
+        
+        <prop prop-type="version">3.1</prop>
+        
+        
       </prop-group>
     </header>
     <body>
@@ -55,17 +55,17 @@ This file is distributed under the same license as the product package.
           <source>Duplicate_resname_2</source>
           <target state="new">Duplicate_resname_2</target>
         </trans-unit>
-        <trans-unit id="FDD8311C4B1A47B8B9B9FA78DF3DCB58" resname="seventy">
+        <trans-unit id="FDD8311-2023C4B1A47B8B9B9FA78DF3DCB58" resname="seventy">
           <source>Seventy</source>
           <target state="new">Seventy</target>
         </trans-unit>
       </group>
       <group resname="New group">
-        <trans-unit id="zBX/6sXvLqDmOoj5lqJzVA" resname="newelement8">
+        <trans-unit id="zBX_6sXvLqDmOoj5lqJzVA" resname="newelement8">
           <source>TEST 2</source>
           <target state="new">TEST 2</target>
         </trans-unit>
-        <trans-unit id="f3Yqfpkg1F9M3rt6/Ngg5A" resname="zzz">
+        <trans-unit id="f3Yqfpkg1F9M3rt6_Ngg5A" resname="zzz">
           <source/>
           <target state="new"/>
         </trans-unit>

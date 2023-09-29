@@ -19,7 +19,8 @@ Class constructor($version : Text)
 		
 	Else 
 		
-		This:C1470.data:=New object:C1471("version"; This:C1470.version)
+		This:C1470.data:=New object:C1471(\
+			"version"; This:C1470.version)
 		
 	End if 
 	
@@ -43,22 +44,41 @@ Function _save()
 	// === === === === === === === === === === === === === === === === === === ===
 Function _update()
 	
-	Case of 
-			
-			//______________________________________________________
-		: (This:C1470.data.version=Null:C1517)
-			
-			This:C1470.data.version:=This:C1470.version
-			
-			OB REMOVE:C1226(This:C1470.data; "file")
-			OB REMOVE:C1226(This:C1470.data; "files")
-			OB REMOVE:C1226(This:C1470.data; "languages")
-			OB REMOVE:C1226(This:C1470.data; "digest")
-			
-			//______________________________________________________
-		: (This:C1470.data.version="3.0")  // Update to 3.1 or higher
-			
-			//
-			
-			//______________________________________________________
-	End case 
+	var $version : Text
+	$version:=This:C1470.data.version || ""
+	
+	Repeat 
+		
+		Case of 
+				
+				//______________________________________________________
+			: ($version="")
+				
+				OB REMOVE:C1226(This:C1470.data; "file")
+				OB REMOVE:C1226(This:C1470.data; "files")
+				OB REMOVE:C1226(This:C1470.data; "languages")
+				OB REMOVE:C1226(This:C1470.data; "digest")
+				
+				$version:="3.0"
+				
+				//______________________________________________________
+			: ($version="3.0")
+				
+				fixIDsWithSlashes
+				
+				$version:="3.1"
+				
+				//______________________________________________________
+			: ($version="3.1")  // Update to 3.2 or higher
+				
+				//______________________________________________________
+		End case 
+		
+	Until ($version=This:C1470.version)
+	
+	If (This:C1470.data.version#$version)
+		
+		This:C1470.data.version:=$version
+		This:C1470._save()
+		
+	End if 

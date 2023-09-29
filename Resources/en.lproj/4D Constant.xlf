@@ -9,7 +9,17 @@
 
 
 
-  <!--
+  
+
+
+
+  
+
+
+
+  
+
+<!--
     Created with 4DPop Constants Editor
   -->
 
@@ -27,7 +37,12 @@
 
       
 
-      <!--groups' labels-->
+      
+
+      
+
+      
+<!--groups' labels-->
       <group resname="themes">
         <trans-unit id="thm_1" resname="E4A1D7C0F32F4E66A7F82429D82994E8">
           <source>VP Properties</source>
@@ -42,7 +57,12 @@
 
       
 
-      <!--constants-->
+      
+
+      
+
+      
+<!--constants-->
       <group d4:groupName="E4A1D7C0F32F4E66A7F82429D82994E8" restype="x-4DK#">
         <trans-unit d4:value="allowUserDragDrop:S" id="k_1">
           <source>vp Drag and Drop</source>
@@ -93,6 +113,11 @@
       </group>
     </body>
   </file>
+
+
+
+
+
 
 
 

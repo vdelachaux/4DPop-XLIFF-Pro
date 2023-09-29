@@ -4,9 +4,16 @@
 var $data : Object
 var $database : cs:C1710.database
 
-If ($run)
+$database:=cs:C1710.database.new()
+
+If (Not:C34($run))\
+ && ($database.isProcessExists("$4DPop XLIFF Pro"; True:C214))
 	
-	$database:=cs:C1710.database.new()
+	return 
+	
+End if 
+
+If ($run)
 	
 	// Allow assertions for the matrix database & me ;-)
 	SET ASSERT ENABLED:C1131($database.isMatrix | $database.isDebug; *)
