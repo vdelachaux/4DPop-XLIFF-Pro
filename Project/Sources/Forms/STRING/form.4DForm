@@ -115,7 +115,8 @@
 						"onLosingFocus",
 						"onGettingFocus"
 					],
-					"dataSource": "Form:C1466.string.source.value"
+					"dataSource": "Form:C1466.string.source.value",
+					"spellcheck": true
 				},
 				"resname.label": {
 					"type": "text",

@@ -43,17 +43,12 @@ Function handleEvents($e : cs:C1710.evt)
 				This:C1470.form.onLoad()
 				
 				//______________________________________________________
-			: ($e.code=On Activate:K2:9)
+			: ($e.code=On Activate:K2:9)  //Never seems to trigger
 				
-				BEEP:C151
-				
-				If (OBJECT Get pointer:C1124(Object with focus:K67:3)=OBJECT Get pointer:C1124(Object subform container:K67:4))
-					
-					This:C1470.value.focus()
-					
-				End if 
-				
-				SPELL SET CURRENT DICTIONARY:C904(Substring:C12(OBJECT Get subform container value:C1785.language; 1; 2))
+				//If (OBJECT Get pointer(Object with focus)=OBJECT Get pointer(Object subform container))
+				//This.value.focus()
+				//End if 
+				//SPELL SET CURRENT DICTIONARY(Substring(OBJECT Get subform container value.language; 1; 2))
 				
 				//______________________________________________________
 			: ($e.code=On Bound Variable Change:K2:52)
