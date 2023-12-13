@@ -46,6 +46,7 @@ Class constructor($mainLanguage : Text)
 	// MARK:- Retrieving active lproj folders
 	This:C1470.folders:=Folder:C1567(fk resources folder:K87:11; *).folders().query("extension = :1 & name != :2"; This:C1470.folderExtension; "_@")
 	
+	
 	// MARK: Define the main language
 	This:C1470.main:={}
 	This:C1470.main.language:=$mainLanguage || This:C1470._mainLanguage()
@@ -816,6 +817,16 @@ Function newFileManager()
 		End if 
 	End if 
 	
+	//
+	If (This:C1470.folders.length=0)
+		
+		var $folder : 4D:C1709.Folder
+		$folder:=Folder:C1567(fk resources folder:K87:11; *).folder(This:C1470.main.language+This:C1470.folderExtension)
+		$folder.create()
+		This:C1470.folders.push($folder)
+		
+	End if 
+	
 	$file:=File:C1566("/RESOURCES/template.xlf").copyTo(This:C1470.folders.query("name = :1"; This:C1470.main.language).pop(); $name; fk overwrite:K87:5)
 	
 	$t:=$file.getText()
@@ -1276,7 +1287,9 @@ Function _populateString($column : Integer; $row : Integer) : Object
 	
 	$string:=($column=1) & (OB Instance of:C1731($o; cs:C1710.Transunit)) ? This:C1470.parentGroup($o) : $o
 	
-	ASSERT:C1129($string#Null:C1517)
+	If (Structure file:C489=Structure file:C489(*))
+		ASSERT:C1129($string#Null:C1517)
+	End if 
 	
 	If ($string.localizations=Null:C1517 ? True:C214 : ($string.localizations.length=0))
 		
