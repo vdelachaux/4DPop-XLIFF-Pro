@@ -689,45 +689,45 @@ Function execute
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function on
+Function on($in; $formula : Object) : Boolean
 	
-	C_BOOLEAN:C305($0)
-	C_VARIANT:C1683($1)
-	C_OBJECT:C1216($2)
+	var $success : Boolean
 	
 	If (Asserted:C1132(This:C1470.type#Object type group:K79:22; "Does not apply to a group"))
 		
 		If (Count parameters:C259=0)
 			
-			$0:=(This:C1470.name=FORM Event:C1606.objectName)
+			$success:=(This:C1470.name=FORM Event:C1606.objectName)
 			
 		Else 
 			
-			If (Value type:C1509($1)=Is object:K8:27)
+			If (Value type:C1509($in)=Is object:K8:27)
 				
 				If (Count parameters:C259>=2)
 					
-					$0:=(This:C1470.name=String:C10($1.objectName))\
-						 & ($1.code=$2)
+					$success:=(This:C1470.name=String:C10($in.objectName))\
+						 & ($in.code=$formula)
 					
 				Else 
 					
-					$0:=(This:C1470.name=String:C10($1.objectName))
+					$success:=(This:C1470.name=String:C10($in.objectName))
 					
 				End if 
 			Else 
 				
-				$0:=(This:C1470.name=String:C10($1))
+				$success:=(This:C1470.name=String:C10($in))
 				
 			End if 
 		End if 
 		
-		If ($0)
+		If ($success)
 			
-			$2.call()
+			$formula.call()
 			
 		End if 
 	End if 
+	
+	return $success
 	
 	// MARK:-[OBSOLETE]
 	

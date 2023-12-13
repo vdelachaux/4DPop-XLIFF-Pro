@@ -212,9 +212,7 @@ Function quoted($tring : Text) : Text
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns the localized string corresponding to the $resname resname & made replacement if any
-Function localized($resname : Text; $replacement; $replacementN : Text) : Text
-	
-	var ${3} : Text
+Function localized($resname : Text; $replacement; $replacementN : Text;  ...  : Text) : Text
 	
 	var $t; $localizedString : Text
 	var $continue : Boolean

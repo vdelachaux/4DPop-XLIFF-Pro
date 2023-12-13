@@ -199,7 +199,9 @@ Function update()
 	
 	$string:=$parent.stringList.item
 	
-	ASSERT:C1129($string#Null:C1517)
+	If (Structure file:C489=Structure file:C489(*))
+		ASSERT:C1129($string#Null:C1517)
+	End if 
 	
 	// Set shortcuts
 	Form:C1466.main:=$parent.main
