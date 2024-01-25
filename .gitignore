@@ -78,3 +78,4 @@ Project/Sources/Methods/Method[0-9][0-9].4dm
 Resources/_*
 *.bbprojectd
 Preferences/4DPop XLIFF.settings
+Project/Sources/dependencies.json
