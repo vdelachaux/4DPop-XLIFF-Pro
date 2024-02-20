@@ -1,9 +1,23 @@
-[![language](https://img.shields.io/static/v1?label=language&message=4d&color=blue)](https://developer.4d.com/)
-[![language](https://img.shields.io/github/languages/top/vdelachaux/4DPop-XLIFF-Pro.svg)](https://developer.4d.com/)
-![code-size](https://img.shields.io/github/languages/code-size/vdelachaux/4DPop-XLIFF-Pro.svg)
-[![license](https://img.shields.io/github/license/vdelachaux/4DPop-XLIFF-Pro)](LICENSE)
-[![release](https://img.shields.io/github/v/release/vdelachaux/4DPop-XLIFF-Pro?include_prereleases)](https://github.com/vdelachaux/4DPop-XLIFF-Pro/releases/latest)
-[![Build](https://github.com/vdelachaux/4DPop-XLIFF-Pro/actions/workflows/build.yml/badge.svg)](https://github.com/vdelachaux/4DPop-XLIFF-Pro/actions/workflows/build.yml)
+[code-shield]: https://img.shields.io/static/v1?label=language&message=4d&color=blue
+[code-url]: https://developer.4d.com/
+[license-url]: LICENSE
+[notarized]: https://img.shields.io/badge/notarized-blue
+
+[code-top]: https://img.shields.io/github/languages/top/vdelachaux/4DPop-XLIFF-Pro.svg
+[code-size]: https://img.shields.io/github/languages/code-size/vdelachaux/4DPop-XLIFF-Pro.svg
+[release-shield]: https://img.shields.io/github/v/release/vdelachaux/4DPop-XLIFF-Pro?include_prereleases
+[release-url]: https://github.com/vdelachaux/4DPop-XLIFF-Pro/releases/latest
+[license-shield]: https://img.shields.io/github/license/vdelachaux/4DPop-XLIFF-Pro
+[build-shield]: https://github.com/vdelachaux/4DPop-XLIFF-Pro/actions/workflows/build.yml/badge.svg
+[build-url]: https://github.com/vdelachaux/4DPop-XLIFF-Pro/actions/workflows/build.yml
+
+[![language][code-shield]][code-url]
+[![language-top][code-top]][code-url]
+![code-size][code-size]
+[![license][license-shield]][license-url]
+[![release][release-shield]][release-url]
+[![build][build-shield]][license-url]
+![notarized][notarized]
 
 # 4DPop XLIFF Pro
 
@@ -17,37 +31,37 @@ No need to read the specification or be an XML expert, everything is done automa
 * Define the reference language then add as many languages as you want, files and folder are automatically created/updated.
 
 * Manage all standards ie. Language-Regional Codes, ISO639-1 and Legacy names.
-<img src="./assets/multilanguages.png">
+<p align="center"><img src="./assets/multilanguages.png" width="800"></p>
 
 * When a localization isn't done, the file is updated with the source string as target string  (so **all localized files are always synchronized**).
 
 * Automatically update the "state" attribute for the "target" string ("new", "need translation") according to the XLIFF specification, so that the created files can be edited with another XLIFF editor.
 
 * In the editor, the not translated strings are highlighted depending the translate status (solarized light background).
-<img src="./assets/all.png">
+<p align="center"><img src="./assets/all.png" width="800"></p>
 
 ## Duplicate resnames
 
 * **Detecting the uniqueness of resname into a file** with auto-expanding & highlighting of duplicated items.
 * The "resname" is case-sensitive, so the same resname but with a case difference is not considered duplicated.
 * A "resname" is also not considered duplicated if it is loaded only on a platform.
-<img src="./assets/duplicateResnames.png">
+<p align="center"><img src="./assets/duplicateResnames.png" width="800"></p>
 
 ## Notes & platform
 
 * **Note management**
 
-<img src="./assets/notes.png">
+<p align="center"><img src="./assets/notes.png" width="800"></p>
 
 * **Platform Management**. Allows you to load a different string depending on the platform.
 
-<img src="./assets/platform.png">
+<p align="center"><img src="./assets/platform.png" width="800"></p>
 
 ## Working language
 
 * **Filter the working language** - Keep only at screen the reference and one localization language, all other languages continue to be synchronized.
 
-<img src="./assets/fr.png">
+<p align="center"><img src="./assets/fr.png" width="800"></p>
 
 ## Action menu
 
@@ -55,7 +69,7 @@ No need to read the specification or be an XML expert, everything is done automa
 * Choosing platform.
 * Set reference value to all languages.
 
-            <img src="./assets/actionMenu.png" width="300">
+<p align="center"><img src="./assets/actionMenu.png" width="500"></p>
 
 ## Miscellaneous
 
