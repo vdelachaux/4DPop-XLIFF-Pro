@@ -4,13 +4,13 @@
 
   <dict>
     <key>NSHumanReadableCopyright</key>
-    <string>©vdl 2020-2023</string>
+    <string>©vdl 2020-2024</string>
     <key>CFBundleIdentifier</key>
     <string>com.4D.4DPop XLIFF Pro</string>
     <key>CFBundleGetInfoString</key>
-    <string>20R4</string>
+    <string>20R6</string>
     <key>CFBundleLongVersionString</key>
-    <string>20R4 (101)</string>
+    <string>20R6 (102)</string>
     <key>CFBundleName</key>
     <string>4DPop XLIFF Pro</string>
     <key>CFBundleDevelopmentRegion</key>
@@ -18,9 +18,9 @@
     <key>CFBundleDisplayName</key>
     <string>4DPop XLIFF Pro</string>
     <key>CFBundleVersion</key>
-    <string>102</string>
+    <string>103</string>
     <key>CFBundleShortVersionString</key>
-    <string>20R4</string>
+    <string>20R6</string>
     <key>CFBundleExecutable</key>
     <string>4DPop XLIFF Pro</string>
   </dict>
