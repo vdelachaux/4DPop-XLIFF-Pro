@@ -47,8 +47,6 @@ Class constructor($param)
 		
 	End for 
 	
-	This:C1470._worker:=Null:C1517
-	This:C1470._callback:=Null:C1517
 	This:C1470._darkExtension:="_dark"
 	This:C1470.entryOrder:=[]
 	
@@ -491,7 +489,7 @@ Function callWorker($method; $param; $param1; $paramN)
 	// .callWorker ( process : Integer ; method : Text ; param1, param2, …, paramN )
 	// ---------------------------------------------------------------------------------
 	
-	C_VARIANT:C1683(${2})
+	_O_C_VARIANT:C1683(${2})
 	
 	var $code : Text
 	var $i : Integer
@@ -692,7 +690,7 @@ Function callMe($method : Text; $param1; $paramN)
 .callMe ( method : Text ; param1, param2, …, paramN )
 */
 	
-	C_VARIANT:C1683(${2})
+	_O_C_VARIANT:C1683(${2})
 	
 	var $code : Text
 	var $i : Integer
@@ -744,7 +742,7 @@ Function callChild($subform; $method : Text; $param; $param1; $paramN)
 	
 	// TODO:Returned value
 	
-	C_VARIANT:C1683(${3})
+	_O_C_VARIANT:C1683(${3})
 	
 	var $code; $target : Text
 	var $i : Integer

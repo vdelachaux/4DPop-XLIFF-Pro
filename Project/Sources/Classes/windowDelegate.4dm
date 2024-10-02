@@ -41,7 +41,7 @@ Class constructor($param)
 			//______________________________________________________
 	End case 
 	
-	This:C1470.ready:=True:C214
+	This:C1470._.ready:=True:C214
 	
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get type() : Integer
@@ -233,7 +233,7 @@ Function set title($title : Text)
 	
 	var $t : Text
 	
-	$t:=Get localized string:C991($title)
+	$t:=Localized string:C991($title)
 	SET WINDOW TITLE:C213($t ? $t : $title; This:C1470.ref)
 	
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==

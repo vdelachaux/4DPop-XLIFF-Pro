@@ -92,7 +92,6 @@
 	"4️⃣ 4DPop": {
 		"methods": [
 			"_4DPopXliff",
-			"COMPILER_4DPop",
 			"editor"
 		]
 	},
