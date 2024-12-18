@@ -58,7 +58,7 @@ Class constructor($mainLanguage : Text)
 		language: This:C1470.main.language\
 		}
 	
-	// FIXME:Retrieve component version
+	// TODO:Retrieve component version
 	This:C1470.default.version:="3.0"
 	
 	This:C1470.languages:=[]
@@ -611,7 +611,7 @@ Function _stringListManager($e : cs:C1710.evt)
 						var $file : 4D:C1709.File
 						For each ($file; $files)
 							
-							$copy.append(Get localized string:C991("codeFor")+$file.name; $file.name)  //.setStyle(Italic)
+							$copy.append(Localized string:C991("codeFor")+$file.name; $file.name)  //.setStyle(Italic)
 							
 						End for each 
 					End if 
@@ -793,7 +793,7 @@ Function newFileManager()
 	var $file : 4D:C1709.File
 	
 	// Create a new XLIFF file 
-	$name:=Request:C163(Get localized string:C991("FileName"))
+	$name:=Request:C163(Localized string:C991("FileName"))
 	
 	If (Not:C34(Bool:C1537(OK)))\
 		 || (Length:C16($name)=0)
@@ -808,7 +808,7 @@ Function newFileManager()
 	
 	If (This:C1470.main.files.query("fullName= :1"; $name).pop()#Null:C1517)
 		
-		CONFIRM:C162(Replace string:C233(Get localized string:C991("theFileAlreadyExists"); "{name}"; $name))
+		CONFIRM:C162(Replace string:C233(Localized string:C991("theFileAlreadyExists"); "{name}"; $name))
 		
 		If (Not:C34(Bool:C1537(OK)))
 			
@@ -955,7 +955,7 @@ Function doDeleteFile($file : 4D:C1709.File; $e : cs:C1710.evt)
 	var $language : Object
 	var $xliff : cs:C1710.Xliff
 	
-	CONFIRM:C162(Replace string:C233(Get localized string:C991("DeleteFile"); "{filename}"; $file.name))
+	CONFIRM:C162(Replace string:C233(Localized string:C991("DeleteFile"); "{filename}"; $file.name))
 	
 	If (OK=0)
 		
@@ -1000,7 +1000,7 @@ Function doDeleteString($e : cs:C1710.evt)
 	End if 
 	
 	CONFIRM:C162(Replace string:C233(\
-		Get localized string:C991(OB Instance of:C1731($target; cs:C1710.Transunit) ? "DeleteItem" : "DeleteGroup"); \
+		Localized string:C991(OB Instance of:C1731($target; cs:C1710.Transunit) ? "DeleteItem" : "DeleteGroup"); \
 		"{item}"; $target.resname))
 	
 	If (OK=0)
@@ -1243,7 +1243,7 @@ Function uniqueResname($what : Text) : Text
 	var $indx : Integer
 	
 	$indx:=1
-	$t:=Get localized string:C991($what="group" ? "NewGroup" : "NewItem")
+	$t:=Localized string:C991($what="group" ? "NewGroup" : "NewItem")
 	$resname:=$t+" "+String:C10($indx)
 	
 	$queryString:=$what="group" ? "resname = :1" : "transunits[].resname = :1"
@@ -1512,8 +1512,8 @@ Function deDuplicateIDs()
 	var $parent; $xliff : cs:C1710.Xliff
 	
 	CONFIRM:C162(\
-		Replace string:C233(Get localized string:C991("makingTheIdsUniqueWillPreventTheOldCommand"); "{command}"; Command name:C538(506)); \
-		Get localized string:C991("iHaveUnderstoodWell"))
+		Replace string:C233(Localized string:C991("makingTheIdsUniqueWillPreventTheOldCommand"); "{command}"; Command name:C538(506)); \
+		Localized string:C991("iHaveUnderstoodWell"))
 	
 	If (Not:C34(Bool:C1537(OK)))
 		
@@ -1568,7 +1568,7 @@ Function deDuplicateIDs()
 		Else 
 			
 			BEEP:C151
-			ALERT:C41(Get localized string:C991("uniqueIdsAssignmentFailure"))
+			ALERT:C41(Localized string:C991("uniqueIdsAssignmentFailure"))
 			
 		End if 
 	End if 

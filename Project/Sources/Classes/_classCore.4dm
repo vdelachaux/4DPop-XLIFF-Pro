@@ -43,9 +43,11 @@ Function get ready() : Boolean
 	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
 Function set ready()
 	
-	Use (This:C1470._)
+	var $o : Object:=This:C1470._
+	
+	Use ($o)
 		
-		This:C1470._.ready:=True:C214
+		$o.ready:=True:C214
 		
 	End use 
 	
@@ -230,7 +232,7 @@ Function _pushError($message : Text)
 	
 	var $current; $o : Object
 	var $c : Collection
-	$c:=Get call chain:C1662
+	$c:=Call chain:C1662
 	
 	For each ($o; $c)
 		

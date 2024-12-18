@@ -8,9 +8,9 @@
     <key>CFBundleIdentifier</key>
     <string>com.4D.4DPop XLIFF Pro</string>
     <key>CFBundleGetInfoString</key>
-    <string>20R7</string>
+    <string>20R8</string>
     <key>CFBundleLongVersionString</key>
-    <string>20R7 (103)</string>
+    <string>20R8 (104)</string>
     <key>CFBundleName</key>
     <string>4DPop XLIFF Pro</string>
     <key>CFBundleDevelopmentRegion</key>
@@ -18,9 +18,9 @@
     <key>CFBundleDisplayName</key>
     <string>4DPop XLIFF Pro</string>
     <key>CFBundleVersion</key>
-    <string>104</string>
+    <string>105</string>
     <key>CFBundleShortVersionString</key>
-    <string>20R7</string>
+    <string>20R8</string>
     <key>CFBundleExecutable</key>
     <string>4DPop XLIFF Pro</string>
   </dict>
