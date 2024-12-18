@@ -10,10 +10,6 @@
 // Declarations
 #DECLARE($message : Object)
 
-If (False:C215)
-	C_OBJECT:C1216(form_spreadToSubforms; $1)
-End if 
-
 var $i : Integer
 ARRAY TEXT:C222($widgets; 0)
 
@@ -32,7 +28,7 @@ For ($i; 1; Size of array:C274($widgets); 1)
 			
 		End if 
 		
-		EXECUTE METHOD IN SUBFORM:C1085($widgets{$i}; Formula:C1597(form_spreadToSubforms).source; *; $message)
+		EXECUTE METHOD IN SUBFORM:C1085($widgets{$i}; "form_spreadToSubforms"; *; $message)
 		
 	End if 
 End for 

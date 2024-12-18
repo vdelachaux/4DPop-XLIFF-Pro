@@ -1,4 +1,5 @@
-property __CLASS__ : 4D:C1709.Class
+property __CLASS__ : Object
+property new : 4D:C1709.Function
 
 Class constructor
 	
@@ -9,6 +10,17 @@ Class constructor
 		"ready"; False:C215)
 	
 	This:C1470.__CLASS__:=OB Class:C1730(This:C1470)
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get _() : Object
+	
+	return This:C1470.__CLASS__.instance=Null:C1517 ? This:C1470[""] : This:C1470.__CLASS__.instance[""]
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function Obfuscate($key : Text; $value)
+	
+	This:C1470[""]:=This:C1470[""] || {}
+	This:C1470[""][$key]:=$value
 	
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get success() : Boolean
@@ -41,13 +53,11 @@ Function get ready() : Boolean
 	return This:C1470._.ready
 	
 	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
-Function set ready()
+Function set ready($value : Boolean)
 	
-	var $o : Object:=This:C1470._
-	
-	Use ($o)
+	Use (This:C1470._)
 		
-		$o.ready:=True:C214
+		This:C1470._.ready:=True:C214
 		
 	End use 
 	
@@ -93,10 +103,10 @@ Function get uid() : Text
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get singleton() : Boolean  // Return True if it's a refernce to the class
 	
-	return This:C1470.__CLASS__#Null:C1517
+	return This:C1470.__CLASS__.instance#Null:C1517
 	
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
-Function get matrix() : Boolean  // Return True if it's the fisrt inastance of the class
+Function get matrix() : Boolean  // Return True if it's the fisrt instance of the class
 	
 	return This:C1470.__LockerID=Null:C1517
 	
@@ -123,12 +133,6 @@ Function Singletonize($instance : Object)  // Make the class a singleton
 			
 		End use 
 	End if 
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function Obfuscate($key : Text; $value)
-	
-	This:C1470[""]:=This:C1470[""] || {}
-	This:C1470[""][$key]:=$value
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function Digest($tgt) : Text
@@ -209,24 +213,19 @@ Function isPlatformPath($value) : Boolean
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function isJson($value) : Boolean
 	
-	return Match regex:C1019("\"(?si-m)^(?:\\\\{.*\\\\}$)|(?:^\\\\[.*\\\\]$)\""; $value; 1)
+	return Match regex:C1019("(?ms-i)^(?:\\{.*\\})|(?:\\[.*\\])$"; $value; 1; *)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function isJsonObject($value) : Boolean
 	
-	return Match regex:C1019("(?m-si)^\\{.*\\}$"; $value; 1)
+	return Match regex:C1019("(?ms-i)^\\{.*\\}$"; $value; 1; *)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function isJsonArray($value) : Boolean
 	
-	return Match regex:C1019("(?m-si)^\\[.*\\]$"; $value; 1)
+	return Match regex:C1019("(?ms-i)^\\[.*\\]$"; $value; 1; *)
 	
 	// Mark:-
-	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
-Function get _() : Object
-	
-	return This:C1470.__CLASS__.instance=Null:C1517 ? This:C1470[""] : This:C1470.__CLASS__.instance[""]
-	
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 Function _pushError($message : Text)
 	
@@ -326,6 +325,8 @@ Function _map($value : Text) : Variant
 			// End if
 			//return Time($seconds)
 			
+			return $t
+			
 		: (False:C215)
 			
 			// TODO:Object ? Collection ?
@@ -401,4 +402,3 @@ Function _debugerSafe($that : Object; $method; $type : Integer) : Variant
 			
 			//______________________________________________________
 	End case 
-	

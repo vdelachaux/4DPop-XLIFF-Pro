@@ -1,6 +1,10 @@
-Class extends staticDelegate
+Class extends static
+
+property name; action; _uri : Text
 
 property _events : Collection
+property _data; dataSource
+property _callback : 4D:C1709.Function
 
 Class constructor($name : Text)
 	
@@ -20,9 +24,14 @@ The .data property is used to get or set this data.
 	// Get the events handled for this widget
 	This:C1470._setEvents()
 	
-	//MARK:-[Data Source]
+	//MARK:-[Object]
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
+Function set datasource($datasource)
+	
+	This:C1470.setDatasource($datasource)
+	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setDatasource($datasource)
+Function setDatasource($datasource) : cs:C1710.widget
 	
 	This:C1470.dataSource:=$datasource
 	
@@ -33,29 +42,41 @@ Function setDatasource($datasource)
 			If (Asserted:C1132(OB Instance of:C1731($datasource; 4D:C1709.Function); "datasource object is not a formula"))
 				
 				// Formula
-				This:C1470.value:=This:C1470.dataSource.call()
+				This:C1470.setValue(This:C1470.dataSource.call())
 				
 			End if 
 			
 			//______________________________________________ wi ________
 		: (Value type:C1509($datasource)=Is text:K8:3)
 			
-			This:C1470.value:=Formula from string:C1601($datasource).call()
+			This:C1470.setValue(Formula from string:C1601($datasource).call())
 			
 			//______________________________________________________
 		Else 
 			
-			ASSERT:C1129(False:C215; "datasource must be a formula or a text formula")
+			//ASSERT(False; "datasource must be a formula or a text formula")
 			
 			//______________________________________________________
 	End case 
 	
+	return This:C1470
+	
 	//mark:-[Value]
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get value() : Variant
+	
+	return This:C1470.getValue()
+	
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
+Function set value($value)
+	
+	This:C1470.setValue($value)
+	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function getValue() : Variant
 	
 	If (This:C1470.type=Object type text input:K79:4)\
-		 && (OBJECT Get pointer:C1124(Object with focus:K67:3)=OBJECT Get pointer:C1124(Object named:K67:5; This:C1470.name))
+		 && (This:C1470.isFocused())
 		
 		return Get edited text:C655
 		
@@ -66,19 +87,79 @@ Function getValue() : Variant
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setValue($value) : cs:C1710.widgetDelegate
+Function setValue($value) : cs:C1710.widget
 	
 	If (Not:C34(Undefined:C82($value)))
 		
 		OBJECT SET VALUE:C1742(This:C1470.name; $value)
-		This:C1470.value:=$value
 		
 	End if 
 	
 	return This:C1470
 	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get isEmpty() : Boolean
+	
+	var $type : Integer
+	var $value
+	
+	$value:=This:C1470.getValue()
+	$type:=Value type:C1509($value)
+	
+	Case of 
+			
+			//______________________________________________________
+		: ($value=Null:C1517)\
+			 | ($type=Is undefined:K8:13)
+			
+			return True:C214
+			
+			//______________________________________________________
+		: ($type=Is longint:K8:6)\
+			 | ($type=Is real:K8:4)
+			
+			return $value=0
+			
+			//______________________________________________________
+		: ($type=Is date:K8:7)
+			
+			return $value=!00-00-00!
+			
+			//______________________________________________________
+		: ($type=Is time:K8:8)
+			
+			return $value=?00:00:00?
+			
+			//______________________________________________________
+		: ($type=Is picture:K8:10)
+			
+			return Picture size:C356($value)=0
+			
+			//______________________________________________________
+		: ($type=Is object:K8:27)
+			
+			return OB Is empty:C1297($value)
+			
+			//______________________________________________________
+		: ($type=Is collection:K8:32)
+			
+			return $value.length=0
+			
+			//______________________________________________________
+		Else 
+			
+			return Length:C16(String:C10($value))=0
+			
+			//______________________________________________________
+	End case 
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get isNotEmpty() : Boolean
+	
+	return Not:C34(This:C1470.isEmpty)
+	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function clear : cs:C1710.widgetDelegate
+Function clear : cs:C1710.widget
 	
 	var $type : Integer
 	$type:=Value type:C1509(OBJECT Get value:C1743(This:C1470.name))
@@ -132,7 +213,7 @@ Function clear : cs:C1710.widgetDelegate
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function touch() : cs:C1710.widgetDelegate
+Function touch() : cs:C1710.widget
 	
 	var $value
 	$value:=OBJECT Get value:C1743(This:C1470.name)
@@ -148,9 +229,9 @@ Function touch() : cs:C1710.widgetDelegate
 	//MARK:-[Entry]
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 	// Returns a pointer to the widget
+	// ⚠️ Could return a nil pointer if data source is an expression
 Function get pointer() : Pointer
 	
-	// ⚠️ Could return a nil pointer if data source is an expression
 	return OBJECT Get pointer:C1124(Object named:K67:5; This:C1470.name)
 	
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
@@ -159,42 +240,12 @@ Function get enterable() : Boolean
 	return OBJECT Get enterable:C1067(*; This:C1470.name)
 	
 	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
-Function set enterable($on : Boolean)
+Function set enterable($enterable : Boolean)
 	
-	OBJECT SET ENTERABLE:C238(*; This:C1470.name; $on)
-	
-	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
-Function get helpTip() : Text
-	
-	return OBJECT Get help tip:C1182(*; This:C1470.name)
-	
-	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
-Function set helpTip($helpTip : Text)
-	
-	var $t : Text
-	
-	If (Count parameters:C259>=1)
-		
-		If (Length:C16($helpTip)>0)\
-			 & (Length:C16($helpTip)<=255)
-			
-			//%W-533.1
-			If ($helpTip[[1]]#Char:C90(1))
-				
-				$t:=Get localized string:C991($helpTip)
-				$helpTip:=Length:C16($t)>0 ? $t : $helpTip  // Revert if no localization
-				
-			End if 
-			
-			//%W+533.1
-			
-		End if 
-	End if 
-	
-	OBJECT SET HELP TIP:C1181(*; This:C1470.name; $helpTip)
+	OBJECT SET ENTERABLE:C238(*; This:C1470.name; $enterable)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setEnterable($enterable : Boolean) : cs:C1710.widgetDelegate
+Function setEnterable($enterable : Boolean) : cs:C1710.widget
 	
 	$enterable:=Count parameters:C259>=1 ? $enterable : True:C214
 	OBJECT SET ENTERABLE:C238(*; This:C1470.name; $enterable)
@@ -202,56 +253,17 @@ Function setEnterable($enterable : Boolean) : cs:C1710.widgetDelegate
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function notEnterable() : cs:C1710.widgetDelegate
+Function notEnterable() : cs:C1710.widget
 	
 	OBJECT SET ENTERABLE:C238(*; This:C1470.name; False:C215)
 	
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function getHelpTip() : Text
-	
-	return OBJECT Get help tip:C1182(*; This:C1470.name)
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setHelpTip($helpTip : Text) : cs:C1710.widgetDelegate
-	
-	var $t : Text
-	
-	If (Count parameters:C259>=1)
-		
-		If (Length:C16($helpTip)>0)\
-			 & (Length:C16($helpTip)<=255)
-			
-			//%W-533.1
-			If ($helpTip[[1]]#Char:C90(1))
-				
-				$t:=Get localized string:C991($helpTip)
-				$helpTip:=Length:C16($t)>0 ? $t : $helpTip  // Revert if no localization
-				
-			End if 
-			
-			//%W+533.1
-			
-		End if 
-	End if 
-	
-	OBJECT SET HELP TIP:C1181(*; This:C1470.name; $helpTip)
-	
-	return This:C1470
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function removeHelpTip() : cs:C1710.widgetDelegate
-	
-	OBJECT SET HELP TIP:C1181(*; This:C1470.name; "")
-	
-	return This:C1470
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function getShortcut : Object
 	
-	C_TEXT:C284($t)
-	C_LONGINT:C283($l)
+	var $t : Text
+	var $l : Integer
 	
 	OBJECT GET SHORTCUT:C1186(*; This:C1470.name; $t; $l)
 	
@@ -260,31 +272,41 @@ Function getShortcut : Object
 		modifier: $l}
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setShortcut($key : Text; $modifier : Integer) : cs:C1710.widgetDelegate
+Function setShortcut($key : Text; $modifier : Integer) : cs:C1710.widget
 	
-	If (Count parameters:C259>=2)
-		
-		OBJECT SET SHORTCUT:C1185(*; This:C1470.name; $key; $modifier)
-		
-	Else 
-		
-		OBJECT SET SHORTCUT:C1185(*; This:C1470.name; $key)
-		
-	End if 
+	OBJECT SET SHORTCUT:C1185(*; This:C1470.name; $key; $modifier)
+	
+	return This:C1470
+	
+	//MARK:-[Help]
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get helpTip() : Text
+	
+	return OBJECT Get help tip:C1182(*; This:C1470.name)
+	
+	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
+Function set helpTip($helpTip : Text)
+	
+	This:C1470.setHelpTip($helpTip)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function getHelpTip() : Text
+	
+	return OBJECT Get help tip:C1182(*; This:C1470.name)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function setHelpTip($helpTip : Text) : cs:C1710.widget
+	
+	OBJECT SET HELP TIP:C1181(*; This:C1470.name; This:C1470._getLocalizeString($helpTip))
 	
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function focus() : cs:C1710.widgetDelegate
+Function removeHelpTip() : cs:C1710.widget
 	
-	GOTO OBJECT:C206(*; This:C1470.name)
+	OBJECT SET HELP TIP:C1181(*; This:C1470.name; "")
 	
 	return This:C1470
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function isFocused() : Boolean
-	
-	return OBJECT Get name:C1087(Object with focus:K67:3)=This:C1470.name
 	
 	//MARK:-[Events]
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
@@ -298,19 +320,19 @@ Function set events($events)
 	This:C1470._setEvents($events; Enable events disable others:K42:37)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function addEvent($events) : cs:C1710.widgetDelegate
+Function addEvent($events) : cs:C1710.widget
 	
 	This:C1470._setEvents($events; Enable events others unchanged:K42:38)
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function removeEvent($events) : cs:C1710.widgetDelegate
+Function removeEvent($events) : cs:C1710.widget
 	
 	This:C1470._setEvents($events; Disable events others unchanged:K42:39)
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setEvents($events) : cs:C1710.widgetDelegate
+Function setEvents($events) : cs:C1710.widget
 	
 	This:C1470._setEvents($events; Enable events disable others:K42:37)
 	return This:C1470
@@ -366,7 +388,7 @@ Function catch($e; $events) : Boolean
 	
 	return $catch
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === === 
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _setEvents($events; $mode : Integer)
 	
 	ARRAY LONGINT:C221($eventCodes; 0x0000)
@@ -378,13 +400,14 @@ Function _setEvents($events; $mode : Integer)
 			//______________________________________________________
 		: ($events=Null:C1517)
 			
-			//
+			return 
 			
 			//______________________________________________________
 		: (Value type:C1509($events)=Is collection:K8:32)
 			
 			COLLECTION TO ARRAY:C1562($events; $eventCodes)
 			OBJECT SET EVENTS:C1239(*; This:C1470.name; $eventCodes; $mode)
+			This:C1470._events.combine($events)
 			
 			//______________________________________________________
 		: (Value type:C1509($events)=Is integer:K8:5)\
@@ -393,6 +416,7 @@ Function _setEvents($events; $mode : Integer)
 			
 			APPEND TO ARRAY:C911($eventCodes; $events)
 			OBJECT SET EVENTS:C1239(*; This:C1470.name; $eventCodes; $mode)
+			This:C1470._events.combine([$events])
 			
 			//______________________________________________________
 		Else 
@@ -402,14 +426,15 @@ Function _setEvents($events; $mode : Integer)
 			//______________________________________________________
 	End case 
 	
-	// Update widget events
-	// FIXME:Note that the arrEvents array is returned empty if no object method is associated with the object or if no form method is associated with the form.
+/* 📌 Update widget events
+The arrEvents array is returned empty if no object method is associated with the object
+or if no form method is associated with the form.
+*/
 	OBJECT GET EVENTS:C1238(*; This:C1470.name; $eventCodes)
 	var $c : Collection
 	$c:=[]
 	ARRAY TO COLLECTION:C1563($c; $eventCodes)
 	This:C1470._events.combine($c)
-	
 	
 	//mark:-[Attached data]
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
@@ -424,6 +449,18 @@ Function set data($data)
 	
 	This:C1470._data:=$data
 	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function setData($o : Object)
+	
+	var $t : Text
+	
+	This:C1470._data:=This:C1470._data || {}
+	
+	For each ($t; $o)
+		
+		This:C1470._data[$t]:=$o[$t]
+		
+	End for each 
 	//mark:-[Drag & drop]
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 	// Defines the uri associated with the widget
@@ -436,82 +473,6 @@ Function get uri() : Text
 Function set uri($uri : Text)
 	
 	This:C1470._uri:=$uri
-	
-	//mark:-
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setFormat($format : Text) : cs:C1710.widgetDelegate
-	
-	OBJECT SET FORMAT:C236(*; This:C1470.name; $format)
-	
-	return This:C1470
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setPicture($proxy : Text) : cs:C1710.widgetDelegate
-	
-	If (Count parameters:C259>=1)
-		
-		Case of 
-				
-				//______________________________________________________
-			: (This:C1470.type=Object type 3D button:K79:17)\
-				 || (This:C1470.type=Object type 3D checkbox:K79:27)\
-				 || (This:C1470.type=Object type 3D radio button:K79:24)
-				
-				return This:C1470.setFormat(";"+$proxy)
-				
-				//______________________________________________________
-			: (This:C1470.type=Object type picture button:K79:20)\
-				 || (This:C1470.type=Object type picture popup menu:K79:15)
-				
-				return This:C1470.setFormat(";;"+$proxy)
-				
-				//______________________________________________________
-			: (This:C1470.type=Object type listbox header:K79:9)\
-				 || (This:C1470.type=Object type static picture:K79:3)
-				
-				return This:C1470.setFormat($proxy)
-				
-				//______________________________________________________
-			Else 
-				
-				// #ERROR
-				
-				//______________________________________________________
-		End case 
-		
-	Else 
-		
-		// Remove picture
-		
-		Case of 
-				
-				//______________________________________________________
-			: (This:C1470.type=Object type 3D button:K79:17)\
-				 || (This:C1470.type=Object type 3D checkbox:K79:27)\
-				 || (This:C1470.type=Object type 3D radio button:K79:24)
-				
-				return This:C1470.setFormat(";\"\"")
-				
-				//______________________________________________________
-			: (This:C1470.type=Object type picture button:K79:20)\
-				 || (This:C1470.type=Object type picture popup menu:K79:15)
-				
-				return This:C1470.setFormat(";;\"\"")
-				
-				//______________________________________________________
-			: (This:C1470.type=Object type listbox header:K79:9)\
-				 || (This:C1470.type=Object type static picture:K79:3)
-				
-				return This:C1470.setFormat("")
-				
-				//______________________________________________________
-			Else 
-				
-				// #ERROR
-				
-				//______________________________________________________
-		End case 
-	End if 
 	
 	//mark:-[Actions]
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
@@ -549,7 +510,7 @@ Function set droppable($on : Boolean)
 	OBJECT SET DRAG AND DROP OPTIONS:C1183(*; This:C1470.name; $draggable; $automaticDrag; $on; $automaticDrop)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setDraggable($enabled : Boolean; $automatic : Boolean) : cs:C1710.widgetDelegate
+Function setDraggable($enabled : Boolean; $automatic : Boolean) : cs:C1710.widget
 	
 	var $automaticDrag; $automaticDrop; $draggable; $droppable : Boolean
 	
@@ -583,7 +544,7 @@ Function setDraggable($enabled : Boolean; $automatic : Boolean) : cs:C1710.widge
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setNotDraggable() : cs:C1710.widgetDelegate
+Function setNotDraggable() : cs:C1710.widget
 	
 	var $automaticDrag; $automaticDrop; $draggable; $droppable : Boolean
 	
@@ -593,7 +554,7 @@ Function setNotDraggable() : cs:C1710.widgetDelegate
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setDroppable($enabled : Boolean; $automatic : Boolean) : cs:C1710.widgetDelegate
+Function setDroppable($enabled : Boolean; $automatic : Boolean) : cs:C1710.widget
 	
 	var $automaticDrag; $automaticDrop; $draggable; $droppable : Boolean
 	
@@ -627,7 +588,7 @@ Function setDroppable($enabled : Boolean; $automatic : Boolean) : cs:C1710.widge
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setNotDroppable() : cs:C1710.widgetDelegate
+Function setNotDroppable() : cs:C1710.widget
 	
 	var $automaticDrag; $automaticDrop; $draggable; $droppable : Boolean
 	
@@ -638,7 +599,7 @@ Function setNotDroppable() : cs:C1710.widgetDelegate
 	
 	// MARK:-[Callback]
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setCallback($formula) : cs:C1710.widgetDelegate
+Function setCallback($formula) : cs:C1710.widget
 	
 	Case of 
 			
@@ -680,7 +641,7 @@ Function setCallback($formula) : cs:C1710.widgetDelegate
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function execute
+Function execute()
 	
 	If (Asserted:C1132(This:C1470._callback#Null:C1517; "No callback method define"))
 		
@@ -688,50 +649,16 @@ Function execute
 		
 	End if 
 	
+	// MARK:-[Miscellaneous]
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function on($in; $formula : Object) : Boolean
+Function focus() : cs:C1710.widget
 	
-	var $success : Boolean
+	GOTO OBJECT:C206(*; This:C1470.name)
 	
-	If (Asserted:C1132(This:C1470.type#Object type group:K79:22; "Does not apply to a group"))
-		
-		If (Count parameters:C259=0)
-			
-			$success:=(This:C1470.name=FORM Event:C1606.objectName)
-			
-		Else 
-			
-			If (Value type:C1509($in)=Is object:K8:27)
-				
-				If (Count parameters:C259>=2)
-					
-					$success:=(This:C1470.name=String:C10($in.objectName))\
-						 & ($in.code=$formula)
-					
-				Else 
-					
-					$success:=(This:C1470.name=String:C10($in.objectName))
-					
-				End if 
-			Else 
-				
-				$success:=(This:C1470.name=String:C10($in))
-				
-			End if 
-		End if 
-		
-		If ($success)
-			
-			$formula.call()
-			
-		End if 
-	End if 
-	
-	return $success
-	
-	// MARK:-[OBSOLETE]
+	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function updatePointer()
+Function isFocused() : Boolean
 	
-	This:C1470._pointer:=OBJECT Get pointer:C1124(Object named:K67:5; This:C1470.name)
+	return OBJECT Get name:C1087(Object with focus:K67:3)=This:C1470.name
+	

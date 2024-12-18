@@ -4,6 +4,8 @@ property attributes; language : Object
 property groups : Collection
 property datatype : Text
 
+property duplicateResname : Boolean
+
 Class constructor($file : 4D:C1709.File)
 	
 	Super:C1705($file)
@@ -12,8 +14,8 @@ Class constructor($file : 4D:C1709.File)
 	This:C1470.autoClose:=False:C215
 	
 	// MARK:Delegates 📦
-	This:C1470.group:=cs:C1710.Group
-	This:C1470.transunit:=cs:C1710.Transunit
+	This:C1470.group:=cs:C1710.xliffGroup
+	This:C1470.transunit:=cs:C1710.xliffUnit
 	
 	// MARK: Common XPATH
 	This:C1470.headerPath:="/xliff/header"
@@ -32,11 +34,11 @@ Class constructor($file : 4D:C1709.File)
 	
 	// === === === === === === === === === === === === === === === === === === ===
 	/// Creating and returning a new group
-Function createGroup($resname : Text) : cs:C1710.Group
+Function createGroup($resname : Text) : cs:C1710.xliffGroup
 	
 	var $node : Text
 	var $attributes : Object
-	var $group : cs:C1710.Group
+	var $group : cs:C1710.xliffGroup
 	
 	$attributes:=New object:C1471(\
 		"resname"; $resname)
@@ -53,11 +55,11 @@ Function createGroup($resname : Text) : cs:C1710.Group
 	return $group
 	
 	// === === === === === === === === === === === === === === === === === === ===
-Function deleteUnit($unit : cs:C1710.Transunit) : cs:C1710.Group
+Function deleteUnit($unit : cs:C1710.xliffUnit) : cs:C1710.xliffGroup
 	
 	var $indx : Integer
 	var $c : Collection
-	var $group : cs:C1710.Group
+	var $group : cs:C1710.xliffGroup
 	
 	//delete unit
 	This:C1470.remove($unit.node)
@@ -74,18 +76,18 @@ Function deleteUnit($unit : cs:C1710.Transunit) : cs:C1710.Group
 	
 	// === === === === === === === === === === === === === === === === === === ===
 	/// Creating and returning a new trans-unit
-Function createUnit($group : cs:C1710.Group; $resname : Text; $id : Text) : cs:C1710.Transunit
+Function createUnit($group : cs:C1710.xliffGroup; $resname : Text; $id : Text) : cs:C1710.xliffUnit
 	
 	var $node : Text
 	var $attributes : Object
-	var $unit : cs:C1710.Transunit
+	var $unit : cs:C1710.xliffUnit
 	
 	$attributes:=New object:C1471(\
 		"resname"; $resname; "id"; Count parameters:C259=3 ? $id : This:C1470._uid())
 	
 	$node:=This:C1470.create($group.node; "trans-unit"; $attributes)
 	
-	$unit:=cs:C1710.Transunit.new($node; $attributes)
+	$unit:=cs:C1710.xliffUnit.new($node; $attributes)
 	$unit.XPATH:=$group.XPATH+"/trans-unit[@id=\""+$unit.id+"\"]"
 	
 	$unit.source.node:=This:C1470.create($node; "source")
@@ -299,8 +301,8 @@ Function parse() : cs:C1710.Xliff
 	
 	var $node : Text
 	var $allUnits : Collection
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
+	var $group : cs:C1710.xliffGroup
+	var $unit : cs:C1710.xliffUnit
 	
 	If (This:C1470.root=Null:C1517)
 		
@@ -335,8 +337,17 @@ Function parse() : cs:C1710.Xliff
 			$unit.source.value:=This:C1470.sourceValue($node)
 			$unit.source.XPATH:=$unit.XPATH+"/source"
 			
-			$unit.target.value:=This:C1470.targetValue($node)
-			$unit.target.XPATH:=$unit.XPATH+"/target"
+			If ($unit.attributes.translate#Null:C1517)\
+				 && ($unit.attributes.translate#"no")
+				
+				$unit.target.value:=This:C1470.targetValue($node)
+				$unit.target.XPATH:=$unit.XPATH+"/target"
+				
+			Else 
+				
+				//FIXME: What to do ?
+				
+			End if 
 			
 			$node:=This:C1470.noteNode($unit)
 			
@@ -372,8 +383,8 @@ Function deDuplicateIDs($before : Collection; $after : Collection) : Boolean
 	var $node; $uid : Text
 	var $i; $indx : Integer
 	var $nodes : Collection
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
+	var $group : cs:C1710.xliffGroup
+	var $unit : cs:C1710.xliffUnit
 	
 	If (Count parameters:C259=0)  // Main file
 		
@@ -426,7 +437,7 @@ Function deDuplicateIDs($before : Collection; $after : Collection) : Boolean
 	
 	// === === === === === === === === === === === === === === === === === === ===
 	// Returns a trans-unit nodes accordind to id & resname & d4:inclu
-Function findUnitNode($unit : cs:C1710.Transunit) : Text
+Function findUnitNode($unit : cs:C1710.xliffUnit) : Text
 	
 	var $node : Text
 	var $indice : Integer
@@ -518,8 +529,8 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 	var $groupNode; $node; $t : Text
 	var $len; $pos : Integer
 	var $attributes; $string; $localizedGroup; $o : Object
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
+	var $group : cs:C1710.xliffGroup
+	var $unit : cs:C1710.xliffUnit
 	var $xliff : cs:C1710.Xliff
 	
 	If (Not:C34($file.exists))
@@ -713,7 +724,7 @@ Function _child($item; $element : Text) : Text
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 Function _uid() : Text
 	
-	return Replace string:C233(Delete string:C232(Generate digest:C1147(Generate UUID:C1066; 4D REST digest:K66:3); 23; 2); "/"; "_")
+	return Replace string:C233(Delete string:C232(Generate digest:C1147(Generate UUID:C1066; _o_4D REST digest:K66:3); 23; 2); "/"; "_")
 	
 	
 	

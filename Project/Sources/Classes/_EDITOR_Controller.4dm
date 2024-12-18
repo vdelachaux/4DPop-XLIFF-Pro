@@ -3,49 +3,49 @@ Class: _EDITOR_Controller - (4DPop XLIFF Pro)
 Created 1-1-2023 by Vincent de Lachaux
 */
 
-property form : cs:C1710.formDelegate
-property lock; lockMessage : cs:C1710.staticDelegate
-property wrap : cs:C1710.widgetDelegate
-property newFile; newGroup; newString; filterLanguage : cs:C1710.buttonDelegate
-property stringSplitter; lockButton : cs:C1710.buttonDelegate
-property detail; searchPicker : cs:C1710.subformDelegate
-property fileList; stringList : cs:C1710.listboxDelegate
-property strings; locked; withFile : cs:C1710.groupDelegate
+// MARK: Default values ⚙️
+property isSubform:=False:C215
+property toBeInitialized:=False:C215
 
-property current : cs:C1710.Xliff
-property folders; opened; languages : Collection
-property main; resources : Object
-
-property menu : 4D:C1709.Class
-property Xliff : 4D:C1709.Class
+// MARK: Delegates 📦
+property form : cs:C1710.form
+property Xliff : cs:C1710.Xliff
 property menuBar : cs:C1710.menuBar
 property Preferences : cs:C1710.Preferences
+property str : cs:C1710.str:=cs:C1710.str.new()
+
+// MARK: Widgets 🧱
+property lock; lockMessage : cs:C1710.static
+property wrap : cs:C1710.widget
+property newFile; newGroup; newString; filterLanguage : cs:C1710.button
+property stringSplitter; lockButton : cs:C1710.button
+property detail; searchPicker : cs:C1710.subform
+property fileList; stringList : cs:C1710.listbox
+property strings; locked; withFile : cs:C1710.group
+
+// MARK: Constants 🔐
+property FILE_EXTENSION : Text:=".xlf"
+property FOLDER_EXTENSION : Text:=".lproj"
+property GENERATOR : Text:=File:C1566(Structure file:C489; fk platform path:K87:2).name
+property VERSION : Text:="3.1"
+
+// TODO:Could be a preference
+property AUTOSAVE : Boolean:=True:C214  // Flag for automatic saving
+
+// MARK: Other 💾
+property current : cs:C1710.Xliff
+property folders; opened; languages : Collection
+property default; main; resources : Object
 
 Class constructor($mainLanguage : Text)
 	
-	This:C1470.__CLASS__:=OB Class:C1730(This:C1470)
-	
-	This:C1470.toBeInitialized:=False:C215
-	
-	This:C1470.fileExtension:=".xlf"
-	This:C1470.folderExtension:=".lproj"
-	
-	This:C1470.generator:=File:C1566(Structure file:C489; fk platform path:K87:2).name
-	This:C1470.version:="3.1"
-	
-	// TODO:Could be a preference
-	This:C1470.autoSave:=True:C214  // Flag for automatic saving
-	
-	// MARK:-Delegates 📦
-	This:C1470.form:=cs:C1710.formDelegate.new(This:C1470)
-	This:C1470.Preferences:=cs:C1710.Preferences.new(This:C1470.version)
+	// MARK:Delegates 📦
+	This:C1470.form:=cs:C1710.form.new(This:C1470)
+	This:C1470.Preferences:=cs:C1710.Preferences.new(This:C1470.VERSION)
 	This:C1470.Xliff:=cs:C1710.Xliff
-	This:C1470.menu:=cs:C1710.menu
-	This:C1470.str:=cs:C1710.str.new()
 	
-	// MARK:- Retrieving active lproj folders
-	This:C1470.folders:=Folder:C1567(fk resources folder:K87:11; *).folders().query("extension = :1 & name != :2"; This:C1470.folderExtension; "_@")
-	
+	// MARK:Retrieving active lproj folders
+	This:C1470.folders:=Folder:C1567(fk resources folder:K87:11; *).folders().query("extension = :1 & name != :2"; This:C1470.FOLDER_EXTENSION; "_@")
 	
 	// MARK: Define the main language
 	This:C1470.main:={}
@@ -84,11 +84,9 @@ Class constructor($mainLanguage : Text)
 Function init()
 	
 	// MARK: Menu bar
-	var $menuHandle : Text
-	$menuHandle:=Formula:C1597(formMenuHandle).source
+	var $menuHandle : Text:=Formula:C1597(formMenuHandle).source
 	
-	var $menuFile : cs:C1710.menu
-	$menuFile:=This:C1470.menu.new()
+	var $menuFile : cs:C1710.menu:=cs:C1710.menu.new()
 	$menuFile.file()  // Get a standard file menu
 	
 	// Insert custom elements at the beginning
@@ -99,8 +97,7 @@ Function init()
 		.append(":xliff:close"; "close"; 4).method($menuHandle).shortcut("W")\
 		.line(5)
 	
-	var $menuEdit : cs:C1710.menu
-	$menuEdit:=This:C1470.menu.new()
+	var $menuEdit : cs:C1710.menu:=cs:C1710.menu.new()
 	$menuEdit.edit()  // Get a standard edit menu
 	
 	// Modify the copy item (5) to be able to manage it ourselves
@@ -120,35 +117,35 @@ Function init()
 	This:C1470.form.callback:=Formula:C1597(EDITOR CALLBACK).source
 	
 	// MARK: Toolbar buttons
-	This:C1470.newFile:=This:C1470.form.button.new("toolbarNewFile")
+	This:C1470.newFile:=This:C1470.form.Button("toolbarNewFile")
 	
-	This:C1470.withFile:=This:C1470.form.group.new()
-	This:C1470.newGroup:=This:C1470.form.button.new("toolbarNewGroup").addToGroup(This:C1470.withFile)
-	This:C1470.newString:=This:C1470.form.button.new("toolbarNewTransUnit").addToGroup(This:C1470.withFile)
+	This:C1470.withFile:=This:C1470.form.Group()
+	This:C1470.newGroup:=This:C1470.form.Button("toolbarNewGroup").addToGroup(This:C1470.withFile)
+	This:C1470.newString:=This:C1470.form.Button("toolbarNewTransUnit").addToGroup(This:C1470.withFile)
 	
-	This:C1470.filterLanguage:=This:C1470.form.button.new("localization")
+	This:C1470.filterLanguage:=This:C1470.form.Button("localization")
 	
 	// MARK: File list
-	This:C1470.fileList:=This:C1470.form.listbox.new("fileList")
+	This:C1470.fileList:=This:C1470.form.Listbox("fileList")
 	
 	// MARK: String list
-	This:C1470.stringSplitter:=This:C1470.form.button.new("stringSplitter")
+	This:C1470.stringSplitter:=This:C1470.form.Button("stringSplitter")
 	
-	This:C1470.strings:=This:C1470.form.group.new()
-	This:C1470.stringList:=This:C1470.form.listbox.new("stringList").addToGroup(This:C1470.strings)
-	This:C1470.wrap:=This:C1470.form.widget.new("wrap").addToGroup(This:C1470.strings)
+	This:C1470.strings:=This:C1470.form.Group()
+	This:C1470.stringList:=This:C1470.form.Listbox("stringList").addToGroup(This:C1470.strings)
+	This:C1470.wrap:=This:C1470.form.Widget("wrap").addToGroup(This:C1470.strings)
 	
 	// MARK: Detail subform
-	This:C1470.detail:=This:C1470.form.subform.new("detail"; {onDataChange: -On Data Change:K2:15}; This:C1470)
+	This:C1470.detail:=This:C1470.form.Subform("detail"; {onDataChange: -On Data Change:K2:15}; This:C1470)
 	
 	// MARK: Lock
-	This:C1470.locked:=This:C1470.form.group.new()
-	This:C1470.lock:=This:C1470.form.static.new("lock").addToGroup(This:C1470.locked)
-	This:C1470.lockMessage:=This:C1470.form.static.new("lockMessage").addToGroup(This:C1470.locked)
-	This:C1470.lockButton:=This:C1470.form.button.new("lockButton").addToGroup(This:C1470.locked)
+	This:C1470.locked:=This:C1470.form.Group()
+	This:C1470.lock:=This:C1470.form.Static("lock").addToGroup(This:C1470.locked)
+	This:C1470.lockMessage:=This:C1470.form.Static("lockMessage").addToGroup(This:C1470.locked)
+	This:C1470.lockButton:=This:C1470.form.Button("lockButton").addToGroup(This:C1470.locked)
 	
 	// MARK: Search Picker
-	This:C1470.searchPicker:=This:C1470.form.subform.new("searchPicker"; {}; This:C1470)
+	This:C1470.searchPicker:=This:C1470.form.Subform("searchPicker"; {}; This:C1470)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function handleEvents($e : cs:C1710.evt)
@@ -294,14 +291,12 @@ Function onLoad()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function update()
 	
-	var $isWritable : Boolean
-	var $o : Object
 	var $c : Collection
 	
 	If (This:C1470.fileList.item=Null:C1517) && (This:C1470.fileList.rowsNumber>0)
 		
 		// Select last used file
-		$o:=This:C1470.Preferences.get(Form:C1466.project)
+		var $o : Object:=This:C1470.Preferences.get(Form:C1466.project)
 		
 		If ($o#Null:C1517)\
 			 && (Length:C16(String:C10($o.file))>0)
@@ -314,7 +309,7 @@ Function update()
 		
 	End if 
 	
-	$isWritable:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
+	var $isWritable : Boolean:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
 	
 	This:C1470.strings.show(This:C1470.current.error=Null:C1517)
 	This:C1470.newString.enable((This:C1470.stringList.item#Null:C1517) & $isWritable)
@@ -460,7 +455,6 @@ Function handleMenus($what : Text)
 Function _fileListManager($e : cs:C1710.evt)
 	
 	var $file : 4D:C1709.File
-	var $menu : cs:C1710.menu
 	
 	$file:=This:C1470.current.file
 	
@@ -492,7 +486,7 @@ Function _fileListManager($e : cs:C1710.evt)
 			
 			If (Contextual click:C713)
 				
-				$menu:=This:C1470.menu.new()
+				var $menu : cs:C1710.menu:=cs:C1710.menu.new()
 				
 				$menu.append(":xliff:projectSettings"; "projectSettings").disable()
 				
@@ -581,14 +575,14 @@ Function _stringListManager($e : cs:C1710.evt)
 				var $isWritable : Boolean
 				var $copy; $menu : cs:C1710.menu
 				
-				$menu:=This:C1470.menu.new()
+				$menu:=cs:C1710.menu.new()
 				
 				$isWritable:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
 				
 				If ($item#Null:C1517)
 					
-					$copy:=This:C1470.menu.new()
-					$copy.append(":xliff:copyAsXliffReference"; "copy").shortcut("C").enable(OB Instance of:C1731($item; cs:C1710.Transunit))\
+					$copy:=cs:C1710.menu.new()
+					$copy.append(":xliff:copyAsXliffReference"; "copy").shortcut("C").enable(OB Instance of:C1731($item; cs:C1710.xliffUnit))\
 						.append(":xliff:copyResname"; "resname")\
 						.append(":xliff:copyTheCode"; "code")
 					
@@ -602,7 +596,7 @@ Function _stringListManager($e : cs:C1710.evt)
 						
 					End if 
 					
-					$files:=$files.query("extension = :1"; OB Instance of:C1731($item; cs:C1710.Group) ? ".group" : ".unit").orderBy("name")
+					$files:=$files.query("extension = :1"; OB Instance of:C1731($item; cs:C1710.xliffGroup) ? ".group" : ".unit").orderBy("name")
 					
 					If ($files.length>0)
 						
@@ -736,7 +730,7 @@ Function _stringListManager($e : cs:C1710.evt)
 				
 			End if 
 			
-			If (OB Instance of:C1731($item; cs:C1710.Transunit))
+			If (OB Instance of:C1731($item; cs:C1710.xliffUnit))
 				
 				If (Shift down:C543)
 					
@@ -804,7 +798,7 @@ Function newFileManager()
 	
 	$name:=Replace string:C233($name; ".xliff"; "")
 	$name:=Replace string:C233($name; ".xlf"; "")
-	$name+=This:C1470.fileExtension
+	$name+=This:C1470.FILE_EXTENSION
 	
 	If (This:C1470.main.files.query("fullName= :1"; $name).pop()#Null:C1517)
 		
@@ -821,7 +815,7 @@ Function newFileManager()
 	If (This:C1470.folders.length=0)
 		
 		var $folder : 4D:C1709.Folder
-		$folder:=Folder:C1567(fk resources folder:K87:11; *).folder(This:C1470.main.language+This:C1470.folderExtension)
+		$folder:=Folder:C1567(fk resources folder:K87:11; *).folder(This:C1470.main.language+This:C1470.FOLDER_EXTENSION)
 		$folder.create()
 		This:C1470.folders.push($folder)
 		
@@ -848,8 +842,8 @@ Function newGroupManager()
 	var $resname : Text
 	var $row : Integer
 	var $language : Object
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
+	var $group : cs:C1710.xliffGroup
+	var $unit : cs:C1710.xliffUnit
 	var $xliff : cs:C1710.Xliff
 	
 	// Trigger string update
@@ -886,8 +880,8 @@ Function newStringManager()
 	var $resname : Text
 	var $row : Integer
 	var $language; $target : Object
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
+	var $group : cs:C1710.xliffGroup
+	var $unit : cs:C1710.xliffUnit
 	var $xliff : cs:C1710.Xliff
 	
 	// Trigger string update
@@ -895,7 +889,7 @@ Function newStringManager()
 	
 	$target:=This:C1470.stringList.item
 	
-	If (OB Instance of:C1731($target; cs:C1710.Transunit))
+	If (OB Instance of:C1731($target; cs:C1710.xliffUnit))
 		
 		// Get parent group
 		$target:=This:C1470.parentGroup($target)
@@ -987,8 +981,8 @@ Function doDeleteString($e : cs:C1710.evt)
 	
 	var $row : Integer
 	var $language; $target : Object
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
+	var $group : cs:C1710.xliffGroup
+	var $unit : cs:C1710.xliffUnit
 	var $xliff : cs:C1710.Xliff
 	
 	$target:=This:C1470.stringList.item
@@ -1000,7 +994,7 @@ Function doDeleteString($e : cs:C1710.evt)
 	End if 
 	
 	CONFIRM:C162(Replace string:C233(\
-		Localized string:C991(OB Instance of:C1731($target; cs:C1710.Transunit) ? "DeleteItem" : "DeleteGroup"); \
+		Localized string:C991(OB Instance of:C1731($target; cs:C1710.xliffUnit) ? "DeleteItem" : "DeleteGroup"); \
 		"{item}"; $target.resname))
 	
 	If (OK=0)
@@ -1011,7 +1005,7 @@ Function doDeleteString($e : cs:C1710.evt)
 	
 	$xliff:=This:C1470.current
 	
-	If (OB Instance of:C1731($target; cs:C1710.Group))
+	If (OB Instance of:C1731($target; cs:C1710.xliffGroup))
 		
 		// Update files
 		$xliff.remove($target.node)
@@ -1093,12 +1087,12 @@ Function getItemCode($item : Object; $type : Text) : Text
 	ARRAY LONGINT:C221($pos; 0)
 	
 	// Is it an external code?
-	$file:=File:C1566("/RESOURCES/4DPop xliff/"+$type+(OB Instance of:C1731($item; cs:C1710.Group) ? ".group" : ".unit"))
+	$file:=File:C1566("/RESOURCES/4DPop xliff/"+$type+(OB Instance of:C1731($item; cs:C1710.xliffGroup) ? ".group" : ".unit"))
 	
 	If (Not:C34($file.exists))
 		
 		// Try host
-		$file:=File:C1566("/RESOURCES/4DPop xliff/"+$type+(OB Instance of:C1731($item; cs:C1710.Group) ? ".group" : ".unit"); *)
+		$file:=File:C1566("/RESOURCES/4DPop xliff/"+$type+(OB Instance of:C1731($item; cs:C1710.xliffGroup) ? ".group" : ".unit"); *)
 		
 	End if 
 	
@@ -1110,7 +1104,7 @@ Function getItemCode($item : Object; $type : Text) : Text
 		
 	End if 
 	
-	If (OB Instance of:C1731($item; cs:C1710.Group))
+	If (OB Instance of:C1731($item; cs:C1710.xliffGroup))
 		
 		// Construct the code to load all strings into a collection
 		$code:="var $c : Collection\r"
@@ -1285,7 +1279,7 @@ Function _populateString($column : Integer; $row : Integer) : Object
 	$o:=(This:C1470.contentPtr)->{$row}
 	//%W+533.3
 	
-	$string:=($column=1) & (OB Instance of:C1731($o; cs:C1710.Transunit)) ? This:C1470.parentGroup($o) : $o
+	$string:=($column=1) & (OB Instance of:C1731($o; cs:C1710.xliffUnit)) ? This:C1470.parentGroup($o) : $o
 	
 	If (Structure file:C489=Structure file:C489(*))
 		ASSERT:C1129($string#Null:C1517)
@@ -1361,7 +1355,7 @@ Function doSelectGroup($row : Integer; $e : cs:C1710.evt)
 Function doSelectUnit($row : Integer)
 	
 	// Expand group if any
-	If (This:C1470.stringList.item#Null:C1517) && (OB Instance of:C1731(This:C1470.stringList.item; cs:C1710.Group))
+	If (This:C1470.stringList.item#Null:C1517) && (OB Instance of:C1731(This:C1470.stringList.item; cs:C1710.xliffGroup))
 		
 		This:C1470.stringList.expand($row; lk break row:K53:18)
 		
@@ -1399,7 +1393,7 @@ Function getFiles($language : Text) : Collection
 	
 	If ($folder#Null:C1517)
 		
-		For each ($file; $folder.files().query("extension = :1"; This:C1470.fileExtension))
+		For each ($file; $folder.files().query("extension = :1"; This:C1470.FILE_EXTENSION))
 			
 			$xliff:=This:C1470.Xliff.new($file)
 			
@@ -1429,8 +1423,7 @@ Function getFiles($language : Text) : Collection
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function parse($file : 4D:C1709.File) : cs:C1710.Xliff
 	
-	var $xliff : cs:C1710.Xliff
-	$xliff:=This:C1470.Xliff.new($file)
+	var $xliff : cs:C1710.Xliff:=This:C1470.Xliff.new($file)
 	
 	If (Not:C34($xliff.success))
 		
@@ -1494,7 +1487,7 @@ Function save($xliff : cs:C1710.Xliff; $force : Boolean)
 	// Mark the file as modified
 	$xliff.modified:=True:C214
 	
-	If (This:C1470.autoSave | $force)
+	If (This:C1470.AUTOSAVE | $force)
 		
 		$xliff.save()
 		
@@ -1635,11 +1628,10 @@ Function _mainLanguage() : Text
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _DISPLAY_FILE()
 	
+	var $xliff : cs:C1710.Xliff:=This:C1470.opened.query("file.path = :1"; This:C1470.fileList.item.path).pop()
+	
 	var $language : Object
 	var $file : 4D:C1709.File
-	var $xliff : cs:C1710.Xliff
-	
-	$xliff:=This:C1470.opened.query("file.path = :1"; This:C1470.fileList.item.path).pop()
 	
 	If ($xliff=Null:C1517)
 		
@@ -1707,8 +1699,8 @@ Function _LOAD_STRINGS()
 	
 	var $column : Text
 	var $i : Integer
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
+	var $group : cs:C1710.xliffGroup
+	var $unit : cs:C1710.xliffUnit
 	var $main : cs:C1710.Xliff
 	
 	//FIXME:Optimize 
@@ -1903,7 +1895,7 @@ Function _UPDATE_RESNAME($context : Object)
 	var $itemPosition; $len; $pos; $row : Integer
 	var $ptr : Pointer
 	var $langue; $target : Object
-	var $group : cs:C1710.Group
+	var $group : cs:C1710.xliffGroup
 	var $xliff : cs:C1710.Xliff
 	
 	$target:=$context.string
@@ -1916,7 +1908,7 @@ Function _UPDATE_RESNAME($context : Object)
 	$ptr:=This:C1470.stringList.pointer
 	$itemPosition:=Find in array:C230($ptr->; True:C214)
 	
-	If (OB Instance of:C1731($target; cs:C1710.Group))
+	If (OB Instance of:C1731($target; cs:C1710.xliffGroup))
 		
 		$group:=$xliff.groups.query("previous = :1"; $target.previous).pop()
 		$group.setResname($target.resname)
@@ -2187,7 +2179,7 @@ Function _UPDATE_LOCALIZED_TARGET($context : Object)
 Function filterNew() : Collection
 	
 	//var $c; $filtered : Collection
-	//var $group : cs.Group
+	//var $group : cs.xliffGroup
 	//var $xliff : cs.Xliff
 	//$xliff:=This.current
 	//$filtered:=[]
@@ -2204,7 +2196,7 @@ Function filterNew() : Collection
 Function filterNeedstranslation() : Collection
 	
 	//var $c; $filtered : Collection
-	//var $group : cs.Group
+	//var $group : cs.xliffGroup
 	//var $xliff : cs.Xliff
 	//$xliff:=This.current
 	//$filtered:=[]

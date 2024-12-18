@@ -3,11 +3,11 @@ Class: _SEARCH_PICKER_Controller - (4DPop XLIFF Pro)
 Created 10-05-2023 by Vincent de Lachaux
 */
 
-property form : cs:C1710.formDelegate
+property form : cs:C1710.form
 property callback : 4D:C1709.Function
-property box : cs:C1710.inputDelegate
-property glass : cs:C1710.buttonDelegate
-property ring : cs:C1710.staticDelegate
+property box : cs:C1710.input
+property glass : cs:C1710.button
+property ring : cs:C1710.static
 
 Class constructor()
 	
@@ -16,7 +16,7 @@ Class constructor()
 	This:C1470.isSubform:=True:C214
 	
 	// MARK:-Delegates 📦
-	This:C1470.form:=cs:C1710.formDelegate.new(This:C1470)
+	This:C1470.form:=cs:C1710.form.new(This:C1470)
 	
 	This:C1470.borderColor:=0x00E5E5E5
 	This:C1470.expanded:=False:C215
@@ -27,9 +27,9 @@ Class constructor()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function init()
 	
-	This:C1470.box:=This:C1470.form.input.new("searchBox")
-	This:C1470.ring:=This:C1470.form.static.new("searchBorder")
-	This:C1470.glass:=This:C1470.form.button.new("searchGlass")
+	This:C1470.box:=This:C1470.form.Input("searchBox")
+	This:C1470.ring:=This:C1470.form.Static("searchBorder")
+	This:C1470.glass:=This:C1470.form.Button("searchGlass")
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function handleEvents($e : cs:C1710.evt)

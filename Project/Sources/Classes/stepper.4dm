@@ -1,4 +1,4 @@
-Class extends widgetDelegate
+Class extends widget
 
 // === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Class constructor($name : Text)

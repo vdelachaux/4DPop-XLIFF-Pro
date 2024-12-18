@@ -1,3 +1,8 @@
+property type; options : Integer
+property directory; fileTypes; platformPath; path; label; message; placeHolder; separator : Text
+property browse; browseExtended; menu; showOnDisk; copyPath; openItem; loaded : Boolean
+property target : Object
+
 Class constructor($target; $options : Object)
 	
 	var $t : Text
@@ -58,7 +63,7 @@ Class constructor($target; $options : Object)
 	This:C1470.__geometry()
 	This:C1470.__updateLabel()
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function setType($type : Integer)
 	
 	If (Count parameters:C259>=1)
@@ -67,11 +72,11 @@ Function setType($type : Integer)
 		
 	Else 
 		
-		ASSERT:C1129(False:C215; Current method name:C684+"(): Missing the type (integer) parameter")
+		ASSERT:C1129(False:C215; Current method name:C684+".setType(): Missing the type (integer) parameter")
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function setMessage($message : Text)
 	
 	If (Count parameters:C259>=1)
@@ -80,11 +85,11 @@ Function setMessage($message : Text)
 		
 	Else 
 		
-		ASSERT:C1129(False:C215; Current method name:C684+"(): Missing the message (text) parameter")
+		ASSERT:C1129(False:C215; Current method name:C684+".setMessage(): Missing the message (text) parameter")
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function setPlaceholder($placeholder : Text)
 	
 	If (Count parameters:C259>=1)
@@ -94,11 +99,11 @@ Function setPlaceholder($placeholder : Text)
 		
 	Else 
 		
-		ASSERT:C1129(False:C215; Current method name:C684+"(): Missing the placeHolder (text) parameter")
+		ASSERT:C1129(False:C215; Current method name:C684+".setPlaceholder(): Missing the placeHolder (text) parameter")
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function setTarget($target)
 	
 	If (Count parameters:C259>=1)
@@ -116,7 +121,7 @@ Function setTarget($target)
 				
 			Else 
 				
-				ASSERT:C1129(False:C215; Current method name:C684+"(): The passed object must be a File or a Folder")
+				ASSERT:C1129(False:C215; Current method name:C684+".setTarget(): The passed object must be a File or a Folder")
 				
 			End if 
 			
@@ -132,11 +137,11 @@ Function setTarget($target)
 		
 	Else 
 		
-		ASSERT:C1129(False:C215; Current method name:C684+"(): Missing the target (File or Folder object) parameter")
+		ASSERT:C1129(False:C215; Current method name:C684+".setTarget(): Missing the target (File or Folder object) parameter")
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function setPlatformPath($pathname : Text)
 	
 	If (Count parameters:C259>=1)
@@ -170,11 +175,11 @@ Function setPlatformPath($pathname : Text)
 		
 	Else 
 		
-		ASSERT:C1129(False:C215; Current method name:C684+"(): Missing the PlatformPath (text) parameter")
+		ASSERT:C1129(False:C215; Current method name:C684+".setTarget(): Missing the PlatformPath (text) parameter")
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function setPath($path : Text)
 	
 	If (Count parameters:C259>=1)
@@ -208,11 +213,11 @@ Function setPath($path : Text)
 		
 	Else 
 		
-		ASSERT:C1129(False:C215; Current method name:C684+": Missing the Path (text) parameter")
+		ASSERT:C1129(False:C215; Current method name:C684+".setTarget(): Missing the Path (text) parameter")
 		
 	End if 
 	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function __browse()
 	
 	If (This:C1470.browseExtended)
@@ -228,12 +233,10 @@ Function __browse()
 		
 	End if 
 	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function __select()
 	
-	var $document; $t : Text
-	
-	$document:=DOCUMENT
+	var $t : Text
 	
 	Case of 
 			
@@ -257,12 +260,12 @@ Function __select()
 			
 			If (Value type:C1509(This:C1470.directory)=Is text:K8:3)
 				
-				$t:=Select folder:C670(This:C1470.message; This:C1470.directory; This:C1470.options)
+				DOCUMENT:=Select folder:C670(This:C1470.message; This:C1470.directory; This:C1470.options)
 				
 			Else 
 				
 				// Use a memorized access path
-				$t:=Select folder:C670(This:C1470.message; Num:C11(This:C1470.directory); This:C1470.options)
+				DOCUMENT:=Select folder:C670(This:C1470.message; Num:C11(This:C1470.directory); This:C1470.options)
 				
 			End if 
 			
@@ -276,12 +279,10 @@ Function __select()
 		
 	End if 
 	
-	DOCUMENT:=$document
-	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function __displayBrowseMenu()
 	
-	var $document; $menu; $subMenu; $sep; $t : Text
+	var $menu; $subMenu; $sep; $t : Text
 	var $bottom; $left; $right; $top; $tmp : Integer
 	var $c : Collection
 	
@@ -321,6 +322,8 @@ Function __displayBrowseMenu()
 	$menu:=Create menu:C408
 	$subMenu:=Create menu:C408
 	
+	CLEAR VARIABLE:C89(DOCUMENT)
+	
 	For each ($t; $c)
 		
 		If (Is Windows:C1573)
@@ -334,7 +337,7 @@ Function __displayBrowseMenu()
 		End if 
 		
 		// Keep the item path
-		$document+=(Folder separator:K24:12*Num:C11(Length:C16($document)>0))+$t
+		DOCUMENT:=DOCUMENT+(Folder separator:K24:12*Num:C11(Length:C16(DOCUMENT)>0))+$t
 		
 		// Case of
 		Case of 
@@ -342,17 +345,17 @@ Function __displayBrowseMenu()
 				//……………………………………………………………………………………………
 			: (Find in array:C230($aVol; $t)>0)
 				
-				SET MENU ITEM ICON:C984($subMenu; -1; "path:/RESOURCES/pathPicker/drive.png")
+				SET MENU ITEM ICON:C984($subMenu; -1; "#pathPicker/drive.png")
 				
 				//……………………………………………………………………………………………
-			: (Test path name:C476($document)=Is a folder:K24:2)
+			: (Test path name:C476(DOCUMENT)=Is a folder:K24:2)
 				
-				SET MENU ITEM ICON:C984($subMenu; -1; "path:/RESOURCES/pathPicker/folder.png")
+				SET MENU ITEM ICON:C984($subMenu; -1; "#pathPicker/folder.png")
 				
 				//……………………………………………………………………………………………
-			: (Test path name:C476($document)=Is a document:K24:1)
+			: (Test path name:C476(DOCUMENT)=Is a document:K24:1)
 				
-				SET MENU ITEM ICON:C984($subMenu; -1; "path:/RESOURCES/pathPicker/file.png")
+				SET MENU ITEM ICON:C984($subMenu; -1; "#pathPicker/file.png")
 				
 				//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 			Else 
@@ -363,7 +366,7 @@ Function __displayBrowseMenu()
 				//……………………………………………………………………………………………
 		End case 
 		
-		SET MENU ITEM PARAMETER:C1004($subMenu; -1; $document)
+		SET MENU ITEM PARAMETER:C1004($subMenu; -1; DOCUMENT)
 		
 	End for each 
 	
@@ -372,19 +375,19 @@ Function __displayBrowseMenu()
 		
 		If (Bool:C1537(This:C1470.browseExtended))
 			
-			APPEND MENU ITEM:C411($menu; Get localized string:C991("Select…"))
+			APPEND MENU ITEM:C411($menu; Localized string:C991("Select…"))
 			SET MENU ITEM PARAMETER:C1004($menu; -1; "select")
 			
-			APPEND MENU ITEM:C411($menu; Get localized string:C991("CopyPath"))
+			APPEND MENU ITEM:C411($menu; Localized string:C991("CopyPath"))
 			SET MENU ITEM PARAMETER:C1004($menu; -1; "copy")
 			
 			
-			APPEND MENU ITEM:C411($menu; Get localized string:C991("ShowOnDisk"); $subMenu)
+			APPEND MENU ITEM:C411($menu; Localized string:C991("ShowOnDisk"); $subMenu)
 			SET MENU ITEM PARAMETER:C1004($menu; -1; "show")
 			
 		End if 
 		
-		GET MOUSE:C468($left; $bottom; $tmp)
+		MOUSE POSITION:C468($left; $bottom; $tmp)
 		
 		$t:=Dynamic pop up menu:C1006($menu; ""; $left; $bottom-5)
 		RELEASE MENU:C978($menu)
@@ -397,12 +400,12 @@ Function __displayBrowseMenu()
 				//……………………………………………………………………………………………
 			: ($t="copy")
 				
-				SET TEXT TO PASTEBOARD:C523($document)
+				SET TEXT TO PASTEBOARD:C523(DOCUMENT)
 				
 				//……………………………………………………………………………………………
 			: ($t="show")
 				
-				SHOW ON DISK:C922($document)
+				SHOW ON DISK:C922(DOCUMENT)
 				
 				//……………………………………………………………………………………………
 			: ($t="select")
@@ -433,10 +436,10 @@ Function __displayBrowseMenu()
 		
 	End if 
 	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function __displayMenu()
 	
-	var $document; $menu; $sep; $t : Text
+	var $menu; $sep; $t : Text
 	var $bottom; $left; $right; $top : Integer
 	var $c : Collection
 	
@@ -475,6 +478,8 @@ Function __displayMenu()
 	
 	$menu:=Create menu:C408
 	
+	CLEAR VARIABLE:C89(DOCUMENT)
+	
 	For each ($t; $c)
 		
 		If (Is Windows:C1573)
@@ -488,7 +493,7 @@ Function __displayMenu()
 		End if 
 		
 		// Keep the item path
-		$document:=$document+(Folder separator:K24:12*Num:C11(Length:C16($document)>0))+$t
+		DOCUMENT:=DOCUMENT+(Folder separator:K24:12*Num:C11(Length:C16(DOCUMENT)>0))+$t
 		
 		// Case of
 		Case of 
@@ -496,17 +501,17 @@ Function __displayMenu()
 				//……………………………………………………………………………………………
 			: (Find in array:C230($aVol; $t)>0)
 				
-				SET MENU ITEM ICON:C984($menu; -1; "path:/RESOURCES/pathPicker/drive.png")
+				SET MENU ITEM ICON:C984($menu; -1; "#pathPicker/drive.png")
 				
 				//……………………………………………………………………………………………
-			: (Test path name:C476($document)=Is a folder:K24:2)
+			: (Test path name:C476(DOCUMENT)=Is a folder:K24:2)
 				
-				SET MENU ITEM ICON:C984($menu; -1; "path:/RESOURCES/pathPicker/folder.png")
+				SET MENU ITEM ICON:C984($menu; -1; "#pathPicker/folder.png")
 				
 				//……………………………………………………………………………………………
-			: (Test path name:C476($document)=Is a document:K24:1)
+			: (Test path name:C476(DOCUMENT)=Is a document:K24:1)
 				
-				SET MENU ITEM ICON:C984($menu; -1; "path:/RESOURCES/pathPicker/file.png")
+				SET MENU ITEM ICON:C984($menu; -1; "#pathPicker/file.png")
 				
 				//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 			Else 
@@ -517,7 +522,7 @@ Function __displayMenu()
 				//……………………………………………………………………………………………
 		End case 
 		
-		SET MENU ITEM PARAMETER:C1004($menu; -1; $document)
+		SET MENU ITEM PARAMETER:C1004($menu; -1; DOCUMENT)
 		
 	End for each 
 	
@@ -532,14 +537,14 @@ Function __displayMenu()
 		
 		If (Bool:C1537(This:C1470.showOnDisk))
 			
-			APPEND MENU ITEM:C411($menu; Get localized string:C991("ShowOnDisk"))
+			APPEND MENU ITEM:C411($menu; Localized string:C991("ShowOnDisk"))
 			SET MENU ITEM PARAMETER:C1004($menu; -1; "show")
 			
 		End if 
 		
 		If (Bool:C1537(This:C1470.copyPath))
 			
-			APPEND MENU ITEM:C411($menu; Get localized string:C991("CopyPath"))
+			APPEND MENU ITEM:C411($menu; Localized string:C991("CopyPath"))
 			SET MENU ITEM PARAMETER:C1004($menu; -1; "copy")
 			
 		End if 
@@ -560,12 +565,12 @@ Function __displayMenu()
 				//……………………………………………………………………………………………
 			: ($t="copy")
 				
-				SET TEXT TO PASTEBOARD:C523($document)
+				SET TEXT TO PASTEBOARD:C523(DOCUMENT)
 				
 				//……………………………………………………………………………………………
 			: ($t="show")
 				
-				SHOW ON DISK:C922($document)
+				SHOW ON DISK:C922(DOCUMENT)
 				
 				//……………………………………………………………………………………………
 			: (Not:C34(Bool:C1537(This:C1470.openItem)))
@@ -582,29 +587,27 @@ Function __displayMenu()
 		
 	End if 
 	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function __onDrag() : Integer
 	
-	return -1+Num:C11(Test path name:C476(Get file from pasteboard:C976(1))=Num:C11(This:C1470.type))
+	return (-1+Num:C11(Test path name:C476(Get file from pasteboard:C976(1))=Num:C11(This:C1470.type)))
 	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
-Function __onDrop()
+	//=== === === === === === === === === === === === === === === === === === === === ===
+Function __onDrop
 	
-	var $document : Text
+	DOCUMENT:=Get file from pasteboard:C976(1)
 	
-	$document:=Get file from pasteboard:C976(1)
-	
-	If (Test path name:C476($document)=Num:C11(This:C1470.type))
+	If (Test path name:C476(DOCUMENT)=Num:C11(This:C1470.type))
 		
-		If (Position:C15(Path to object:C1547($document).extension; This:C1470.fileTypes)>0)
+		If (Position:C15(Path to object:C1547(DOCUMENT).extension; This:C1470.fileTypes)>0)
 			
-			This:C1470.setPlatformPath($document)
+			This:C1470.setPlatformPath(DOCUMENT)
 			This:C1470.__resume()
 			
 		End if 
 	End if 
 	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function __updateLabel
 	
 	If (Length:C16(This:C1470.platformPath)>0)
@@ -640,7 +643,7 @@ Function __updateLabel
 		$c:=Split string:C1554(This:C1470.platformPath; This:C1470.separator; sk ignore empty strings:K86:1)
 		
 		This:C1470.label:=Choose:C955($c[$c.length-1]#$c[0]; \
-			Replace string:C233(Replace string:C233(Get localized string:C991("FileInVolume"); "{file}"; $c[$c.length-1]); "{volume}"; $c[0]); \
+			Replace string:C233(Replace string:C233(Localized string:C991("FileInVolume"); "{file}"; $c[$c.length-1]); "{volume}"; $c[0]); \
 			"\""+$c[$c.length-1]+"\"")
 		
 		OBJECT SET VISIBLE:C603(*; "menu@"; This:C1470.menu)
@@ -653,7 +656,7 @@ Function __updateLabel
 		
 	End if 
 	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function __resume
 	
 	If (Form:C1466.callback#Null:C1517)
@@ -666,7 +669,7 @@ Function __resume
 		
 	End if 
 	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function __geometry()
 	
 	var $bottom; $containerWidth; $formWidth; $l; $left; $offset : Integer
@@ -692,7 +695,7 @@ Function __geometry()
 	
 	This:C1470.__ui()
 	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+	//=== === === === === === === === === === === === === === === === === === === === ===
 Function __ui()
 	
 	var $bottom; $l; $left; $right; $top : Integer

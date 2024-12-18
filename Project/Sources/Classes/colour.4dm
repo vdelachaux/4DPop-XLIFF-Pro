@@ -1,3 +1,5 @@
+property foreground; background; altBackground
+
 Class constructor
 	
 	This:C1470.foreground:=""

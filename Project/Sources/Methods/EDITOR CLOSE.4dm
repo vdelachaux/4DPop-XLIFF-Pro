@@ -12,7 +12,7 @@ For each ($xliff; $dialog.opened)
 	
 	If ($xliff.modified)
 		
-		$xliff.updateHeader($dialog.generator; $dialog.version)
+		$xliff.updateHeader($dialog.GENERATOR; $dialog.VERSION)
 		$xliff.updateCopyright()
 		
 	End if 

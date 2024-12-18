@@ -1,4 +1,4 @@
-Class extends widgetDelegate
+Class extends widget
 
 /**
 The selector class is intended to manage Dropdown, Combo Box and Tab Control widgets

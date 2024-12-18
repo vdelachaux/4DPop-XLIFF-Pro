@@ -3,19 +3,31 @@ Class: _STRING_Controller - (4DPop XLIFF Pro)
 Created 20-2-2023 by Vincent de Lachaux
 */
 
-property form : cs:C1710.formDelegate
-property unitGroup; languageGroup; movable : cs:C1710.groupDelegate
+// MARK: Default values ⚙️
+property isSubform:=True:C214
+property toBeInitialized:=False:C215
+
+// MARK: Delegates 📦
+property form : cs:C1710.form
 property menu : 4D:C1709.Class
 property str : cs:C1710.str
 
+// MARK: Widgets 🧱
+property resname; flag; lang; source : cs:C1710.input
+property action; handleButton; noteIndicator; noTranslate; propagate : cs:C1710.button
+property handle; mac; win : cs:C1710.static
+property note : cs:C1710.widget
+property unitGroup; languageGroup; movable : cs:C1710.group
+
+// MARK: Other 💾
+
+
+// MARK: Constants 🔐
+
 Class constructor
 	
-	This:C1470.__CLASS__:=OB Class:C1730(This:C1470)
-	
-	This:C1470.isSubform:=True:C214
-	
 	// MARK:-Delegates 📦
-	This:C1470.form:=cs:C1710.formDelegate.new(This:C1470)
+	This:C1470.form:=cs:C1710.form.new(This:C1470)
 	This:C1470.str:=cs:C1710.str.new()
 	This:C1470.menu:=cs:C1710.menu
 	
@@ -29,30 +41,30 @@ Function init()
 	This:C1470.form.callback:=Formula:C1597(EDITOR CALLBACK).source
 	
 	// MARK:Wigets
-	This:C1470.resname:=This:C1470.form.input.new("resname.box")
-	This:C1470.action:=This:C1470.form.button.new("action")
+	This:C1470.resname:=This:C1470.form.Input("resname.box")
+	This:C1470.action:=This:C1470.form.Button("action")
 	
-	var $group : cs:C1710.groupDelegate
-	This:C1470.unitGroup:=This:C1470.form.group.new()
-	This:C1470.flag:=This:C1470.form.input.new("unit.flag").addToGroup(This:C1470.unitGroup)
-	This:C1470.handle:=This:C1470.form.static.new("unit.handle").addToGroup(This:C1470.unitGroup)
-	This:C1470.handleButton:=This:C1470.form.button.new("unit.handle.button").addToGroup(This:C1470.unitGroup)
-	This:C1470.lang:=This:C1470.form.input.new("unit.lang").addToGroup(This:C1470.unitGroup)
-	This:C1470.mac:=This:C1470.form.static.new("unit.mac").addToGroup(This:C1470.unitGroup)
-	This:C1470.noteIndicator:=This:C1470.form.button.new("unit.note").addToGroup(This:C1470.unitGroup)
-	This:C1470.noTranslate:=This:C1470.form.button.new("unit.notranslate").addToGroup(This:C1470.unitGroup)
-	This:C1470.source:=This:C1470.form.input.new("unit.source").addToGroup(This:C1470.unitGroup)
-	This:C1470.win:=This:C1470.form.static.new("unit.win").addToGroup(This:C1470.unitGroup)
+	var $group : cs:C1710.group
+	This:C1470.unitGroup:=This:C1470.form.Group()
+	This:C1470.flag:=This:C1470.form.Input("unit.flag").addToGroup(This:C1470.unitGroup)
+	This:C1470.handle:=This:C1470.form.Static("unit.handle").addToGroup(This:C1470.unitGroup)
+	This:C1470.handleButton:=This:C1470.form.Button("unit.handle.button").addToGroup(This:C1470.unitGroup)
+	This:C1470.lang:=This:C1470.form.Input("unit.lang").addToGroup(This:C1470.unitGroup)
+	This:C1470.mac:=This:C1470.form.Static("unit.mac").addToGroup(This:C1470.unitGroup)
+	This:C1470.noteIndicator:=This:C1470.form.Button("unit.note").addToGroup(This:C1470.unitGroup)
+	This:C1470.noTranslate:=This:C1470.form.Button("unit.notranslate").addToGroup(This:C1470.unitGroup)
+	This:C1470.source:=This:C1470.form.Input("unit.source").addToGroup(This:C1470.unitGroup)
+	This:C1470.win:=This:C1470.form.Static("unit.win").addToGroup(This:C1470.unitGroup)
 	
-	This:C1470.propagate:=This:C1470.form.button.new("shortcut")
+	This:C1470.propagate:=This:C1470.form.Button("shortcut")
 	
-	This:C1470.note:=This:C1470.form.widget.new("NOTE")
+	This:C1470.note:=This:C1470.form.Widget("NOTE")
 	
 	// Widgets to be moved when the source is resized vertically
-	This:C1470.movable:=This:C1470.form.group.new(New collection:C1472(This:C1470.noTranslate; This:C1470.noteIndicator; This:C1470.mac; This:C1470.win))
+	This:C1470.movable:=This:C1470.form.Group(New collection:C1472(This:C1470.noTranslate; This:C1470.noteIndicator; This:C1470.mac; This:C1470.win))
 	
 	// Language sub-forms to be populated later: initGeometry()
-	This:C1470.languageGroup:=This:C1470.form.group.new()
+	This:C1470.languageGroup:=This:C1470.form.Group()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function handleEvents($e : cs:C1710.evt)
@@ -199,9 +211,9 @@ Function update()
 	
 	$string:=$parent.stringList.item
 	
-	If (Structure file:C489=Structure file:C489(*))
-		ASSERT:C1129($string#Null:C1517)
-	End if 
+	//If (Structure file=Structure file(*))
+	//ASSERT($string#Null)
+	//End if 
 	
 	// Set shortcuts
 	Form:C1466.main:=$parent.main
@@ -220,7 +232,7 @@ Function update()
 	$color.foreground:=Foreground color:K23:1
 	$color.background:=Background color:K23:2
 	
-	If (OB Instance of:C1731($string; cs:C1710.Transunit))
+	If (OB Instance of:C1731($string; cs:C1710.xliffUnit))
 		
 		$isConstant:=String:C10($string.attributes.restype)="x-4DK#"
 		
@@ -391,13 +403,13 @@ Function _resnameManager($e : cs:C1710.evt)
 	
 	If (Not:C34($success))
 		
-		ALERT:C41(Get localized string:C991("theNameMustNotBeEmpty"))
+		ALERT:C41(Localized string:C991("theNameMustNotBeEmpty"))
 		return 
 		
 	End if 
 	
 	// For a group, do not allow duplicate names
-	If (OB Instance of:C1731($string; cs:C1710.Group))
+	If (OB Instance of:C1731($string; cs:C1710.xliffGroup))
 		
 		$success:=$parent.current.groups.query("name = :1"; $string.resname).pop()=Null:C1517
 		
@@ -409,7 +421,7 @@ Function _resnameManager($e : cs:C1710.evt)
 		
 		If (Not:C34($success))
 			
-			ALERT:C41(Replace string:C233(Get localized string:C991("theNameIsAlreadyTaken"); "{name}"; $string.resname))
+			ALERT:C41(Replace string:C233(Localized string:C991("theNameIsAlreadyTaken"); "{name}"; $string.resname))
 			$success:=Shift down:C543  // I know what I do ;-)
 			
 		End if 
@@ -418,15 +430,14 @@ Function _resnameManager($e : cs:C1710.evt)
 	If (Not:C34($success))
 		
 		// Restore the old value
-		This:C1470.resname.setValue(Form:C1466.$backup.resname)\
-			.focus()\
-			.highlight()
+		This:C1470.resname.value:=Form:C1466.$backup.resname
+		This:C1470.resname.highlight().focus()
 		
 		return 
 		
 	End if 
 	
-	If (OB Instance of:C1731($string; cs:C1710.Group))
+	If (OB Instance of:C1731($string; cs:C1710.xliffGroup))
 		
 		// Keep the previous name to allow the updating of the hierarchical list-box
 		$string.previous:=Form:C1466.$backup.resname
@@ -450,7 +461,7 @@ Function _actionManager($e : cs:C1710.evt)
 	
 	If ($e.code=On Clicked:K2:4)
 		
-		If (OB Instance of:C1731($string; cs:C1710.Group))
+		If (OB Instance of:C1731($string; cs:C1710.xliffGroup))
 			
 			$string.previous:=$string.resname
 			
@@ -468,7 +479,7 @@ Function _actionManager($e : cs:C1710.evt)
 	
 	$menu.append("camelCase"; "camelCase")  //.shortcut("c"; Option key mask)
 	
-	If (OB Instance of:C1731($string; cs:C1710.Transunit))
+	If (OB Instance of:C1731($string; cs:C1710.xliffUnit))
 		
 		$sub:=This:C1470.menu.new()
 		$sub.append("all"; "all").mark($string.attributes["d4:includeIf"]=Null:C1517)\
@@ -515,7 +526,7 @@ Function _actionManager($e : cs:C1710.evt)
 				//______________________________________________________
 			: ($menu.choice="camelCase")
 				
-				If (OB Instance of:C1731($string; cs:C1710.Group))
+				If (OB Instance of:C1731($string; cs:C1710.xliffGroup))
 					
 					$string.previous:=$string.resname
 					
@@ -585,7 +596,7 @@ Function _handleManager($e : cs:C1710.evt)
 	
 	var $moveV; $resize : Integer
 	var $handle; $source : cs:C1710.coord
-	var $language : cs:C1710.staticDelegate
+	var $language : cs:C1710.static
 	
 	$source:=This:C1470.source.coordinates
 	
@@ -655,7 +666,8 @@ Function initGeometry($editor : cs:C1710._EDITOR_Controller)
 	
 	FORM GET OBJECTS:C898($objects; Form current page:K67:6)
 	
-	For each ($language; $editor.languages)
+	
+	For each ($language; This:C1470.form.container.languages)
 		
 		$widget:="lang_"+$language.language
 		
@@ -663,7 +675,7 @@ Function initGeometry($editor : cs:C1710._EDITOR_Controller)
 			
 			// Create
 			OBJECT DUPLICATE:C1111(*; "_template"; $widget; $nil; "lang_"+String:C10($index-1); 0; 0)
-			This:C1470[$widget]:=This:C1470.form.subform.new($widget).addToGroup(This:C1470.languageGroup)
+			This:C1470[$widget]:=This:C1470.form.Subform($widget).addToGroup(This:C1470.languageGroup)
 			
 		End if 
 		
