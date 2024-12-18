@@ -63,7 +63,7 @@
 					"width": 13,
 					"height": 15,
 					"tooltip": ":xliff:TipAddFile",
-					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/methodEditor/search.png",
+					"icon": "/RESOURCES/SearchPicker/search.png",
 					"style": "toolbar",
 					"events": [],
 					"iconFrames": 1,
@@ -72,7 +72,7 @@
 			}
 		}
 	],
-	"geometryStamp": 63,
+	"geometryStamp": 64,
 	"editor": {
 		"activeView": "View 1",
 		"defaultView": "View 1",

@@ -26,7 +26,35 @@
 		</data>
 		<key>Resources/Images/close.png</key>
 		<data>
-		9phwwQfUb9+4XS5mcbPVI7jCWo0=
+		MIpPoc+5acz/4J2ux6K7kNctWbQ=
+		</data>
+		<key>Resources/Images/close@2x.png</key>
+		<data>
+		VBAyjBcwKJm/hAhYDFVR82sVHxA=
+		</data>
+		<key>Resources/Images/close@2x_dark.png</key>
+		<data>
+		LD0IiyjILq+Rsa9bKPsd3iSJhbg=
+		</data>
+		<key>Resources/Images/close_dark.png</key>
+		<data>
+		lS+R6JLT9O9isudlwvMazB7kmBc=
+		</data>
+		<key>Resources/Images/filters.png</key>
+		<data>
+		ZdrTkOOOMOJebowC0vZhj8uuekQ=
+		</data>
+		<key>Resources/Images/filters@2x.png</key>
+		<data>
+		VN9FK88Et2vQgRDTB0WAEPPKK98=
+		</data>
+		<key>Resources/Images/filters_dark.png</key>
+		<data>
+		7bXbk97fWNUqJyYWfsDmwcgmji4=
+		</data>
+		<key>Resources/Images/filters_dark@2x.png</key>
+		<data>
+		so3SVx36pkNDcWSqxgw63Iphxrs=
 		</data>
 		<key>Resources/Images/handle.png</key>
 		<data>
@@ -60,6 +88,14 @@
 		<data>
 		qkmZ3hxpvUpll5TWtg8xlf9+4ss=
 		</data>
+		<key>Resources/Images/new.png</key>
+		<data>
+		66sN1oOFyXRYMAqhB2NJEftqv5s=
+		</data>
+		<key>Resources/Images/new_dark.png</key>
+		<data>
+		WsPzRwdgzQVI16ONAfLBHgFOVoE=
+		</data>
 		<key>Resources/Images/note_off.png</key>
 		<data>
 		vtBM3AJ4Z5U9PDys/xuD1tepDnQ=
@@ -90,7 +126,23 @@
 		</data>
 		<key>Resources/InfoPlist.strings</key>
 		<data>
-		54kzFAY8vHXRXp0AzbvyhHX5VXA=
+		9vsRxNinSnPCeGh8hQmZykNTN54=
+		</data>
+		<key>Resources/SearchPicker/search.png</key>
+		<data>
+		EniLILPHPt4BpY5rplliYQz6p54=
+		</data>
+		<key>Resources/SearchPicker/search@2x.png</key>
+		<data>
+		vOgPhwUOYL0UR7pxk9XgkZALAMU=
+		</data>
+		<key>Resources/SearchPicker/search_dark.png</key>
+		<data>
+		eS+T/m9rqfcSV0bbbz5d3EC2hUY=
+		</data>
+		<key>Resources/SearchPicker/search_dark@2x.png</key>
+		<data>
+		6tWD2H/dUoQgjIculr+muipGoZs=
 		</data>
 		<key>Resources/_inactivated/fr-ch.lproj/zzz.xlf</key>
 		<dict>
@@ -988,7 +1040,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			ryfRZUGWScpBo4j0nb2bUZJAQPM=
+			AzEnadTyEyYi+gBwSXvmfBINb/c=
 			</data>
 			<key>requirement</key>
 			<string>identifier "4DPop XLIFF Pro.4DZ" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = DYRKW64QA9</string>
@@ -997,11 +1049,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			2SVfPFPP9O7rX48Xtabiz6xnqoo=
+			cDDHEeLM2QMYivDpd0fY+NmQ/QU=
 			</data>
 			<key>hash2</key>
 			<data>
-			uqx2XqUOdJw83pYK/qOpgn1vYUEVw+jZHnS0rERnMJo=
+			Nt2/CxAk1Zpo8+mXVbJgliEsQVNC4MMd8Q1gfCcDbm0=
 			</data>
 		</dict>
 		<key>Resources/4DPop xliff/collection.group</key>
@@ -1063,11 +1115,88 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9phwwQfUb9+4XS5mcbPVI7jCWo0=
+			MIpPoc+5acz/4J2ux6K7kNctWbQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			KVdqEqlprLhpobNkjqrJHAjqgxuw1MFOti/mBX5LzNY=
+			6X6SwXSEjhKxhg/o07pvlhPCq8bRMx9Av/v1Vy0Net8=
+			</data>
+		</dict>
+		<key>Resources/Images/close@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			VBAyjBcwKJm/hAhYDFVR82sVHxA=
+			</data>
+			<key>hash2</key>
+			<data>
+			nTb04UGdHQmh4yK/zn8ytbId57Rih72I1tGSJgDajZM=
+			</data>
+		</dict>
+		<key>Resources/Images/close@2x_dark.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			LD0IiyjILq+Rsa9bKPsd3iSJhbg=
+			</data>
+			<key>hash2</key>
+			<data>
+			yjsCmoGfMj3KWNGfq7E3As7X59vyfWOR3Q+o3RU8swg=
+			</data>
+		</dict>
+		<key>Resources/Images/close_dark.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			lS+R6JLT9O9isudlwvMazB7kmBc=
+			</data>
+			<key>hash2</key>
+			<data>
+			vpkj3YTFKHwum6hK6JWt74t4pDr/mwHu62V2bmzX7P0=
+			</data>
+		</dict>
+		<key>Resources/Images/filters.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZdrTkOOOMOJebowC0vZhj8uuekQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			eEVHV0ne7wT4ot9o5HcuBPt14IcTwjPlGcE6tFksEm0=
+			</data>
+		</dict>
+		<key>Resources/Images/filters@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			VN9FK88Et2vQgRDTB0WAEPPKK98=
+			</data>
+			<key>hash2</key>
+			<data>
+			UZszV4HeMtUha7p0qN4329/ESgjhsVz4n3pQ5TjYrFc=
+			</data>
+		</dict>
+		<key>Resources/Images/filters_dark.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7bXbk97fWNUqJyYWfsDmwcgmji4=
+			</data>
+			<key>hash2</key>
+			<data>
+			KNbOPYwPlPi0dJy1KUfH2XEtb6w4mK5wkMidKzYVufE=
+			</data>
+		</dict>
+		<key>Resources/Images/filters_dark@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			so3SVx36pkNDcWSqxgw63Iphxrs=
+			</data>
+			<key>hash2</key>
+			<data>
+			PQrhSGDXJF+qUtujiCK3zssdIXlMWIQC0RuV2SM79yA=
 			</data>
 		</dict>
 		<key>Resources/Images/handle.png</key>
@@ -1158,6 +1287,28 @@
 			2Au16a5pu1FM/kKyGnmlwAJYZsAXIHnKIJy7/cVE520=
 			</data>
 		</dict>
+		<key>Resources/Images/new.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			66sN1oOFyXRYMAqhB2NJEftqv5s=
+			</data>
+			<key>hash2</key>
+			<data>
+			pDdbguwO2by26rteIDeejn62qXksXONACm4Z/l8OnDk=
+			</data>
+		</dict>
+		<key>Resources/Images/new_dark.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			WsPzRwdgzQVI16ONAfLBHgFOVoE=
+			</data>
+			<key>hash2</key>
+			<data>
+			gqZPij0+LfmQQPTHLUi8DPBUx0nWjk25VgpiBNrdJBo=
+			</data>
+		</dict>
 		<key>Resources/Images/note_off.png</key>
 		<dict>
 			<key>hash</key>
@@ -1239,11 +1390,55 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			54kzFAY8vHXRXp0AzbvyhHX5VXA=
+			9vsRxNinSnPCeGh8hQmZykNTN54=
 			</data>
 			<key>hash2</key>
 			<data>
-			Bdg3wJdKV2DjpLFrF7xvs5fbU4Zih/EZeoogLY1KQig=
+			bwyWPySVWrtYroEOqK4vRPttcySQMSBR0cExNLFP1ZQ=
+			</data>
+		</dict>
+		<key>Resources/SearchPicker/search.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			EniLILPHPt4BpY5rplliYQz6p54=
+			</data>
+			<key>hash2</key>
+			<data>
+			Adt54aoXw+6DzA1m+WgDlTIBI+ejD0sdvFzIUY0f8+s=
+			</data>
+		</dict>
+		<key>Resources/SearchPicker/search@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			vOgPhwUOYL0UR7pxk9XgkZALAMU=
+			</data>
+			<key>hash2</key>
+			<data>
+			rlQkML7DumEPkWJkByhxZRtZV+afrqzNeLkDHNoCXu4=
+			</data>
+		</dict>
+		<key>Resources/SearchPicker/search_dark.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			eS+T/m9rqfcSV0bbbz5d3EC2hUY=
+			</data>
+			<key>hash2</key>
+			<data>
+			ib6Py0byzKx63twlulOy71oPTHkq7u/0XU+UX145AAg=
+			</data>
+		</dict>
+		<key>Resources/SearchPicker/search_dark@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			6tWD2H/dUoQgjIculr+muipGoZs=
+			</data>
+			<key>hash2</key>
+			<data>
+			D/YZKZnLv/8P/bHVanpEPxTrmtqTUs2MUpbjK6QjU+I=
 			</data>
 		</dict>
 		<key>Resources/_inactivated/fr-ch.lproj/zzz.xlf</key>

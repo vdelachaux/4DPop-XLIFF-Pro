@@ -78,7 +78,7 @@
 					"width": 82,
 					"height": 28,
 					"tooltip": ":xliff:TipNewTransUnit",
-					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Contents/Resources/images/toolbar/new.png",
+					"icon": "/RESOURCES/Images/new.png",
 					"style": "toolbar",
 					"events": [
 						"onClick"
@@ -98,7 +98,7 @@
 					"width": 74,
 					"height": 28,
 					"tooltip": ":xliff:TipNewGroup",
-					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Contents/Resources/images/toolbar/new.png",
+					"icon": "/RESOURCES/Images/new.png",
 					"style": "toolbar",
 					"events": [
 						"onClick"
@@ -154,7 +154,7 @@
 					"events": [
 						"onAlternateClick"
 					],
-					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Contents/Resources/images/toolbox/filters.png",
+					"icon": "/RESOURCES/Images/filters.png",
 					"textPlacement": "left",
 					"visibility": "hidden"
 				},
@@ -390,7 +390,7 @@
 					"width": 59,
 					"height": 28,
 					"tooltip": ":xliff:TipAddFile",
-					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Contents/Resources/images/toolbar/new.png",
+					"icon": "/RESOURCES/Images/new.png",
 					"events": [
 						"onClick"
 					],
@@ -502,7 +502,7 @@
 		"version": "1",
 		"kind": "form"
 	},
-	"geometryStamp": 935,
+	"geometryStamp": 943,
 	"method": "formMethod",
 	"memorizeGeometry": true
 }
