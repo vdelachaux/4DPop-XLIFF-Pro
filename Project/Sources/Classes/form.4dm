@@ -483,27 +483,19 @@ Function set darkSuffix($suffix : Text)
 	/// Return the given resource path with scheme suffix if any
 Function resourceFromScheme($path : Text) : Text
 	
-	var $t : Text
-	var $c : Collection
-	var $file : 4D:C1709.File
-	
 	$path:=This:C1470._proxy($path)
 	$path:=Replace string:C233($path; "path:"; "")
 	
 	If (This:C1470.darkScheme)
 		
-		$file:=File:C1566($path)
+		var $file : 4D:C1709.File:=File:C1566($path)
 		
-		$c:=Split string:C1554($file.fullName; ".")
-		$c[0]:=$c[0]+This:C1470._darkExtension
+		var $c : Collection:=Split string:C1554($file.fullName; ".")
+		$c[0]+=This:C1470._darkExtension
 		
-		$t:=Replace string:C233($path; $file.fullName; $c.join("."))
+		var $t : Text:=Replace string:C233($path; $file.fullName; $c.join("."))
+		$path:=File:C1566($t).exists ? $t : $path
 		
-		If (File:C1566($t).exists)
-			
-			$path:=$t
-			
-		End if 
 	End if 
 	
 	return $path
