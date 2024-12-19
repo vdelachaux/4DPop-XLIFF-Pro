@@ -7,8 +7,8 @@ Created 10-05-2023 by Vincent de Lachaux
 property isSubform:=True:C214
 property toBeInitialized:=False:C215
 
-property borderColor : Integer:=0x00E5E5E5
-property expanded : Boolean:=False:C215
+property borderColor:=0x00E5E5E5
+property expanded:=False:C215
 
 // MARK: Delegates 📦
 property form : cs:C1710.form

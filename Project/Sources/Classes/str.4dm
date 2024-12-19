@@ -1,11 +1,15 @@
 Class extends tools
 
+property value:=""
+property length:=0
+property styled:=False:C215
+
+property begin; end : Integer
+
 // === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Class constructor($content)
 	
 	Super:C1705()
-	
-	This:C1470.value:=""
 	
 	If (Count parameters:C259>=1)
 		
@@ -119,12 +123,12 @@ Function insert($text : Text; $begin : Integer; $end : Integer) : cs:C1710.str
 	// === === === === === === === === === === === === === === === === === === === === ===
 	// Append the given text to the current string according eventualy use the optional separator text
 	// Also update the inserted text position into the original string (str.begin & str.end)
-Function append($text : Text; $separator : Text) : cs:C1710.str
+Function append($text : Text; $sep : Text) : cs:C1710.str
 	
 	If (Length:C16($text)>0)
 		
 		This:C1470.begin:=Length:C16(This:C1470.value)
-		This:C1470.value+=$separator+$text
+		This:C1470.value+=$sep+$text
 		This:C1470.end:=Length:C16(This:C1470.value)
 		
 		This:C1470.length:=Length:C16(This:C1470.value)
@@ -171,15 +175,13 @@ Function containsString($target : Text; $toFind; $diacritical : Boolean) : Boole
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns True if the string contains one or more words passed by a collection or parameters.
-Function contains($words; $word; $word_2 : Text; $word_N : Text) : Boolean
+Function contains($words; $word; $word_2 : Text;  ...  : Text) : Boolean
 	
 	var $t : Text
 	var $contains : Boolean
 	var $i : Integer
 	var $v
 	var $formula : Object
-	
-	C_TEXT:C284(${3})
 	
 	$contains:=True:C214
 	
@@ -1223,109 +1225,98 @@ Function localize($resname : Text; $replacements) : Text
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Concatenates the values ​​given to the original string
-Function concat
-	var $0 : Text
-	var $1 : Variant
-	var $2 : Text
+Function concat($in; $sep : Text) : Text
 	
-	var $t; $text; $tSeparator : Text
+	var $t; $text : Text
 	
-	If (Count parameters:C259>=2)
-		
-		$tSeparator:=String:C10($2)
-		
-	Else 
-		
-		// Default is space
-		$tSeparator:=Char:C90(Space:K15:42)
-		
-	End if 
+	$sep:=$sep || Char:C90(Space:K15:42)  // Default is space
 	
-	$0:=This:C1470.value
+	var $result : Text:=This:C1470.value
 	
-	If (Value type:C1509($1)=Is collection:K8:32)
+	If (Value type:C1509($in)=Is collection:K8:32)
 		
-		For each ($t; $1)
+		For each ($t; $in)
 			
 			If (Length:C16($t)>0)\
-				 & (Length:C16($t)<=255)
+				 && (Length:C16($t)<=255)\
+				 && (Position:C15(Char:C90(1); $t)#1)
 				
-				//%W-533.1
-				If ($t[[1]]#Char:C90(1))
-					
-					$text:=Get localized string:C991($t)
-					$text:=Choose:C955(Length:C16($text)>0; $text; $t)  // Revert if no localization
-					
-				End if 
-				//%W+533.1
+				$text:=Localized string:C991($t)
+				$text:=Length:C16($text)>0 ? $text : $t  // Revert if no localization
 				
 			End if 
 			
-			If (Position:C15($tSeparator; $text)#1)\
-				 & (Position:C15($tSeparator; $0)#Length:C16($0))
+			If (Position:C15($sep; $text)#1)\
+				 && (Position:C15($sep; $result)#Length:C16($result))
 				
-				$0:=$0+$tSeparator
+				$result+=$sep
 				
 			End if 
 			
-			$0:=$0+$text
+			$result+=$text
 			
 		End for each 
 		
 	Else 
 		
-		$text:=Get localized string:C991($1)
-		$text:=Choose:C955(Length:C16($text)>0; $text; $1)
-		
-		If (Position:C15($tSeparator; $text)#1)\
-			 & (Position:C15($tSeparator; $0)#Length:C16($0))
+		If (Position:C15(Char:C90(1); $in)#1)
 			
-			$0:=$0+$tSeparator
+			$text:=Localized string:C991($in)
 			
 		End if 
 		
-		$0:=$0+$text
+		$text:=Length:C16($text)>0 ? $text : $in  // Revert if no localization
+		
+		If (Position:C15($sep; $text)#1)\
+			 && (Position:C15($sep; $result)#Length:C16($result))
+			
+			$result+=$sep
+			
+		End if 
+		
+		$result+=$text
 		
 	End if 
 	
+	return $result
+	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns the string after replacements
-Function replace
-	var $0 : Text
-	var $1 : Variant  // Old
-	var $2 : Variant  // New
+Function replace($old; $new) : Text
 	
 	var $t : Text
 	var $i : Integer
 	
-	$0:=This:C1470.value
+	var $result : Text:=This:C1470.value
 	
-	If (Value type:C1509($1)=Is collection:K8:32)
+	If (Value type:C1509($old)=Is collection:K8:32)
 		
-		If ((Value type:C1509($2)=Is collection:K8:32))
+		If ((Value type:C1509($new)=Is collection:K8:32))
 			
-			If (Asserted:C1132($1.length<=$2.length))
+			If (Asserted:C1132($old.length<=$new.length))
 				
-				For each ($t; $1)
+				For each ($t; $old)
 					
-					$0:=Replace string:C233($0; $t; Choose:C955($2[$i]=Null:C1517; ""; String:C10($2[$i])))
+					$result:=Replace string:C233($result; $t; Choose:C955($new[$i]=Null:C1517; ""; String:C10($new[$i])))
 					
-					$i:=$i+1
+					$i+=1
 					
 				End for each 
 			End if 
 			
 		Else 
 			
-			$0:=Replace string:C233($0; $t; Choose:C955($2=Null:C1517; ""; String:C10($2)))
+			$result:=Replace string:C233($result; $t; Choose:C955($new=Null:C1517; ""; String:C10($new)))
 			
 		End if 
 		
 	Else 
 		
-		$0:=Replace string:C233($0; String:C10($1); Choose:C955($2=Null:C1517; ""; String:C10($2)))
+		$result:=Replace string:C233($result; String:C10($old); Choose:C955($new=Null:C1517; ""; String:C10($new)))
 		
 	End if 
+	
+	return $result
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns a HTML encoded string
@@ -1601,11 +1592,11 @@ Function extract($target : Text; $type : Text) : Variant
 	// -  0 if the version and the reference are equal
 	// -  1 if the version is higher than the reference
 	// - -1 if the version is lower than the reference
-Function versionCompare($with : Text; $separator : Text) : Integer
+Function versionCompare($with : Text; $sep : Text) : Integer
 	
 	If (Count parameters:C259>=2)
 		
-		return Super:C1706.versionCompare(This:C1470.value; $with; $separator)
+		return Super:C1706.versionCompare(This:C1470.value; $with; $sep)
 		
 	Else 
 		

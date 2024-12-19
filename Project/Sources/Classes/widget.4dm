@@ -6,6 +6,8 @@ property _events : Collection
 property _data; dataSource
 property _callback : 4D:C1709.Function
 
+property timer : Integer
+
 Class constructor($name : Text)
 	
 	Super:C1705($name)

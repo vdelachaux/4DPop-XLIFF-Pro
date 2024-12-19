@@ -24,18 +24,20 @@ property fileList; stringList : cs:C1710.listbox
 property strings; locked; withFile : cs:C1710.group
 
 // MARK: Constants 🔐
-property FILE_EXTENSION : Text:=".xlf"
-property FOLDER_EXTENSION : Text:=".lproj"
-property GENERATOR : Text:=File:C1566(Structure file:C489; fk platform path:K87:2).name
-property VERSION : Text:="3.1"
+property FILE_EXTENSION:=".xlf"
+property FOLDER_EXTENSION:=".lproj"
+property GENERATOR:=File:C1566(Structure file:C489; fk platform path:K87:2).name
+property VERSION:="3.1"
 
 // TODO:Could be a preference
-property AUTOSAVE : Boolean:=True:C214  // Flag for automatic saving
+property AUTOSAVE:=True:C214  // Flag for automatic saving
 
 // MARK: Other 💾
 property current : cs:C1710.Xliff
 property folders; opened; languages : Collection
 property default; main; resources : Object
+
+property groupPtr; resnamePtr; contentPtr : Pointer
 
 Class constructor($mainLanguage : Text)
 	
@@ -1395,7 +1397,7 @@ Function getFiles($language : Text) : Collection
 		
 		For each ($file; $folder.files().query("extension = :1"; This:C1470.FILE_EXTENSION))
 			
-			$xliff:=This:C1470.Xliff.new($file)
+			$xliff:=cs:C1710.Xliff.new($file)
 			
 			If (Not:C34($xliff.success))
 				
@@ -1423,7 +1425,7 @@ Function getFiles($language : Text) : Collection
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function parse($file : 4D:C1709.File) : cs:C1710.Xliff
 	
-	var $xliff : cs:C1710.Xliff:=This:C1470.Xliff.new($file)
+	var $xliff : cs:C1710.Xliff:=cs:C1710.Xliff.new($file)
 	
 	If (Not:C34($xliff.success))
 		
@@ -1760,7 +1762,7 @@ Function _HIGHLIGHTING_DUPLICATES()
 	var $o : Object
 	
 	// TODO:Working with the collections
-	$column:=This:C1470.stringList.columnName(2)
+	$column:=This:C1470.stringList.getColumnName(2)
 	
 	For ($i; 1; Size of array:C274(This:C1470.resnamePtr->); 1)
 		

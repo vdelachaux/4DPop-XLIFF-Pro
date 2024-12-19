@@ -1,24 +1,24 @@
 Class extends xml
 
 // MARK: Default values ⚙️
-property allUnits : Collection:=[]
-property groups : Collection:=[]
+property allUnits:=[]
+property groups:=[]
 
 // MARK: Constants 🔐
 // Extensions
-property FILE_EXTENSION : Text:=".xlf"
-property FOLDER_EXTENSION : Text:=".lproj"
+property FILE_EXTENSION:=".xlf"
+property FOLDER_EXTENSION:=".lproj"
 
 // Common XPATH
-property XPATH_HEADER : Text:="/xliff/header"
-property XPATH_PROP_GROUP : Text:="/xliff/file/header/prop-group"
-property XPATH_FILE : Text:="/xliff/file"
-property XPATH_BODY : Text:="/xliff/file/body"
+property XPATH_HEADER:="/xliff/header"
+property XPATH_PROP_GROUP:="/xliff/file/header/prop-group"
+property XPATH_FILE:="/xliff/file"
+property XPATH_BODY:="/xliff/file/body"
 
 // State values
-property NEW : Text:="new"  // The item is new (not in a previous version of the document)
-property NEEDS_TRANSLATION : Text:="needs-translation"  // The item needs to be translated.
-property NEEDS_REVIEW : Text:="needs-review-translation"  // Only the text of the item needs to be reviewed.
+property NEW:="new"  // The item is new (not in a previous version of the document)
+property NEEDS_TRANSLATION:="needs-translation"  // The item needs to be translated.
+property NEEDS_REVIEW:="needs-review-translation"  // Only the text of the item needs to be reviewed.
 
 // MARK: Other 💾
 property attributes; language : Object
@@ -27,7 +27,10 @@ property datatype : Text
 property noTranslate : Boolean
 property note : Boolean
 
-property duplicateID; duplicateResname : Boolean
+property languages:=[]
+property error : Text
+
+property duplicateID; duplicateResname; modified : Boolean
 
 Class constructor($file : 4D:C1709.File)
 	

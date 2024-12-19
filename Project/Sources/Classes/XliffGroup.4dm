@@ -67,10 +67,10 @@ property node; resname; xpath : Text
 property attributes : Object
 property isconstant : Boolean
 
-property transunits : Collection:=[]
+property transunits:=[]
 
 // MARK: Constants 🔐
-property XPATH_PATTERN : Text:="(?mi-s)(?<=group\\[@resname=\")([^\"]*)"
+property XPATH_PATTERN:="(?mi-s)(?<=group\\[@resname=\")([^\"]*)"
 
 Class constructor($node : Text; $attributes : Object)
 	

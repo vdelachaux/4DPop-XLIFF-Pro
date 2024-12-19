@@ -53,13 +53,15 @@ While for backward compatibility reasons no order is enforced for the elements
 before the non-XLIFF elements, the recommended order is the one in which they 
 are listed here.
 */
+property source : Object:={value: ""; xpath: ""}
+property target : Object:={value: ""; xpath: ""}
+property note:=""
 
-property node; resname; xpath; id; note : Text
-property attributes; source; target : Object
+property node; resname; xpath; id : Text
+property attributes : Object
 property noTranslate : Boolean
 
 Class constructor($node : Text; $attributes : Object)
-	
 	
 	This:C1470.node:=$node
 	This:C1470.attributes:=$attributes || {}
@@ -68,7 +70,3 @@ Class constructor($node : Text; $attributes : Object)
 	This:C1470.id:=String:C10(This:C1470.attributes.id)
 	This:C1470.noTranslate:=Bool:C1537(This:C1470.attributes.translate="no")
 	
-	This:C1470.source:={value: ""; xpath: ""}
-	This:C1470.target:={value: ""; xpath: ""}
-	
-	This:C1470.note:=""
