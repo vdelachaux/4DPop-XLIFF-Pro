@@ -582,7 +582,7 @@ Function _stringListManager($e : cs:C1710.evt)
 				If ($item#Null:C1517)
 					
 					$copy:=cs:C1710.menu.new()
-					$copy.append(":xliff:copyAsXliffReference"; "copy").shortcut("C").enable(OB Instance of:C1731($item; cs:C1710.xliffUnit))\
+					$copy.append(":xliff:copyAsXliffReference"; "copy").shortcut("C").enable(OB Instance of:C1731($item; cs:C1710.XliffUnit))\
 						.append(":xliff:copyResname"; "resname")\
 						.append(":xliff:copyTheCode"; "code")
 					
@@ -596,7 +596,7 @@ Function _stringListManager($e : cs:C1710.evt)
 						
 					End if 
 					
-					$files:=$files.query("extension = :1"; OB Instance of:C1731($item; cs:C1710.xliffGroup) ? ".group" : ".unit").orderBy("name")
+					$files:=$files.query("extension = :1"; OB Instance of:C1731($item; cs:C1710.XliffGroup) ? ".group" : ".unit").orderBy("name")
 					
 					If ($files.length>0)
 						
@@ -730,7 +730,7 @@ Function _stringListManager($e : cs:C1710.evt)
 				
 			End if 
 			
-			If (OB Instance of:C1731($item; cs:C1710.xliffUnit))
+			If (OB Instance of:C1731($item; cs:C1710.XliffUnit))
 				
 				If (Shift down:C543)
 					
@@ -842,8 +842,8 @@ Function newGroupManager()
 	var $resname : Text
 	var $row : Integer
 	var $language : Object
-	var $group : cs:C1710.xliffGroup
-	var $unit : cs:C1710.xliffUnit
+	var $group : cs:C1710.XliffGroup
+	var $unit : cs:C1710.XliffUnit
 	var $xliff : cs:C1710.Xliff
 	
 	// Trigger string update
@@ -880,8 +880,8 @@ Function newStringManager()
 	var $resname : Text
 	var $row : Integer
 	var $language; $target : Object
-	var $group : cs:C1710.xliffGroup
-	var $unit : cs:C1710.xliffUnit
+	var $group : cs:C1710.XliffGroup
+	var $unit : cs:C1710.XliffUnit
 	var $xliff : cs:C1710.Xliff
 	
 	// Trigger string update
@@ -889,7 +889,7 @@ Function newStringManager()
 	
 	$target:=This:C1470.stringList.item
 	
-	If (OB Instance of:C1731($target; cs:C1710.xliffUnit))
+	If (OB Instance of:C1731($target; cs:C1710.XliffUnit))
 		
 		// Get parent group
 		$target:=This:C1470.parentGroup($target)
@@ -981,8 +981,8 @@ Function doDeleteString($e : cs:C1710.evt)
 	
 	var $row : Integer
 	var $language; $target : Object
-	var $group : cs:C1710.xliffGroup
-	var $unit : cs:C1710.xliffUnit
+	var $group : cs:C1710.XliffGroup
+	var $unit : cs:C1710.XliffUnit
 	var $xliff : cs:C1710.Xliff
 	
 	$target:=This:C1470.stringList.item
@@ -994,7 +994,7 @@ Function doDeleteString($e : cs:C1710.evt)
 	End if 
 	
 	CONFIRM:C162(Replace string:C233(\
-		Localized string:C991(OB Instance of:C1731($target; cs:C1710.xliffUnit) ? "DeleteItem" : "DeleteGroup"); \
+		Localized string:C991(OB Instance of:C1731($target; cs:C1710.XliffUnit) ? "DeleteItem" : "DeleteGroup"); \
 		"{item}"; $target.resname))
 	
 	If (OK=0)
@@ -1005,7 +1005,7 @@ Function doDeleteString($e : cs:C1710.evt)
 	
 	$xliff:=This:C1470.current
 	
-	If (OB Instance of:C1731($target; cs:C1710.xliffGroup))
+	If (OB Instance of:C1731($target; cs:C1710.XliffGroup))
 		
 		// Update files
 		$xliff.remove($target.node)
@@ -1087,12 +1087,12 @@ Function getItemCode($item : Object; $type : Text) : Text
 	ARRAY LONGINT:C221($pos; 0)
 	
 	// Is it an external code?
-	$file:=File:C1566("/RESOURCES/4DPop xliff/"+$type+(OB Instance of:C1731($item; cs:C1710.xliffGroup) ? ".group" : ".unit"))
+	$file:=File:C1566("/RESOURCES/4DPop xliff/"+$type+(OB Instance of:C1731($item; cs:C1710.XliffGroup) ? ".group" : ".unit"))
 	
 	If (Not:C34($file.exists))
 		
 		// Try host
-		$file:=File:C1566("/RESOURCES/4DPop xliff/"+$type+(OB Instance of:C1731($item; cs:C1710.xliffGroup) ? ".group" : ".unit"); *)
+		$file:=File:C1566("/RESOURCES/4DPop xliff/"+$type+(OB Instance of:C1731($item; cs:C1710.XliffGroup) ? ".group" : ".unit"); *)
 		
 	End if 
 	
@@ -1104,7 +1104,7 @@ Function getItemCode($item : Object; $type : Text) : Text
 		
 	End if 
 	
-	If (OB Instance of:C1731($item; cs:C1710.xliffGroup))
+	If (OB Instance of:C1731($item; cs:C1710.XliffGroup))
 		
 		// Construct the code to load all strings into a collection
 		$code:="var $c : Collection\r"
@@ -1279,7 +1279,7 @@ Function _populateString($column : Integer; $row : Integer) : Object
 	$o:=(This:C1470.contentPtr)->{$row}
 	//%W+533.3
 	
-	$string:=($column=1) & (OB Instance of:C1731($o; cs:C1710.xliffUnit)) ? This:C1470.parentGroup($o) : $o
+	$string:=($column=1) & (OB Instance of:C1731($o; cs:C1710.XliffUnit)) ? This:C1470.parentGroup($o) : $o
 	
 	If (Structure file:C489=Structure file:C489(*))
 		ASSERT:C1129($string#Null:C1517)
@@ -1355,7 +1355,7 @@ Function doSelectGroup($row : Integer; $e : cs:C1710.evt)
 Function doSelectUnit($row : Integer)
 	
 	// Expand group if any
-	If (This:C1470.stringList.item#Null:C1517) && (OB Instance of:C1731(This:C1470.stringList.item; cs:C1710.xliffGroup))
+	If (This:C1470.stringList.item#Null:C1517) && (OB Instance of:C1731(This:C1470.stringList.item; cs:C1710.XliffGroup))
 		
 		This:C1470.stringList.expand($row; lk break row:K53:18)
 		
@@ -1699,8 +1699,8 @@ Function _LOAD_STRINGS()
 	
 	var $column : Text
 	var $i : Integer
-	var $group : cs:C1710.xliffGroup
-	var $unit : cs:C1710.xliffUnit
+	var $group : cs:C1710.XliffGroup
+	var $unit : cs:C1710.XliffUnit
 	var $main : cs:C1710.Xliff
 	
 	//FIXME:Optimize 
@@ -1895,7 +1895,7 @@ Function _UPDATE_RESNAME($context : Object)
 	var $itemPosition; $len; $pos; $row : Integer
 	var $ptr : Pointer
 	var $langue; $target : Object
-	var $group : cs:C1710.xliffGroup
+	var $group : cs:C1710.XliffGroup
 	var $xliff : cs:C1710.Xliff
 	
 	$target:=$context.string
@@ -1908,7 +1908,7 @@ Function _UPDATE_RESNAME($context : Object)
 	$ptr:=This:C1470.stringList.pointer
 	$itemPosition:=Find in array:C230($ptr->; True:C214)
 	
-	If (OB Instance of:C1731($target; cs:C1710.xliffGroup))
+	If (OB Instance of:C1731($target; cs:C1710.XliffGroup))
 		
 		$group:=$xliff.groups.query("previous = :1"; $target.previous).pop()
 		$group.setResname($target.resname)
@@ -2179,7 +2179,7 @@ Function _UPDATE_LOCALIZED_TARGET($context : Object)
 Function filterNew() : Collection
 	
 	//var $c; $filtered : Collection
-	//var $group : cs.xliffGroup
+	//var $group : cs.XliffGroup
 	//var $xliff : cs.Xliff
 	//$xliff:=This.current
 	//$filtered:=[]
@@ -2196,7 +2196,7 @@ Function filterNew() : Collection
 Function filterNeedstranslation() : Collection
 	
 	//var $c; $filtered : Collection
-	//var $group : cs.xliffGroup
+	//var $group : cs.XliffGroup
 	//var $xliff : cs.Xliff
 	//$xliff:=This.current
 	//$filtered:=[]

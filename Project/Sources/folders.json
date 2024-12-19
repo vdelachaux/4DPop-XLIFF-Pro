@@ -30,13 +30,12 @@
 		"classes": [
 			"Preferences",
 			"Xliff",
-			"xliffGroup",
-			"xliffUnit"
+			"XliffGroup",
+			"XliffUnit"
 		]
 	},
 	"👩‍💻 UI": {
 		"methods": [
-			"COMPILER_UI",
 			"dropableWidgetMethod",
 			"form_spreadToSubforms",
 			"formCallBack",
@@ -84,7 +83,6 @@
 			"UPDATES"
 		],
 		"methods": [
-			"COMPILER_component",
 			"EDITOR CALLBACK",
 			"EDITOR CLOSE",
 			"EDITOR OPEN"
@@ -98,6 +96,7 @@
 		"classes": [
 			"motor",
 			"os",
+			"process",
 			"xml"
 		]
 	},

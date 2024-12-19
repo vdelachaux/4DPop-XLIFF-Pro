@@ -226,7 +226,7 @@ Function update()
 	$color.foreground:=Foreground color:K23:1
 	$color.background:=Background color:K23:2
 	
-	If (OB Instance of:C1731($string; cs:C1710.xliffUnit))
+	If (OB Instance of:C1731($string; cs:C1710.XliffUnit))
 		
 		$isConstant:=String:C10($string.attributes.restype)="x-4DK#"
 		
@@ -403,7 +403,7 @@ Function _resnameManager($e : cs:C1710.evt)
 	End if 
 	
 	// For a group, do not allow duplicate names
-	If (OB Instance of:C1731($string; cs:C1710.xliffGroup))
+	If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
 		
 		$success:=$parent.current.groups.query("name = :1"; $string.resname).pop()=Null:C1517
 		
@@ -431,7 +431,7 @@ Function _resnameManager($e : cs:C1710.evt)
 		
 	End if 
 	
-	If (OB Instance of:C1731($string; cs:C1710.xliffGroup))
+	If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
 		
 		// Keep the previous name to allow the updating of the hierarchical list-box
 		$string.previous:=Form:C1466.$backup.resname
@@ -454,7 +454,7 @@ Function _actionManager($e : cs:C1710.evt)
 	
 	If ($e.code=On Clicked:K2:4)
 		
-		If (OB Instance of:C1731($string; cs:C1710.xliffGroup))
+		If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
 			
 			$string.previous:=$string.resname
 			
@@ -472,7 +472,7 @@ Function _actionManager($e : cs:C1710.evt)
 	
 	$menu.append("camelCase"; "camelCase")  //.shortcut("c"; Option key mask)
 	
-	If (OB Instance of:C1731($string; cs:C1710.xliffUnit))
+	If (OB Instance of:C1731($string; cs:C1710.XliffUnit))
 		
 		$sub:=cs:C1710.menu.new()
 		$sub.append("all"; "all").mark($string.attributes["d4:includeIf"]=Null:C1517)\
@@ -519,7 +519,7 @@ Function _actionManager($e : cs:C1710.evt)
 				//______________________________________________________
 			: ($menu.choice="camelCase")
 				
-				If (OB Instance of:C1731($string; cs:C1710.xliffGroup))
+				If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
 					
 					$string.previous:=$string.resname
 					

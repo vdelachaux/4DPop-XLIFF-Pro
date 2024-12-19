@@ -100,7 +100,7 @@ Function setResname($resname : Text)
 Function updateTransunits()
 	
 	var $len; $pos : Integer
-	var $unit : cs:C1710.xliffUnit
+	var $unit : cs:C1710.XliffUnit
 	
 	For each ($unit; This:C1470.transunits)
 		
@@ -130,7 +130,7 @@ Function updateTransunits()
 Function setAttributes($attributes : Object)
 	
 	var $len; $pos : Integer
-	var $unit : cs:C1710.xliffUnit
+	var $unit : cs:C1710.XliffUnit
 	
 	This:C1470.attributes:=$attributes
 	This:C1470.resname:=String:C10(This:C1470.attributes.resname)
@@ -159,3 +159,4 @@ Function setAttributes($attributes : Object)
 			End if 
 		End if 
 	End for each 
+	
