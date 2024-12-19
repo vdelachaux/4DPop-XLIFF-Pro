@@ -286,7 +286,6 @@
 		"views": {
 			"default": {},
 			"NOTE": {
-				"visible": false,
 				"objects": [
 					"NOTE"
 				]

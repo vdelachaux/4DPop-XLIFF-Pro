@@ -9,8 +9,7 @@ property toBeInitialized:=False:C215
 
 // MARK: Delegates 📦
 property form : cs:C1710.form
-property menu : 4D:C1709.Class
-property str : cs:C1710.str
+property str : cs:C1710.str:=cs:C1710.str.new()
 
 // MARK: Widgets 🧱
 property resname; flag; lang; source : cs:C1710.input
@@ -19,17 +18,14 @@ property handle; mac; win : cs:C1710.static
 property note : cs:C1710.widget
 property unitGroup; languageGroup; movable : cs:C1710.group
 
-// MARK: Other 💾
-
-
 // MARK: Constants 🔐
+
+// MARK: Other 💾
 
 Class constructor
 	
 	// MARK:-Delegates 📦
 	This:C1470.form:=cs:C1710.form.new(This:C1470)
-	This:C1470.str:=cs:C1710.str.new()
-	This:C1470.menu:=cs:C1710.menu
 	
 	This:C1470.form.init()
 	
@@ -125,9 +121,7 @@ Function handleEvents($e : cs:C1710.evt)
 					
 				Else 
 					
-					// Show note UI
-					This:C1470.note.setCoordinates(This:C1470.source.getCoordinates())
-					This:C1470.note.show().focus()
+					This:C1470.note.setCoordinates(This:C1470.source.getCoordinates()).show().focus()
 					
 				End if 
 				
@@ -321,7 +315,7 @@ This.adjustResname(False)
 			
 			// Get localisation
 			//FIXME:Failed if 2 identical or diacritical resnames, the first one is returned.
-			$node:=$xliff.findByXPath($localisation.string.XPATH)
+			$node:=$xliff.findByXPath($localisation.string.xpath)
 			
 			If ($xliff.success)
 				
@@ -451,7 +445,6 @@ Function _resnameManager($e : cs:C1710.evt)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _actionManager($e : cs:C1710.evt)
 	
-	var $XPATH : Text
 	var $string : Object
 	var $parent : cs:C1710._EDITOR_Controller
 	var $menu; $sub : cs:C1710.menu
@@ -475,13 +468,13 @@ Function _actionManager($e : cs:C1710.evt)
 		
 	End if 
 	
-	$menu:=This:C1470.menu.new()
+	$menu:=cs:C1710.menu.new()
 	
 	$menu.append("camelCase"; "camelCase")  //.shortcut("c"; Option key mask)
 	
 	If (OB Instance of:C1731($string; cs:C1710.xliffUnit))
 		
-		$sub:=This:C1470.menu.new()
+		$sub:=cs:C1710.menu.new()
 		$sub.append("all"; "all").mark($string.attributes["d4:includeIf"]=Null:C1517)\
 			.line()\
 			.append("macOS"; "mac").icon("#images/maOS.png").mark(String:C10($string.attributes["d4:includeIf"])="mac")\

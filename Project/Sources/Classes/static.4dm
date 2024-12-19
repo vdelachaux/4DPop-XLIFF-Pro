@@ -669,7 +669,7 @@ Function set visible($visible : Boolean)
 	OBJECT SET VISIBLE:C603(*; This:C1470.name; $visible)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function show($state : Boolean) : cs:C1710.static
+Function show($state : Boolean) : cs:C1710.widget
 	
 	OBJECT SET VISIBLE:C603(*; This:C1470.name; Count parameters:C259=0 ? True:C214 : $state)
 	return This:C1470

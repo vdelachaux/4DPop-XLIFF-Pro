@@ -29,7 +29,9 @@
 	"👥 NAMESPACE": {
 		"classes": [
 			"Preferences",
-			"Xliff"
+			"Xliff",
+			"xliffGroup",
+			"xliffUnit"
 		]
 	},
 	"👩‍💻 UI": {
@@ -37,6 +39,7 @@
 			"COMPILER_UI",
 			"dropableWidgetMethod",
 			"form_spreadToSubforms",
+			"formCallBack",
 			"formGetInstance",
 			"formMenuHandle",
 			"formMethod",

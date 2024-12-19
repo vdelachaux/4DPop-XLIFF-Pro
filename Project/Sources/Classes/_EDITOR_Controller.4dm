@@ -1014,7 +1014,7 @@ Function doDeleteString($e : cs:C1710.evt)
 		For each ($language; This:C1470.current.languages)
 			
 			$xliff:=$language.xliff
-			$group:=$xliff.groups.query("XPATH = :1"; $target.XPATH).pop()
+			$group:=$xliff.groups.query("xpath = :1"; $target.xpath).pop()
 			$xliff.remove($group.node)
 			This:C1470.save($xliff)
 			
@@ -1372,10 +1372,10 @@ Function parentGroup($unit : Object) : Object
 	
 	var $c : Collection
 	
-	$c:=Split string:C1554($unit.XPATH; "/")
+	$c:=Split string:C1554($unit.xpath; "/")
 	$c.pop()
 	
-	return This:C1470.current.groups.query("XPATH = :1"; $c.join("/")).pop()
+	return This:C1470.current.groups.query("xpath = :1"; $c.join("/")).pop()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns a collection of all xliff files for a given language (main by default)
@@ -1577,7 +1577,7 @@ Function _synchronizeAttributes($parent : Object; $string : Object; $attributes 
 		
 		// Update the XML tree
 		$xliff:=$parent.opened.query("root = :1"; $language.root).pop()
-		$unit:=$xliff.findByXPath($string.XPATH)
+		$unit:=$xliff.findByXPath($string.xpath)
 		
 		If ($xliff.success)
 			
@@ -1837,7 +1837,7 @@ Function _UPDATE_SOURCE($context : Object)
 	
 	// Update the reference XML tree
 	$xliff:=$context.file
-	$unit:=$xliff.findByXPath($string.XPATH)
+	$unit:=$xliff.findByXPath($string.xpath)
 	$source:=$xliff.sourceNode($unit; True:C214)
 	$target:=$xliff.targetNode($unit; True:C214)
 	
@@ -1850,7 +1850,7 @@ Function _UPDATE_SOURCE($context : Object)
 		
 		// Update the XML tree
 		$xliff:=$language.xliff
-		$unit:=$xliff.findByXPath($string.XPATH)
+		$unit:=$xliff.findByXPath($string.xpath)
 		$source:=$xliff.sourceNode($unit; True:C214)
 		$target:=$xliff.targetNode($unit; True:C214)
 		
@@ -1864,17 +1864,17 @@ Function _UPDATE_SOURCE($context : Object)
 			: ($isNew)
 				
 				$xliff.setValue($target; $string.source.value)
-				$xliff.setState($target; $xliff.new)
+				$xliff.setState($target; $xliff.NEW)
 				
 				//______________________________________________________
-			: (String:C10($xliff.getAttributes($target).state)=$xliff.new)
+			: (String:C10($xliff.getAttributes($target).state)=$xliff.NEW)
 				
 				$xliff.setValue($target; $string.source.value)
 				
 				//______________________________________________________
 			Else 
 				
-				$xliff.setState($target; $xliff.needsReviewTranslation)
+				$xliff.setState($target; $xliff.NEEDS_REVIEW)
 				
 				//______________________________________________________
 		End case 
@@ -1883,7 +1883,7 @@ Function _UPDATE_SOURCE($context : Object)
 		
 		// Updating of UI elements
 		$language.properties:=$language.properties || {}
-		$language.properties.state:=$xliff.needsReviewTranslation
+		$language.properties.state:=$xliff.NEEDS_REVIEW
 		
 	End for each 
 	
@@ -1902,7 +1902,7 @@ Function _UPDATE_RESNAME($context : Object)
 	
 	// Update the reference XML tree
 	$xliff:=$context.file
-	$xliff.setAttribute($xliff.findByXPath($target.XPATH); "resname"; $target.resname)
+	$xliff.setAttribute($xliff.findByXPath($target.xpath); "resname"; $target.resname)
 	This:C1470.save($xliff)
 	
 	$ptr:=This:C1470.stringList.pointer
@@ -1955,9 +1955,9 @@ Function _UPDATE_RESNAME($context : Object)
 		// Synchronize attributes of other files
 		This:C1470._synchronizeAttributes($context.parent; $target; $xliff.getAttributes($target.node))
 		
-		If (Match regex:C1019("(?mi-s)(?<=trans-unit\\[@resname=\")([^\"]*)"; $target.XPATH; 1; $pos; $len))
+		If (Match regex:C1019("(?mi-s)(?<=trans-unit\\[@resname=\")([^\"]*)"; $target.xpath; 1; $pos; $len))
 			
-			$target.XPATH:=Substring:C12($target.XPATH; 1; $pos-1)+$target.resname+Substring:C12($target.XPATH; $pos+$len)
+			$target.xpath:=Substring:C12($target.xpath; 1; $pos-1)+$target.resname+Substring:C12($target.xpath; $pos+$len)
 			
 		End if 
 		
@@ -1980,7 +1980,7 @@ Function _UPDATE_TRANSLATE($context : Object)
 	
 	// Update the reference XML tree
 	$xliff:=$context.file
-	$unit:=$xliff.findByXPath($string.XPATH)
+	$unit:=$xliff.findByXPath($string.xpath)
 	
 	If ($string.attributes["translate"]=Null:C1517)
 		
@@ -2001,17 +2001,17 @@ Function _UPDATE_TRANSLATE($context : Object)
 			
 			// Update the XML tree
 			$xliff:=$language.xliff
-			$unit:=$xliff.findByXPath($string.XPATH)
+			$unit:=$xliff.findByXPath($string.xpath)
 			
 			$target:=$xliff.targetNode($unit; True:C214)
 			$xliff.setValue($target; $string.source.value)
-			$xliff.setState($target; $xliff.needsTranslation)
+			$xliff.setState($target; $xliff.NEEDS_TRANSLATION)
 			
 			This:C1470.save($xliff)
 			
 			// Updating of UI elements
 			$language.properties:=$language.properties || {}
-			$language.properties.state:=$xliff.needsTranslation
+			$language.properties.state:=$xliff.NEEDS_TRANSLATION
 			$language.value:=$string.source.value
 			
 		End for each 
@@ -2031,7 +2031,7 @@ Function _UPDATE_TRANSLATE($context : Object)
 			
 			// Update the XML tree
 			$xliff:=$language.xliff
-			$unit:=$xliff.findByXPath($string.XPATH)
+			$unit:=$xliff.findByXPath($string.xpath)
 			$xliff.remove($xliff.targetNode($unit))
 			
 			This:C1470.save($xliff)
@@ -2058,7 +2058,7 @@ Function _UPDATE_PLATFORM($context : Object)
 	
 	// Update the reference XML tree
 	$xliff:=$context.file
-	$unit:=$xliff.findByXPath($string.XPATH)
+	$unit:=$xliff.findByXPath($string.xpath)
 	
 	If ($string.attributes["d4:includeIf"]=Null:C1517)
 		
@@ -2088,7 +2088,7 @@ Function _UPDATE_NOTE($context : Object)
 	
 	// Update the reference XML tree
 	$xliff:=$context.file
-	$unit:=$xliff.findByXPath($string.XPATH)
+	$unit:=$xliff.findByXPath($string.xpath)
 	$note:=$xliff.noteNode($unit)
 	
 	If (Length:C16(String:C10($string.note))=0)
@@ -2108,7 +2108,7 @@ Function _UPDATE_NOTE($context : Object)
 		
 		// Update the XML tree
 		$xliff:=$language.xliff
-		$unit:=$xliff.findByXPath($string.XPATH)
+		$unit:=$xliff.findByXPath($string.xpath)
 		$note:=$xliff.noteNode($unit)
 		
 		If (Length:C16(String:C10($string.note))=0)
@@ -2139,15 +2139,15 @@ Function _PROPAGATE_REFERENCE($context : Object)
 		
 		// Update the XML tree
 		$xliff:=$language.xliff
-		$unit:=$xliff.findByXPath($string.XPATH)
+		$unit:=$xliff.findByXPath($string.xpath)
 		$xliff.setValue($target; $string.source.value)
-		$xliff.setState($target; $xliff.needsTranslation)
+		$xliff.setState($target; $xliff.NEEDS_TRANSLATION)
 		
 		This:C1470.save($xliff)
 		
 		// Updating of UI elements
 		$language.properties:=$language.properties || {}
-		$language.properties.state:=$xliff.needsTranslation
+		$language.properties.state:=$xliff.NEEDS_TRANSLATION
 		$language.value:=$string.source.value
 		
 	End for each 
@@ -2164,7 +2164,7 @@ Function _UPDATE_LOCALIZED_TARGET($context : Object)
 	$xliff:=This:C1470.opened.query("root=:1"; $context.root).pop()
 	
 	// Get target & set value
-	$target:=$xliff.findByXPath($context.string.target.XPATH)
+	$target:=$xliff.findByXPath($context.string.target.xpath)
 	$xliff.setValue($target; $context.value)
 	
 	// Remove state attribute

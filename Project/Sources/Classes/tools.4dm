@@ -4,11 +4,13 @@ Common tools to have at hand
 
 */
 
+property success : Boolean:=False:C215
+property lastError : Text:=""
+property errors : Collection:=[]
+
 Class constructor
 	
-	This:C1470.success:=False:C215
-	This:C1470.lastError:=""
-	This:C1470.errors:=[]
+	//
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function clone($class : Object) : Object
@@ -18,37 +20,31 @@ Function clone($class : Object) : Object
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function first($c : Collection) : Variant
 	
-	If ($c#Null:C1517)
+	If ($c#Null:C1517)\
+		 && ($c.length>0)
 		
-		If ($c.length>0)
-			
-			return $c[0]
-			
-		End if 
+		return $c[0]
+		
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function last($c : Collection) : Variant
 	
-	If ($c#Null:C1517)
+	If ($c#Null:C1517)\
+		 && ($c.length>0)
 		
-		If ($c.length>0)
-			
-			return $c[$c.length-1]
-			
-		End if 
+		return $c[$c.length-1]
+		
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function next($c : Collection; $current : Integer) : Variant
 	
-	If ($c#Null:C1517)
+	If ($c#Null:C1517)\
+		 && ($c.length>$current)
 		
-		If ($c.length>$current)
-			
-			return $c[$current+1]
-			
-		End if 
+		return $c[$current+1]
+		
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
@@ -64,7 +60,6 @@ Function lep($command : Text; $inputStream) : Object
 	
 	var $error; $out : Text
 	var $len; $pid; $pos : Integer
-	var $o : Object
 	
 	Case of 
 			
@@ -92,7 +87,7 @@ Function lep($command : Text; $inputStream) : Object
 			//______________________________________________________
 	End case 
 	
-	$o:={success: False:C215}
+	var $o : Object:={success: False:C215}
 	
 	SET ENVIRONMENT VARIABLE:C812("_4D_OPTION_HIDE_CONSOLE"; "true")
 	LAUNCH EXTERNAL PROCESS:C811($command; $inputStream; $out; $error; $pid)

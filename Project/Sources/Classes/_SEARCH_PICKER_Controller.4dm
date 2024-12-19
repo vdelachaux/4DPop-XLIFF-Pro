@@ -3,23 +3,25 @@ Class: _SEARCH_PICKER_Controller - (4DPop XLIFF Pro)
 Created 10-05-2023 by Vincent de Lachaux
 */
 
+// MARK: Default values ⚙️
+property isSubform:=True:C214
+property toBeInitialized:=False:C215
+
+property borderColor : Integer:=0x00E5E5E5
+property expanded : Boolean:=False:C215
+
+// MARK: Delegates 📦
 property form : cs:C1710.form
-property callback : 4D:C1709.Function
+
+// MARK: Widgets 🧱
 property box : cs:C1710.input
 property glass : cs:C1710.button
 property ring : cs:C1710.static
 
 Class constructor()
 	
-	This:C1470.__CLASS__:=OB Class:C1730(This:C1470)
-	
-	This:C1470.isSubform:=True:C214
-	
 	// MARK:-Delegates 📦
 	This:C1470.form:=cs:C1710.form.new(This:C1470)
-	
-	This:C1470.borderColor:=0x00E5E5E5
-	This:C1470.expanded:=False:C215
 	
 	This:C1470.form.init()
 	
@@ -44,13 +46,12 @@ Function handleEvents($e : cs:C1710.evt)
 				//______________________________________________________
 			: ($e.code=On Load:K2:1)
 				
-				SET TIMER:C645(-1)
+				This:C1470.form.refresh()
 				
 				//______________________________________________________
 			: ($e.code=On Timer:K2:25)
 				
 				SET TIMER:C645(0)
-				
 				This:C1470.reset()
 				
 				//______________________________________________________
@@ -82,15 +83,12 @@ Function handleEvents($e : cs:C1710.evt)
 			//==============================================
 		: (This:C1470.box.catch($e))
 			
-			var $searchText : Text
-			$searchText:=This:C1470.box.getValue()
-			
 			Case of 
 					
 					//______________________________________________________
 				: ($e.code=On Losing Focus:K2:8)
 					
-					If (Length:C16($searchText)=0)
+					If (Length:C16(This:C1470.box.value)=0)
 						
 						This:C1470.reset()
 						
@@ -106,12 +104,12 @@ Function handleEvents($e : cs:C1710.evt)
 					//______________________________________________________
 				: ($e.code=On Data Change:K2:15)
 					
-					This:C1470.form.containerInstance.data.value:=$searchText
+					This:C1470.form.containerInstance.data.value:=This:C1470.box.value
 					
 					// Inform the host
-					This:C1470.form.setValue(This:C1470)
+					This:C1470.form.containerValue:=This:C1470
 					
-					If (Length:C16($searchText)#0)
+					If (Length:C16(This:C1470.box.value)#0)
 						
 						// Stay in the widget
 						This:C1470.box.focus()
@@ -123,6 +121,11 @@ Function handleEvents($e : cs:C1710.evt)
 			
 			//==============================================
 	End case 
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+Function update()
+	
+	//
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function expand()
@@ -151,5 +154,5 @@ Function reset()
 	This:C1470.collapse()
 	
 	This:C1470.box.setColors(Foreground color:K23:1; Background color none:K23:10)
-	This:C1470.ring.setColors(This:C1470.containerInstance.data.borderColor || This:C1470.borderColor; Background color none:K23:10).show()
+	This:C1470.ring.setColors(This:C1470.form.containerInstance.data.borderColor || This:C1470.borderColor; Background color none:K23:10).show()
 	

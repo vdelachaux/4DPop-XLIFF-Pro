@@ -18,7 +18,7 @@ If (Not:C34(OB Instance of:C1731($instance[$manager]; 4D:C1709.Function)))\
 	End if 
 End if 
 
-If (OB Instance of:C1731($instance[$manager]; 4D:C1709.Function))
+If (Asserted:C1132(OB Instance of:C1731($instance[$manager]; 4D:C1709.Function); "The function \""+$manager+"\" is missing in the class\""+$instance.__CLASS__.name+"\""))
 	
 	$instance[$manager](FORM Event:C1606)
 	
