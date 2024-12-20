@@ -429,15 +429,6 @@
 					"class": "dev",
 					"style": "flat"
 				},
-				"wait": {
-					"type": "picture",
-					"top": 170,
-					"left": 186,
-					"width": 128,
-					"height": 128,
-					"picture": "/RESOURCES/Images/wait.gif",
-					"visibility": "hidden"
-				},
 				"searchPicker": {
 					"type": "subform",
 					"left": 597,
@@ -452,6 +443,14 @@
 					"dataSourceTypeHint": "undefined",
 					"sizingX": "move",
 					"method": "subformWidgetMethod"
+				},
+				"spinner": {
+					"type": "spinner",
+					"left": 245,
+					"top": 105,
+					"width": 32,
+					"height": 32,
+					"visibility": "hidden"
 				}
 			},
 			"entryOrder": [
@@ -486,15 +485,6 @@
 					"lockMessage",
 					"lockButton"
 				]
-			},
-			"wait": {
-				"visible": false,
-				"objects": [
-					"wait"
-				]
-			},
-			"widget": {
-				"visible": false
 			}
 		}
 	},
@@ -502,7 +492,7 @@
 		"version": "1",
 		"kind": "form"
 	},
-	"geometryStamp": 943,
+	"geometryStamp": 982,
 	"method": "formMethod",
 	"memorizeGeometry": true
 }

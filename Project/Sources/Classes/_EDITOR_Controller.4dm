@@ -22,6 +22,7 @@ property stringSplitter; lockButton : cs:C1710.button
 property detail; searchPicker : cs:C1710.subform
 property fileList; stringList : cs:C1710.listbox
 property strings; locked; withFile : cs:C1710.group
+property spinner : cs:C1710.stepper
 
 // MARK: Constants 🔐
 property FILE_EXTENSION:=".xlf"
@@ -38,6 +39,8 @@ property folders; cache; languages : Collection
 property default; main; resources : Object
 
 property groupPtr; resnamePtr; contentPtr : Pointer
+
+property stringListConstraints : cs:C1710.constraints
 
 Class constructor($mainLanguage : Text)
 	
@@ -149,6 +152,23 @@ Function init()
 	// MARK: Search Picker
 	This:C1470.searchPicker:=This:C1470.form.Subform("searchPicker"; {}; This:C1470)
 	
+	This:C1470.spinner:=This:C1470.form.Stepper("spinner")
+	
+	// MARK: Constraints
+	This:C1470.stringListConstraints:=This:C1470.form.constraints
+	
+	This:C1470.stringListConstraints.add({\
+		target: "spinner"; \
+		type: "horizontal-alignment"; \
+		alignment: "center"; \
+		reference: "stringList"})
+	
+	This:C1470.stringListConstraints.add({\
+		target: "wrap"; \
+		type: "horizontal-alignment"; \
+		alignment: "center"; \
+		reference: "stringList"})
+	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function handleEvents($e : cs:C1710.evt)
 	
@@ -206,50 +226,60 @@ Function handleEvents($e : cs:C1710.evt)
 				//______________________________________________________
 		End case 
 		
-	Else 
+		return 
 		
-		// MARK: Widget Methods
-		Case of 
-				
-				//==============================================
-			: (This:C1470.fileList.catch($e))
-				
-				This:C1470._fileListManager($e)
-				
-				//==============================================
-			: (This:C1470.stringList.catch($e))
-				
-				This:C1470._stringListManager($e)
-				
-				//==============================================
-			: (This:C1470.newFile.catch($e))
-				
-				This:C1470.newFileManager()
-				
-				//==============================================
-			: (This:C1470.newGroup.catch($e))
-				
-				This:C1470.newGroupManager()
-				
-				//==============================================
-			: (This:C1470.newString.catch($e))
-				
-				This:C1470.newStringManager()
-				
-				//==============================================
-			: (This:C1470.lockButton.catch($e))
-				
-				This:C1470.deDuplicateIDs()
-				
-				//==============================================
-			: (This:C1470.stringSplitter.catch($e))
-				
-				This:C1470.strings.center(True:C214)
-				This:C1470.locked.center(True:C214)
-				
-				//==============================================
-		End case 
 	End if 
+	
+	If ($e.objectName="stringSplitter")
+		
+		This:C1470.stringListConstraints.apply()
+		
+		return 
+		
+	End if 
+	
+	// MARK: Widget Methods
+	Case of 
+			
+			//==============================================
+		: (This:C1470.fileList.catch($e))
+			
+			This:C1470._fileListManager($e)
+			
+			//==============================================
+		: (This:C1470.stringList.catch($e))
+			
+			This:C1470._stringListManager($e)
+			
+			//==============================================
+		: (This:C1470.newFile.catch($e))
+			
+			This:C1470.newFileManager()
+			
+			//==============================================
+		: (This:C1470.newGroup.catch($e))
+			
+			This:C1470.newGroupManager()
+			
+			//==============================================
+		: (This:C1470.newString.catch($e))
+			
+			This:C1470.newStringManager()
+			
+			//==============================================
+		: (This:C1470.lockButton.catch($e))
+			
+			This:C1470.deDuplicateIDs()
+			
+			//==============================================
+		: (This:C1470.stringSplitter.catch($e))
+			
+			This:C1470.strings.center(True:C214)
+			This:C1470.locked.center(True:C214)
+			
+			//==============================================
+	End case 
+	
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function onLoad()
@@ -288,12 +318,14 @@ Function onLoad()
 		borderColor: 0x00C0C0C0\
 		}
 	
+	This:C1470.stringListConstraints.apply()
+	
+	This:C1470.spinner.start(True:C214)
+	
 	This:C1470.form.refresh()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function update()
-	
-	var $c : Collection
 	
 	If (This:C1470.fileList.item=Null:C1517) && (This:C1470.fileList.rowsNumber>0)
 		
@@ -303,7 +335,7 @@ Function update()
 		If ($o#Null:C1517)\
 			 && (Length:C16(String:C10($o.file))>0)
 			
-			$c:=Form:C1466.files.indices("name = :1"; $o.file)
+			var $c : Collection:=Form:C1466.files.indices("name = :1"; $o.file)
 			
 		End if 
 		
@@ -311,7 +343,7 @@ Function update()
 		
 	End if 
 	
-	var $isWritable : Boolean:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
+	var $isWritable:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
 	
 	This:C1470.strings.show(This:C1470.current.error=Null:C1517)
 	This:C1470.newString.enable((This:C1470.stringList.item#Null:C1517) & $isWritable)
@@ -464,6 +496,8 @@ Function _fileListManager($e : cs:C1710.evt)
 			
 			//______________________________________________________
 		: ($e.code=On Selection Change:K2:29)
+			
+			This:C1470.spinner.start(True:C214)
 			
 			This:C1470.stringList.unselect()
 			This:C1470.stringList.item:=Null:C1517
@@ -1780,6 +1814,8 @@ Function _LOAD_STRINGS()
 	
 	// Reset resname color
 	This:C1470.stringList.resetForegroundColor(2)
+	
+	This:C1470.spinner.stop(True:C214)
 	
 	This:C1470.locked.show($main.duplicateID)
 	This:C1470.form.refresh()
