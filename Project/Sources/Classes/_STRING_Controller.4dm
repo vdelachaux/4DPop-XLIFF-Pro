@@ -300,7 +300,7 @@ This.adjustResname(False)
 			
 			$localisation:=OB Copy:C1225($language)
 			
-			$xliff:=$parent.opened.query("root = :1"; $localisation.root).pop()
+			$xliff:=$parent.cache.query("root = :1"; $localisation.root).first()
 			
 			If ($xliff=Null:C1517)
 				

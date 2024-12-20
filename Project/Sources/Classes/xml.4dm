@@ -1436,7 +1436,7 @@ Function isNotNull($reference : Text) : Boolean
 	// Tests if the passed text is compliant with a XML reference
 Function isReference($text : Text) : Boolean
 	
-	return Match regex:C1019("[[:xdigit:]]{32}"; $text; 1)
+	return This:C1470.isNotNull($text) && Match regex:C1019("[[:xdigit:]]{32}"; $text; 1)
 	
 	// —————————————————————————————————————————————————————————————————————————————————
 Function _requiredRef($reference : Text) : Boolean

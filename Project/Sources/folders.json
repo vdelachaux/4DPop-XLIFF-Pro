@@ -81,11 +81,6 @@
 			"NOTE",
 			"STRING",
 			"UPDATES"
-		],
-		"methods": [
-			"EDITOR CALLBACK",
-			"EDITOR CLOSE",
-			"EDITOR OPEN"
 		]
 	},
 	"🛠️Tools": {
@@ -115,6 +110,12 @@
 		]
 	},
 	"EDITOR": {
+		"methods": [
+			"EDITOR CALLBACK",
+			"EDITOR CLOSE",
+			"EDITOR OPEN",
+			"EDITOR_PARSE_LANGUAGE"
+		],
 		"forms": [
 			"EDITOR"
 		],

@@ -34,7 +34,7 @@ property AUTOSAVE:=True:C214  // Flag for automatic saving
 
 // MARK: Other 💾
 property current : cs:C1710.Xliff
-property folders; opened; languages : Collection
+property folders; cache; languages : Collection
 property default; main; resources : Object
 
 property groupPtr; resnamePtr; contentPtr : Pointer
@@ -77,7 +77,7 @@ Class constructor($mainLanguage : Text)
 	End for each 
 	
 	// MARK: Memorize open XML trees to be able to close them when unloading
-	This:C1470.opened:=[]
+	This:C1470.cache:=[]
 	
 	This:C1470.form.init()
 	
@@ -1298,7 +1298,7 @@ Function _populateString($column : Integer; $row : Integer) : Object
 				
 				$file:=This:C1470.current.localizedFile(This:C1470.fileList.item; This:C1470.main.language; $language.language)
 				
-				$xliff:=This:C1470.opened.query("file.path = :1"; $file.path).pop()
+				$xliff:=This:C1470.cache.query("file.path = :1"; $file.path).pop()
 				
 				If ($xliff=Null:C1517)
 					
@@ -1436,7 +1436,7 @@ Function parse($file : 4D:C1709.File) : cs:C1710.Xliff
 		
 	End if 
 	
-	This:C1470.opened.push($xliff)
+	This:C1470.cache.push($xliff)
 	
 	return $xliff.parse()
 	
@@ -1527,7 +1527,7 @@ Function deDuplicateIDs()
 		
 		For each ($language; $parent.languages)
 			
-			$xliff:=This:C1470.opened.query("root = :1"; $language.xliff.root).pop()
+			$xliff:=This:C1470.cache.query("root = :1"; $language.xliff.root).pop()
 			$xliff.deDuplicateIDs($before; $after)
 			
 			If (Not:C34($xliff.success))
@@ -1542,14 +1542,14 @@ Function deDuplicateIDs()
 			// Save & close All
 			$xliff:=This:C1470.current
 			This:C1470.save($xliff; True:C214)
-			This:C1470.opened.remove(This:C1470.opened.indexOf($xliff))
+			This:C1470.cache.remove(This:C1470.cache.indexOf($xliff))
 			$xliff.close()
 			
 			For each ($language; $parent.languages)
 				
-				$xliff:=This:C1470.opened.query("root = :1"; $language.xliff.root).pop()
+				$xliff:=This:C1470.cache.query("root = :1"; $language.xliff.root).pop()
 				This:C1470.save($xliff; True:C214)
-				This:C1470.opened.remove(This:C1470.opened.indexOf($xliff))
+				This:C1470.cache.remove(This:C1470.cache.indexOf($xliff))
 				$xliff.close()
 				
 			End for each 
@@ -1578,7 +1578,7 @@ Function _synchronizeAttributes($parent : Object; $string : Object; $attributes 
 	For each ($language; $parent.languages)
 		
 		// Update the XML tree
-		$xliff:=$parent.opened.query("root = :1"; $language.root).pop()
+		$xliff:=$parent.cache.query("root = :1"; $language.root).pop()
 		$unit:=$xliff.findByXPath($string.xpath)
 		
 		If ($xliff.success)
@@ -1630,7 +1630,8 @@ Function _mainLanguage() : Text
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _DISPLAY_FILE()
 	
-	var $xliff : cs:C1710.Xliff:=This:C1470.opened.query("file.path = :1"; This:C1470.fileList.item.path).pop()
+	// Take from cache if available
+	var $xliff : cs:C1710.Xliff:=This:C1470.cache.query("file.path = :1"; This:C1470.fileList.item.path).first()
 	
 	var $language : Object
 	var $file : 4D:C1709.File
@@ -1641,22 +1642,54 @@ Function _DISPLAY_FILE()
 		
 		This:C1470.current:=$xliff
 		
-		If ($xliff.success) | ($xliff.error=Null:C1517)
+		If ($xliff.success)\
+			 || ($xliff.error=Null:C1517)
 			
 			// Prepare the languages
 			This:C1470.current.languages:=[]
 			
+			// We use one worker for each language.
+			var $parallel:=[]
 			For each ($language; This:C1470.languages)
 				
-				$file:=$xliff.localizedFile(This:C1470.fileList.item; This:C1470.main.language; $language.language)
-				$xliff.synchronize($file; $language.language)
+				var $signal:=New signal:C1641($language.language)
 				
-				This:C1470.current.languages.push(New object:C1471(\
-					"language"; $language.language; \
-					"regional"; This:C1470.getFlag($language.language); \
-					"xliff"; This:C1470.parse($file)))
+				Use ($signal)
+					
+					$signal.main:=This:C1470.main.language
+					$signal.reference:=OB Copy:C1225($xliff; ck shared:K85:29; $signal)
+					$signal.item:=OB Copy:C1225(This:C1470.fileList.item; ck shared:K85:29; $signal)
+					$signal.language:=OB Copy:C1225($language; ck shared:K85:29; $signal)
+					
+				End use 
+				
+				CALL WORKER:C1389("$4DPop XLIFF - "+$language.language; Formula:C1597(EDITOR_PARSE_LANGUAGE).source; $signal)
+				
+				$parallel.push($signal)
 				
 			End for each 
+			
+			Repeat 
+				
+				For each ($signal; $parallel.reverse())
+					
+					If ($signal.signaled)
+						
+						var $indx:=$parallel.indexOf($signal)
+						
+						This:C1470.current.languages.push({\
+							language: $signal.language.language; \
+							regional: $signal.language.regional; \
+							xliff: $signal.xliff})
+						
+						$parallel.remove($indx)
+						
+					End if 
+				End for each 
+				
+				IDLE:C311
+				
+			Until ($parallel.length=0)
 			
 		Else 
 			
@@ -1699,13 +1732,11 @@ Function _SELECT_STRING($data : Object)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _LOAD_STRINGS()
 	
-	var $column : Text
-	var $i : Integer
+	var $main : cs:C1710.Xliff
 	var $group : cs:C1710.XliffGroup
 	var $unit : cs:C1710.XliffUnit
-	var $main : cs:C1710.Xliff
 	
-	//FIXME:Optimize 
+	//FIXME:Optimize
 	ARRAY TEXT:C222($groupResnames; 0x0000)
 	ARRAY TEXT:C222($stringResnames; 0x0000)
 	ARRAY OBJECT:C1221($units; 0x0000)
@@ -2163,7 +2194,7 @@ Function _UPDATE_LOCALIZED_TARGET($context : Object)
 	var $xliff : cs:C1710.Xliff
 	
 	// Get xliff
-	$xliff:=This:C1470.opened.query("root=:1"; $context.root).pop()
+	$xliff:=This:C1470.cache.query("root=:1"; $context.root).pop()
 	
 	// Get target & set value
 	$target:=$xliff.findByXPath($context.string.target.xpath)
