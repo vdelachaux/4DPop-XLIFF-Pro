@@ -1,8 +1,36 @@
 Class extends xml
 
+// MARK: Default values ⚙️
+property allUnits:=[]
+property groups:=[]
+
+// MARK: Constants 🔐
+// Extensions
+property FILE_EXTENSION:=".xlf"
+property FOLDER_EXTENSION:=".lproj"
+
+// Common XPATH
+property XPATH_HEADER:="/xliff/header"
+property XPATH_PROP_GROUP:="/xliff/file/header/prop-group"
+property XPATH_FILE:="/xliff/file"
+property XPATH_BODY:="/xliff/file/body"
+
+// State values
+property NEW:="new"  // The item is new (not in a previous version of the document)
+property NEEDS_TRANSLATION:="needs-translation"  // The item needs to be translated.
+property NEEDS_REVIEW:="needs-review-translation"  // Only the text of the item needs to be reviewed.
+
+// MARK: Other 💾
 property attributes; language : Object
-property groups : Collection
 property datatype : Text
+
+property noTranslate : Boolean
+property note : Boolean
+
+property languages:=[]
+property error : Text
+
+property duplicateID; duplicateResname; modified : Boolean
 
 Class constructor($file : 4D:C1709.File)
 	
@@ -11,41 +39,14 @@ Class constructor($file : 4D:C1709.File)
 	// Do not close the XML tree when they are saved
 	This:C1470.autoClose:=False:C215
 	
-	// MARK:Delegates 📦
-	This:C1470.group:=cs:C1710.Group
-	This:C1470.transunit:=cs:C1710.Transunit
-	
-	// MARK: Common XPATH
-	This:C1470.headerPath:="/xliff/header"
-	This:C1470.propPath:="/xliff/file/header/prop-group"
-	This:C1470.filePath:="/xliff/file"
-	This:C1470.bodyPath:="/xliff/file/body"
-	
-	// MARK: Extensions
-	This:C1470.fileExtension:=".xlf"
-	This:C1470.folderExtension:=".lproj"
-	
-	// Mark:State values
-	This:C1470.new:="new"  // The item is new (not in a previous version of the document)
-	This:C1470.needsTranslation:="needs-translation"  // The item needs to be translated.
-	This:C1470.needsReviewTranslation:="needs-review-translation"  // Only the text of the item needs to be reviewed.
-	
 	// === === === === === === === === === === === === === === === === === === ===
 	/// Creating and returning a new group
-Function createGroup($resname : Text) : cs:C1710.Group
+Function createGroup($resname : Text) : cs:C1710.XliffGroup
 	
-	var $node : Text
-	var $attributes : Object
-	var $group : cs:C1710.Group
-	
-	$attributes:=New object:C1471(\
-		"resname"; $resname)
-	
-	$node:=This:C1470.create(This:C1470.bodyNode; "group"; $attributes)
-	
-	// Update me
-	$attributes.XPATH:=This:C1470.bodyPath+"/group[@resname=\""+$resname+"\"]"
-	$group:=This:C1470.group.new($node; $attributes)
+	var $attributes:={resname: $resname}
+	var $node:=This:C1470.create(This:C1470.bodyNode; "group"; $attributes)
+	$attributes.xpath:=This:C1470.XPATH_BODY+"/group[@resname=\""+$resname+"\"]"  // Update me
+	var $group:=cs:C1710.XliffGroup.new($node; $attributes)
 	
 	This:C1470.groups.push($group)
 	This:C1470.groups:=This:C1470.groups.orderBy("resname")
@@ -53,46 +54,36 @@ Function createGroup($resname : Text) : cs:C1710.Group
 	return $group
 	
 	// === === === === === === === === === === === === === === === === === === ===
-Function deleteUnit($unit : cs:C1710.Transunit) : cs:C1710.Group
+Function deleteUnit($unit : cs:C1710.XliffUnit) : cs:C1710.XliffGroup
 	
-	var $indx : Integer
-	var $c : Collection
-	var $group : cs:C1710.Group
-	
-	//delete unit
+	// Delete unit
 	This:C1470.remove($unit.node)
 	
-	//update group
-	$c:=Split string:C1554($unit.XPATH; "/")
+	// Update group
+	var $c:=Split string:C1554($unit.xpath; "/")
 	$c.pop()
-	$group:=This:C1470.groups.query("XPATH = :1"; $c.join("/")).pop()
+	var $group : cs:C1710.XliffGroup:=This:C1470.groups.query("xpath = :1"; $c.join("/")).pop()
 	
-	$indx:=$group.transunits.indices("id = :1"; $unit.id)[0]
+	var $indx : Integer:=$group.transunits.indices("id = :1"; $unit.id)[0]
 	$group.transunits.remove($indx)
 	
 	return $group
 	
 	// === === === === === === === === === === === === === === === === === === ===
 	/// Creating and returning a new trans-unit
-Function createUnit($group : cs:C1710.Group; $resname : Text; $id : Text) : cs:C1710.Transunit
+Function createUnit($group : cs:C1710.XliffGroup; $resname : Text; $id : Text) : cs:C1710.XliffUnit
 	
-	var $node : Text
-	var $attributes : Object
-	var $unit : cs:C1710.Transunit
+	var $attributes:={resname: $resname; id: Count parameters:C259=3 ? $id : This:C1470._uid()}
+	var $node:=This:C1470.create($group.node; "trans-unit"; $attributes)
+	var $unit:=cs:C1710.XliffUnit.new($node; $attributes)
 	
-	$attributes:=New object:C1471(\
-		"resname"; $resname; "id"; Count parameters:C259=3 ? $id : This:C1470._uid())
-	
-	$node:=This:C1470.create($group.node; "trans-unit"; $attributes)
-	
-	$unit:=cs:C1710.Transunit.new($node; $attributes)
-	$unit.XPATH:=$group.XPATH+"/trans-unit[@id=\""+$unit.id+"\"]"
+	$unit.xpath:=$group.xpath+"/trans-unit[@id=\""+$unit.id+"\"]"
 	
 	$unit.source.node:=This:C1470.create($node; "source")
-	$unit.source.XPATH:=$unit.XPATH+"/source"
+	$unit.source.xpath:=$unit.xpath+"/source"
 	
 	$unit.target.node:=This:C1470.create($node; "target")
-	$unit.target.XPATH:=$unit.XPATH+"/target"
+	$unit.target.xpath:=$unit.xpath+"/target"
 	
 	$group.transunits.push($unit)
 	
@@ -107,7 +98,7 @@ Function get fileNode() : Text
 	
 	If (This:C1470.root#Null:C1517)
 		
-		return This:C1470.findByXPath(This:C1470.filePath)
+		return This:C1470.findByXPath(This:C1470.XPATH_FILE)
 		
 	End if 
 	
@@ -116,7 +107,7 @@ Function get bodyNode() : Text
 	
 	If (This:C1470.root#Null:C1517)
 		
-		return This:C1470.findByXPath(This:C1470.bodyPath)
+		return This:C1470.findByXPath(This:C1470.XPATH_BODY)
 		
 	End if 
 	
@@ -147,8 +138,7 @@ Function groupUnitNodes($group : Text) : Collection
 	// === === === === === === === === === === === === === === === === === === ===
 Function sourceNode($unit; $create : Boolean) : Text
 	
-	var $node : Text
-	$node:=This:C1470._child($unit; "source")
+	var $node:=This:C1470._child($unit; "source")
 	
 	If ($create && Not:C34(This:C1470.isReference($node)))
 		
@@ -156,7 +146,7 @@ Function sourceNode($unit; $create : Boolean) : Text
 		
 	End if 
 	
-	If (This:C1470.success & This:C1470.isReference($node))
+	If (This:C1470.success && This:C1470.isReference($node))
 		
 		return $node
 		
@@ -165,13 +155,18 @@ Function sourceNode($unit; $create : Boolean) : Text
 	// === === === === === === === === === === === === === === === === === === ===
 Function sourceValue($unit) : Text
 	
-	return String:C10(This:C1470.getValue(This:C1470._child($unit; "source")))
+	var $node:=This:C1470._child($unit; "source")
+	
+	If (This:C1470.isNotNull($node))
+		
+		return String:C10(This:C1470.getValue(This:C1470._child($unit; "source")))
+		
+	End if 
 	
 	// === === === === === === === === === === === === === === === === === === ===
 Function targetNode($unit; $create : Boolean) : Text
 	
-	var $node : Text
-	$node:=This:C1470._child($unit; "target")
+	var $node:=This:C1470._child($unit; "target")
 	
 	If ($create && Not:C34(This:C1470.isReference($node)))
 		
@@ -179,7 +174,7 @@ Function targetNode($unit; $create : Boolean) : Text
 		
 	End if 
 	
-	If (This:C1470.success & This:C1470.isReference($node))
+	If (This:C1470.success && This:C1470.isReference($node))
 		
 		return $node
 		
@@ -193,9 +188,7 @@ Function targetValue($unit) : Text
 	// === === === === === === === === === === === === === === === === === === ===
 Function targetAttributes($unit) : Object
 	
-	var $node : Text
-	
-	$node:=This:C1470.firstChild($unit; "target")
+	var $node:=This:C1470.firstChild($unit; "target")
 	
 	If (This:C1470.success)
 		
@@ -206,8 +199,7 @@ Function targetAttributes($unit) : Object
 	// === === === === === === === === === === === === === === === === === === ===
 Function noteNode($unit) : Text
 	
-	var $node : Text
-	$node:=This:C1470._child($unit; "note")
+	var $node:=This:C1470._child($unit; "note")
 	
 	If (This:C1470.success & This:C1470.isReference($node))
 		
@@ -224,18 +216,16 @@ Function todoNodes() : Collection
 	// === === === === === === === === === === === === === === === === === === ===
 Function setState($node : Text; $state : Text)
 	
-	var $currentState : Text
-	
 	$node:=This:C1470.getTarget($node)
 	
 	If (This:C1470.isReference($node))
 		
 		If (Length:C16($state)>0)
 			
-			$currentState:=String:C10(This:C1470.getAttributes($node).state)
+			var $currentState : Text:=String:C10(This:C1470.getAttributes($node).state)
 			
 			If (Length:C16($currentState)>0)\
-				 && (($currentState=This:C1470.new) | ($state=This:C1470.needsTranslation) | ($state=This:C1470.needsReviewTranslation))
+				 && (($currentState=This:C1470.NEW) | ($state=This:C1470.NEEDS_TRANSLATION) | ($state=This:C1470.NEEDS_REVIEW))
 				
 				return   // Don't modify
 				
@@ -264,8 +254,7 @@ Function removeState($node)
 	// === === === === === === === === === === === === === === === === === === ===
 Function getTarget($node) : Text
 	
-	var $name : Text
-	$name:=This:C1470.getName($node)
+	var $name:=This:C1470.getName($node)
 	
 	Case of 
 			
@@ -297,11 +286,6 @@ Function getTarget($node) : Text
 	// === === === === === === === === === === === === === === === === === === ===
 Function parse() : cs:C1710.Xliff
 	
-	var $node : Text
-	var $allUnits : Collection
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
-	
 	If (This:C1470.root=Null:C1517)
 		
 		return This:C1470
@@ -321,22 +305,27 @@ Function parse() : cs:C1710.Xliff
 	// Get the groups
 	This:C1470.groups:=New collection:C1472
 	
+	var $node : Text
 	For each ($node; This:C1470.groupNodes())
 		
-		$group:=This:C1470.group.new($node; This:C1470.getAttributes($node))
-		$group.XPATH:=This:C1470.bodyPath+"/group[@resname=\""+$group.resname+"\"]"
+		var $group:=cs:C1710.XliffGroup.new($node; This:C1470.getAttributes($node))
+		$group.xpath:=This:C1470.XPATH_BODY+"/group[@resname=\""+$group.resname+"\"]"
 		
 		// Get the trans-units
 		For each ($node; This:C1470.groupUnitNodes($group.node))
 			
-			$unit:=This:C1470.transunit.new($node; This:C1470.getAttributes($node))
-			$unit.XPATH:=$group.XPATH+"/trans-unit[@id=\""+$unit.id+"\"]"
+			var $unit:=cs:C1710.XliffUnit.new($node; This:C1470.getAttributes($node))
+			$unit.xpath:=$group.xpath+"/trans-unit[@id=\""+$unit.id+"\"]"
 			
 			$unit.source.value:=This:C1470.sourceValue($node)
-			$unit.source.XPATH:=$unit.XPATH+"/source"
+			$unit.source.xpath:=$unit.xpath+"/source"
 			
-			$unit.target.value:=This:C1470.targetValue($node)
-			$unit.target.XPATH:=$unit.XPATH+"/target"
+			If (Not:C34($unit.noTranslate))
+				
+				$unit.target.value:=This:C1470.targetValue($node)
+				$unit.target.xpath:=$unit.xpath+"/target"
+				
+			End if 
 			
 			$node:=This:C1470.noteNode($unit)
 			
@@ -370,10 +359,10 @@ Function parse() : cs:C1710.Xliff
 Function deDuplicateIDs($before : Collection; $after : Collection) : Boolean
 	
 	var $node; $uid : Text
-	var $i; $indx : Integer
+	var $indx : Integer
 	var $nodes : Collection
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
+	var $group : cs:C1710.XliffGroup
+	var $unit : cs:C1710.XliffUnit
 	
 	If (Count parameters:C259=0)  // Main file
 		
@@ -383,7 +372,7 @@ Function deDuplicateIDs($before : Collection; $after : Collection) : Boolean
 				
 				$nodes:=This:C1470.find(This:C1470.root; "//trans-unit[@id=\""+Replace string:C233($unit.id; "/"; "//")+"\"]")
 				
-				For ($i; 0; $nodes.length-1; 1)
+				For ($indx; 0; $nodes.length-1; 1)
 					
 					$uid:=This:C1470._uid()
 					This:C1470.setAttribute($unit.node; "id"; $uid)
@@ -426,7 +415,7 @@ Function deDuplicateIDs($before : Collection; $after : Collection) : Boolean
 	
 	// === === === === === === === === === === === === === === === === === === ===
 	// Returns a trans-unit nodes accordind to id & resname & d4:inclu
-Function findUnitNode($unit : cs:C1710.Transunit) : Text
+Function findUnitNode($unit : cs:C1710.XliffUnit) : Text
 	
 	var $node : Text
 	var $indice : Integer
@@ -434,7 +423,7 @@ Function findUnitNode($unit : cs:C1710.Transunit) : Text
 	var $nodes : Collection
 	
 	// Search first with the id
-	$nodes:=This:C1470.find(This:C1470.root; $unit.XPATH)
+	$nodes:=This:C1470.find(This:C1470.root; $unit.xpath)
 	
 	If ($nodes.length>1)
 		
@@ -496,21 +485,19 @@ Function findUnitNode($unit : cs:C1710.Transunit) : Text
 	// Returns the expected localized file based on the target language
 Function localizedFile($file : 4D:C1709.File; $masterLanguage : Text; $language : Text) : 4D:C1709.File
 	
-	var $path : Text
-	
-	ARRAY INTEGER:C220($pos; 0x0000)
-	ARRAY INTEGER:C220($len; 0x0000)
+	ARRAY INTEGER:C220($pos; 0)
+	ARRAY INTEGER:C220($len; 0)
 	
 	// Manage the target language in upper case (EN, FR, ...) as a suffix of the name
-	$path:=$file.platformPath
+	var $path:=$file.platformPath
 	
-	If (Match regex:C1019("(?m-si)(.*)"+Uppercase:C13(Substring:C12($masterLanguage; 1; 2))+"\\"+This:C1470.fileExtension+"$"; $path; 1; $pos; $len))
+	If (Match regex:C1019("(?m-si)(.*)"+Uppercase:C13(Substring:C12($masterLanguage; 1; 2))+"\\"+This:C1470.FILE_EXTENSION+"$"; $path; 1; $pos; $len))
 		
-		$path:=Substring:C12($path; 1; $len{1})+Uppercase:C13(Substring:C12($language; 1; 2))+This:C1470.fileExtension
+		$path:=Substring:C12($path; 1; $len{1})+Uppercase:C13(Substring:C12($language; 1; 2))+This:C1470.FILE_EXTENSION
 		
 	End if 
 	
-	return File:C1566(Replace string:C233($path; $masterLanguage+This:C1470.folderExtension; $language+This:C1470.folderExtension); fk platform path:K87:2)
+	return File:C1566(Replace string:C233($path; $masterLanguage+This:C1470.FOLDER_EXTENSION; $language+This:C1470.FOLDER_EXTENSION); fk platform path:K87:2)
 	
 	// === === === === === === === === === === === === === === === === === === ===
 Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
@@ -518,8 +505,8 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 	var $groupNode; $node; $t : Text
 	var $len; $pos : Integer
 	var $attributes; $string; $localizedGroup; $o : Object
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
+	var $group : cs:C1710.XliffGroup
+	var $unit : cs:C1710.XliffUnit
 	var $xliff : cs:C1710.Xliff
 	
 	If (Not:C34($file.exists))
@@ -546,7 +533,7 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 				
 				If (Not:C34(Bool:C1537($unit.noTranslate)))
 					
-					$xliff.setState($unit.node; This:C1470.new)
+					$xliff.setState($unit.node; This:C1470.NEW)
 					
 				End if 
 			End for each 
@@ -572,7 +559,7 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 			If ($localizedGroup=Null:C1517)
 				
 				// Create the group
-				$groupNode:=$xliff.append($xliff.findByXPath($xliff.bodyPath); $group.node)
+				$groupNode:=$xliff.append($xliff.findByXPath($xliff.XPATH_BODY); $group.node)
 				
 				// Set all target states as "new"
 				For each ($node; $xliff.childrens($groupNode))
@@ -581,7 +568,7 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 					
 					If (String:C10($attributes.translate)#"no")
 						
-						$xliff.setState($node; This:C1470.new)
+						$xliff.setState($node; This:C1470.NEW)
 						
 					End if 
 				End for each 
@@ -591,7 +578,7 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 			End if 
 			
 			// Ensure that all units are synchronized
-			$groupNode:=$xliff.findByXPath($group.XPATH)
+			$groupNode:=$xliff.findByXPath($group.xpath)
 			
 			For each ($unit; $group.transunits.orderBy("resname"))
 				
@@ -613,7 +600,7 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 					If (String:C10($unit.attributes.translate)#"no")
 						
 						// Set the target state as "new"
-						$xliff.setState($node; This:C1470.new)
+						$xliff.setState($node; This:C1470.NEW)
 						
 					End if 
 				End if 
@@ -628,7 +615,7 @@ Function updateHeader($name : Text; $version : Text)
 	
 	var $node : Text
 	
-	$node:=This:C1470.findByXPath(This:C1470.propPath)
+	$node:=This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP)
 	
 	If (This:C1470.isReference($node))
 		
@@ -636,26 +623,26 @@ Function updateHeader($name : Text; $version : Text)
 		
 	Else 
 		
-		$node:=This:C1470.create(This:C1470.root; This:C1470.propPath; New object:C1471("name"; $name))
+		$node:=This:C1470.create(This:C1470.root; This:C1470.XPATH_PROP_GROUP; New object:C1471("name"; $name))
 		
 	End if 
 	
-	$node:=This:C1470.findByXPath(This:C1470.propPath+"/prop[@prop-type=\"version\"")
+	$node:=This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP+"/prop[@prop-type=\"version\"")
 	
 	If (Not:C34(This:C1470.isReference($node)))
 		
-		$node:=This:C1470.create(This:C1470.root; This:C1470.propPath+"/prop"; New object:C1471("prop-type"; "version"))
+		$node:=This:C1470.create(This:C1470.root; This:C1470.XPATH_PROP_GROUP+"/prop"; New object:C1471("prop-type"; "version"))
 		
 	End if 
 	
 	This:C1470.setValue($node; $version)
 	
 	// Delete old properties
-	This:C1470.remove(This:C1470.findByXPath(This:C1470.propPath+"/prop[@prop-type=\"resname-autofill\""))
-	This:C1470.remove(This:C1470.findByXPath(This:C1470.propPath+"/prop[@prop-type=\"resname-prefix\""))
-	This:C1470.remove(This:C1470.findByXPath(This:C1470.propPath+"/prop[@prop-type=\"resname-separator\""))
-	This:C1470.remove(This:C1470.findByXPath(This:C1470.propPath+"/prop[@prop-type=\"prefix\""))
-	This:C1470.remove(This:C1470.findByXPath(This:C1470.propPath+"/prop[@prop-type=\"separator\""))
+	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP+"/prop[@prop-type=\"resname-autofill\""))
+	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP+"/prop[@prop-type=\"resname-prefix\""))
+	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP+"/prop[@prop-type=\"resname-separator\""))
+	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP+"/prop[@prop-type=\"prefix\""))
+	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP+"/prop[@prop-type=\"separator\""))
 	
 	This:C1470.save()
 	
@@ -690,13 +677,12 @@ Function addCopyright($copyright : Text)
 	$node:=DOM Append XML child node:C1080(DOM Get XML document ref:C1088(This:C1470.root); XML comment:K45:8; $copyright)
 	
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
-	// $item could be a XPATH or a unit object
+	// $item could be a xpath or a unit object
 Function _child($item; $element : Text) : Text
 	
 	If (Value type:C1509($item)=Is object:K8:27)
 		
-		var $node : Text
-		$node:=This:C1470.findByXPath($item.XPATH+"/"+$element)
+		var $node:=This:C1470.findByXPath($item.xpath+"/"+$element)
 		
 		If (This:C1470.success & This:C1470.isReference($node))
 			
@@ -713,7 +699,5 @@ Function _child($item; $element : Text) : Text
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 Function _uid() : Text
 	
-	return Replace string:C233(Delete string:C232(Generate digest:C1147(Generate UUID:C1066; 4D REST digest:K66:3); 23; 2); "/"; "_")
-	
-	
+	return Replace string:C233(Delete string:C232(Generate digest:C1147(Generate UUID:C1066; _o_4D REST digest:K66:3); 23; 2); "/"; "_")
 	

@@ -3,18 +3,20 @@ Class: _STRING_Controller - (4DPop XLIFF Pro)
 Created 20-2-2023 by Vincent de Lachaux
 */
 
-property form : cs:C1710.formDelegate
-property value : cs:C1710.inputDelegate
+// MARK: Default values ⚙️
+property isSubform:=True:C214
+property toBeInitialized:=False:C215
+
+// MARK: Delegates 📦
+property form : cs:C1710.form
+
+// MARK: Widgets 🧱
+property flag; value : cs:C1710.input
 
 Class constructor
 	
-	This:C1470.__CLASS__:=OB Class:C1730(This:C1470)
-	
-	This:C1470.isSubform:=True:C214
-	
-	// MARK:-Delegates 📦
-	This:C1470.form:=cs:C1710.formDelegate.new(This:C1470)
-	
+	// MARK:Delegates 📦
+	This:C1470.form:=cs:C1710.form.new(This:C1470)
 	This:C1470.form.callback:=Formula:C1597(EDITOR CALLBACK).source
 	
 	This:C1470.form.init()
@@ -24,8 +26,8 @@ Class constructor
 Function init()
 	
 	// MARK:Wigets
-	This:C1470.flag:=This:C1470.form.input.new("flag")
-	This:C1470.value:=This:C1470.form.input.new("value")
+	This:C1470.flag:=This:C1470.form.Input("flag")
+	This:C1470.value:=This:C1470.form.Input("value")
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function handleEvents($e : cs:C1710.evt)
@@ -105,7 +107,7 @@ Function update()
 	
 	This:C1470.value.setColors(Foreground color:K23:1; Background color:K23:2)
 	
-	Form:C1466._container:=This:C1470.form.getValue()
+	Form:C1466._container:=This:C1470.form.containerValue
 	
 	If (Form:C1466._container#Null:C1517)
 		

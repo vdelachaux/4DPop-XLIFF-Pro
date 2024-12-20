@@ -1,5 +1,6 @@
 Class extends _classCore
 
+property version : Text
 property file : 4D:C1709.File
 property data : Object
 
@@ -19,8 +20,7 @@ Class constructor($version : Text)
 		
 	Else 
 		
-		This:C1470.data:=New object:C1471(\
-			"version"; This:C1470.version)
+		This:C1470.data:={version: This:C1470.version}
 		
 	End if 
 	
@@ -34,10 +34,10 @@ Function set($key : Text; $value)
 	
 	This:C1470.data[$key]:=$value
 	
-	This:C1470._save()
+	This:C1470.save()
 	
 	// === === === === === === === === === === === === === === === === === === ===
-Function _save()
+Function save()
 	
 	This:C1470.file.setText(JSON Stringify:C1217(This:C1470.data; *))
 	
@@ -62,7 +62,7 @@ Function _update()
 				$version:="3.0"
 				
 				//______________________________________________________
-			: ($version="3.0")
+			: ($version="3.0")  // Update to 3.1 or higher
 				
 				fixIDsWithSlashes
 				
@@ -71,14 +71,15 @@ Function _update()
 				//______________________________________________________
 			: ($version="3.1")  // Update to 3.2 or higher
 				
+				//
+				
 				//______________________________________________________
 		End case 
-		
 	Until ($version=This:C1470.version)
 	
 	If (This:C1470.data.version#$version)
 		
 		This:C1470.data.version:=$version
-		This:C1470._save()
+		This:C1470.save()
 		
 	End if 

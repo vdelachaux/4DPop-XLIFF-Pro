@@ -1,5 +1,19 @@
+Class extends scrollable
 
-Class extends scrollableDelegate
+property source : Collection
+property type : Integer
+
+property item : Object
+property itemPosition : Integer
+property items : Collection
+
+property kind : Integer
+property properties : Object
+property definition : Collection
+property columns : Object
+
+property previous : Object
+property cellBox : Object
 
 // === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Class constructor($name : Text)
@@ -8,10 +22,15 @@ Class constructor($name : Text)
 	
 	ASSERT:C1129(This:C1470.type=Object type listbox:K79:8)
 	
+	This:C1470.source:=Null:C1517  //  collection/entity selection
+	This:C1470.data:=Null:C1517
+	
 	// Predefined container for collection or selection listboxes
 	This:C1470.item:=Null:C1517
 	This:C1470.itemPosition:=0
 	This:C1470.items:=Null:C1517
+	
+	This:C1470.updateDefinition()
 	
 	// Backup design properties
 	This:C1470.saveProperties()
@@ -28,6 +47,27 @@ Function get columnsNumber() : Integer
 Function get rowsNumber() : Integer
 	
 	return LISTBOX Get number of rows:C915(*; This:C1470.name)
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+	//  return true when there is data
+Function get isReady : Boolean
+	
+	return (This:C1470.source#Null:C1517)
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get dataLength : Integer
+	
+	return This:C1470.data=Null:C1517 ? 0 : This:C1470.data.length
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get isSelected : Boolean
+	
+	return This:C1470.item#Null:C1517
+	
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get index : Integer
+	
+	return This:C1470.itemPosition-1
 	
 	//mark:-[READ & WRITE]
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
@@ -99,7 +139,10 @@ Function sort($column : Integer; $descendant : Boolean)
 	Else 
 		
 		LISTBOX SORT COLUMNS:C916(*; This:C1470.name; $column; >)
+		
 	End if 
+	
+	OBJECT SET VALUE:C1742(This:C1470.definition[$column-1].header; $descendant ? 2 : 1)
 	
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get selectionHighlight() : Boolean
@@ -107,7 +150,7 @@ Function get selectionHighlight() : Boolean
 	return Bool:C1537(LISTBOX Get property:C917(*; This:C1470.name; lk hide selection highlight:K53:41))
 	
 	// ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==> ==>
-Function set selectionHighlight($on : Boolean) : cs:C1710.listboxDelegate
+Function set selectionHighlight($on : Boolean) : cs:C1710.listbox
 	
 	LISTBOX SET PROPERTY:C1440(*; This:C1470.name; lk hide selection highlight:K53:41; $on ? lk yes:K53:69 : lk no:K53:68)
 	
@@ -155,6 +198,50 @@ Function get dataSourceType() : Text
 		End case 
 	End if 
 	
+	
+	// MARK:-[SOURCE & DATA]
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Set the source data and determine it's kind
+Function setSource($source) : cs:C1710.listbox
+	
+	This:C1470._clearDatasources()
+	
+	var $type : Integer:=Value type:C1509($source)
+	
+	If ($type=Is collection:K8:32)
+		
+		This:C1470.source:=$source
+		This:C1470.kind:=$type
+		This:C1470.setData()
+		
+		return This:C1470
+		
+	End if 
+	
+	If ($type=Is object:K8:27) && (OB Instance of:C1731($source; 4D:C1709.EntitySelection))  //   entity selection
+		
+		This:C1470.source:=$source
+		This:C1470.kind:=$type
+		This:C1470.setData()
+		
+		return This:C1470
+		
+	End if 
+	
+	This:C1470.source:=Null:C1517
+	This:C1470.data:=Null:C1517
+	This:C1470.kind:=0
+	
+	return This:C1470
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function setData : cs:C1710.listbox
+	
+	This:C1470.data:=This:C1470.source
+	
+	return This:C1470
+	
+	// MARK:-
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function isCollection($caller : Text) : Boolean
 	
@@ -222,7 +309,7 @@ Function isHierarchical($caller : Text) : Boolean
 	
 	// MARK:- [HIERARCHICAL LISTBOXES]
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function selectBreak($row : Integer; $column : Integer) : cs:C1710.listboxDelegate
+Function selectBreak($row : Integer; $column : Integer) : cs:C1710.listbox
 	
 	If (This:C1470.isHierarchical(Current method name:C684))
 		
@@ -246,7 +333,7 @@ Function selectBreak($row : Integer; $column : Integer) : cs:C1710.listboxDelega
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function collapse($row : Integer; $selector : Integer; $recursive : Boolean) : cs:C1710.listboxDelegate
+Function collapse($row : Integer; $selector : Integer; $recursive : Boolean) : cs:C1710.listbox
 	
 	If (This:C1470.isHierarchical(Current method name:C684))
 		
@@ -258,7 +345,7 @@ Function collapse($row : Integer; $selector : Integer; $recursive : Boolean) : c
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function collapseAll() : cs:C1710.listboxDelegate
+Function collapseAll() : cs:C1710.listbox
 	
 	If (This:C1470.isHierarchical(Current method name:C684))
 		
@@ -269,7 +356,7 @@ Function collapseAll() : cs:C1710.listboxDelegate
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function expand($row : Integer; $selector : Integer; $recursive : Boolean) : cs:C1710.listboxDelegate
+Function expand($row : Integer; $selector : Integer; $recursive : Boolean) : cs:C1710.listbox
 	
 	If (This:C1470.isHierarchical(Current method name:C684))
 		
@@ -281,7 +368,7 @@ Function expand($row : Integer; $selector : Integer; $recursive : Boolean) : cs:
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function expandAll() : cs:C1710.listboxDelegate
+Function expandAll() : cs:C1710.listbox
 	
 	If (This:C1470.isHierarchical(Current method name:C684))
 		
@@ -379,22 +466,37 @@ Function columnNumber($name : Text) : Integer
 	return $indx
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function columnName($number : Integer) : Text
+Function getColumnName($columnNumber : Integer) : Text
 	
-	ARRAY BOOLEAN:C223($isVisible; 0)
-	ARRAY POINTER:C280($columnsPtr; 0)
-	ARRAY POINTER:C280($footersPtr; 0)
-	ARRAY POINTER:C280($headersPtr; 0)
-	ARRAY POINTER:C280($stylesPtr; 0)
-	ARRAY TEXT:C222($columns; 0)
+	If (This:C1470.definition=Null:C1517)
+		
+		This:C1470.updateDefinition()
+		
+	End if 
 	
-	LISTBOX GET ARRAYS:C832(*; This:C1470.name; \
-		$columns; $headers; \
-		$columnsPtr; $headersPtr; \
-		$isVisible; \
-		$stylesPtr)
+	return String:C10(This:C1470.definition[$columnNumber-1].name)
 	
-	return $columns{$number}
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function getHeaderName($columnNumber : Integer) : Text
+	
+	If (This:C1470.definition=Null:C1517)
+		
+		This:C1470.updateDefinition()
+		
+	End if 
+	
+	return String:C10(This:C1470.definition[$columnNumber-1].header)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function getFooterName($columnNumber : Integer) : Text
+	
+	If (This:C1470.definition=Null:C1517)
+		
+		This:C1470.updateDefinition()
+		
+	End if 
+	
+	return String:C10(This:C1470.definition[$columnNumber-1].footer)
 	
 	// MARK:- [⚠️ ARRAY TYPE LIST BOXES]
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
@@ -404,7 +506,7 @@ Function setRowForegroundColor($row : Integer; $color; $target)
 	If (This:C1470.isArray(Current method name:C684))
 		
 		$target:=Count parameters:C259>=3\
-			 ? Value type:C1509($target)=Is text:K8:3 ? $target : This:C1470.columnName(Num:C11($target))\
+			 ? Value type:C1509($target)=Is text:K8:3 ? $target : This:C1470.getColumnName(Num:C11($target))\
 			 : This:C1470.name
 		
 		LISTBOX SET ROW COLOR:C1270(*; $target; $row; $color)
@@ -420,7 +522,7 @@ Function resetForegroundColor($target)
 	If (This:C1470.isArray(Current method name:C684))
 		
 		$target:=Count parameters:C259>=1\
-			 ? Value type:C1509($target)=Is text:K8:3 ? $target : This:C1470.columnName(Num:C11($target))\
+			 ? Value type:C1509($target)=Is text:K8:3 ? $target : This:C1470.getColumnName(Num:C11($target))\
 			 : This:C1470.name
 		
 		For ($row; 1; This:C1470.rowsNumber; 1)
@@ -448,21 +550,20 @@ Function cellPosition($e : cs:C1710.evt) : Object
 	
 	var $button; $column; $row; $x; $y : Integer
 	
-	$e:=$e || FORM Event:C1606
+	$e:=$e || cs:C1710.evt.new()
 	
 	If ($e.code=On Clicked:K2:4)\
 		 | ($e.code=On Double Clicked:K2:5)\
 		 | ($e.code=On Selection Change:K2:29)\
 		 | ($e.code=On Expand:K2:41)\
-		 | ($e.code=On Delete Action:K2:56)\
-		 | ($e.code=On Losing Focus:K2:8)
+		 | ($e.code=On Delete Action:K2:56)
 		
 		// ⚠️  Column is always 0
 		LISTBOX GET CELL POSITION:C971(*; This:C1470.name; $column; $row)
 		
 	Else 
 		
-		GET MOUSE:C468($x; $y; $button)
+		MOUSE POSITION:C468($x; $y; $button)
 		LISTBOX GET CELL POSITION:C971(*; This:C1470.name; $x; $y; $column; $row)
 		
 	End if 
@@ -477,9 +578,10 @@ Function cellPosition($e : cs:C1710.evt) : Object
 		
 	End if 
 	
-	return New object:C1471(\
-		"column"; $column; \
-		"row"; $row)
+	return {\
+		column: $column; \
+		row: $row\
+		}
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// ⚠️ 
@@ -515,11 +617,12 @@ Function rowCoordinates($row : Integer) : Object
 	
 	$bottom:=($bottom>This:C1470.coordinates.bottom) ? This:C1470.coordinates.bottom : $bottom
 	
-	return New object:C1471(\
-		"left"; $left; \
-		"top"; $top; \
-		"right"; $right; \
-		"bottom"; $bottom)
+	return {\
+		left: $left; \
+		top: $top; \
+		right: $right; \
+		bottom: $bottom\
+		}
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function cellCoordinates($column : Integer; $row : Integer) : Object
@@ -548,7 +651,7 @@ Function cellCoordinates($column : Integer; $row : Integer) : Object
 	
 	LISTBOX GET CELL COORDINATES:C1330(*; This:C1470.name; $column; $row; $left; $top; $right; $bottom)
 	
-	This:C1470.cellBox:=This:C1470.cellBox || New object:C1471
+	This:C1470.cellBox:=This:C1470.cellBox || {}
 	
 	This:C1470.cellBox.left:=$left
 	This:C1470.cellBox.top:=$top
@@ -584,7 +687,7 @@ Function setSystemFormat()
 	// MARK: - [SELECTION]
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Select row(s)
-Function select($row : Integer) : cs:C1710.listboxDelegate
+Function select($row : Integer) : cs:C1710.listbox
 	
 	If (Count parameters:C259=0)
 		
@@ -601,9 +704,22 @@ Function select($row : Integer) : cs:C1710.listboxDelegate
 	// Update selection
 	If (This:C1470.isCollection() || This:C1470.isEntitySelection())
 		
-		This:C1470.item:=This:C1470.getValue()[$row-1]
-		This:C1470.itemPosition:=$row-1
-		This:C1470.items:=New collection:C1472(This:C1470.item)
+		var $c : Collection
+		$c:=This:C1470.getValue()
+		
+		If ($c.length>=$row)
+			
+			This:C1470.item:=$c[$row-1]
+			This:C1470.itemPosition:=$row-1
+			This:C1470.items:=[This:C1470.item]
+			
+		Else 
+			
+			This:C1470.item:=Null:C1517
+			This:C1470.itemPosition:=0
+			This:C1470.items:=[]
+			
+		End if 
 		
 	Else 
 		
@@ -617,7 +733,7 @@ Function select($row : Integer) : cs:C1710.listboxDelegate
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Unselect row(s)
-Function unselect($row : Integer) : cs:C1710.listboxDelegate
+Function unselect($row : Integer) : cs:C1710.listbox
 	
 	If (Count parameters:C259=0)
 		
@@ -643,7 +759,7 @@ Function unselect($row : Integer) : cs:C1710.listboxDelegate
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Select the first row
-Function selectFirstRow() : cs:C1710.listboxDelegate
+Function selectFirstRow() : cs:C1710.listbox
 	
 	If (LISTBOX Get number of rows:C915(*; This:C1470.name)>0)
 		
@@ -659,7 +775,7 @@ Function selectFirstRow() : cs:C1710.listboxDelegate
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Select the last row
-Function selectLastRow() : cs:C1710.listboxDelegate
+Function selectLastRow() : cs:C1710.listbox
 	
 	This:C1470.select(This:C1470.rowsNumber)
 	
@@ -675,7 +791,7 @@ Function autoSelect()
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Selects the given row if possible, else the most appropiate one
 	// Useful to maintain a selection after a deletion
-Function doSafeSelect($row : Integer) : cs:C1710.listboxDelegate
+Function doSafeSelect($row : Integer) : cs:C1710.listbox
 	
 	LISTBOX SELECT ROW:C912(*; This:C1470.name; 0; lk remove from selection:K53:3)
 	
@@ -700,7 +816,7 @@ Function doSafeSelect($row : Integer) : cs:C1710.listboxDelegate
 	End case 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function selectAll() : cs:C1710.listboxDelegate
+Function selectAll() : cs:C1710.listbox
 	
 	return This:C1470.select()
 	
@@ -777,7 +893,7 @@ Function edit($target; $item : Integer)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Reveal the row
-Function reveal($row : Integer) : cs:C1710.listboxDelegate
+Function reveal($row : Integer) : cs:C1710.listbox
 	
 	LISTBOX SELECT ROW:C912(*; This:C1470.name; $row; lk replace selection:K53:1)
 	OBJECT SET SCROLL POSITION:C906(*; This:C1470.name; $row)
@@ -786,7 +902,7 @@ Function reveal($row : Integer) : cs:C1710.listboxDelegate
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Update the listbox columns/rows definition
-Function updateDefinition() : cs:C1710.listboxDelegate
+Function updateDefinition() : cs:C1710.listbox
 	
 	var $key : Text
 	var $i : Integer
@@ -808,25 +924,26 @@ Function updateDefinition() : cs:C1710.listboxDelegate
 		$stylesPtr; \
 		$footers; $footersPtr)
 	
-	This:C1470.definition:=New collection:C1472
+	This:C1470.definition:=[]
 	
 	ARRAY TO COLLECTION:C1563(This:C1470.definition; \
 		$columns; "name"; \
 		$headers; "header"; \
 		$footers; "footer")
 	
-	This:C1470.columns:=New object:C1471
+	This:C1470.columns:={}
 	
 	$o:=This:C1470._columnProperties()
 	
 	For ($i; 1; Size of array:C274($columns); 1)
 		
-		This:C1470.columns[$columns{$i}]:=New object:C1471(\
-			"number"; $i; \
-			"visible"; $isVisible{$i}; \
-			"enterable"; OBJECT Get enterable:C1067(*; $columns{$i}); \
-			"height"; LISTBOX Get row height:C1408(*; This:C1470.name; $i); \
-			"pointer"; $columnsPtr{$i})
+		This:C1470.columns[$columns{$i}]:={\
+			number: $i; \
+			visible: $isVisible{$i}; \
+			enterable: OBJECT Get enterable:C1067(*; $columns{$i}); \
+			height: LISTBOX Get row height:C1408(*; This:C1470.name; $i); \
+			pointer: $columnsPtr{$i}\
+			}
 		
 		For each ($key; $o)
 			
@@ -841,7 +958,7 @@ Function updateDefinition() : cs:C1710.listboxDelegate
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Update the current cell indexes and coordinates
-Function updateCell() : cs:C1710.listboxDelegate
+Function updateCell() : cs:C1710.listbox
 	
 	This:C1470.cellCoordinates()
 	
@@ -874,7 +991,7 @@ Function popup($menu : cs:C1710.menu; $default : Text) : cs:C1710.menu
 	return $menu
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function showColumn($column; $visible : Boolean) : cs:C1710.listboxDelegate
+Function showColumn($column; $visible : Boolean) : cs:C1710.listbox
 	
 	var $o : Object
 	
@@ -904,12 +1021,12 @@ Function showColumn($column; $visible : Boolean) : cs:C1710.listboxDelegate
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function hideColumn($column) : cs:C1710.listboxDelegate
+Function hideColumn($column) : cs:C1710.listbox
 	
 	return This:C1470.showColumn($column; False:C215)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function clear() : cs:C1710.listboxDelegate
+Function clear() : cs:C1710.listbox
 	
 	var $o : Object
 	
@@ -924,7 +1041,7 @@ Function clear() : cs:C1710.listboxDelegate
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function deleteRows($row : Integer) : cs:C1710.listboxDelegate
+Function deleteRows($row : Integer) : cs:C1710.listbox
 	
 	If (Count parameters:C259=0)
 		
@@ -959,7 +1076,7 @@ Function getProperties($column : Text) : Object
 		
 	End if 
 	
-	$properties:=New object:C1471
+	$properties:={}
 	
 	For each ($key; $o)
 		
@@ -983,17 +1100,17 @@ Function getProperty($property : Integer; $column : Text) : Variant
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function withSelectionHighlight($enabled : Boolean) : cs:C1710.listboxDelegate
+Function withSelectionHighlight($enabled : Boolean) : cs:C1710.listbox
 	
 	return This:C1470.setProperty(lk hide selection highlight:K53:41; $enabled ? lk yes:K53:69 : lk no:K53:68)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function withoutSelectionHighlight() : cs:C1710.listboxDelegate
+Function withoutSelectionHighlight() : cs:C1710.listbox
 	
 	return This:C1470.withSelectionHighlight(False:C215)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setMovableLines($enabled : Boolean) : cs:C1710.listboxDelegate
+Function setMovableLines($enabled : Boolean) : cs:C1710.listbox
 	
 	$enabled:=Count parameters:C259>=1 ? $enabled : True:C214
 	
@@ -1002,12 +1119,12 @@ Function setMovableLines($enabled : Boolean) : cs:C1710.listboxDelegate
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setNotMovableLines() : cs:C1710.listboxDelegate
+Function setNotMovableLines() : cs:C1710.listbox
 	
 	return This:C1470.setMovableLines(False:C215)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setSelectable($enabled : Boolean; $mode : Integer) : cs:C1710.listboxDelegate
+Function setSelectable($enabled : Boolean; $mode : Integer) : cs:C1710.listbox
 	
 	If (Count parameters:C259=0)
 		
@@ -1022,40 +1139,40 @@ Function setSelectable($enabled : Boolean; $mode : Integer) : cs:C1710.listboxDe
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setNotSelectable() : cs:C1710.listboxDelegate
+Function setNotSelectable() : cs:C1710.listbox
 	
 	return This:C1470.setSelectable(False:C215)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setSingleSelectable() : cs:C1710.listboxDelegate
+Function setSingleSelectable() : cs:C1710.listbox
 	
 	return This:C1470.setProperty(lk selection mode:K53:35; lk single:K53:58)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setMultipleSelectable() : cs:C1710.listboxDelegate
+Function setMultipleSelectable() : cs:C1710.listbox
 	
 	return This:C1470.setProperty(lk selection mode:K53:35; lk multiple:K53:59)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setSortable($enabled : Boolean) : cs:C1710.listboxDelegate
+Function setSortable($enabled : Boolean) : cs:C1710.listbox
 	
 	$enabled:=Count parameters:C259>=1 ? $enabled : True:C214
 	return This:C1470.setProperty(lk sortable:K53:45; $enabled ? lk yes:K53:69 : lk no:K53:68)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setNotSortable() : cs:C1710.listboxDelegate
+Function setNotSortable() : cs:C1710.listbox
 	
 	return This:C1470.setSortable(False:C215)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setProperty($property : Integer; $value) : cs:C1710.listboxDelegate
+Function setProperty($property : Integer; $value) : cs:C1710.listbox
 	
 	LISTBOX SET PROPERTY:C1440(*; This:C1470.name; $property; $value)
 	
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setRowsHeight($height : Integer; $unit : Integer) : cs:C1710.listboxDelegate
+Function setRowsHeight($height : Integer; $unit : Integer) : cs:C1710.listbox
 	
 	LISTBOX SET ROWS HEIGHT:C835(*; This:C1470.name; $height; $unit)
 	
@@ -1068,7 +1185,7 @@ Function saveProperties()
 	var $unit : Integer
 	var $o; $properties : Object
 	
-	$properties:=New object:C1471
+	$properties:={}
 	
 	$o:=This:C1470._listboxProperties()
 	
@@ -1145,29 +1262,29 @@ Function _listboxProperties() : Object
 	
 	$o:=This:C1470._commonProperties()
 	
-	$o.detailFormName:=New object:C1471("k"; lk detail form name:K53:44)
-	$o.displayFooter:=New object:C1471("k"; lk display footer:K53:20)
-	$o.displayHeader:=New object:C1471("k"; lk display header:K53:4)
-	$o.doubleClickOnRow:=New object:C1471("k"; lk double click on row:K53:43)
-	$o.extraRows:=New object:C1471("k"; lk extra rows:K53:38)
-	$o.hideSelectionHighlight:=New object:C1471("k"; lk hide selection highlight:K53:41)
-	$o.highlightSet:=New object:C1471("k"; lk highlight set:K53:66)
-	$o.horScrollbarHeight:=New object:C1471("k"; lk hor scrollbar height:K53:7)
-	$o.movableRows:=New object:C1471("k"; lk movable rows:K53:76)
-	$o.namedSelection:=New object:C1471("k"; lk named selection:K53:67)
-	$o.resizingMode:=New object:C1471("k"; lk resizing mode:K53:36)
-	$o.rowHeightUnit:=New object:C1471("k"; lk row height unit:K53:42)
-	$o.selectionMode:=New object:C1471("k"; lk selection mode:K53:35)
-	$o.singleClickEdit:=New object:C1471("k"; lk single click edit:K53:70)
-	$o.sortable:=New object:C1471("k"; lk sortable:K53:45)
-	$o.verScrollbarWidth:=New object:C1471("k"; lk ver scrollbar width:K53:9)
+	$o.detailFormName:={k: lk detail form name:K53:44}
+	$o.displayFooter:={k: lk display footer:K53:20}
+	$o.displayHeader:={k: lk display header:K53:4}
+	$o.doubleClickOnRow:={k: lk double click on row:K53:43}
+	$o.extraRows:={k: lk extra rows:K53:38}
+	$o.hideSelectionHighlight:={k: lk hide selection highlight:K53:41}
+	$o.highlightSet:={k: lk highlight set:K53:66}
+	$o.horScrollbarHeight:={k: lk hor scrollbar height:K53:7}
+	$o.movableRows:={k: lk movable rows:K53:76}
+	$o.namedSelection:={k: lk named selection:K53:67}
+	$o.resizingMode:={k: lk resizing mode:K53:36}
+	$o.rowHeightUnit:={k: lk row height unit:K53:42}
+	$o.selectionMode:={k: lk selection mode:K53:35}
+	$o.singleClickEdit:={k: lk single click edit:K53:70}
+	$o.sortable:={k: lk sortable:K53:45}
+	$o.verScrollbarWidth:={k: lk ver scrollbar width:K53:9}
 	
 	Case of 
 			
 			//______________________________________________________
 		: (This:C1470.isCollection() || This:C1470.isEntitySelection())
 			
-			$o.metaExpression:=New object:C1471("k"; lk meta expression:K53:75)
+			$o.metaExpression:={k: lk meta expression:K53:75}
 			
 			//______________________________________________________
 	End case 
@@ -1181,29 +1298,32 @@ Function _columnProperties() : Object
 	
 	$o:=This:C1470._commonProperties()
 	
-	$o.allowWordwrap:=New object:C1471("k"; lk allow wordwrap:K53:39)
-	$o.columnMaxWidth:=New object:C1471("k"; lk column max width:K53:51)
-	$o.columnMinWidth:=New object:C1471("k"; lk column min width:K53:50)
-	$o.columnResizable:=New object:C1471("k"; lk column resizable:K53:40)
-	$o.displayType:=New object:C1471("k"; lk display type:K53:46)
-	$o.multiStyle:=New object:C1471("k"; lk multi style:K53:71)
+	$o.allowWordwrap:={k: lk allow wordwrap:K53:39}
+	$o.columnMaxWidth:={k: lk column max width:K53:51}
+	$o.columnMinWidth:={k: lk column min width:K53:50}
+	$o.columnResizable:={k: lk column resizable:K53:40}
+	$o.displayType:={k: lk display type:K53:46}
+	$o.multiStyle:={k: lk multi style:K53:71}
 	
 	return $o
 	
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 Function _commonProperties() : Object
 	
-	var $o : Object
-	$o:=New object:C1471
+	return {\
+		autoRowHeight: {k: lk auto row height:K53:72}; \
+		backgroundColorExpression: {k: lk background color expression:K53:47}; \
+		cellHorizontalPadding: {k: lk cell horizontal padding:K53:77}; \
+		cellVerticalPadding: {k: lk cell vertical padding:K53:78}; \
+		fontColorExpression: {k: lk font color expression:K53:48}; \
+		fontStyleExpression: {k: lk font style expression:K53:49}; \
+		truncate: {k: lk truncate:K53:37}\
+		}
 	
-	$o.autoRowHeight:=New object:C1471("k"; lk auto row height:K53:72)
-	$o.backgroundColorExpression:=New object:C1471("k"; lk background color expression:K53:47)
-	$o.cellHorizontalPadding:=New object:C1471("k"; lk cell horizontal padding:K53:77)
-	$o.cellVerticalPadding:=New object:C1471("k"; lk cell vertical padding:K53:78)
-	$o.fontColorExpression:=New object:C1471("k"; lk font color expression:K53:48)
-	$o.fontStyleExpression:=New object:C1471("k"; lk font style expression:K53:49)
-	$o.truncate:=New object:C1471("k"; lk truncate:K53:37)
+	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+	//  clear the objects that are set by the listbox object
+Function _clearDatasources()
 	
-	return $o
-	
-	
+	This:C1470.item:=Null:C1517
+	This:C1470.itemPosition:=0
+	This:C1470.items:=Null:C1517

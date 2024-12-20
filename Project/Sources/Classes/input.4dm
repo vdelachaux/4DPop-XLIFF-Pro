@@ -1,4 +1,7 @@
-Class extends widgetDelegate
+Class extends widget
+
+property _backup
+property _font : Text
 
 Class constructor($name : Text)
 	
@@ -77,37 +80,8 @@ Function set filter($filter)
 		
 	Else 
 		
-		$filter:=String:C10($filter)
+		OBJECT SET FILTER:C235(*; This:C1470.name; String:C10($filter))
 		
-		Case of 
-				
-				//______________________________________________________
-			: ($filter="email")
-				
-				OBJECT SET FILTER:C235(*; This:C1470.name; "&\"a-z;0-9;@;.;-;_\"")
-				
-				//______________________________________________________
-			: ($filter="url")
-				
-				OBJECT SET FILTER:C235(*; This:C1470.name; "&\"a-z;0-9;@;.;-;_;:;#;%;/;?;=\"")
-				
-				//______________________________________________________
-			: ($filter="noSpaceNorCr")
-				
-				OBJECT SET FILTER:C235(*; This:C1470.name; "&\"!-ÿ\"")
-				
-				//______________________________________________________
-			: ($filter="noCr")
-				
-				OBJECT SET FILTER:C235(*; This:C1470.name; "&\" -ÿ\"")
-				
-				//______________________________________________________
-			Else 
-				
-				OBJECT SET FILTER:C235(*; This:C1470.name; $filter)
-				
-				//______________________________________________________
-		End case 
 	End if 
 	
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
@@ -122,19 +96,19 @@ Function set placeholder($placeholder : Text)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Keep current value
-Function backup($value) : cs:C1710.inputDelegate
+Function backup($value) : cs:C1710.input
 	
-	This:C1470.$backup:=$value || This:C1470.getValue()
+	This:C1470._backup:=$value || This:C1470.getValue()
 	
 	return This:C1470
 	
 	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get modified() : Boolean
 	
-	return This:C1470.$backup#This:C1470.getValue()
+	return This:C1470._backup#This:C1470.getValue()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function highlight($startSel : Integer; $endSel : Integer) : cs:C1710.inputDelegate
+Function highlight($startSel : Integer; $endSel : Integer) : cs:C1710.input
 	
 	Case of 
 			
@@ -168,7 +142,7 @@ Function highlight($startSel : Integer; $endSel : Integer) : cs:C1710.inputDeleg
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 	// From the last character entered to the end
-Function highlightLastToEnd() : cs:C1710.inputDelegate
+Function highlightLastToEnd() : cs:C1710.input
 	
 	HIGHLIGHT TEXT:C210(*; This:C1470.name; This:C1470.highlightingStart()+1; MAXLONG:K35:2)
 	
@@ -218,7 +192,7 @@ Function highlightingEnd() : Integer
 	return $end
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setFilter($filter; $separator : Text) : cs:C1710.inputDelegate
+Function setFilter($filter; $separator : Text) : cs:C1710.input
 	
 	If (Value type:C1509($filter)=Is longint:K8:6)\
 		 | (Value type:C1509($filter)=Is real:K8:4)  // Predefined formats
@@ -286,29 +260,61 @@ Function getFilter() : Text
 	return OBJECT Get filter:C1073(*; This:C1470.name)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setPlaceholder($placeholder : Text) : cs:C1710.inputDelegate
+Function setPlaceholder($placeholder : Text) : cs:C1710.input
 	
-	var $t : Text
-	
-	If (Length:C16($placeholder)>0)\
-		 & (Length:C16($placeholder)<=255)
-		
-		//%W-533.1
-		If ($placeholder[[1]]#Char:C90(1))
-			
-			$t:=Get localized string:C991($placeholder)
-			$t:=Length:C16($t)>0 ? $t : $placeholder  // Revert if no localization
-			
-		End if 
-		//%W+533.1
-		
-	Else 
-		
-		$t:=$placeholder
-		
-	End if 
-	
-	OBJECT SET PLACEHOLDER:C1295(*; This:C1470.name; $t)
+	OBJECT SET PLACEHOLDER:C1295(*; This:C1470.name; This:C1470._getLocalizeString($placeholder))
 	
 	return This:C1470
 	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	// ⚠️ Override widget function
+Function setEnterable($enterable : Boolean; $focusable : Boolean) : cs:C1710.input
+	
+	$enterable:=Count parameters:C259>=1 ? $enterable : True:C214
+	
+	If (Count parameters:C259>=2)
+		
+		If ($enterable)
+			
+			OBJECT SET ENTERABLE:C238(*; This:C1470.name; obk enterable:K42:45)
+			
+		Else 
+			
+			ARRAY TEXT:C222($textArray; 0x0000)
+			FORM GET ENTRY ORDER:C1469($textArray; *)
+			$focusable:=Find in array:C230($textArray; This:C1470.name)#-1
+			
+			If ($focusable)
+				
+				// Non-enterable, and its content can be selected
+				OBJECT SET ENTERABLE:C238(*; This:C1470.name; obk not enterable:K42:44)
+				
+			Else 
+				
+				// Non-enterable, and its content cannot be selected.
+				OBJECT SET ENTERABLE:C238(*; This:C1470.name; obk not enterable not focusable:K42:46)
+				
+			End if 
+		End if 
+		
+	Else 
+		
+		OBJECT SET ENTERABLE:C238(*; This:C1470.name; $enterable)
+		
+	End if 
+	
+	return This:C1470
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Replace the point by the decimal parameter in a text box
+	// This function must be called during management of the "On Before Keystroke" event.
+Function swapDecimalSeparator()
+	
+	var $separator : Text
+	
+	If (Keystroke:C390=".")
+		
+		GET SYSTEM FORMAT:C994(Decimal separator:K60:1; $separator)
+		FILTER KEYSTROKE:C389($separator)
+		
+	End if 

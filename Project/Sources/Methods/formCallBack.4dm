@@ -1,5 +1,7 @@
 //%attributes = {"invisible":true}
-#DECLARE($function : Text; $data : Object)
+#DECLARE($data : Object; $function : Text)
+
+$function:=Length:C16($function)>0 ? $function : "callback"
 
 var $instance : 4D:C1709.Class:=formGetInstance
 
@@ -8,4 +10,3 @@ If (Asserted:C1132(OB Instance of:C1731($instance[$function]; 4D:C1709.Function)
 	$instance[$function]($data)
 	
 End if 
-

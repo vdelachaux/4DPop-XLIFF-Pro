@@ -1,4 +1,7 @@
-Class extends widgetDelegate
+Class extends widget
+
+property scroll
+property scrollbars : Object
 
 // === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Class constructor($name : Text)
@@ -38,7 +41,7 @@ Function getScrollPosition() : Variant
 	return This:C1470.scroll
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setScrollPosition($vertical; $horizontal) : cs:C1710.scrollableDelegate
+Function setScrollPosition($vertical; $horizontal) : cs:C1710.scrollable
 	
 	var $h; $v : Integer
 	
@@ -79,27 +82,27 @@ Function getScrollbars
 		horizontal: $horizontal}
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setScrollbars($horizontal; $vertical) : cs:C1710.scrollableDelegate
+Function setScrollbars($horizontal; $vertical) : cs:C1710.scrollable
 	
 	OBJECT SET SCROLLBAR:C843(*; This:C1470.name; Num:C11($horizontal); Num:C11($vertical))
 	
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setHorizontalScrollbar($display) : cs:C1710.scrollableDelegate
+Function setHorizontalScrollbar($display) : cs:C1710.scrollable
 	
 	This:C1470.getScrollbars()
 	
-	OBJECT SET SCROLLBAR:C843(*; This:C1470.name; Num:C11($display); Num:C11(This:C1470.scrollbar.vertical))
+	OBJECT SET SCROLLBAR:C843(*; This:C1470.name; Num:C11($display); Num:C11(This:C1470.scrollbars.vertical))
 	
 	return This:C1470
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setVerticalScrollbar($display) : cs:C1710.scrollableDelegate
+Function setVerticalScrollbar($display) : cs:C1710.scrollable
 	
 	This:C1470.getScrollbars()
 	
-	OBJECT SET SCROLLBAR:C843(*; This:C1470.name; Num:C11(This:C1470.scrollbar.horizontal); Num:C11($display))
+	OBJECT SET SCROLLBAR:C843(*; This:C1470.name; Num:C11(This:C1470.scrollbars.horizontal); Num:C11($display))
 	
 	return This:C1470
 	

@@ -4,11 +4,13 @@ Common tools to have at hand
 
 */
 
+property success : Boolean:=False:C215
+property lastError : Text:=""
+property errors : Collection:=[]
+
 Class constructor
 	
-	This:C1470.success:=False:C215
-	This:C1470.lastError:=""
-	This:C1470.errors:=[]
+	//
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function clone($class : Object) : Object
@@ -18,44 +20,38 @@ Function clone($class : Object) : Object
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function first($c : Collection) : Variant
 	
-	If ($c#Null:C1517)
+	If ($c#Null:C1517)\
+		 && ($c.length>0)
 		
-		If ($c.length>0)
-			
-			return $c[0]
-			
-		End if 
+		return $c[0]
+		
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function last($c : Collection) : Variant
 	
-	If ($c#Null:C1517)
+	If ($c#Null:C1517)\
+		 && ($c.length>0)
 		
-		If ($c.length>0)
-			
-			return $c[$c.length-1]
-			
-		End if 
+		return $c[$c.length-1]
+		
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function next($c : Collection; $current : Integer) : Variant
 	
-	If ($c#Null:C1517)
+	If ($c#Null:C1517)\
+		 && ($c.length>$current)
 		
-		If ($c.length>$current)
-			
-			return $c[$current+1]
-			
-		End if 
+		return $c[$current+1]
+		
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _pushError($desription : Text)
 	
 	This:C1470.success:=False:C215
-	This:C1470.lastError:=Get call chain:C1662[1].name+" - "+$desription
+	This:C1470.lastError:=Call chain:C1662[1].name+" - "+$desription
 	This:C1470.errors.push(This:C1470.lastError)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
@@ -64,7 +60,6 @@ Function lep($command : Text; $inputStream) : Object
 	
 	var $error; $out : Text
 	var $len; $pid; $pos : Integer
-	var $o : Object
 	
 	Case of 
 			
@@ -92,7 +87,7 @@ Function lep($command : Text; $inputStream) : Object
 			//______________________________________________________
 	End case 
 	
-	$o:={success: False:C215}
+	var $o : Object:={success: False:C215}
 	
 	SET ENVIRONMENT VARIABLE:C812("_4D_OPTION_HIDE_CONSOLE"; "true")
 	LAUNCH EXTERNAL PROCESS:C811($command; $inputStream; $out; $error; $pid)
@@ -226,7 +221,7 @@ Function localized($resname : Text; $replacement; $replacementN : Text;  ...  : 
 			//%W-533.1
 			If ($resname[[1]]#Char:C90(1))
 				
-				$t:=Get localized string:C991($resname)
+				$t:=Localized string:C991($resname)
 				$localizedString:=Length:C16($t)>0 ? $t : $resname  // Revert if no localization
 				
 			End if 
@@ -248,7 +243,7 @@ Function localized($resname : Text; $replacement; $replacementN : Text;  ...  : 
 						
 						If ($continue)
 							
-							$t:=Get localized string:C991(String:C10($replacement[$i]))
+							$t:=Localized string:C991(String:C10($replacement[$i]))
 							$t:=Length:C16($t)>0 ? $t : String:C10($replacement[$i])
 							
 							If (Position:C15("</span>"; $localizedString)>0)  // Multistyle
@@ -270,7 +265,7 @@ Function localized($resname : Text; $replacement; $replacementN : Text;  ...  : 
 					
 					If (Match regex:C1019("(?m-si)(\\{[\\w\\s]+\\})"; $localizedString; 1; $pos; $len))
 						
-						$t:=Get localized string:C991(String:C10(${$i}))
+						$t:=Localized string:C991(String:C10(${$i}))
 						$t:=Length:C16($t)>0 ? $t : String:C10(${$i})
 						
 						If (Position:C15("</span>"; $localizedString)>0)  // Multistyle
@@ -317,19 +312,17 @@ Function folderDigest($folder : 4D:C1709.Folder) : Text
 	var $digest : Text
 	var $o : Object
 	var $x : Blob
-	var $onErrCallMethod : Text
 	
-	$onErrCallMethod:=Method called on error:C704
-	ON ERR CALL:C155("noError")
-	
-	For each ($o; $folder.files(fk recursive:K87:7+fk ignore invisible:K87:22))
+	Try
 		
-		$x:=$o.getContent()
-		$digest:=$digest+Generate digest:C1147($x; SHA1 digest:K66:2)
+		For each ($o; $folder.files(fk recursive:K87:7+fk ignore invisible:K87:22))
+			
+			$x:=$o.getContent()
+			$digest:=$digest+Generate digest:C1147($x; SHA1 digest:K66:2)
+			
+		End for each 
 		
-	End for each 
-	
-	ON ERR CALL:C155($onErrCallMethod)
+	End try
 	
 	return Generate digest:C1147($digest; SHA1 digest:K66:2)
 	

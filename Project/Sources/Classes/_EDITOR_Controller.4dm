@@ -3,49 +3,51 @@ Class: _EDITOR_Controller - (4DPop XLIFF Pro)
 Created 1-1-2023 by Vincent de Lachaux
 */
 
-property form : cs:C1710.formDelegate
-property lock; lockMessage : cs:C1710.staticDelegate
-property wrap : cs:C1710.widgetDelegate
-property newFile; newGroup; newString; filterLanguage : cs:C1710.buttonDelegate
-property stringSplitter; lockButton : cs:C1710.buttonDelegate
-property detail; searchPicker : cs:C1710.subformDelegate
-property fileList; stringList : cs:C1710.listboxDelegate
-property strings; locked; withFile : cs:C1710.groupDelegate
+// MARK: Default values ⚙️
+property isSubform:=False:C215
+property toBeInitialized:=False:C215
 
-property current : cs:C1710.Xliff
-property folders; opened; languages : Collection
-property main; resources : Object
-
-property menu : 4D:C1709.Class
-property Xliff : 4D:C1709.Class
+// MARK: Delegates 📦
+property form : cs:C1710.form
+property Xliff : cs:C1710.Xliff
 property menuBar : cs:C1710.menuBar
 property Preferences : cs:C1710.Preferences
+property str : cs:C1710.str:=cs:C1710.str.new()
+
+// MARK: Widgets 🧱
+property lock; lockMessage : cs:C1710.static
+property wrap : cs:C1710.widget
+property newFile; newGroup; newString; filterLanguage : cs:C1710.button
+property stringSplitter; lockButton : cs:C1710.button
+property detail; searchPicker : cs:C1710.subform
+property fileList; stringList : cs:C1710.listbox
+property strings; locked; withFile : cs:C1710.group
+
+// MARK: Constants 🔐
+property FILE_EXTENSION:=".xlf"
+property FOLDER_EXTENSION:=".lproj"
+property GENERATOR:=File:C1566(Structure file:C489; fk platform path:K87:2).name
+property VERSION:="3.1"
+
+// TODO:Could be a preference
+property AUTOSAVE:=True:C214  // Flag for automatic saving
+
+// MARK: Other 💾
+property current : cs:C1710.Xliff
+property folders; cache; languages : Collection
+property default; main; resources : Object
+
+property groupPtr; resnamePtr; contentPtr : Pointer
 
 Class constructor($mainLanguage : Text)
 	
-	This:C1470.__CLASS__:=OB Class:C1730(This:C1470)
-	
-	This:C1470.toBeInitialized:=False:C215
-	
-	This:C1470.fileExtension:=".xlf"
-	This:C1470.folderExtension:=".lproj"
-	
-	This:C1470.generator:=File:C1566(Structure file:C489; fk platform path:K87:2).name
-	This:C1470.version:="3.1"
-	
-	// TODO:Could be a preference
-	This:C1470.autoSave:=True:C214  // Flag for automatic saving
-	
-	// MARK:-Delegates 📦
-	This:C1470.form:=cs:C1710.formDelegate.new(This:C1470)
-	This:C1470.Preferences:=cs:C1710.Preferences.new(This:C1470.version)
+	// MARK:Delegates 📦
+	This:C1470.form:=cs:C1710.form.new(This:C1470)
+	This:C1470.Preferences:=cs:C1710.Preferences.new(This:C1470.VERSION)
 	This:C1470.Xliff:=cs:C1710.Xliff
-	This:C1470.menu:=cs:C1710.menu
-	This:C1470.str:=cs:C1710.str.new()
 	
-	// MARK:- Retrieving active lproj folders
-	This:C1470.folders:=Folder:C1567(fk resources folder:K87:11; *).folders().query("extension = :1 & name != :2"; This:C1470.folderExtension; "_@")
-	
+	// MARK:Retrieving active lproj folders
+	This:C1470.folders:=Folder:C1567(fk resources folder:K87:11; *).folders().query("extension = :1 & name != :2"; This:C1470.FOLDER_EXTENSION; "_@")
 	
 	// MARK: Define the main language
 	This:C1470.main:={}
@@ -75,7 +77,7 @@ Class constructor($mainLanguage : Text)
 	End for each 
 	
 	// MARK: Memorize open XML trees to be able to close them when unloading
-	This:C1470.opened:=[]
+	This:C1470.cache:=[]
 	
 	This:C1470.form.init()
 	
@@ -84,11 +86,9 @@ Class constructor($mainLanguage : Text)
 Function init()
 	
 	// MARK: Menu bar
-	var $menuHandle : Text
-	$menuHandle:=Formula:C1597(formMenuHandle).source
+	var $menuHandle : Text:=Formula:C1597(formMenuHandle).source
 	
-	var $menuFile : cs:C1710.menu
-	$menuFile:=This:C1470.menu.new()
+	var $menuFile : cs:C1710.menu:=cs:C1710.menu.new()
 	$menuFile.file()  // Get a standard file menu
 	
 	// Insert custom elements at the beginning
@@ -99,8 +99,7 @@ Function init()
 		.append(":xliff:close"; "close"; 4).method($menuHandle).shortcut("W")\
 		.line(5)
 	
-	var $menuEdit : cs:C1710.menu
-	$menuEdit:=This:C1470.menu.new()
+	var $menuEdit : cs:C1710.menu:=cs:C1710.menu.new()
 	$menuEdit.edit()  // Get a standard edit menu
 	
 	// Modify the copy item (5) to be able to manage it ourselves
@@ -120,35 +119,35 @@ Function init()
 	This:C1470.form.callback:=Formula:C1597(EDITOR CALLBACK).source
 	
 	// MARK: Toolbar buttons
-	This:C1470.newFile:=This:C1470.form.button.new("toolbarNewFile")
+	This:C1470.newFile:=This:C1470.form.Button("toolbarNewFile")
 	
-	This:C1470.withFile:=This:C1470.form.group.new()
-	This:C1470.newGroup:=This:C1470.form.button.new("toolbarNewGroup").addToGroup(This:C1470.withFile)
-	This:C1470.newString:=This:C1470.form.button.new("toolbarNewTransUnit").addToGroup(This:C1470.withFile)
+	This:C1470.withFile:=This:C1470.form.Group()
+	This:C1470.newGroup:=This:C1470.form.Button("toolbarNewGroup").addToGroup(This:C1470.withFile)
+	This:C1470.newString:=This:C1470.form.Button("toolbarNewTransUnit").addToGroup(This:C1470.withFile)
 	
-	This:C1470.filterLanguage:=This:C1470.form.button.new("localization")
+	This:C1470.filterLanguage:=This:C1470.form.Button("localization")
 	
 	// MARK: File list
-	This:C1470.fileList:=This:C1470.form.listbox.new("fileList")
+	This:C1470.fileList:=This:C1470.form.Listbox("fileList")
 	
 	// MARK: String list
-	This:C1470.stringSplitter:=This:C1470.form.button.new("stringSplitter")
+	This:C1470.stringSplitter:=This:C1470.form.Button("stringSplitter")
 	
-	This:C1470.strings:=This:C1470.form.group.new()
-	This:C1470.stringList:=This:C1470.form.listbox.new("stringList").addToGroup(This:C1470.strings)
-	This:C1470.wrap:=This:C1470.form.widget.new("wrap").addToGroup(This:C1470.strings)
+	This:C1470.strings:=This:C1470.form.Group()
+	This:C1470.stringList:=This:C1470.form.Listbox("stringList").addToGroup(This:C1470.strings)
+	This:C1470.wrap:=This:C1470.form.Widget("wrap").addToGroup(This:C1470.strings)
 	
 	// MARK: Detail subform
-	This:C1470.detail:=This:C1470.form.subform.new("detail"; {onDataChange: -On Data Change:K2:15}; This:C1470)
+	This:C1470.detail:=This:C1470.form.Subform("detail"; {onDataChange: -On Data Change:K2:15}; This:C1470)
 	
 	// MARK: Lock
-	This:C1470.locked:=This:C1470.form.group.new()
-	This:C1470.lock:=This:C1470.form.static.new("lock").addToGroup(This:C1470.locked)
-	This:C1470.lockMessage:=This:C1470.form.static.new("lockMessage").addToGroup(This:C1470.locked)
-	This:C1470.lockButton:=This:C1470.form.button.new("lockButton").addToGroup(This:C1470.locked)
+	This:C1470.locked:=This:C1470.form.Group()
+	This:C1470.lock:=This:C1470.form.Static("lock").addToGroup(This:C1470.locked)
+	This:C1470.lockMessage:=This:C1470.form.Static("lockMessage").addToGroup(This:C1470.locked)
+	This:C1470.lockButton:=This:C1470.form.Button("lockButton").addToGroup(This:C1470.locked)
 	
 	// MARK: Search Picker
-	This:C1470.searchPicker:=This:C1470.form.subform.new("searchPicker"; {}; This:C1470)
+	This:C1470.searchPicker:=This:C1470.form.Subform("searchPicker"; {}; This:C1470)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function handleEvents($e : cs:C1710.evt)
@@ -294,14 +293,12 @@ Function onLoad()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function update()
 	
-	var $isWritable : Boolean
-	var $o : Object
 	var $c : Collection
 	
 	If (This:C1470.fileList.item=Null:C1517) && (This:C1470.fileList.rowsNumber>0)
 		
 		// Select last used file
-		$o:=This:C1470.Preferences.get(Form:C1466.project)
+		var $o : Object:=This:C1470.Preferences.get(Form:C1466.project)
 		
 		If ($o#Null:C1517)\
 			 && (Length:C16(String:C10($o.file))>0)
@@ -314,7 +311,7 @@ Function update()
 		
 	End if 
 	
-	$isWritable:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
+	var $isWritable : Boolean:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
 	
 	This:C1470.strings.show(This:C1470.current.error=Null:C1517)
 	This:C1470.newString.enable((This:C1470.stringList.item#Null:C1517) & $isWritable)
@@ -460,7 +457,6 @@ Function handleMenus($what : Text)
 Function _fileListManager($e : cs:C1710.evt)
 	
 	var $file : 4D:C1709.File
-	var $menu : cs:C1710.menu
 	
 	$file:=This:C1470.current.file
 	
@@ -492,7 +488,7 @@ Function _fileListManager($e : cs:C1710.evt)
 			
 			If (Contextual click:C713)
 				
-				$menu:=This:C1470.menu.new()
+				var $menu : cs:C1710.menu:=cs:C1710.menu.new()
 				
 				$menu.append(":xliff:projectSettings"; "projectSettings").disable()
 				
@@ -581,14 +577,14 @@ Function _stringListManager($e : cs:C1710.evt)
 				var $isWritable : Boolean
 				var $copy; $menu : cs:C1710.menu
 				
-				$menu:=This:C1470.menu.new()
+				$menu:=cs:C1710.menu.new()
 				
 				$isWritable:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
 				
 				If ($item#Null:C1517)
 					
-					$copy:=This:C1470.menu.new()
-					$copy.append(":xliff:copyAsXliffReference"; "copy").shortcut("C").enable(OB Instance of:C1731($item; cs:C1710.Transunit))\
+					$copy:=cs:C1710.menu.new()
+					$copy.append(":xliff:copyAsXliffReference"; "copy").shortcut("C").enable(OB Instance of:C1731($item; cs:C1710.XliffUnit))\
 						.append(":xliff:copyResname"; "resname")\
 						.append(":xliff:copyTheCode"; "code")
 					
@@ -602,7 +598,7 @@ Function _stringListManager($e : cs:C1710.evt)
 						
 					End if 
 					
-					$files:=$files.query("extension = :1"; OB Instance of:C1731($item; cs:C1710.Group) ? ".group" : ".unit").orderBy("name")
+					$files:=$files.query("extension = :1"; OB Instance of:C1731($item; cs:C1710.XliffGroup) ? ".group" : ".unit").orderBy("name")
 					
 					If ($files.length>0)
 						
@@ -736,7 +732,7 @@ Function _stringListManager($e : cs:C1710.evt)
 				
 			End if 
 			
-			If (OB Instance of:C1731($item; cs:C1710.Transunit))
+			If (OB Instance of:C1731($item; cs:C1710.XliffUnit))
 				
 				If (Shift down:C543)
 					
@@ -804,7 +800,7 @@ Function newFileManager()
 	
 	$name:=Replace string:C233($name; ".xliff"; "")
 	$name:=Replace string:C233($name; ".xlf"; "")
-	$name+=This:C1470.fileExtension
+	$name+=This:C1470.FILE_EXTENSION
 	
 	If (This:C1470.main.files.query("fullName= :1"; $name).pop()#Null:C1517)
 		
@@ -821,7 +817,7 @@ Function newFileManager()
 	If (This:C1470.folders.length=0)
 		
 		var $folder : 4D:C1709.Folder
-		$folder:=Folder:C1567(fk resources folder:K87:11; *).folder(This:C1470.main.language+This:C1470.folderExtension)
+		$folder:=Folder:C1567(fk resources folder:K87:11; *).folder(This:C1470.main.language+This:C1470.FOLDER_EXTENSION)
 		$folder.create()
 		This:C1470.folders.push($folder)
 		
@@ -848,8 +844,8 @@ Function newGroupManager()
 	var $resname : Text
 	var $row : Integer
 	var $language : Object
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
+	var $group : cs:C1710.XliffGroup
+	var $unit : cs:C1710.XliffUnit
 	var $xliff : cs:C1710.Xliff
 	
 	// Trigger string update
@@ -886,8 +882,8 @@ Function newStringManager()
 	var $resname : Text
 	var $row : Integer
 	var $language; $target : Object
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
+	var $group : cs:C1710.XliffGroup
+	var $unit : cs:C1710.XliffUnit
 	var $xliff : cs:C1710.Xliff
 	
 	// Trigger string update
@@ -895,7 +891,7 @@ Function newStringManager()
 	
 	$target:=This:C1470.stringList.item
 	
-	If (OB Instance of:C1731($target; cs:C1710.Transunit))
+	If (OB Instance of:C1731($target; cs:C1710.XliffUnit))
 		
 		// Get parent group
 		$target:=This:C1470.parentGroup($target)
@@ -987,8 +983,8 @@ Function doDeleteString($e : cs:C1710.evt)
 	
 	var $row : Integer
 	var $language; $target : Object
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
+	var $group : cs:C1710.XliffGroup
+	var $unit : cs:C1710.XliffUnit
 	var $xliff : cs:C1710.Xliff
 	
 	$target:=This:C1470.stringList.item
@@ -1000,7 +996,7 @@ Function doDeleteString($e : cs:C1710.evt)
 	End if 
 	
 	CONFIRM:C162(Replace string:C233(\
-		Localized string:C991(OB Instance of:C1731($target; cs:C1710.Transunit) ? "DeleteItem" : "DeleteGroup"); \
+		Localized string:C991(OB Instance of:C1731($target; cs:C1710.XliffUnit) ? "DeleteItem" : "DeleteGroup"); \
 		"{item}"; $target.resname))
 	
 	If (OK=0)
@@ -1011,7 +1007,7 @@ Function doDeleteString($e : cs:C1710.evt)
 	
 	$xliff:=This:C1470.current
 	
-	If (OB Instance of:C1731($target; cs:C1710.Group))
+	If (OB Instance of:C1731($target; cs:C1710.XliffGroup))
 		
 		// Update files
 		$xliff.remove($target.node)
@@ -1020,7 +1016,7 @@ Function doDeleteString($e : cs:C1710.evt)
 		For each ($language; This:C1470.current.languages)
 			
 			$xliff:=$language.xliff
-			$group:=$xliff.groups.query("XPATH = :1"; $target.XPATH).pop()
+			$group:=$xliff.groups.query("xpath = :1"; $target.xpath).pop()
 			$xliff.remove($group.node)
 			This:C1470.save($xliff)
 			
@@ -1093,12 +1089,12 @@ Function getItemCode($item : Object; $type : Text) : Text
 	ARRAY LONGINT:C221($pos; 0)
 	
 	// Is it an external code?
-	$file:=File:C1566("/RESOURCES/4DPop xliff/"+$type+(OB Instance of:C1731($item; cs:C1710.Group) ? ".group" : ".unit"))
+	$file:=File:C1566("/RESOURCES/4DPop xliff/"+$type+(OB Instance of:C1731($item; cs:C1710.XliffGroup) ? ".group" : ".unit"))
 	
 	If (Not:C34($file.exists))
 		
 		// Try host
-		$file:=File:C1566("/RESOURCES/4DPop xliff/"+$type+(OB Instance of:C1731($item; cs:C1710.Group) ? ".group" : ".unit"); *)
+		$file:=File:C1566("/RESOURCES/4DPop xliff/"+$type+(OB Instance of:C1731($item; cs:C1710.XliffGroup) ? ".group" : ".unit"); *)
 		
 	End if 
 	
@@ -1110,7 +1106,7 @@ Function getItemCode($item : Object; $type : Text) : Text
 		
 	End if 
 	
-	If (OB Instance of:C1731($item; cs:C1710.Group))
+	If (OB Instance of:C1731($item; cs:C1710.XliffGroup))
 		
 		// Construct the code to load all strings into a collection
 		$code:="var $c : Collection\r"
@@ -1285,7 +1281,7 @@ Function _populateString($column : Integer; $row : Integer) : Object
 	$o:=(This:C1470.contentPtr)->{$row}
 	//%W+533.3
 	
-	$string:=($column=1) & (OB Instance of:C1731($o; cs:C1710.Transunit)) ? This:C1470.parentGroup($o) : $o
+	$string:=($column=1) & (OB Instance of:C1731($o; cs:C1710.XliffUnit)) ? This:C1470.parentGroup($o) : $o
 	
 	If (Structure file:C489=Structure file:C489(*))
 		ASSERT:C1129($string#Null:C1517)
@@ -1302,7 +1298,7 @@ Function _populateString($column : Integer; $row : Integer) : Object
 				
 				$file:=This:C1470.current.localizedFile(This:C1470.fileList.item; This:C1470.main.language; $language.language)
 				
-				$xliff:=This:C1470.opened.query("file.path = :1"; $file.path).pop()
+				$xliff:=This:C1470.cache.query("file.path = :1"; $file.path).pop()
 				
 				If ($xliff=Null:C1517)
 					
@@ -1361,7 +1357,7 @@ Function doSelectGroup($row : Integer; $e : cs:C1710.evt)
 Function doSelectUnit($row : Integer)
 	
 	// Expand group if any
-	If (This:C1470.stringList.item#Null:C1517) && (OB Instance of:C1731(This:C1470.stringList.item; cs:C1710.Group))
+	If (This:C1470.stringList.item#Null:C1517) && (OB Instance of:C1731(This:C1470.stringList.item; cs:C1710.XliffGroup))
 		
 		This:C1470.stringList.expand($row; lk break row:K53:18)
 		
@@ -1378,10 +1374,10 @@ Function parentGroup($unit : Object) : Object
 	
 	var $c : Collection
 	
-	$c:=Split string:C1554($unit.XPATH; "/")
+	$c:=Split string:C1554($unit.xpath; "/")
 	$c.pop()
 	
-	return This:C1470.current.groups.query("XPATH = :1"; $c.join("/")).pop()
+	return This:C1470.current.groups.query("xpath = :1"; $c.join("/")).pop()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns a collection of all xliff files for a given language (main by default)
@@ -1399,9 +1395,9 @@ Function getFiles($language : Text) : Collection
 	
 	If ($folder#Null:C1517)
 		
-		For each ($file; $folder.files().query("extension = :1"; This:C1470.fileExtension))
+		For each ($file; $folder.files().query("extension = :1"; This:C1470.FILE_EXTENSION))
 			
-			$xliff:=This:C1470.Xliff.new($file)
+			$xliff:=cs:C1710.Xliff.new($file)
 			
 			If (Not:C34($xliff.success))
 				
@@ -1429,8 +1425,7 @@ Function getFiles($language : Text) : Collection
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function parse($file : 4D:C1709.File) : cs:C1710.Xliff
 	
-	var $xliff : cs:C1710.Xliff
-	$xliff:=This:C1470.Xliff.new($file)
+	var $xliff : cs:C1710.Xliff:=cs:C1710.Xliff.new($file)
 	
 	If (Not:C34($xliff.success))
 		
@@ -1441,7 +1436,7 @@ Function parse($file : 4D:C1709.File) : cs:C1710.Xliff
 		
 	End if 
 	
-	This:C1470.opened.push($xliff)
+	This:C1470.cache.push($xliff)
 	
 	return $xliff.parse()
 	
@@ -1494,7 +1489,7 @@ Function save($xliff : cs:C1710.Xliff; $force : Boolean)
 	// Mark the file as modified
 	$xliff.modified:=True:C214
 	
-	If (This:C1470.autoSave | $force)
+	If (This:C1470.AUTOSAVE | $force)
 		
 		$xliff.save()
 		
@@ -1532,7 +1527,7 @@ Function deDuplicateIDs()
 		
 		For each ($language; $parent.languages)
 			
-			$xliff:=This:C1470.opened.query("root = :1"; $language.xliff.root).pop()
+			$xliff:=This:C1470.cache.query("root = :1"; $language.xliff.root).pop()
 			$xliff.deDuplicateIDs($before; $after)
 			
 			If (Not:C34($xliff.success))
@@ -1547,14 +1542,14 @@ Function deDuplicateIDs()
 			// Save & close All
 			$xliff:=This:C1470.current
 			This:C1470.save($xliff; True:C214)
-			This:C1470.opened.remove(This:C1470.opened.indexOf($xliff))
+			This:C1470.cache.remove(This:C1470.cache.indexOf($xliff))
 			$xliff.close()
 			
 			For each ($language; $parent.languages)
 				
-				$xliff:=This:C1470.opened.query("root = :1"; $language.xliff.root).pop()
+				$xliff:=This:C1470.cache.query("root = :1"; $language.xliff.root).pop()
 				This:C1470.save($xliff; True:C214)
-				This:C1470.opened.remove(This:C1470.opened.indexOf($xliff))
+				This:C1470.cache.remove(This:C1470.cache.indexOf($xliff))
 				$xliff.close()
 				
 			End for each 
@@ -1583,8 +1578,8 @@ Function _synchronizeAttributes($parent : Object; $string : Object; $attributes 
 	For each ($language; $parent.languages)
 		
 		// Update the XML tree
-		$xliff:=$parent.opened.query("root = :1"; $language.root).pop()
-		$unit:=$xliff.findByXPath($string.XPATH)
+		$xliff:=$parent.cache.query("root = :1"; $language.root).pop()
+		$unit:=$xliff.findByXPath($string.xpath)
 		
 		If ($xliff.success)
 			
@@ -1635,11 +1630,11 @@ Function _mainLanguage() : Text
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _DISPLAY_FILE()
 	
+	// Take from cache if available
+	var $xliff : cs:C1710.Xliff:=This:C1470.cache.query("file.path = :1"; This:C1470.fileList.item.path).first()
+	
 	var $language : Object
 	var $file : 4D:C1709.File
-	var $xliff : cs:C1710.Xliff
-	
-	$xliff:=This:C1470.opened.query("file.path = :1"; This:C1470.fileList.item.path).pop()
 	
 	If ($xliff=Null:C1517)
 		
@@ -1647,22 +1642,54 @@ Function _DISPLAY_FILE()
 		
 		This:C1470.current:=$xliff
 		
-		If ($xliff.success) | ($xliff.error=Null:C1517)
+		If ($xliff.success)\
+			 || ($xliff.error=Null:C1517)
 			
 			// Prepare the languages
 			This:C1470.current.languages:=[]
 			
+			// We use one worker for each language.
+			var $parallel:=[]
 			For each ($language; This:C1470.languages)
 				
-				$file:=$xliff.localizedFile(This:C1470.fileList.item; This:C1470.main.language; $language.language)
-				$xliff.synchronize($file; $language.language)
+				var $signal:=New signal:C1641($language.language)
 				
-				This:C1470.current.languages.push(New object:C1471(\
-					"language"; $language.language; \
-					"regional"; This:C1470.getFlag($language.language); \
-					"xliff"; This:C1470.parse($file)))
+				Use ($signal)
+					
+					$signal.main:=This:C1470.main.language
+					$signal.reference:=OB Copy:C1225($xliff; ck shared:K85:29; $signal)
+					$signal.item:=OB Copy:C1225(This:C1470.fileList.item; ck shared:K85:29; $signal)
+					$signal.language:=OB Copy:C1225($language; ck shared:K85:29; $signal)
+					
+				End use 
+				
+				CALL WORKER:C1389("$4DPop XLIFF - "+$language.language; Formula:C1597(EDITOR_PARSE_LANGUAGE).source; $signal)
+				
+				$parallel.push($signal)
 				
 			End for each 
+			
+			Repeat 
+				
+				For each ($signal; $parallel.reverse())
+					
+					If ($signal.signaled)
+						
+						var $indx:=$parallel.indexOf($signal)
+						
+						This:C1470.current.languages.push({\
+							language: $signal.language.language; \
+							regional: $signal.language.regional; \
+							xliff: $signal.xliff})
+						
+						$parallel.remove($indx)
+						
+					End if 
+				End for each 
+				
+				IDLE:C311
+				
+			Until ($parallel.length=0)
 			
 		Else 
 			
@@ -1705,13 +1732,11 @@ Function _SELECT_STRING($data : Object)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _LOAD_STRINGS()
 	
-	var $column : Text
-	var $i : Integer
-	var $group : cs:C1710.Group
-	var $unit : cs:C1710.Transunit
 	var $main : cs:C1710.Xliff
+	var $group : cs:C1710.XliffGroup
+	var $unit : cs:C1710.XliffUnit
 	
-	//FIXME:Optimize 
+	//FIXME:Optimize
 	ARRAY TEXT:C222($groupResnames; 0x0000)
 	ARRAY TEXT:C222($stringResnames; 0x0000)
 	ARRAY OBJECT:C1221($units; 0x0000)
@@ -1768,7 +1793,7 @@ Function _HIGHLIGHTING_DUPLICATES()
 	var $o : Object
 	
 	// TODO:Working with the collections
-	$column:=This:C1470.stringList.columnName(2)
+	$column:=This:C1470.stringList.getColumnName(2)
 	
 	For ($i; 1; Size of array:C274(This:C1470.resnamePtr->); 1)
 		
@@ -1845,7 +1870,7 @@ Function _UPDATE_SOURCE($context : Object)
 	
 	// Update the reference XML tree
 	$xliff:=$context.file
-	$unit:=$xliff.findByXPath($string.XPATH)
+	$unit:=$xliff.findByXPath($string.xpath)
 	$source:=$xliff.sourceNode($unit; True:C214)
 	$target:=$xliff.targetNode($unit; True:C214)
 	
@@ -1858,7 +1883,7 @@ Function _UPDATE_SOURCE($context : Object)
 		
 		// Update the XML tree
 		$xliff:=$language.xliff
-		$unit:=$xliff.findByXPath($string.XPATH)
+		$unit:=$xliff.findByXPath($string.xpath)
 		$source:=$xliff.sourceNode($unit; True:C214)
 		$target:=$xliff.targetNode($unit; True:C214)
 		
@@ -1872,17 +1897,17 @@ Function _UPDATE_SOURCE($context : Object)
 			: ($isNew)
 				
 				$xliff.setValue($target; $string.source.value)
-				$xliff.setState($target; $xliff.new)
+				$xliff.setState($target; $xliff.NEW)
 				
 				//______________________________________________________
-			: (String:C10($xliff.getAttributes($target).state)=$xliff.new)
+			: (String:C10($xliff.getAttributes($target).state)=$xliff.NEW)
 				
 				$xliff.setValue($target; $string.source.value)
 				
 				//______________________________________________________
 			Else 
 				
-				$xliff.setState($target; $xliff.needsReviewTranslation)
+				$xliff.setState($target; $xliff.NEEDS_REVIEW)
 				
 				//______________________________________________________
 		End case 
@@ -1891,7 +1916,7 @@ Function _UPDATE_SOURCE($context : Object)
 		
 		// Updating of UI elements
 		$language.properties:=$language.properties || {}
-		$language.properties.state:=$xliff.needsReviewTranslation
+		$language.properties.state:=$xliff.NEEDS_REVIEW
 		
 	End for each 
 	
@@ -1903,20 +1928,20 @@ Function _UPDATE_RESNAME($context : Object)
 	var $itemPosition; $len; $pos; $row : Integer
 	var $ptr : Pointer
 	var $langue; $target : Object
-	var $group : cs:C1710.Group
+	var $group : cs:C1710.XliffGroup
 	var $xliff : cs:C1710.Xliff
 	
 	$target:=$context.string
 	
 	// Update the reference XML tree
 	$xliff:=$context.file
-	$xliff.setAttribute($xliff.findByXPath($target.XPATH); "resname"; $target.resname)
+	$xliff.setAttribute($xliff.findByXPath($target.xpath); "resname"; $target.resname)
 	This:C1470.save($xliff)
 	
 	$ptr:=This:C1470.stringList.pointer
 	$itemPosition:=Find in array:C230($ptr->; True:C214)
 	
-	If (OB Instance of:C1731($target; cs:C1710.Group))
+	If (OB Instance of:C1731($target; cs:C1710.XliffGroup))
 		
 		$group:=$xliff.groups.query("previous = :1"; $target.previous).pop()
 		$group.setResname($target.resname)
@@ -1963,9 +1988,9 @@ Function _UPDATE_RESNAME($context : Object)
 		// Synchronize attributes of other files
 		This:C1470._synchronizeAttributes($context.parent; $target; $xliff.getAttributes($target.node))
 		
-		If (Match regex:C1019("(?mi-s)(?<=trans-unit\\[@resname=\")([^\"]*)"; $target.XPATH; 1; $pos; $len))
+		If (Match regex:C1019("(?mi-s)(?<=trans-unit\\[@resname=\")([^\"]*)"; $target.xpath; 1; $pos; $len))
 			
-			$target.XPATH:=Substring:C12($target.XPATH; 1; $pos-1)+$target.resname+Substring:C12($target.XPATH; $pos+$len)
+			$target.xpath:=Substring:C12($target.xpath; 1; $pos-1)+$target.resname+Substring:C12($target.xpath; $pos+$len)
 			
 		End if 
 		
@@ -1988,7 +2013,7 @@ Function _UPDATE_TRANSLATE($context : Object)
 	
 	// Update the reference XML tree
 	$xliff:=$context.file
-	$unit:=$xliff.findByXPath($string.XPATH)
+	$unit:=$xliff.findByXPath($string.xpath)
 	
 	If ($string.attributes["translate"]=Null:C1517)
 		
@@ -2009,17 +2034,17 @@ Function _UPDATE_TRANSLATE($context : Object)
 			
 			// Update the XML tree
 			$xliff:=$language.xliff
-			$unit:=$xliff.findByXPath($string.XPATH)
+			$unit:=$xliff.findByXPath($string.xpath)
 			
 			$target:=$xliff.targetNode($unit; True:C214)
 			$xliff.setValue($target; $string.source.value)
-			$xliff.setState($target; $xliff.needsTranslation)
+			$xliff.setState($target; $xliff.NEEDS_TRANSLATION)
 			
 			This:C1470.save($xliff)
 			
 			// Updating of UI elements
 			$language.properties:=$language.properties || {}
-			$language.properties.state:=$xliff.needsTranslation
+			$language.properties.state:=$xliff.NEEDS_TRANSLATION
 			$language.value:=$string.source.value
 			
 		End for each 
@@ -2039,7 +2064,7 @@ Function _UPDATE_TRANSLATE($context : Object)
 			
 			// Update the XML tree
 			$xliff:=$language.xliff
-			$unit:=$xliff.findByXPath($string.XPATH)
+			$unit:=$xliff.findByXPath($string.xpath)
 			$xliff.remove($xliff.targetNode($unit))
 			
 			This:C1470.save($xliff)
@@ -2066,7 +2091,7 @@ Function _UPDATE_PLATFORM($context : Object)
 	
 	// Update the reference XML tree
 	$xliff:=$context.file
-	$unit:=$xliff.findByXPath($string.XPATH)
+	$unit:=$xliff.findByXPath($string.xpath)
 	
 	If ($string.attributes["d4:includeIf"]=Null:C1517)
 		
@@ -2096,7 +2121,7 @@ Function _UPDATE_NOTE($context : Object)
 	
 	// Update the reference XML tree
 	$xliff:=$context.file
-	$unit:=$xliff.findByXPath($string.XPATH)
+	$unit:=$xliff.findByXPath($string.xpath)
 	$note:=$xliff.noteNode($unit)
 	
 	If (Length:C16(String:C10($string.note))=0)
@@ -2116,7 +2141,7 @@ Function _UPDATE_NOTE($context : Object)
 		
 		// Update the XML tree
 		$xliff:=$language.xliff
-		$unit:=$xliff.findByXPath($string.XPATH)
+		$unit:=$xliff.findByXPath($string.xpath)
 		$note:=$xliff.noteNode($unit)
 		
 		If (Length:C16(String:C10($string.note))=0)
@@ -2147,15 +2172,15 @@ Function _PROPAGATE_REFERENCE($context : Object)
 		
 		// Update the XML tree
 		$xliff:=$language.xliff
-		$unit:=$xliff.findByXPath($string.XPATH)
+		$unit:=$xliff.findByXPath($string.xpath)
 		$xliff.setValue($target; $string.source.value)
-		$xliff.setState($target; $xliff.needsTranslation)
+		$xliff.setState($target; $xliff.NEEDS_TRANSLATION)
 		
 		This:C1470.save($xliff)
 		
 		// Updating of UI elements
 		$language.properties:=$language.properties || {}
-		$language.properties.state:=$xliff.needsTranslation
+		$language.properties.state:=$xliff.NEEDS_TRANSLATION
 		$language.value:=$string.source.value
 		
 	End for each 
@@ -2169,10 +2194,10 @@ Function _UPDATE_LOCALIZED_TARGET($context : Object)
 	var $xliff : cs:C1710.Xliff
 	
 	// Get xliff
-	$xliff:=This:C1470.opened.query("root=:1"; $context.root).pop()
+	$xliff:=This:C1470.cache.query("root=:1"; $context.root).pop()
 	
 	// Get target & set value
-	$target:=$xliff.findByXPath($context.string.target.XPATH)
+	$target:=$xliff.findByXPath($context.string.target.xpath)
 	$xliff.setValue($target; $context.value)
 	
 	// Remove state attribute
@@ -2187,7 +2212,7 @@ Function _UPDATE_LOCALIZED_TARGET($context : Object)
 Function filterNew() : Collection
 	
 	//var $c; $filtered : Collection
-	//var $group : cs.Group
+	//var $group : cs.XliffGroup
 	//var $xliff : cs.Xliff
 	//$xliff:=This.current
 	//$filtered:=[]
@@ -2204,7 +2229,7 @@ Function filterNew() : Collection
 Function filterNeedstranslation() : Collection
 	
 	//var $c; $filtered : Collection
-	//var $group : cs.Group
+	//var $group : cs.XliffGroup
 	//var $xliff : cs.Xliff
 	//$xliff:=This.current
 	//$filtered:=[]

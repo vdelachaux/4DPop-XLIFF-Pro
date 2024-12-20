@@ -126,7 +126,7 @@
 		</data>
 		<key>Resources/InfoPlist.strings</key>
 		<data>
-		9vsRxNinSnPCeGh8hQmZykNTN54=
+		gsdNZaanRwU+HMZ0fKYGfXxBMZ8=
 		</data>
 		<key>Resources/SearchPicker/search.png</key>
 		<data>
@@ -1040,7 +1040,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			AzEnadTyEyYi+gBwSXvmfBINb/c=
+			VgkG9iYqLu0E1OyGDwfWIr72JRI=
 			</data>
 			<key>requirement</key>
 			<string>identifier "4DPop XLIFF Pro.4DZ" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = DYRKW64QA9</string>
@@ -1049,11 +1049,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			cDDHEeLM2QMYivDpd0fY+NmQ/QU=
+			PYzDmC/Qce0gkLO6eezIGsIZKSc=
 			</data>
 			<key>hash2</key>
 			<data>
-			Nt2/CxAk1Zpo8+mXVbJgliEsQVNC4MMd8Q1gfCcDbm0=
+			3JxY1MZ1vSvyPiSZbsodlKlXwwVJQmEH/ajyXEvAN8U=
 			</data>
 		</dict>
 		<key>Resources/4DPop xliff/collection.group</key>
@@ -1390,11 +1390,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9vsRxNinSnPCeGh8hQmZykNTN54=
+			gsdNZaanRwU+HMZ0fKYGfXxBMZ8=
 			</data>
 			<key>hash2</key>
 			<data>
-			bwyWPySVWrtYroEOqK4vRPttcySQMSBR0cExNLFP1ZQ=
+			Qm+HnL8S0bVhC6E6lNfBz3ixIkL6H8Pbri1tVoYwiyY=
 			</data>
 		</dict>
 		<key>Resources/SearchPicker/search.png</key>

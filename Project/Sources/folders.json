@@ -1,4 +1,6 @@
 {
+	"(database)": {},
+	"(Menus)": {},
 	"# 🚧 DEV": {
 		"methods": [
 			"_test_computeFile",
@@ -14,64 +16,62 @@
 	"♻️ LIBRAIRIES": {
 		"groups": [
 			"👩‍💻 UI",
-			"database",
-			"env",
-			"Menus"
-		],
-		"methods": [
-			"COMPILER_env",
-			"noError"
+			"🛠️Tools"
 		],
 		"classes": [
 			"_classCore",
-			"motor",
 			"pathPicker",
 			"str",
-			"tools",
-			"xml"
+			"tools"
 		]
 	},
 	"⚙️ MACROS": {},
 	"👥 NAMESPACE": {
 		"classes": [
-			"Group",
 			"Preferences",
-			"Transunit",
-			"Xliff"
+			"Xliff",
+			"XliffGroup",
+			"XliffUnit"
 		]
 	},
 	"👩‍💻 UI": {
 		"methods": [
-			"COMPILER_UI",
 			"dropableWidgetMethod",
 			"form_spreadToSubforms",
+			"formCallBack",
 			"formGetInstance",
 			"formMenuHandle",
 			"formMethod",
 			"subformWidgetMethod"
 		],
 		"classes": [
-			"buttonDelegate",
+			"button",
 			"colour",
-			"comboBoxDelegate",
+			"comboBox",
+			"constraints",
 			"coord",
 			"dim",
-			"dropDownDelegate",
+			"dropDown",
 			"evt",
-			"formDelegate",
-			"groupDelegate",
-			"hListDelegate",
-			"inputDelegate",
-			"listboxDelegate",
-			"pictureDelegate",
-			"scrollableDelegate",
-			"selectorDelegate",
-			"staticDelegate",
-			"stepperDelegate",
-			"subformDelegate",
-			"thermometerDelegate",
-			"widgetDelegate",
-			"windowDelegate"
+			"form",
+			"group",
+			"hList",
+			"input",
+			"listbox",
+			"menu",
+			"menuBar",
+			"onBoard",
+			"picture",
+			"scrollable",
+			"selector",
+			"static",
+			"stepper",
+			"subform",
+			"tabControl",
+			"thermometer",
+			"webArea",
+			"widget",
+			"window"
 		]
 	},
 	"📦 MAIN": {
@@ -81,12 +81,18 @@
 			"NOTE",
 			"STRING",
 			"UPDATES"
+		]
+	},
+	"🛠️Tools": {
+		"groups": [
+			"database",
+			"env"
 		],
-		"methods": [
-			"COMPILER_component",
-			"EDITOR CALLBACK",
-			"EDITOR CLOSE",
-			"EDITOR OPEN"
+		"classes": [
+			"motor",
+			"os",
+			"process",
+			"xml"
 		]
 	},
 	"4️⃣ 4DPop": {
@@ -97,14 +103,19 @@
 	},
 	"database": {
 		"methods": [
-			"COMPILER_database",
-			"databaseNonThreadSafe"
+			"getProject"
 		],
 		"classes": [
 			"database"
 		]
 	},
 	"EDITOR": {
+		"methods": [
+			"EDITOR CALLBACK",
+			"EDITOR CLOSE",
+			"EDITOR OPEN",
+			"EDITOR_PARSE_LANGUAGE"
+		],
 		"forms": [
 			"EDITOR"
 		],
@@ -114,7 +125,7 @@
 	},
 	"env": {
 		"methods": [
-			"envScreens"
+			"envNonThreadSafe"
 		],
 		"classes": [
 			"env"
@@ -126,12 +137,6 @@
 		],
 		"classes": [
 			"_LANGUAGE_Controller"
-		]
-	},
-	"Menus": {
-		"classes": [
-			"menu",
-			"menuBar"
 		]
 	},
 	"NOTE": {
@@ -168,5 +173,10 @@
 			"WRAP_AROUND"
 		]
 	},
-	"trash": {}
+	"trash": {
+		"groups": [
+			"(database)",
+			"(Menus)"
+		]
+	}
 }
