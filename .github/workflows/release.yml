@@ -2,27 +2,52 @@ name: Release
 on: 
   release:
     types: [published]
+
 jobs:
+  zip-files:
+    name: Zip
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: vimtor/action-zip@v1.1
+        with:
+          files: 'BUILD/Components/4DPop%20XLIFF%20Pro.4dbase/Contents/'
+          dest: 4DPop-XLIFF-Pro.zip
   publish:
     name: Publish
     runs-on: macos-latest
     env:
       GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      DEV_ID: "${{ secrets.DEV_ID }}"
     permissions:
       contents: write # for asset upload
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: BuildAndPackage
-        uses: 4d/build4d-action@main
-        with:
-            product-line: vcs
-            version: vcs
-            build: official
-            token: ${{ secrets.DLTK }}
-            actions: "build,pack,sign,archive"
-            sign-certificate: DEV_ID
       - name: Upload
         run: |
-          gh release upload ${{github.event.release.tag_name}} build/4DPop-XLIFF-Pro.zip
+          gh release upload ${{github.event.release.tag_name}} BUILD/4DPop-XLIFF-Pro.zip
+    
+# jobs:
+#   publish:
+#     name: Publish
+#     runs-on: macos-latest
+#     env:
+#       GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+#       DEV_ID: "${{ secrets.DEV_ID }}"
+#     permissions:
+#       contents: write # for asset upload
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#       - name: BuildAndPackage
+#         uses: 4d/build4d-action@main
+#         with:
+#             product-line: vcs
+#             version: vcs
+#             build: official
+#             token: ${{ secrets.DLTK }}
+#             actions: "build,pack,sign,archive"
+#             sign-certificate: DEV_ID
+#       - name: Upload
+#         run: |
+#           gh release upload ${{github.event.release.tag_name}} build/4DPop-XLIFF-Pro.zip
