@@ -17,6 +17,7 @@ property window : cs:C1710.window
 property context : Collection
 property current
 property pages : Object
+property process:=Current process:C322
 
 property _callback : Text
 property _definition; _cursorsHash : Object

@@ -136,8 +136,6 @@
 					"visibility": "hidden",
 					"dataSource": "Form:C1466.main.regional",
 					"textAlign": "center",
-					"fontFamily": ".Helvetica Neue DeskInterface",
-					"fontSize": 24,
 					"focusable": false,
 					"fill": "transparent",
 					"borderStyle": "none",
@@ -145,7 +143,9 @@
 					"hideFocusRing": true,
 					"contextMenu": "none",
 					"dragging": "none",
-					"dropping": "none"
+					"dropping": "none",
+					"fontFamily": ".Helvetica Neue DeskInterface",
+					"fontSize": 24
 				},
 				"Line1": {
 					"type": "line",
@@ -182,7 +182,7 @@
 					"width": 24,
 					"height": 24,
 					"sizingX": "move",
-					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/common/more.png",
+					"icon": "/RESOURCES/Images/more.png",
 					"iconFrames": 4,
 					"popupPlacement": "separated",
 					"style": "custom",
@@ -296,6 +296,6 @@
 		"version": "1",
 		"kind": "form"
 	},
-	"geometryStamp": 134,
+	"geometryStamp": 135,
 	"method": "formMethod"
 }

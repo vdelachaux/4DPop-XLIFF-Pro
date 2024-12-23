@@ -45,11 +45,15 @@ $dialog.Preferences.set($data.project; New object:C1471(\
 // MARK:-
 // TODO: Update XLIFF files on server
 
-// MARK:-Kill workers
+// MARK:-Cleanup
+var $c : Collection:=Process activity:C1495(Processes only:K5:35).processes
 For each ($language; $languages)
 	
-	KILL WORKER:C1390("$4DPop XLIFF - "+$language.language)
-	
+	If ($c.query("name = :1"; "$4DPop XLIFF - "+$language.language).first()#Null:C1517)
+		
+		KILL WORKER:C1390("$4DPop XLIFF - "+$language.language)
+		
+	End if 
 End for each 
 
-KILL WORKER:C1390("$4DPop XLIFF Pro")  // Farewell cruel world
+KILL WORKER:C1390($dialog.form.process)

@@ -664,3 +664,17 @@ Function isFocused() : Boolean
 	
 	return OBJECT Get name:C1087(Object with focus:K67:3)=This:C1470.name
 	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function click($x : Integer; $y : Integer)
+	
+	If (Count parameters:C259=0)
+		
+		// Get the center
+		var $coord : cs:C1710.coord:=cs:C1710.coord.new(This:C1470.name).windowCoordinates
+		$x:=$coord.left+($coord.right-$coord.left)
+		$y:=$coord.top+($coord.bottom-$coord.top)
+		
+	End if 
+	
+	POST CLICK:C466($x; $y)
+	

@@ -90,6 +90,13 @@ Function handleEvents($e : cs:C1710.evt)
 				End if 
 				
 				//==============================================
+			: (This:C1470.flag.catch($e))
+				
+				//Form._container.value:=This.value.getValue()
+				//This.form.callMeBack("_UPDATE_LOCALIZED_TARGET"; Form._container)
+				//This.value.setColors(Foreground color; Background color)
+				
+				//==============================================
 		End case 
 	End if 
 	

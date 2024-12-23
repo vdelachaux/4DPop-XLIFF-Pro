@@ -446,8 +446,8 @@
 				},
 				"spinner": {
 					"type": "spinner",
-					"left": 245,
-					"top": 105,
+					"left": 239,
+					"top": 183,
 					"width": 32,
 					"height": 32,
 					"visibility": "hidden"
@@ -492,7 +492,7 @@
 		"version": "1",
 		"kind": "form"
 	},
-	"geometryStamp": 982,
+	"geometryStamp": 990,
 	"method": "formMethod",
 	"memorizeGeometry": true
 }
