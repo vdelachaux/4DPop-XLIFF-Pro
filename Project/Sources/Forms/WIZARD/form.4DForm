@@ -1,0 +1,89 @@
+{
+	"$4d": {
+		"version": "1",
+		"kind": "form"
+	},
+	"windowSizingX": "variable",
+	"windowSizingY": "variable",
+	"windowMinWidth": 0,
+	"windowMinHeight": 0,
+	"windowMaxWidth": 32767,
+	"windowMaxHeight": 32767,
+	"rightMargin": 0,
+	"bottomMargin": 20,
+	"events": [
+		"onLoad"
+	],
+	"windowTitle": "window title",
+	"destination": "detailScreen",
+	"pages": [
+		{
+			"objects": {}
+		},
+		{
+			"objects": {
+				"Text": {
+					"type": "text",
+					"text": "Welcome to 4DPop XLIFF Pro",
+					"top": 14,
+					"left": 0,
+					"width": 620,
+					"height": 29,
+					"fontSize": 24,
+					"textAlign": "center"
+				},
+				"Text1": {
+					"type": "text",
+					"text": "This is the first time you've opened this tool for this project, so let's do a few checks...",
+					"top": 55,
+					"left": 0,
+					"width": 620,
+					"height": 31,
+					"textAlign": "center"
+				},
+				"Text2": {
+					"type": "text",
+					"text": "Main language",
+					"top": 98,
+					"left": 156,
+					"width": 112,
+					"height": 16,
+					"textAlign": "right"
+				},
+				"Input": {
+					"type": "input",
+					"left": 332,
+					"top": 98,
+					"width": 154,
+					"height": 17,
+					"dataSource": "Form:C1466.language.code",
+					"enterable": false,
+					"fill": "transparent",
+					"borderStyle": "none",
+					"fontWeight": "bold"
+				},
+				"Input1": {
+					"type": "input",
+					"left": 288,
+					"top": 91,
+					"width": 35,
+					"height": 30,
+					"dataSource": "Form:C1466.language.flag",
+					"enterable": false,
+					"fontSize": 24,
+					"fill": "transparent",
+					"borderStyle": "none"
+				}
+			}
+		}
+	],
+	"geometryStamp": 45,
+	"editor": {
+		"activeView": "View 1",
+		"defaultView": "View 1",
+		"views": {
+			"View 1": {}
+		}
+	},
+	"method": "method.4dm"
+}

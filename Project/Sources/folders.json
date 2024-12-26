@@ -1,6 +1,10 @@
 {
 	"(database)": {},
+	"(EDITOR)": {},
+	"(LANGUAGE)": {},
 	"(Menus)": {},
+	"(NOTE)": {},
+	"(STRING)": {},
 	"# 🚧 DEV": {
 		"methods": [
 			"_test_computeFile",
@@ -76,11 +80,26 @@
 	},
 	"📦 MAIN": {
 		"groups": [
+			"UPDATES"
+		],
+		"methods": [
+			"EDITOR CALLBACK",
+			"EDITOR CLOSE",
+			"EDITOR OPEN",
+			"EDITOR_PARSE_LANGUAGE"
+		],
+		"forms": [
 			"EDITOR",
 			"LANGUAGE",
 			"NOTE",
 			"STRING",
-			"UPDATES"
+			"WIZARD"
+		],
+		"classes": [
+			"_Editor",
+			"_EDITOR_Controller",
+			"_LANGUAGE_Controller",
+			"_STRING_Controller"
 		]
 	},
 	"🛠️Tools": {
@@ -109,20 +128,6 @@
 			"database"
 		]
 	},
-	"EDITOR": {
-		"methods": [
-			"EDITOR CALLBACK",
-			"EDITOR CLOSE",
-			"EDITOR OPEN",
-			"EDITOR_PARSE_LANGUAGE"
-		],
-		"forms": [
-			"EDITOR"
-		],
-		"classes": [
-			"_EDITOR_Controller"
-		]
-	},
 	"env": {
 		"methods": [
 			"envNonThreadSafe"
@@ -131,33 +136,12 @@
 			"env"
 		]
 	},
-	"LANGUAGE": {
-		"forms": [
-			"LANGUAGE"
-		],
-		"classes": [
-			"_LANGUAGE_Controller"
-		]
-	},
-	"NOTE": {
-		"forms": [
-			"NOTE"
-		]
-	},
 	"SEARH PICKER": {
 		"forms": [
 			"SEARCH_PICKER"
 		],
 		"classes": [
 			"_SEARCH_PICKER_Controller"
-		]
-	},
-	"STRING": {
-		"forms": [
-			"STRING"
-		],
-		"classes": [
-			"_STRING_Controller"
 		]
 	},
 	"UPDATES": {
@@ -176,7 +160,11 @@
 	"trash": {
 		"groups": [
 			"(database)",
-			"(Menus)"
+			"(EDITOR)",
+			"(LANGUAGE)",
+			"(Menus)",
+			"(NOTE)",
+			"(STRING)"
 		]
 	}
 }

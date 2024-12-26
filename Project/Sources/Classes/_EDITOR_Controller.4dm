@@ -13,6 +13,8 @@ property Xliff : cs:C1710.Xliff
 property menuBar : cs:C1710.menuBar
 property Preferences : cs:C1710.Preferences
 property str : cs:C1710.str:=cs:C1710.str.new()
+property Editor : cs:C1710._Editor:=cs:C1710._Editor.new()
+
 
 // MARK: Widgets 🧱
 property lock; lockMessage : cs:C1710.static
@@ -25,8 +27,6 @@ property strings; locked; withFile : cs:C1710.group
 property spinner : cs:C1710.stepper
 
 // MARK: Constants 🔐
-property FILE_EXTENSION:=".xlf"
-property FOLDER_EXTENSION:=".lproj"
 property GENERATOR:=File:C1566(Structure file:C489; fk platform path:K87:2).name
 property VERSION:="3.1"
 
@@ -50,13 +50,13 @@ Class constructor($mainLanguage : Text)
 	This:C1470.Xliff:=cs:C1710.Xliff
 	
 	// MARK:Retrieving active lproj folders
-	This:C1470.folders:=Folder:C1567(fk resources folder:K87:11; *).folders().query("extension = :1 & name != :2"; This:C1470.FOLDER_EXTENSION; "_@")
+	This:C1470.folders:=This:C1470.Editor.lprojFolders
 	
 	// MARK: Define the main language
 	This:C1470.main:={}
-	This:C1470.main.language:=$mainLanguage || This:C1470._mainLanguage()
+	This:C1470.main.language:=$mainLanguage || This:C1470.Editor.mainLanguage
 	This:C1470.main.files:=This:C1470.getFiles()
-	This:C1470.main.regional:=This:C1470.getFlag(This:C1470.main.language)
+	This:C1470.main.regional:=This:C1470.Editor.getFlag(This:C1470.main.language)
 	
 	// MARK: default
 	This:C1470.default:={\
@@ -74,7 +74,7 @@ Class constructor($mainLanguage : Text)
 		// TODO: Change languages.language to languages.code
 		This:C1470.languages.push({\
 			language: $folder.name; \
-			regional: This:C1470.getFlag($folder.name)\
+			regional: This:C1470.Editor.getFlag($folder.name)\
 			})
 		
 	End for each 
@@ -800,7 +800,7 @@ Function doNewFile()
 	
 	$name:=Replace string:C233($name; ".xliff"; "")
 	$name:=Replace string:C233($name; ".xlf"; "")
-	$name+=This:C1470.FILE_EXTENSION
+	$name+=This:C1470.Editor.FILE_EXTENSION
 	
 	If (This:C1470.main.files.query("fullName= :1"; $name).pop()#Null:C1517)
 		
@@ -817,7 +817,7 @@ Function doNewFile()
 	If (This:C1470.folders.length=0)
 		
 		var $folder : 4D:C1709.Folder
-		$folder:=Folder:C1567(fk resources folder:K87:11; *).folder(This:C1470.main.language+This:C1470.FOLDER_EXTENSION)
+		$folder:=Folder:C1567(fk resources folder:K87:11; *).folder(This:C1470.main.language+This:C1470.Editor.FOLDER_EXTENSION)
 		$folder.create()
 		This:C1470.folders.push($folder)
 		
@@ -1314,7 +1314,7 @@ Function _populateString($column : Integer; $row : Integer) : Object
 				
 				$string.localizations.push(New object:C1471(\
 					"language"; $language.language; \
-					"regional"; This:C1470.getFlag($language.language); \
+					"regional"; This:C1470.Editor.getFlag($language.language); \
 					"xliff"; $xliff))
 				
 			End if 
@@ -1399,7 +1399,7 @@ Function getFiles($language : Text) : Collection
 	
 	If ($folder#Null:C1517)
 		
-		For each ($file; $folder.files().query("extension = :1"; This:C1470.FILE_EXTENSION))
+		For each ($file; $folder.files().query("extension = :1"; This:C1470.Editor.FILE_EXTENSION))
 			
 			$xliff:=cs:C1710.Xliff.new($file)
 			
@@ -1443,49 +1443,6 @@ Function parse($file : 4D:C1709.File) : cs:C1710.Xliff
 	This:C1470.cache.push($xliff)
 	
 	return $xliff.parse()
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function getFlag($code : Text) : Text
-	
-	var $source : Text
-	var $index : Integer
-	var $first; $last : Object
-	var $c : Collection
-	
-	This:C1470.resources:=This:C1470.resources || JSON Parse:C1218(File:C1566("/RESOURCES/languages.json").getText())
-	
-	Case of 
-			
-			//______________________________________________________
-		: (Match regex:C1019("(?mi-s)^[a-zA-Z]{2}-[a-zA-Z]{2,}$"; $code; 1))
-			
-			$source:="lproj"  // Language-Regional Codes
-			
-			//______________________________________________________
-		: (Match regex:C1019("(?mi-s)^[a-zA-Z]{2}$"; $code; 1))
-			
-			$source:="ISO639-1"
-			
-			//______________________________________________________
-		Else 
-			
-			$source:="legacy"
-			
-			//______________________________________________________
-	End case 
-	
-	$code:=Split string:C1554($code; "-")[0]  // Keep only the first 2 characters of a sub-language
-	$index:=This:C1470.resources[$source].indexOf($code)
-	
-	If ($index#-1)
-		
-		return This:C1470.resources.flag[$index]  // Emoji
-		
-	Else 
-		
-		return "❔"
-		
-	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function save($xliff : cs:C1710.Xliff; $force : Boolean)
@@ -1593,42 +1550,6 @@ Function _synchronizeAttributes($parent : Object; $string : Object; $attributes 
 			
 		End if 
 	End for each 
-	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
-Function _mainLanguage() : Text
-	
-	var $langue : Text
-	var $folder : 4D:C1709.Folder
-	
-	$langue:=Get database localization:C1009(User system localization:K5:23; *)
-	$folder:=This:C1470.folders.query("name = :1 OR name = :2"; $langue; $langue+"@").pop()
-	
-	If ($folder#Null:C1517)
-		
-		return $folder.name
-		
-	End if 
-	
-	$langue:=Get database localization:C1009(Current localization:K5:22; *)
-	$folder:=This:C1470.folders.query("name = :1 OR name = :2"; $langue; $langue+"@").pop()
-	
-	If ($folder#Null:C1517)
-		
-		return $folder.name
-		
-	End if 
-	
-	$folder:=This:C1470.folders.query("name = :1 OR name = :2 OR name = :3"; "en"; "en@"; "English").pop()
-	
-	If ($folder#Null:C1517)
-		
-		return $folder.name
-		
-	End if 
-	
-	return This:C1470.folders.length>0\
-		 ? This:C1470.folders[0].name\
-		 : Get database localization:C1009(User system localization:K5:23; *)
 	
 	//MARK:-[CALLBACKS]
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
