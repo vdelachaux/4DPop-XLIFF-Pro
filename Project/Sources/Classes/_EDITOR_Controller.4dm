@@ -94,7 +94,7 @@ Function init()
 	var $menuFile : cs:C1710.menu:=cs:C1710.menu.new()
 	$menuFile.file()  // Get a standard file menu
 	
-	// Insert custom elements at the beginning
+	// Insert custom items at the beginning
 	$menuFile.append(":xliff:newFile"; "newFile"; 0).method($menuHandle)\
 		.append(":xliff:newGroup"; "newGroup"; 1).method($menuHandle).shortcut("N"; Option key mask:K16:7)\
 		.append(":xliff:newString"; "newString"; 2).method($menuHandle).shortcut("N")\
@@ -105,13 +105,14 @@ Function init()
 	var $menuEdit : cs:C1710.menu:=cs:C1710.menu.new().method($menuHandle)
 	$menuEdit.edit()  // Get a standard edit menu
 	
-	$menuEdit.append(Localized string:C991("CommonMenuItemCopy")+" "+Localized string:C991("copyResname"); "copyResname"; 5).method($menuHandle).shortcut("C"; Shift key mask:K16:3)
-	$menuEdit.append(Localized string:C991("CommonMenuItemCopy")+" "+Localized string:C991("copyTheCode"); "copyCode"; 6).method($menuHandle).shortcut("C"; Option key mask:K16:7)
-	
 	// Modify the copy item (5) to be able to manage it ourselves
 	$menuEdit.parameter("copy"; 5).method($menuHandle; 5).action(ak none:K76:35; 5)
 	
-	// Insert custom items before the last one
+	// Insert custom copy items
+	$menuEdit.append(Localized string:C991("CommonMenuItemCopy")+" "+Localized string:C991("copyResname"); "copyResname"; 5).method($menuHandle).shortcut("C"; Shift key mask:K16:3)
+	$menuEdit.append(Localized string:C991("CommonMenuItemCopy")+" "+Localized string:C991("copyTheCode"); "copyCode"; 6).method($menuHandle).shortcut("C"; Option key mask:K16:7)
+	
+	// Insert custom items before the last
 	$menuEdit.line()\
 		.append(":xliff:find"; "find"; -1).method($menuHandle).shortcut("F")\
 		.append(":xliff:findNext"; "findNext"; -1).method($menuHandle).shortcut("G")\
@@ -257,17 +258,17 @@ Function handleEvents($e : cs:C1710.evt)
 			//==============================================
 		: (This:C1470.newFile.catch($e))
 			
-			This:C1470.newFileManager()
+			This:C1470.doNewFile()
 			
 			//==============================================
 		: (This:C1470.newGroup.catch($e))
 			
-			This:C1470.newGroupManager()
+			This:C1470.doNewGroup()
 			
 			//==============================================
 		: (This:C1470.newString.catch($e))
 			
-			This:C1470.newStringManager()
+			This:C1470.doNewString()
 			
 			//==============================================
 		: (This:C1470.lockButton.catch($e))
@@ -430,17 +431,17 @@ Function handleMenus($what : Text)
 			//______________________________________________________
 		: ($what="newFile")
 			
-			This:C1470.newFileManager()
+			This:C1470.doNewFile()
 			
 			//______________________________________________________
 		: ($what="newGroup")
 			
-			This:C1470.newGroupManager()
+			This:C1470.doNewGroup()
 			
 			//______________________________________________________
 		: ($what="newString")
 			
-			This:C1470.newStringManager()
+			This:C1470.doNewString()
 			
 			//______________________________________________________
 		: ($what="copy")
@@ -495,9 +496,9 @@ Function handleMenus($what : Text)
 			SET WINDOW RECT:C444($left; $top; $right; $bottom; Num:C11($what))
 			
 			//______________________________________________________
-		Else 
+		Else   // Copy with template
 			
-			TRACE:C157  // A "Case of" statement should never omit "Else"
+			SET TEXT TO PASTEBOARD:C523(This:C1470.getItemCode(This:C1470.stringList.item; $what))
 			
 			//______________________________________________________
 	End case 
@@ -604,44 +605,37 @@ Function _fileListManager($e : cs:C1710.evt)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _stringListManager($e : cs:C1710.evt)
 	
-	var $item : Object
-	
 	If (Not:C34(Bool:C1537($e.force)))
 		
 		This:C1470.stringList.cellPosition($e)
 		
 	End if 
 	
-	$item:=This:C1470.setCurrentString($e)
+	var $item : Object:=This:C1470.setCurrentString($e)
 	
 	Case of 
 			
 			//______________________________________________________
 		: ($e.code=On Selection Change:K2:29)
 			
-			// Nothing more to do
+			This:C1470.form.refresh()
 			
 			//______________________________________________________
 		: ($e.code=On Clicked:K2:4)
 			
 			If (Contextual click:C713)
 				
-				var $isWritable : Boolean
-				var $copy; $menu : cs:C1710.menu
-				
-				$menu:=cs:C1710.menu.new()
-				
-				$isWritable:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
+				var $isWritable : Boolean:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
+				var $menu : cs:C1710.menu:=cs:C1710.menu.new()
 				
 				If ($item#Null:C1517)
 					
-					$copy:=cs:C1710.menu.new()
+					var $copy : cs:C1710.menu:=cs:C1710.menu.new()
 					$copy.append(":xliff:copyAsXliffReference"; "copy").shortcut("C").enable(OB Instance of:C1731($item; cs:C1710.XliffUnit))\
 						.append(":xliff:copyResname"; "copyResname").shortcut("C"; Shift key mask:K16:3)\
 						.append(":xliff:copyTheCode"; "copyCode").shortcut("C"; Option key mask:K16:7)
 					
-					var $files : Collection
-					$files:=Folder:C1567("/RESOURCES/4DPop xliff").files()
+					var $files : Collection:=Folder:C1567("/RESOURCES/4DPop xliff").files()
 					
 					If (Structure file:C489#Structure file:C489(*))
 						
@@ -683,57 +677,11 @@ Function _stringListManager($e : cs:C1710.evt)
 					
 				End if 
 				
-				$menu.popup()
-				
-				Case of 
-						
-						//………………………………………………………………………………………
-					: (Not:C34($menu.selected))
-						
-						// Nothing selected
-						
-						//………………………………………………………………………………………
-					: ($menu.choice="copyResname")
-						
-						SET TEXT TO PASTEBOARD:C523($item.resname)
-						
-						//………………………………………………………………………………………
-					: ($menu.choice="copy")
-						
-						SET TEXT TO PASTEBOARD:C523(":xliff:"+$item.resname)
-						
-						//………………………………………………………………………………………
-					: ($menu.choice="copyCode")
-						
-						SET TEXT TO PASTEBOARD:C523(This:C1470.getItemCode($item))
-						
-						//………………………………………………………………………………………
-					: ($menu.choice="delete")
-						
-						This:C1470.doDeleteString($e)
-						
-						//………………………………………………………………………………………
-					: ($menu.choice="duplicate")
-						
-						// TODO:duplicate
-						
-						//………………………………………………………………………………………
-					: ($menu.choice="newGroup")
-						
-						This:C1470.newGroupManager()
-						
-						//………………………………………………………………………………………
-					: ($menu.choice="newString")
-						
-						This:C1470.newStringManager()
-						
-						//………………………………………………………………………………………
-					Else 
-						
-						SET TEXT TO PASTEBOARD:C523(This:C1470.getItemCode($item; $menu.choice))
-						
-						//………………………………………………………………………………………
-				End case 
+				If ($menu.popup().selected)
+					
+					This:C1470.handleMenus($menu.choice)
+					
+				End if 
 			End if 
 			
 			This:C1470.form.refresh()
@@ -834,7 +782,7 @@ Function _stringListManager($e : cs:C1710.evt)
 	End case 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function newFileManager()
+Function doNewFile()
 	
 	var $name; $t : Text
 	var $indx : Integer
@@ -891,7 +839,7 @@ Function newFileManager()
 	This:C1470._fileListManager({code: On Selection Change:K2:29})
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function newGroupManager()
+Function doNewGroup()
 	
 	var $resname : Text
 	var $row : Integer
@@ -929,7 +877,7 @@ Function newGroupManager()
 	This:C1470.doSelectGroup($row)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function newStringManager()
+Function doNewString()
 	
 	var $resname : Text
 	var $row : Integer
@@ -1214,11 +1162,9 @@ indexes < 10 are prefixed by 0.
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function doSearch($searchText : Text; $e : cs:C1710.evt)
 	
-	var $data : Object
+	$e:=$e || cs:C1710.evt.new()
 	
-	$e:=$e || FORM Event:C1606
-	
-	$data:=This:C1470.searchPicker.data
+	var $data : Object:=This:C1470.searchPicker.data
 	
 	If ($data.value=Null:C1517)
 		
@@ -1256,22 +1202,25 @@ Function doSearch($searchText : Text; $e : cs:C1710.evt)
 	End if 
 	
 	If ($data.start>0)
-		// Select & scroll
-		$e.column:=2
-		$e.row:=$data.start
-		
-		This:C1470.setCurrentString($e)
-		This:C1470.doSelectUnit($e.row)
 		
 		If ($initialSearch)
 			
-			// Trick to force update : Post click on the 1st row
-			var $coord : cs:C1710.coord:=This:C1470.stringList.cellCoordinates(2; $e.row)
+			// Trick to force update (I'm not proud of it)
+			var $coord : cs:C1710.coord:=This:C1470.stringList.cellCoordinates(2; $data.start)
 			This:C1470.stringList.click($coord.left+40; $coord.top+10)
+			
+		Else 
+			
+			// Select & scroll
+			$e.column:=2
+			$e.row:=$data.start
+			
+			This:C1470.setCurrentString($e)
+			This:C1470.doSelectUnit($e.row)
 			
 		End if 
 		
-		This:C1470.form.refresh()
+		This:C1470.form.callMeBack("_SELECT_STRING")
 		
 	Else 
 		
@@ -1769,16 +1718,32 @@ Function _DISPLAY_FILE()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _SELECT_STRING($data : Object)
 	
-	This:C1470.stringList.select($data.row)
-	
 	var $e : cs:C1710.evt:=cs:C1710.evt.new()
 	
-	// Call the stringList manager
-	$e.column:=2
-	$e.row:=$data.row
-	$e.code:=On Selection Change:K2:29
-	$e.force:=True:C214
-	This:C1470._stringListManager($e)
+	If ($data=Null:C1517)
+		
+		$data:=This:C1470.searchPicker.data
+		
+		$e.column:=2
+		$e.row:=$data.start
+		
+		This:C1470.setCurrentString($e)
+		This:C1470.doSelectUnit($e.row)
+		
+		This:C1470.detail.refresh()
+		
+	Else 
+		
+		This:C1470.stringList.select($data.row)
+		
+		// Call the stringList manager
+		$e.column:=2
+		$e.row:=$data.row
+		$e.code:=On Selection Change:K2:29
+		$e.force:=True:C214
+		This:C1470._stringListManager($e)
+		
+	End if 
 	
 	This:C1470.stringList.focus()
 	
