@@ -11,7 +11,7 @@ This file is distributed under the same license as the product package.
         
         
         
-        <prop prop-type="version">3.0</prop>
+        <prop prop-type="version">3.1</prop>
         
         
 
@@ -463,8 +463,29 @@ Changes will be saved and cannot be undone.</target>
       </group>
       
       
+      <group resname="WIZARD">
+        <trans-unit id="PY+sMCwv_ObDTmbf6huGcQ" resname="thisIsTheFirstTime">
+          <source>This is the first time you've opened this editor for this project, so let's do a few checks...</source>
+          <target>This is the first time you've opened this editor for this project, so let's do a few checks...</target>
+        </trans-unit>
+        <trans-unit id="d_Y0ZG0xwVF_1bmg7pS2Qw" resname="wizardComment">
+          <source>The XLIFF standard requires us to determine a source language in which all strings are written. This language will be the reference language, from which all translations will be made. The other languages are referred to as target languages, and will be used for dialogues, warnings, printouts and so on. This is the language that will be used for the end user, according to your choice.
+
+Depending on the content of your project, the language of the system and the application, I've tried to determine the source and target languages. You can change the source language and add target languages if you wish.</source>
+          <target>The XLIFF standard requires us to determine a source language in which all strings are written. This language will be the reference language, from which all translations will be made. The other languages are referred to as target languages, and will be used for dialogues, warnings, printouts and so on. This is the language that will be used for the end user, according to your choice.
+
+Depending on the content of your project, the language of the system and the application, I've tried to determine the source and target languages. You can change the source language and add target languages if you wish.</target>
+        </trans-unit>
+        <trans-unit id="Btuld_QPUCJavmfPBRJ1CQ" resname="wizardTitle">
+          <source>Welcome to 4DPop XLIFF Pro</source>
+          <target>Welcome to 4DPop XLIFF Pro</target>
+        </trans-unit>
+      </group>
     </body>
   </file>
+
+
+
 
 
 

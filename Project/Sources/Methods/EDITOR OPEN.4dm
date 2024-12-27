@@ -23,8 +23,38 @@ If ($run)
 		
 	End if 
 	
-	var $data:={window: Open form window:C675("EDITOR"; Plain form window:K39:10; Horizontally centered:K39:1; Vertically centered:K39:4; *)}
-	DIALOG:C40("EDITOR"; $data; *)
+	var $data:={}
+	
+	var $pref:=cs:C1710.Preferences.new()
+	
+	If (Not:C34($pref.exists))
+		
+		// First launch
+		$data.window:=Open form window:C675("WIZARD"; Movable form dialog box:K39:8; Horizontally centered:K39:1; Vertically centered:K39:4)
+		DIALOG:C40("WIZARD"; $data)
+		CLOSE WINDOW:C154()
+		
+		If (Bool:C1537(OK))
+			
+			// Save preferences
+			$pref.set("project"; $project.name)
+			$pref.set("reference"; $data.reference.lproj)
+			$pref.set("languages"; $data.languages.extract("lproj"))
+			
+		Else 
+			
+			CALL WORKER:C1389($name; Formula:C1597(KILL WORKER:C1390($name)))
+			return 
+			
+		End if 
+	End if 
+	
+	If ($project.isMatrix)
+		
+		$data.window:=Open form window:C675("EDITOR"; Plain form window:K39:10; Horizontally centered:K39:1; Vertically centered:K39:4; *)
+		DIALOG:C40("EDITOR"; $data; *)
+		
+	End if 
 	
 Else 
 	

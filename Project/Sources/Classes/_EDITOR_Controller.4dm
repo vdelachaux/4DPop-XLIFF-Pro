@@ -66,18 +66,17 @@ Class constructor($mainLanguage : Text)
 	// TODO:Retrieve component version
 	This:C1470.default.version:="3.0"
 	
-	This:C1470.languages:=[]
+	//This.languages:=[]
+	//var $folder : 4D.Folder
+	//For each ($folder; This.folders.query("name != :1"; This.main.language).orderBy("name"))
+	//// TODO: Change languages.language to languages.code
+	//This.languages.push({\
+		language: $folder.name; \
+		regional: This.Editor.getFlag($folder.name)\
+		})
+	//End for each 
 	
-	var $folder : 4D:C1709.Folder
-	For each ($folder; This:C1470.folders.query("name != :1"; This:C1470.main.language).orderBy("name"))
-		
-		// TODO: Change languages.language to languages.code
-		This:C1470.languages.push({\
-			language: $folder.name; \
-			regional: This:C1470.Editor.getFlag($folder.name)\
-			})
-		
-	End for each 
+	This:C1470.languages:=This:C1470.Editor.languages()
 	
 	// MARK: Memorize open XML trees to be able to close them when unloading
 	This:C1470.cache:=[]
@@ -1274,7 +1273,7 @@ Function setCurrentString($e : cs:C1710.evt) : Object
 	
 	return This:C1470.stringList.item
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 Function _populateString($column : Integer; $row : Integer) : Object
 	
 	var $language; $o; $string : Object
@@ -1297,6 +1296,12 @@ Function _populateString($column : Integer; $row : Integer) : Object
 		$string.localizations:=[]
 		
 		For each ($language; This:C1470.languages)
+			
+			If ($language=Null:C1517)
+				
+				continue
+				
+			End if 
 			
 			If ($language.xliff=Null:C1517)
 				
@@ -1558,7 +1563,7 @@ Function _DISPLAY_FILE()
 	// Take from cache if available
 	var $xliff : cs:C1710.Xliff:=This:C1470.cache.query("file.path = :1"; This:C1470.fileList.item.path).first()
 	
-	var $language : Object
+	var $language : cs:C1710.language
 	var $file : 4D:C1709.File
 	
 	If ($xliff=Null:C1517)
@@ -1577,7 +1582,13 @@ Function _DISPLAY_FILE()
 			var $parallel:=[]
 			For each ($language; This:C1470.languages)
 				
-				var $signal:=New signal:C1641($language.language)
+				If ($language=Null:C1517)
+					
+					continue
+					
+				End if 
+				
+				var $signal:=New signal:C1641($language.lproj)
 				
 				Use ($signal)
 					
@@ -1588,7 +1599,7 @@ Function _DISPLAY_FILE()
 					
 				End use 
 				
-				CALL WORKER:C1389("$4DPop XLIFF - "+$language.language; Formula:C1597(EDITOR_PARSE_LANGUAGE).source; $signal)
+				CALL WORKER:C1389("$4DPop XLIFF - "+$language.lproj; Formula:C1597(EDITOR_PARSE_LANGUAGE).source; $signal)
 				$parallel.push($signal)
 				
 			End for each 
@@ -1602,8 +1613,8 @@ Function _DISPLAY_FILE()
 						var $indx:=$parallel.indexOf($signal)
 						
 						This:C1470.current.languages.push({\
-							language: $signal.language.language; \
-							regional: $signal.language.regional; \
+							language: $signal.language.lproj; \
+							regional: $signal.language.flag; \
 							xliff: $signal.xliff})
 						
 						$parallel.remove($indx)

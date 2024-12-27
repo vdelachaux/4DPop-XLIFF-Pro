@@ -32,6 +32,7 @@
 	"⚙️ MACROS": {},
 	"👥 NAMESPACE": {
 		"classes": [
+			"language",
 			"Preferences",
 			"Xliff",
 			"XliffGroup",
@@ -99,7 +100,8 @@
 			"_Editor",
 			"_EDITOR_Controller",
 			"_LANGUAGE_Controller",
-			"_STRING_Controller"
+			"_STRING_Controller",
+			"_WIZARD_Controller"
 		]
 	},
 	"🛠️Tools": {
@@ -146,7 +148,7 @@
 	},
 	"UPDATES": {
 		"methods": [
-			"fixIDsWithSlashes"
+			"UPDATE_fixIDsWithSlashes"
 		]
 	},
 	"Widgets": {

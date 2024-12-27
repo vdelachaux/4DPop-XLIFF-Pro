@@ -319,8 +319,8 @@ Function deleteGeometry()
 	If ($folder.exists)
 		
 		$folder:=This:C1470.isMatrix\
-			 ? $folder.folders().query("fullName = :1"; "[projectForm]").pop()\
-			 : $folder.folders().query("fullName = :1"; File:C1566(Structure file:C489; fk platform path:K87:2).name).pop()
+			 ? $folder.folders().query("fullName = :1"; "[projectForm]").first()\
+			 : $folder.folders().query("fullName = :1"; File:C1566(Structure file:C489; fk platform path:K87:2).name).first()
 		
 		If ($folder#Null:C1517)\
 			 && ($folder.exists)

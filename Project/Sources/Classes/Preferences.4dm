@@ -4,11 +4,13 @@ property version : Text
 property file : 4D:C1709.File
 property data : Object
 
+property lastVersion:="3.1"
+
 Class constructor($version : Text)
 	
 	Super:C1705()
 	
-	This:C1470.version:=$version
+	This:C1470.version:=$version || This:C1470.lastVersion
 	
 	This:C1470.file:=Folder:C1567(fk database folder:K87:14; *).file("Preferences/4DPop XLIFF.settings")
 	
@@ -24,24 +26,29 @@ Class constructor($version : Text)
 		
 	End if 
 	
-	// === === === === === === === === === === === === === === === === === === ===
+	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
+Function get exists() : Boolean
+	
+	return This:C1470.file.exists
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function get($key : Text) : Variant
 	
 	return This:C1470.data[$key]
 	
-	// === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function set($key : Text; $value)
 	
 	This:C1470.data[$key]:=$value
 	
 	This:C1470.save()
 	
-	// === === === === === === === === === === === === === === === === === === ===
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function save()
 	
 	This:C1470.file.setText(JSON Stringify:C1217(This:C1470.data; *))
 	
-	// === === === === === === === === === === === === === === === === === === ===
+	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 Function _update()
 	
 	var $version : Text
@@ -64,7 +71,7 @@ Function _update()
 				//______________________________________________________
 			: ($version="3.0")  // Update to 3.1 or higher
 				
-				fixIDsWithSlashes
+				UPDATE_fixIDsWithSlashes
 				
 				$version:="3.1"
 				

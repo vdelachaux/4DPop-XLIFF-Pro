@@ -2,7 +2,7 @@
 #DECLARE($data : Object)
 
 var $digest : Text
-var $language : Object
+var $language : cs:C1710.language
 var $file : 4D:C1709.File
 var $xliff : cs:C1710.Xliff
 
@@ -47,11 +47,14 @@ $dialog.Preferences.set($data.project; New object:C1471(\
 
 // MARK:-Cleanup
 var $c : Collection:=Process activity:C1495(Processes only:K5:35).processes
+
+TRACE:C157
+
 For each ($language; $languages)
 	
-	If ($c.query("name = :1"; "$4DPop XLIFF - "+$language.language).first()#Null:C1517)
+	If ($c.query("name = :1"; "$4DPop XLIFF - "+$language.lproj).first()#Null:C1517)
 		
-		KILL WORKER:C1390("$4DPop XLIFF - "+$language.language)
+		KILL WORKER:C1390("$4DPop XLIFF - "+$language.lproj)
 		
 	End if 
 End for each 
