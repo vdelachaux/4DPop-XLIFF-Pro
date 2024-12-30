@@ -1,14 +1,13 @@
 //%attributes = {}
 #DECLARE($signal : 4D:C1709.Signal)
 
-var $xliff : cs:C1710.Xliff:=$signal.reference  // The file analyzed in the main language
-var $language : Object:=$signal.language  // The language to parse
+var $xliff : cs:C1710.Xliff:=$signal.reference  // The file analyzed as a source language
 
 // Get the localized file
-var $file : 4D:C1709.File:=$xliff.localizedFile($signal.item; $signal.main; $language.language)
+var $file : 4D:C1709.File:=$xliff.localizedFile($signal.item; $signal.source; $signal.target)
 
 // Ensure that content is synchronized
-$xliff.synchronize($file; $language.language)
+$xliff.synchronize($file; $signal.target)
 
 // Finally, parse the localized file
 $xliff:=cs:C1710.Xliff.new($file)

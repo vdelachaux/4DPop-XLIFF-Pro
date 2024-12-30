@@ -1,10 +1,10 @@
 //%attributes = {"invisible":true}
 #DECLARE($run : Boolean)
 
-var $name:="$4DPop XLIFF Pro"
+var $me:="$4DPop XLIFF Pro"
 
 If (Not:C34($run))\
- && (cs:C1710.process.new().isProcessExists($name; True:C214))
+ && (cs:C1710.process.new().isProcessExists($me; True:C214))
 	
 	return 
 	
@@ -24,7 +24,6 @@ If ($run)
 	End if 
 	
 	var $data:={}
-	
 	var $pref:=cs:C1710.Preferences.new()
 	
 	If (Not:C34($pref.exists))
@@ -37,27 +36,27 @@ If ($run)
 		If (Bool:C1537(OK))
 			
 			// Save preferences
-			$pref.set("project"; $project.name)
-			$pref.set("reference"; $data.reference.lproj)
-			$pref.set("languages"; $data.languages.extract("lproj"))
+			$pref.set("currentProject"; $project.name)
+			$pref.set("sourceLanguage"; $data.reference.lproj)
+			$pref.set("targetLanguages"; $data.languages.extract("lproj"))
+			
+			CALL WORKER:C1389($me; Current method name:C684; True:C214)
 			
 		Else 
 			
-			CALL WORKER:C1389($name; Formula:C1597(KILL WORKER:C1390($name)))
-			return 
+			CALL WORKER:C1389($me; Formula:C1597(KILL WORKER:C1390($me)))
 			
 		End if 
+		
+		return 
+		
 	End if 
 	
-	If ($project.isMatrix)
-		
-		$data.window:=Open form window:C675("EDITOR"; Plain form window:K39:10; Horizontally centered:K39:1; Vertically centered:K39:4; *)
-		DIALOG:C40("EDITOR"; $data; *)
-		
-	End if 
+	$data.window:=Open form window:C675("EDITOR"; Plain form window:K39:10; Horizontally centered:K39:1; Vertically centered:K39:4; *)
+	DIALOG:C40("EDITOR"; $data; *)
 	
 Else 
 	
-	CALL WORKER:C1389($name; Current method name:C684; True:C214)
+	CALL WORKER:C1389($me; Current method name:C684; True:C214)
 	
 End if 

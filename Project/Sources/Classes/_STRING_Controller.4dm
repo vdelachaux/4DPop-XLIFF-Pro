@@ -314,7 +314,7 @@ This.adjustResname(False)
 			$localisation.string:=$string
 			
 			// Get localisation
-			//FIXME:Failed if 2 identical or diacritical resnames, the first one is returned.
+			// FIXME:Failed if 2 identical or diacritical resnames, the first one is returned.
 			$node:=$xliff.findByXPath($localisation.string.xpath)
 			
 			If ($xliff.success)
@@ -325,11 +325,11 @@ This.adjustResname(False)
 			Else 
 				
 				$localisation.value:=""
-				$localisation.properties:=New object:C1471
+				$localisation.properties:={}
 				
 			End if 
 			
-			This:C1470["lang_"+$localisation.language].setValue($localisation)
+			This:C1470["lang_"+$localisation.lproj].value:=$localisation
 			
 		End for each 
 		
@@ -574,7 +574,7 @@ Function _sourceManager($e : cs:C1710.evt)
 		: ($e.code=On Getting Focus:K2:7)
 			
 			This:C1470.source.highlight()
-			SPELL SET CURRENT DICTIONARY:C904(Form:C1466.main.language)
+			SPELL SET CURRENT DICTIONARY:C904(Form:C1466.main.language.lproj)
 			
 			//______________________________________________________
 		: ($e.code=On Losing Focus:K2:8)
@@ -633,7 +633,7 @@ Function initGeometry($editor : cs:C1710._EDITOR_Controller)
 	var $widget : Text
 	var $index : Integer
 	var $nil : Pointer
-	var $language : Object
+	
 	var $coordinates; $position : cs:C1710.coord
 	var $dimensions : cs:C1710.dim
 	
@@ -659,10 +659,10 @@ Function initGeometry($editor : cs:C1710._EDITOR_Controller)
 	
 	FORM GET OBJECTS:C898($objects; Form current page:K67:6)
 	
-	
+	var $language : cs:C1710.language
 	For each ($language; This:C1470.form.container.languages)
 		
-		$widget:="lang_"+$language.language
+		$widget:="lang_"+$language.lproj
 		
 		If (Find in array:C230($objects; $widget)<0)
 			

@@ -32,10 +32,10 @@ Function init()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function handleEvents($e : cs:C1710.evt)
 	
-	$e:=$e || FORM Event:C1606
+	$e:=$e || cs:C1710.evt.new()
 	
 	// MARK:Form Method
-	If ($e.objectName=Null:C1517)  // <== FORM METHOD
+	If ($e.objectName=Null:C1517)
 		
 		Case of 
 				
@@ -45,12 +45,9 @@ Function handleEvents($e : cs:C1710.evt)
 				This:C1470.form.onLoad()
 				
 				//______________________________________________________
-			: ($e.code=On Activate:K2:9)  //Never seems to trigger
+			: ($e.code=On Activate:K2:9)
 				
-				//If (OBJECT Get pointer(Object with focus)=OBJECT Get pointer(Object subform container))
-				//This.value.focus()
-				//End if 
-				//SPELL SET CURRENT DICTIONARY(Substring(OBJECT Get subform container value.language; 1; 2))
+				//Never seems to trigger
 				
 				//______________________________________________________
 			: ($e.code=On Bound Variable Change:K2:52)
@@ -65,40 +62,41 @@ Function handleEvents($e : cs:C1710.evt)
 				//______________________________________________________
 		End case 
 		
-	Else 
+		return 
 		
-		// MARK: Widget Methods
-		Case of 
-				
-				//==============================================
-			: (This:C1470.value.catch($e))
-				
-				If ($e.code=On Getting Focus:K2:7)
-					
-					This:C1470.value.backup().highlight()
-					return 
-					
-				End if 
-				
-				If ($e.code=On Losing Focus:K2:8)\
-					 && (This:C1470.value.modified)
-					
-					Form:C1466._container.value:=This:C1470.value.getValue()
-					This:C1470.form.callMeBack("_UPDATE_LOCALIZED_TARGET"; Form:C1466._container)
-					This:C1470.value.setColors(Foreground color:K23:1; Background color:K23:2)
-					
-				End if 
-				
-				//==============================================
-			: (This:C1470.flag.catch($e))
-				
-				//Form._container.value:=This.value.getValue()
-				//This.form.callMeBack("_UPDATE_LOCALIZED_TARGET"; Form._container)
-				//This.value.setColors(Foreground color; Background color)
-				
-				//==============================================
-		End case 
 	End if 
+	
+	// MARK: Widget Methods
+	Case of 
+			
+			//==============================================
+		: (This:C1470.value.catch($e))
+			
+			If ($e.code=On Getting Focus:K2:7)
+				
+				This:C1470.value.backup().highlight()
+				return 
+				
+			End if 
+			
+			If ($e.code=On Losing Focus:K2:8)\
+				 && (This:C1470.value.modified)
+				
+				Form:C1466._container.value:=This:C1470.value.getValue()
+				This:C1470.form.callMeBack("_UPDATE_LOCALIZED_TARGET"; Form:C1466._container)
+				This:C1470.value.setColors(Foreground color:K23:1; Background color:K23:2)
+				
+			End if 
+			
+			//==============================================
+		: (This:C1470.flag.catch($e))
+			
+			//Form._container.value:=This.value.getValue()
+			//This.form.callMeBack("_UPDATE_LOCALIZED_TARGET"; Form._container)
+			//This.value.setColors(Foreground color; Background color)
+			
+			//==============================================
+	End case 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function onLoad()
@@ -108,15 +106,13 @@ Function onLoad()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function update()
 	
-	var $state : Text
-	var $height; $width : Integer
-	var $coordinates : cs:C1710.coord
-	
 	This:C1470.value.setColors(Foreground color:K23:1; Background color:K23:2)
 	
 	Form:C1466._container:=This:C1470.form.containerValue
 	
 	If (Form:C1466._container#Null:C1517)
+		
+		var $state : Text
 		
 		If (Form:C1466._container.properties#Null:C1517)
 			
@@ -143,17 +139,18 @@ Function update()
 			End if 
 		End if 
 		
-		SPELL SET CURRENT DICTIONARY:C904(Substring:C12(Form:C1466._container.language; 1; 2))
+		SPELL SET CURRENT DICTIONARY:C904(Substring:C12(Form:C1466._container.lproj; 1; 2))
 		
 	End if 
 	
 	// Adjust value width
+	var $height; $width : Integer
 	OBJECT GET SUBFORM CONTAINER SIZE:C1148($width; $height)
 	
-	$coordinates:=This:C1470.value.coordinates
-	$coordinates.top:=5
-	$coordinates.right:=$width-18
-	$coordinates.bottom:=$height-9
+	var $coord : cs:C1710.coord:=This:C1470.value.coordinates
+	$coord.top:=5
+	$coord.right:=$width-18
+	$coord.bottom:=$height-9
 	
-	This:C1470.value.setCoordinates($coordinates)
+	This:C1470.value.setCoordinates($coord)
 	

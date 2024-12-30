@@ -4,13 +4,13 @@ property version : Text
 property file : 4D:C1709.File
 property data : Object
 
-property lastVersion:="3.1"
+property LAST_VERSION:="3.1"
 
 Class constructor($version : Text)
 	
 	Super:C1705()
 	
-	This:C1470.version:=$version || This:C1470.lastVersion
+	This:C1470.version:=$version || This:C1470.LAST_VERSION
 	
 	This:C1470.file:=Folder:C1567(fk database folder:K87:14; *).file("Preferences/4DPop XLIFF.settings")
 	

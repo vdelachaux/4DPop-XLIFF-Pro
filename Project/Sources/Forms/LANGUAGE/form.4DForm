@@ -56,7 +56,7 @@
 					"events": [
 						"onClick"
 					],
-					"dataSource": "Form:C1466._container.regional"
+					"dataSource": "Form:C1466._container.flag"
 				},
 				"lang": {
 					"type": "input",
@@ -74,7 +74,7 @@
 					"contextMenu": "none",
 					"dragging": "none",
 					"dropping": "none",
-					"dataSource": "Form:C1466._container.language"
+					"dataSource": "Form:C1466._container.lproj"
 				}
 			}
 		}

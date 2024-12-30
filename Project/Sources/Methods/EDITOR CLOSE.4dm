@@ -1,14 +1,11 @@
 //%attributes = {"invisible":true}
 #DECLARE($data : Object)
 
-var $digest : Text
-var $language : cs:C1710.language
-var $file : 4D:C1709.File
-var $xliff : cs:C1710.Xliff
-
 var $dialog : Object:=$data.__DIALOG__
 
 // MARK:-Update modified files & close XML trees
+var $xliff : cs:C1710.Xliff
+
 For each ($xliff; $dialog.cache)
 	
 	If ($xliff.modified)
@@ -25,8 +22,12 @@ End for each
 ASSERT:C1129($dialog.cache.extract("root").length=0; "Not all open XML trees have been closed")
 
 // MARK:-Store session
-$dialog.Preferences.set("reference"; $dialog.main.language)
-$dialog.Preferences.set("project"; $data.project)
+var $pref : cs:C1710.Preferences:=$dialog.Preferences
+$pref.set("sourceLanguage"; $dialog.main.language.lproj)
+$pref.set("targetLanguages"; $dialog.languages.extract("lproj"))
+
+var $digest : Text
+var $file : 4D:C1709.File
 
 For each ($file; $dialog.main.files)
 	
@@ -34,29 +35,27 @@ For each ($file; $dialog.main.files)
 	
 End for each 
 
-var $languages : Collection:=$dialog.current.languages
-
-$dialog.Preferences.set($data.project; New object:C1471(\
-"languages"; $languages.extract("language"); \
-"files"; $data.files.extract("name"); \
-"file"; $dialog.current.file.name; \
-"digest"; Generate digest:C1147($digest; MD5 digest:K66:1)))
+$pref.set("files"; $data.files.extract("name"))
+$pref.set("currentFile"; $dialog.current.file.name)
+$pref.set("digest"; Generate digest:C1147($digest; MD5 digest:K66:1))
 
 // MARK:-
 // TODO: Update XLIFF files on server
 
 // MARK:-Cleanup
 var $c : Collection:=Process activity:C1495(Processes only:K5:35).processes
+var $o : Object
 
-TRACE:C157
-
-For each ($language; $languages)
+Try
 	
-	If ($c.query("name = :1"; "$4DPop XLIFF - "+$language.lproj).first()#Null:C1517)
+	For each ($o; $dialog.current.languages)
 		
-		KILL WORKER:C1390("$4DPop XLIFF - "+$language.lproj)
-		
-	End if 
-End for each 
+		If ($c.query("name = :1"; "$4DPop XLIFF - "+$o.language.lproj).first()#Null:C1517)
+			
+			KILL WORKER:C1390("$4DPop XLIFF - "+$o.language.lproj)
+			
+		End if 
+	End for each 
+End try
 
 KILL WORKER:C1390($dialog.form.process)

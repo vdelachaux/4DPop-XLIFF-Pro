@@ -300,10 +300,10 @@ Function parse() : cs:C1710.Xliff
 		"source"; This:C1470.attributes["source-language"]; \
 		"target"; This:C1470.attributes["target-language"])
 	
-	This:C1470.allUnits:=New collection:C1472
+	This:C1470.allUnits:=[]
 	
 	// Get the groups
-	This:C1470.groups:=New collection:C1472
+	This:C1470.groups:=[]
 	
 	var $node : Text
 	For each ($node; This:C1470.groupNodes())

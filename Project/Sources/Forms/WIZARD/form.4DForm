@@ -44,7 +44,7 @@
 				},
 				"Text8": {
 					"type": "text",
-					"text": "Source language:",
+					"text": ".Source language:",
 					"top": 234,
 					"left": 72,
 					"width": 180,
@@ -68,7 +68,7 @@
 					"textPlacement": "left",
 					"textAlign": "left"
 				},
-				"List Box2": {
+				"List Box": {
 					"type": "listbox",
 					"left": 262,
 					"top": 260,
@@ -123,7 +123,7 @@
 				},
 				"Text2": {
 					"type": "text",
-					"text": "Target languages:",
+					"text": ".Target languages:",
 					"top": 268,
 					"left": 83,
 					"width": 169,
@@ -213,7 +213,7 @@
 			}
 		}
 	],
-	"geometryStamp": 458,
+	"geometryStamp": 459,
 	"editor": {
 		"activeView": "View 1",
 		"defaultView": "View 1",

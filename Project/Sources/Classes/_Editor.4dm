@@ -2,7 +2,7 @@
 property FILE_EXTENSION:=".xlf"
 property FOLDER_EXTENSION:=".lproj"
 property RESOURCES : Object:=JSON Parse:C1218(File:C1566("/RESOURCES/languages.json").getText())
-property LANGUAGES:=[]
+property LANGS:=[]
 
 // MARK: Other 💾
 property refLanguage : Text
@@ -14,7 +14,7 @@ Class constructor
 	
 	For each ($key; This:C1470.RESOURCES.lproj)
 		
-		This:C1470.LANGUAGES.push(cs:C1710.language.new({\
+		This:C1470.LANGS.push(cs:C1710.language.new({\
 			lproj: $key; \
 			intl: This:C1470.RESOURCES.intl[$indx]; \
 			localized: This:C1470.RESOURCES.localized[$indx]; \
@@ -88,23 +88,6 @@ Function set mainLanguage($language)
 	
 	TRACE:C157
 	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function getFlag($code : Text) : Text
-	
-	var $source : Text:=This:C1470._source($code)
-	//$code:=Split string($code; "-").first()  // Keep only the first 2 characters of a sub-language
-	var $index : Integer:=This:C1470.RESOURCES[$source].indexOf($code)
-	
-	If ($index#-1)
-		
-		return This:C1470.RESOURCES.flag[$index]  // Emoji
-		
-	Else 
-		
-		return "❔"
-		
-	End if 
-	
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 Function _source($in : Text) : Text
 	
@@ -134,40 +117,45 @@ Function _source($in : Text) : Text
 	End case 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function language($code : Text) : Object
+Function getLanguage($code : Text) : cs:C1710.language
 	
-	$code:=$code || This:C1470.mainLanguage
+	return This:C1470.LANGS.query(This:C1470._source($code)+" = :1"; $code).first()
 	
-	return This:C1470.LANGUAGES.query(This:C1470._source($code)+" = :1"; $code).first()
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+Function sourceLanguage() : cs:C1710.language
+	
+	var $code : Text:=This:C1470.refLanguage
+	
+	return This:C1470.LANGS.query(This:C1470._source($code)+" = :1"; $code).first()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function targetLanguages($ref : Text) : Collection
 	
 	$ref:=$ref || This:C1470.refLanguage
 	
-	var $languages:=[]
+	var $c:=[]
 	var $folder : 4D:C1709.Folder
 	
 	For each ($folder; This:C1470.lprojFolders.query("name != :1"; $ref).orderBy("name"))
 		
-		$languages.push(This:C1470.LANGUAGES.query("lproj = :1"; $folder.name).first()\
-			 || This:C1470.LANGUAGES.query("legacy = :1"; $folder.name).first())
+		$c.push(This:C1470.LANGS.query("lproj = :1"; $folder.name).first()\
+			 || This:C1470.LANGS.query("legacy = :1"; $folder.name).first())
 		
 	End for each 
 	
-	return $languages
+	return $c
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function languages() : Collection
+Function getTargetLangs() : Collection
 	
-	var $languages:=[]
+	var $c:=[]
 	var $folder : 4D:C1709.Folder
 	
-	For each ($folder; This:C1470.lprojFolders.query("name != :1"; This:C1470.refLanguage).orderBy("name"))
+	For each ($folder; This:C1470.lprojFolders.query("name != :1"; This:C1470.mainLanguage).orderBy("name"))
 		
-		$languages.push(This:C1470.LANGUAGES.query("lproj = :1"; $folder.name).first()\
-			 || This:C1470.LANGUAGES.query("legacy = :1"; $folder.name).first())
+		$c.push(This:C1470.LANGS.query("lproj = :1"; $folder.name).first()\
+			 || This:C1470.LANGS.query("legacy = :1"; $folder.name).first())
 		
 	End for each 
 	
-	return $languages
+	return $c

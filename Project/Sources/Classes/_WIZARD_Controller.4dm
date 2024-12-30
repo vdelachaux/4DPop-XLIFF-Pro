@@ -22,7 +22,7 @@ Class constructor
 Function init()
 	
 	This:C1470.source:=This:C1470.form.Button("source")
-	This:C1470.targets:=This:C1470.form.Listbox("List Box2")
+	This:C1470.targets:=This:C1470.form.Listbox("List Box")
 	This:C1470.targetAdd:=This:C1470.form.Button("Button3")
 	This:C1470.targetRemove:=This:C1470.form.Button("Button4")
 	
@@ -105,9 +105,9 @@ Function handleEvents($e : cs:C1710.evt)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function onLoad()
 	
-	Form:C1466.reference:=This:C1470.Editor.language()
-	This:C1470.source.setTitle(Form:C1466.reference.localized)
+	Form:C1466.reference:=This:C1470.Editor.sourceLanguage()
 	Form:C1466.languages:=This:C1470.Editor.targetLanguages()
+	This:C1470.source.setTitle(Form:C1466.reference.localized)
 	This:C1470.targetRemove.disable()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
@@ -127,7 +127,7 @@ Function doSelectSourceLanguage()
 		
 		If ($c.length>1)
 			
-			$menu.append("DETECTED LANGUAGES").disable()
+			$menu.append(".DETECTED LANGUAGES").disable()
 			
 		End if 
 		
@@ -144,7 +144,7 @@ Function doSelectSourceLanguage()
 	
 	$c:=$c.extract("lproj")
 	
-	For each ($language; This:C1470.Editor.LANGUAGES.orderBy("lproj"))
+	For each ($language; This:C1470.Editor.LANGS.orderBy("lproj"))
 		
 		If ($c.includes($language.lproj))
 			
@@ -159,7 +159,7 @@ Function doSelectSourceLanguage()
 	
 	If ($menu.popup().selected)
 		
-		Form:C1466.reference:=This:C1470.Editor.language($menu.choice)
+		Form:C1466.reference:=This:C1470.Editor.getLanguage($menu.choice)
 		This:C1470.source.setTitle(Form:C1466.reference.localized)  //.bestSize()
 		Form:C1466.languages:=This:C1470.Editor.targetLanguages(Form:C1466.reference.lproj)
 		
@@ -171,9 +171,9 @@ Function doAddTargetLanguage()
 	var $language : cs:C1710.language
 	var $menu : cs:C1710.menu:=cs:C1710.menu.new()
 	
-	var $c : Collection:=Form:C1466.languages.copy().push(This:C1470.Editor.language()).distinct().extract("lproj")
+	var $c : Collection:=Form:C1466.languages.copy().push(This:C1470.Editor.getLanguage()).distinct().extract("lproj")
 	
-	For each ($language; This:C1470.Editor.LANGUAGES.orderBy("lproj"))
+	For each ($language; This:C1470.Editor.LANGS.orderBy("lproj"))
 		
 		If ($c.includes($language.lproj))
 			

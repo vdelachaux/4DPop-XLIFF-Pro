@@ -6,6 +6,7 @@ Created 1-1-2023 by Vincent de Lachaux
 // MARK: Default values ⚙️
 property isSubform:=False:C215
 property toBeInitialized:=False:C215
+property main:={}
 
 // MARK: Delegates 📦
 property form : cs:C1710.form
@@ -28,7 +29,6 @@ property spinner : cs:C1710.stepper
 
 // MARK: Constants 🔐
 property GENERATOR:=File:C1566(Structure file:C489; fk platform path:K87:2).name
-property VERSION:="3.1"
 
 // TODO:Could be a preference
 property AUTOSAVE:=True:C214  // Flag for automatic saving
@@ -36,47 +36,35 @@ property AUTOSAVE:=True:C214  // Flag for automatic saving
 // MARK: Other 💾
 property current : cs:C1710.Xliff
 property folders; cache; languages : Collection
-property default; main; resources : Object
+property default; resources : Object
 
 property groupPtr; resnamePtr; contentPtr : Pointer
 
 property stringListConstraints : cs:C1710.constraints
 
-Class constructor($mainLanguage : Text)
+Class constructor()
 	
 	// MARK:Delegates 📦
 	This:C1470.form:=cs:C1710.form.new(This:C1470)
-	This:C1470.Preferences:=cs:C1710.Preferences.new(This:C1470.VERSION)
+	This:C1470.Preferences:=cs:C1710.Preferences.new()
 	This:C1470.Xliff:=cs:C1710.Xliff
 	
 	// MARK:Retrieving active lproj folders
 	This:C1470.folders:=This:C1470.Editor.lprojFolders
 	
-	// MARK: Define the main language
-	This:C1470.main:={}
-	This:C1470.main.language:=$mainLanguage || This:C1470.Editor.mainLanguage
+	// MARK: Source language and existing files
+	This:C1470.main.language:=This:C1470.Editor.getLanguage(This:C1470.Preferences.get("sourceLanguage"))
 	This:C1470.main.files:=This:C1470.getFiles()
-	This:C1470.main.regional:=This:C1470.Editor.getFlag(This:C1470.main.language)
 	
 	// MARK: default
+	// TODO:Retrieve component version
 	This:C1470.default:={\
-		language: This:C1470.main.language\
+		language: This:C1470.main.language.lproj; \
+		version: "3.0"\
 		}
 	
-	// TODO:Retrieve component version
-	This:C1470.default.version:="3.0"
-	
-	//This.languages:=[]
-	//var $folder : 4D.Folder
-	//For each ($folder; This.folders.query("name != :1"; This.main.language).orderBy("name"))
-	//// TODO: Change languages.language to languages.code
-	//This.languages.push({\
-		language: $folder.name; \
-		regional: This.Editor.getFlag($folder.name)\
-		})
-	//End for each 
-	
-	This:C1470.languages:=This:C1470.Editor.languages()
+	// MARK: Managed languages
+	This:C1470.languages:=This:C1470.Editor.getTargetLangs()
 	
 	// MARK: Memorize open XML trees to be able to close them when unloading
 	This:C1470.cache:=[]
@@ -87,7 +75,7 @@ Class constructor($mainLanguage : Text)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function init()
 	
-	// MARK: Menu bar
+	// MARK: Installing the menu bar
 	var $menuHandle : Text:=Formula:C1597(formMenuHandle).source
 	
 	var $menuFile : cs:C1710.menu:=cs:C1710.menu.new()
@@ -332,17 +320,19 @@ Function update()
 	If (This:C1470.fileList.item=Null:C1517)\
 		 && (This:C1470.fileList.rowsNumber>0)
 		
-		// Select last used file
-		var $o : Object:=This:C1470.Preferences.get(Form:C1466.project)
+		// Select last used file, if any
+		var $currentFile : Text:=This:C1470.Preferences.get("currentFile")
+		var $c : Collection
 		
-		If ($o#Null:C1517)\
-			 && (Length:C16(String:C10($o.file))>0)
+		If ($currentFile#Null:C1517)\
+			 && (Length:C16(String:C10($currentFile))>0)
 			
-			var $c : Collection:=Form:C1466.files.indices("name = :1"; $o.file)
+			$c:=Form:C1466.files.indices("name = :1"; $currentFile)
 			
 		End if 
 		
-		This:C1470.doSelectFile($c.length>0 ? $c[0]+1 : 1)
+		// By default the first file if there is at least one file
+		This:C1470.doSelectFile(Bool:C1537($c.length) ? $c[0]+1 : Bool:C1537(This:C1470.fileList.rowsNumber) ? 1 : 0)
 		
 	End if 
 	
@@ -822,7 +812,7 @@ Function doNewFile()
 		
 	End if 
 	
-	$file:=File:C1566("/RESOURCES/template.xlf").copyTo(This:C1470.folders.query("name = :1"; This:C1470.main.language).pop(); $name; fk overwrite:K87:5)
+	$file:=File:C1566("/RESOURCES/template.xlf").copyTo(This:C1470.folders.query("name = :1"; This:C1470.main.language).first(); $name; fk overwrite:K87:5)
 	
 	$t:=$file.getText()
 	PROCESS 4D TAGS:C816($t; $t; This:C1470.default)
@@ -1276,18 +1266,19 @@ Function setCurrentString($e : cs:C1710.evt) : Object
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 Function _populateString($column : Integer; $row : Integer) : Object
 	
-	var $language; $o; $string : Object
 	var $file : 4D:C1709.File
 	var $xliff : cs:C1710.Xliff
 	
 	//%W-533.3
-	$o:=(This:C1470.contentPtr)->{$row}
+	var $o : Object:=(This:C1470.contentPtr)->{$row}
 	//%W+533.3
 	
-	$string:=($column=1) & (OB Instance of:C1731($o; cs:C1710.XliffUnit)) ? This:C1470.parentGroup($o) : $o
+	var $string : Object:=($column=1) & (OB Instance of:C1731($o; cs:C1710.XliffUnit)) ? This:C1470.parentGroup($o) : $o
 	
 	If (Structure file:C489=Structure file:C489(*))
+		
 		ASSERT:C1129($string#Null:C1517)
+		
 	End if 
 	
 	If ($string.localizations=Null:C1517 ? True:C214 : ($string.localizations.length=0))
@@ -1295,19 +1286,15 @@ Function _populateString($column : Integer; $row : Integer) : Object
 		// Open or create the target language
 		$string.localizations:=[]
 		
+		var $language : cs:C1710.language
+		
 		For each ($language; This:C1470.languages)
-			
-			If ($language=Null:C1517)
-				
-				continue
-				
-			End if 
 			
 			If ($language.xliff=Null:C1517)
 				
-				$file:=This:C1470.current.localizedFile(This:C1470.fileList.item; This:C1470.main.language; $language.language)
+				$file:=This:C1470.current.localizedFile(This:C1470.fileList.item; This:C1470.main.language.lproj; $language.lproj)
 				
-				$xliff:=This:C1470.cache.query("file.path = :1"; $file.path).pop()
+				$xliff:=This:C1470.cache.query("file.path = :1"; $file.path).first()
 				
 				If ($xliff=Null:C1517)
 					
@@ -1317,10 +1304,10 @@ Function _populateString($column : Integer; $row : Integer) : Object
 				
 				$language.root:=$xliff.root
 				
-				$string.localizations.push(New object:C1471(\
-					"language"; $language.language; \
-					"regional"; This:C1470.Editor.getFlag($language.language); \
-					"xliff"; $xliff))
+				$string.localizations.push({\
+					language: $language; \
+					xliff: $xliff\
+					})
 				
 			End if 
 		End for each 
@@ -1400,7 +1387,7 @@ Function getFiles($language : Text) : Collection
 	
 	$files:=[]
 	
-	$folder:=This:C1470.folders.query("name = :1"; $language || This:C1470.main.language).pop()
+	$folder:=This:C1470.folders.query("name = :1"; $language || This:C1470.main.language.lproj).pop()
 	
 	If ($folder#Null:C1517)
 		
@@ -1592,10 +1579,10 @@ Function _DISPLAY_FILE()
 				
 				Use ($signal)
 					
-					$signal.main:=This:C1470.main.language
+					$signal.source:=This:C1470.main.language.lproj
+					$signal.target:=$language.lproj  //OB Copy($language; ck shared; $signal)
 					$signal.reference:=OB Copy:C1225($xliff; ck shared:K85:29; $signal)
 					$signal.item:=OB Copy:C1225(This:C1470.fileList.item; ck shared:K85:29; $signal)
-					$signal.language:=OB Copy:C1225($language; ck shared:K85:29; $signal)
 					
 				End use 
 				
@@ -1613,8 +1600,7 @@ Function _DISPLAY_FILE()
 						var $indx:=$parallel.indexOf($signal)
 						
 						This:C1470.current.languages.push({\
-							language: $signal.language.lproj; \
-							regional: $signal.language.flag; \
+							language: $signal.language; \
 							xliff: $signal.xliff})
 						
 						$parallel.remove($indx)
