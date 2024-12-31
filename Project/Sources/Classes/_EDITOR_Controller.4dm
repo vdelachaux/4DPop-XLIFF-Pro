@@ -880,17 +880,10 @@ Function doNewGroup()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function doNewString()
 	
-	var $resname : Text
-	var $row : Integer
-	var $language; $target : Object
-	var $group : cs:C1710.XliffGroup
-	var $unit : cs:C1710.XliffUnit
-	var $xliff : cs:C1710.Xliff
-	
 	// Trigger string update
 	This:C1470.form.removeFocus()
 	
-	$target:=This:C1470.stringList.item
+	var $target : Object:=This:C1470.stringList.item
 	
 	If (OB Instance of:C1731($target; cs:C1710.XliffUnit))
 		
@@ -899,15 +892,16 @@ Function doNewString()
 		
 	End if 
 	
-	$resname:=This:C1470.uniqueResname("trans-unit")
-	$unit:=This:C1470.current.createUnit($target; $resname)
+	var $resname : Text:=This:C1470.uniqueResname("trans-unit")
+	var $unit : cs:C1710.XliffUnit:=This:C1470.current.createUnit($target; $resname)
 	This:C1470.save(This:C1470.current)
 	
 	// Update localized files
+	var $language : Object
 	For each ($language; This:C1470.current.languages)
 		
-		$xliff:=$language.xliff
-		$group:=$xliff.groups.query("resname = :1"; $target.resname).pop()
+		var $xliff : cs:C1710.Xliff:=$language.xliff
+		var $group : cs:C1710.XliffGroup:=$xliff.groups.query("resname = :1"; $target.resname).pop()
 		$xliff.createUnit($group; $resname; $unit.id)
 		This:C1470.save($xliff)
 		
@@ -916,7 +910,7 @@ Function doNewString()
 	// Update UI
 	If ($target.transunits.length=1)
 		
-		$row:=Find in array:C230(This:C1470.groupPtr->; $target.resname)
+		var $row : Integer:=Find in array:C230(This:C1470.groupPtr->; $target.resname)
 		This:C1470.resnamePtr->{$row}:=$resname
 		This:C1470.contentPtr->{$row}:=$unit
 		
@@ -936,9 +930,9 @@ Function doNewString()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _searchPickerManager($e : cs:C1710.evt)
 	
-	$e:=$e || FORM Event:C1606
+	$e:=$e || cs:C1710.evt.new()
 	
-	If ($e.code=On Data Change:K2:15)
+	If ($e.dataChange)
 		
 		// Perform the search
 		This:C1470.doSearch(String:C10(This:C1470.searchPicker.data.value))
@@ -993,12 +987,11 @@ Function doDeleteFile($file : 4D:C1709.File; $e : cs:C1710.evt)
 Function doDeleteString($e : cs:C1710.evt)
 	
 	var $row : Integer
-	var $language; $target : Object
+	var $language : Object
 	var $group : cs:C1710.XliffGroup
 	var $unit : cs:C1710.XliffUnit
-	var $xliff : cs:C1710.Xliff
 	
-	$target:=This:C1470.stringList.item
+	var $target : Object:=This:C1470.stringList.item
 	
 	If ($target=Null:C1517)
 		
@@ -1016,7 +1009,7 @@ Function doDeleteString($e : cs:C1710.evt)
 		
 	End if 
 	
-	$xliff:=This:C1470.current
+	var $xliff : cs:C1710.Xliff:=This:C1470.current
 	
 	If (OB Instance of:C1731($target; cs:C1710.XliffGroup))
 		
