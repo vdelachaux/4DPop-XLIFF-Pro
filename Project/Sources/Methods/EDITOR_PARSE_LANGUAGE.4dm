@@ -1,7 +1,8 @@
 //%attributes = {}
 #DECLARE($signal : 4D:C1709.Signal)
 
-var $xliff : cs:C1710.Xliff:=$signal.reference  // The file analyzed as a source language
+// The file analyzed as a source language
+var $xliff : cs:C1710.Xliff:=$signal.reference  // Make unshared
 
 // Get the localized file
 var $file : 4D:C1709.File:=$xliff.localizedFile($signal.item; $signal.source; $signal.target)

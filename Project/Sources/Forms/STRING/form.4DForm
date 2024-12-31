@@ -9,6 +9,8 @@
 	"markerFooter": 240,
 	"events": [
 		"onLoad",
+		"onClick",
+		"onLosingFocus",
 		"onTimer"
 	],
 	"pageFormat": {
@@ -37,6 +39,23 @@
 		},
 		{
 			"objects": {
+				"action": {
+					"type": "button",
+					"top": 8,
+					"left": 390,
+					"width": 29,
+					"height": 24,
+					"sizingX": "move",
+					"icon": "/RESOURCES/Images/more.png",
+					"iconFrames": 4,
+					"style": "custom",
+					"events": [
+						"onClick",
+						"onAlternateClick",
+						"onLongClick"
+					],
+					"popupPlacement": "separated"
+				},
 				"_template": {
 					"type": "subform",
 					"top": 130,
@@ -175,23 +194,6 @@
 					"dragging": "none",
 					"dropping": "none"
 				},
-				"action": {
-					"type": "button",
-					"top": 8,
-					"left": 394,
-					"width": 24,
-					"height": 24,
-					"sizingX": "move",
-					"icon": "/RESOURCES/Images/more.png",
-					"iconFrames": 4,
-					"popupPlacement": "separated",
-					"style": "custom",
-					"events": [
-						"onClick",
-						"onAlternateClick",
-						"onLongClick"
-					]
-				},
 				"unit.handle": {
 					"type": "picture",
 					"top": 98,
@@ -296,6 +298,6 @@
 		"version": "1",
 		"kind": "form"
 	},
-	"geometryStamp": 135,
+	"geometryStamp": 142,
 	"method": "formMethod"
 }

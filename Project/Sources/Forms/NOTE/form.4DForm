@@ -65,7 +65,12 @@
 					"style": "custom",
 					"events": [
 						"onClick"
-					]
+					],
+					"shortcutAccel": false,
+					"shortcutControl": false,
+					"shortcutShift": false,
+					"shortcutAlt": false,
+					"shortcutKey": "[Enter]"
 				}
 			}
 		}

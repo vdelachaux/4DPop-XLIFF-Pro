@@ -65,7 +65,9 @@ Function init()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function handleEvents($e : cs:C1710.evt)
 	
-	$e:=$e || FORM Event:C1606
+	$e:=$e || cs:C1710.evt.new()
+	
+	//TRACE
 	
 	// MARK:Form Method
 	If ($e.objectName=Null:C1517)  // <== FORM METHOD
@@ -154,7 +156,6 @@ Function handleEvents($e : cs:C1710.evt)
 					
 				Else 
 					
-					
 					OB REMOVE:C1226(Form:C1466.string.attributes; "translate")
 					This:C1470.languageGroup.show()
 					
@@ -184,17 +185,13 @@ Function onLoad()
 	This:C1470.noTranslate.bestSize()
 	This:C1470.propagate.hiddenFromView()
 	
+	// Add events that we cannot select in the form properties 😇
+	This:C1470.form.appendEvents([On Alternative Click:K2:36; On Long Click:K2:37])
+	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function update()
 	
-	var $node : Text
-	var $isConstant : Boolean
-	var $language; $localisation : Object
-	var $parent : cs:C1710._EDITOR_Controller
-	var $color : cs:C1710.colour
-	var $string; $xliff : cs:C1710.Xliff
-	
-	$parent:=This:C1470.form.container
+	var $parent : cs:C1710._EDITOR_Controller:=This:C1470.form.container
 	
 	If (This:C1470.form.toBeInitialized)
 		
@@ -203,11 +200,7 @@ Function update()
 		
 	End if 
 	
-	$string:=$parent.stringList.item
-	
-	//If (Structure file=Structure file(*))
-	//ASSERT($string#Null)
-	//End if 
+	var $string : cs:C1710.Xliff:=$parent.stringList.item || Form:C1466.string
 	
 	// Set shortcuts
 	Form:C1466.main:=$parent.main
@@ -222,10 +215,11 @@ Function update()
 		
 	End if 
 	
-	$color:=cs:C1710.colour.new()
-	$color.foreground:=Foreground color:K23:1
-	$color.background:=Background color:K23:2
+	var $colour : cs:C1710.colour:=cs:C1710.colour.new()
+	$colour.foreground:=Foreground color:K23:1
+	$colour.background:=Background color:K23:2
 	
+	var $isConstant : Boolean
 	If (OB Instance of:C1731($string; cs:C1710.XliffUnit))
 		
 		$isConstant:=String:C10($string.attributes.restype)="x-4DK#"
@@ -254,8 +248,8 @@ This.adjustResname(False)
 		This:C1470.note.hide()
 		
 		// Highlight duplicate resname
-		$color.foreground:=Bool:C1537($string.duplicateResname) ? "white" : Foreground color:K23:1
-		$color.background:=Bool:C1537($string.duplicateResname) ? "red" : Background color:K23:2
+		$colour.foreground:=Bool:C1537($string.duplicateResname) ? "white" : Foreground color:K23:1
+		$colour.background:=Bool:C1537($string.duplicateResname) ? "red" : Background color:K23:2
 		
 		// Set the note
 		This:C1470.note.setValue($string)
@@ -281,6 +275,7 @@ This.adjustResname(False)
 		End if 
 		
 		// Update all languages
+		var $language : cs:C1710.language
 		For each ($language; $parent.languages)
 			
 			If ($isConstant)
@@ -298,9 +293,8 @@ This.adjustResname(False)
 				
 			End if 
 			
-			$localisation:=OB Copy:C1225($language)
-			
-			$xliff:=$parent.cache.query("root = :1"; $localisation.root).first()
+			var $localisation : Object:=OB Copy:C1225($language)
+			var $xliff : cs:C1710.Xliff:=$parent.cache.query("root = :1"; $localisation.root).first()
 			
 			If ($xliff=Null:C1517)
 				
@@ -315,7 +309,7 @@ This.adjustResname(False)
 			
 			// Get localisation
 			// FIXME:Failed if 2 identical or diacritical resnames, the first one is returned.
-			$node:=$xliff.findByXPath($localisation.string.xpath)
+			var $node : Text:=$xliff.findByXPath($localisation.string.xpath)
 			
 			If ($xliff.success)
 				
@@ -335,8 +329,8 @@ This.adjustResname(False)
 		
 	Else   // <group>
 		
-		$color.foreground:=Foreground color:K23:1
-		$color.background:=Background color:K23:2
+		$colour.foreground:=Foreground color:K23:1
+		$colour.background:=Background color:K23:2
 		
 		// Show resname if any
 		This:C1470.adjustResname(True:C214)
@@ -365,32 +359,28 @@ This.action.hide()
 		
 	End if 
 	
-	This:C1470.resname.setColors($color)
+	This:C1470.resname.setColors($colour)
 	
 	// MARK:-[Managers]
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _resnameManager($e : cs:C1710.evt)
 	
-	var $success : Boolean
-	var $string : Object
-	var $parent : cs:C1710._EDITOR_Controller
-	
 	If ($e.code#On Losing Focus:K2:8)
 		
-		//ASSERT(False; "Form event activated unnecessarily ("+$e.description+")")
 		return 
 		
 	End if 
 	
-	$parent:=This:C1470.form.container
-	$string:=$parent.stringList.item
+	var $parent : cs:C1710._EDITOR_Controller:=This:C1470.form.container
+	var $string : Object:=Form:C1466.string
 	
 	// Don't allow empty value
-	$success:=(Length:C16($string.resname)>0)
+	var $success : Boolean:=(Length:C16($string.resname)>0)
 	
 	If ($success)\
 		 && ($string.resname=Form:C1466.$backup.resname)
 		
+		// Nothing was changed
 		return 
 		
 	End if 
@@ -405,7 +395,7 @@ Function _resnameManager($e : cs:C1710.evt)
 	// For a group, do not allow duplicate names
 	If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
 		
-		$success:=$parent.current.groups.query("name = :1"; $string.resname).pop()=Null:C1517
+		$success:=$parent.current.groups.query("name = :1"; $string.resname).first()=Null:C1517
 		
 		If (Not:C34($success))
 			
@@ -445,12 +435,7 @@ Function _resnameManager($e : cs:C1710.evt)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _actionManager($e : cs:C1710.evt)
 	
-	var $string : Object
-	var $parent : cs:C1710._EDITOR_Controller
-	var $menu; $sub : cs:C1710.menu
-	
-	$parent:=This:C1470.form.container
-	$string:=$parent.stringList.item
+	var $string : Object:=Form:C1466.string
 	
 	If ($e.code=On Clicked:K2:4)
 		
@@ -460,7 +445,7 @@ Function _actionManager($e : cs:C1710.evt)
 			
 		End if 
 		
-		$string.resname:=This:C1470.str.lowerCamelCase($string.resname)  //_o_convert_camelCase($string.resname)
+		$string.resname:=This:C1470.str.lowerCamelCase($string.resname)
 		Form:C1466.$backup.resname:=$string.resname
 		
 		This:C1470.form.callMeBack("_UPDATE_RESNAME"; This:C1470.context())
@@ -468,20 +453,18 @@ Function _actionManager($e : cs:C1710.evt)
 		
 	End if 
 	
-	$menu:=cs:C1710.menu.new()
-	
+	var $menu : cs:C1710.menu:=cs:C1710.menu.new()
 	$menu.append("camelCase"; "camelCase")  //.shortcut("c"; Option key mask)
 	
 	If (OB Instance of:C1731($string; cs:C1710.XliffUnit))
 		
-		$sub:=cs:C1710.menu.new()
+		var $sub : cs:C1710.menu:=cs:C1710.menu.new()
 		$sub.append("all"; "all").mark($string.attributes["d4:includeIf"]=Null:C1517)\
 			.line()\
 			.append("macOS"; "mac").icon("#images/maOS.png").mark(String:C10($string.attributes["d4:includeIf"])="mac")\
 			.append("Windows"; "win").icon("#images/windows.png").mark(String:C10($string.attributes["d4:includeIf"])="win")
 		
-		$menu.append("operatingSystems"; $sub)
-		$menu.line()
+		$menu.append("operatingSystems"; $sub).line()
 		
 		If (This:C1470.note.visible)
 			
@@ -508,9 +491,7 @@ Function _actionManager($e : cs:C1710.evt)
 		End if 
 	End if 
 	
-	$menu.popup()
-	
-	If ($menu.selected)
+	If ($menu.popup().selected)
 		
 		This:C1470.updateSource()
 		
@@ -533,7 +514,7 @@ Function _actionManager($e : cs:C1710.evt)
 				//______________________________________________________
 			: ($menu.choice="comment")
 				
-				POST EVENT:C467(Key down event:K17:4; Character code:C91("N"); Tickcount:C458; 0; 0; (0 ?+ Option key bit:K16:8) ?+ Command key bit:K16:2)
+				This:C1470.form.postKeyDown(Character code:C91("N"); Command key mask:K16:1 ?+ Option key bit:K16:8)
 				
 				//______________________________________________________
 			: ($menu.choice="propagateReference")
@@ -573,8 +554,8 @@ Function _sourceManager($e : cs:C1710.evt)
 			//______________________________________________________
 		: ($e.code=On Getting Focus:K2:7)
 			
-			This:C1470.source.highlight()
 			SPELL SET CURRENT DICTIONARY:C904(Form:C1466.main.language.lproj)
+			This:C1470.source.highlight()
 			
 			//______________________________________________________
 		: ($e.code=On Losing Focus:K2:8)
@@ -735,8 +716,9 @@ Function updateSource()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function context() : Object
 	
-	return New object:C1471(\
-		"string"; Form:C1466.string; \
-		"parent"; This:C1470.form.container; \
-		"file"; This:C1470.form.container.current)
+	return {\
+		string: Form:C1466.string; \
+		parent: This:C1470.form.container; \
+		file: This:C1470.form.container.current\
+		}
 	

@@ -79,25 +79,7 @@ Function handleEvents($e : cs:C1710.evt)
 			//==============================================
 		: (This:C1470.targetRemove.catch($e))
 			
-			var $language : cs:C1710.language:=This:C1470.targets.item
-			var $folder:=Folder:C1567("/RESOURCES/"+$language.lproj+This:C1470.Editor.FOLDER_EXTENSION; *)\
-				 || Folder:C1567("/RESOURCES/"+$language.legacy+This:C1470.Editor.FOLDER_EXTENSION; *)
-			
-			OK:=Num:C11($folder.files(fk ignore invisible:K87:22).length=0)
-			
-			If (Not:C34(Bool:C1537(OK)))
-				
-				CONFIRM:C162("The content of this language folder will be deleted"; "Delete")
-				
-			End if 
-			
-			If (Bool:C1537(OK))
-				
-				$folder.delete(fk recursive:K87:7)
-				Form:C1466.languages:=This:C1470.Editor.targetLanguages(Form:C1466.reference.lproj)
-				This:C1470.targetRemove.disable()
-				
-			End if 
+			This:C1470.doDeleteLanguage()
 			
 			//==============================================
 	End case 
@@ -105,8 +87,9 @@ Function handleEvents($e : cs:C1710.evt)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function onLoad()
 	
-	Form:C1466.reference:=This:C1470.Editor.sourceLanguage()
+	Form:C1466.reference:=This:C1470.Editor.getLanguage(This:C1470.Editor.mainLanguage)
 	Form:C1466.languages:=This:C1470.Editor.targetLanguages()
+	
 	This:C1470.source.setTitle(Form:C1466.reference.localized)
 	This:C1470.targetRemove.disable()
 	
@@ -127,7 +110,7 @@ Function doSelectSourceLanguage()
 		
 		If ($c.length>1)
 			
-			$menu.append(".DETECTED LANGUAGES").disable()
+			$menu.append(Localized string:C991("languagesFound")).disable()
 			
 		End if 
 		
@@ -171,18 +154,17 @@ Function doAddTargetLanguage()
 	var $language : cs:C1710.language
 	var $menu : cs:C1710.menu:=cs:C1710.menu.new()
 	
-	var $c : Collection:=Form:C1466.languages.copy().push(This:C1470.Editor.getLanguage()).distinct().extract("lproj")
+	var $c : Collection:=Form:C1466.languages.copy().push(Form:C1466.reference).distinct().extract("lproj")
 	
 	For each ($language; This:C1470.Editor.LANGS.orderBy("lproj"))
 		
+		$menu.append($language.menuItem(); $language.lproj)
+		
 		If ($c.includes($language.lproj))
 			
-			continue
+			$menu.disable()
 			
 		End if 
-		
-		$menu.append($language.menuItem(); $language.lproj)\
-			.mark($language.lproj=Form:C1466.reference.lproj)
 		
 	End for each 
 	
@@ -193,3 +175,26 @@ Function doAddTargetLanguage()
 		
 	End if 
 	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+Function doDeleteLanguage()
+	
+	var $language : cs:C1710.language:=This:C1470.targets.item
+	var $folder:=Folder:C1567("/RESOURCES/"+$language.lproj+This:C1470.Editor.FOLDER_EXTENSION; *)\
+		 || Folder:C1567("/RESOURCES/"+$language.legacy+This:C1470.Editor.FOLDER_EXTENSION; *)
+	
+	OK:=Num:C11($folder.files(fk ignore invisible:K87:22).length=0)
+	
+	If (Not:C34(Bool:C1537(OK)))
+		
+		// FIXME: To translate
+		CONFIRM:C162(".The content of this language folder will be deleted"; ".Delete")
+		
+	End if 
+	
+	If (Bool:C1537(OK))
+		
+		$folder.delete(fk recursive:K87:7)
+		Form:C1466.languages:=This:C1470.Editor.targetLanguages(Form:C1466.reference.lproj)
+		This:C1470.targetRemove.disable()
+		
+	End if 

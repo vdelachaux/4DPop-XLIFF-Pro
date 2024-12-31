@@ -83,11 +83,6 @@ Function get mainLanguage() : Text
 	
 	return This:C1470.refLanguage
 	
-	// <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
-Function set mainLanguage($language)
-	
-	TRACE:C157
-	
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 Function _source($in : Text) : Text
 	

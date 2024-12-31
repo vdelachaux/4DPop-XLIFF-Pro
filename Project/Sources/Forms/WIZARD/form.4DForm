@@ -24,12 +24,12 @@
 					"top": 54,
 					"left": 45,
 					"width": 573,
-					"height": 169
+					"height": 184
 				},
 				"reference language flag": {
 					"type": "input",
 					"left": 252,
-					"top": 227,
+					"top": 242,
 					"width": 53,
 					"height": 30,
 					"dataSource": "Form:C1466.reference.flag",
@@ -45,23 +45,24 @@
 				"Text8": {
 					"type": "text",
 					"text": ".Source language:",
-					"top": 234,
+					"top": 249,
 					"left": 72,
 					"width": 180,
 					"height": 16,
 					"fontTheme": "normal",
-					"textAlign": "right"
+					"textAlign": "right",
+					"fontWeight": "bold"
 				},
 				"source": {
 					"type": "button",
-					"top": 234,
+					"top": 249,
 					"left": 301,
 					"width": 266,
 					"height": 17,
 					"events": [
 						"onClick"
 					],
-					"text": "Form.language.localized",
+					"text": "Form.reference.localized",
 					"popupPlacement": "linked",
 					"style": "custom",
 					"imageHugsTitle": true,
@@ -71,7 +72,7 @@
 				"List Box": {
 					"type": "listbox",
 					"left": 262,
-					"top": 260,
+					"top": 275,
 					"width": 307,
 					"height": 209,
 					"events": [
@@ -124,15 +125,16 @@
 				"Text2": {
 					"type": "text",
 					"text": ".Target languages:",
-					"top": 268,
+					"top": 283,
 					"left": 83,
 					"width": 169,
 					"height": 16,
-					"textAlign": "right"
+					"textAlign": "right",
+					"fontWeight": "bold"
 				},
 				"Button3": {
 					"type": "button",
-					"top": 474,
+					"top": 489,
 					"left": 262,
 					"width": 16,
 					"height": 16,
@@ -146,7 +148,7 @@
 				},
 				"Button4": {
 					"type": "button",
-					"top": 474,
+					"top": 489,
 					"left": 284,
 					"width": 16,
 					"height": 16,
@@ -160,7 +162,7 @@
 				},
 				"Line2": {
 					"type": "line",
-					"top": 469,
+					"top": 484,
 					"left": 261,
 					"width": 308,
 					"height": 0,
@@ -172,7 +174,7 @@
 					"top": 18,
 					"left": 0,
 					"width": 663,
-					"height": 16,
+					"height": 31,
 					"textAlign": "center",
 					"fontTheme": "main"
 				},
@@ -201,11 +203,16 @@
 					],
 					"defaultButton": false,
 					"sizingY": "move",
-					"action": "cancel"
+					"action": "cancel",
+					"shortcutAccel": false,
+					"shortcutControl": false,
+					"shortcutShift": false,
+					"shortcutAlt": false,
+					"shortcutKey": "[Esc]"
 				},
 				"Line1": {
 					"type": "line",
-					"top": 261,
+					"top": 275,
 					"left": 261,
 					"width": 308,
 					"height": 0
@@ -213,7 +220,7 @@
 			}
 		}
 	],
-	"geometryStamp": 459,
+	"geometryStamp": 479,
 	"editor": {
 		"activeView": "View 1",
 		"defaultView": "View 1",

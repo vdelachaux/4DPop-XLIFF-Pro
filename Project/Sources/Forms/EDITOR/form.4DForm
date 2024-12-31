@@ -9,6 +9,7 @@
 	"markerFooter": 240,
 	"events": [
 		"onLoad",
+		"onClick",
 		"onActivate",
 		"onDeactivate",
 		"onLosingFocus",
@@ -73,8 +74,8 @@
 				},
 				"toolbarNewTransUnit": {
 					"type": "button",
-					"top": 3,
-					"left": 239,
+					"top": 2,
+					"left": 255,
 					"width": 82,
 					"height": 28,
 					"tooltip": ":xliff:TipNewTransUnit",
@@ -93,9 +94,9 @@
 				},
 				"toolbarNewGroup": {
 					"type": "button",
-					"top": 3,
+					"top": 2,
 					"left": 161,
-					"width": 74,
+					"width": 84,
 					"height": 28,
 					"tooltip": ":xliff:TipNewGroup",
 					"icon": "/RESOURCES/Images/new.png",
@@ -201,7 +202,7 @@
 				},
 				"toolbarInfos": {
 					"type": "button",
-					"top": 3,
+					"top": 2,
 					"left": 128,
 					"width": 21,
 					"height": 28,
@@ -385,9 +386,9 @@
 				},
 				"toolbarNewFile": {
 					"type": "button",
-					"top": 3,
+					"top": 2,
 					"left": 0,
-					"width": 59,
+					"width": 102,
 					"height": 28,
 					"tooltip": ":xliff:TipAddFile",
 					"icon": "/RESOURCES/Images/new.png",
@@ -492,7 +493,7 @@
 		"version": "1",
 		"kind": "form"
 	},
-	"geometryStamp": 990,
+	"geometryStamp": 994,
 	"method": "formMethod",
 	"memorizeGeometry": true
 }

@@ -11,14 +11,14 @@ property FOLDER_EXTENSION:=".lproj"
 
 // Common XPATH
 property XPATH_HEADER:="/xliff/header"
-property XPATH_PROP_GROUP:="/xliff/file/header/prop-group"
+property XPATH_PROPERTIES:="/xliff/file/header/prop-group"
 property XPATH_FILE:="/xliff/file"
 property XPATH_BODY:="/xliff/file/body"
 
 // State values
-property NEW:="new"  // The item is new (not in a previous version of the document)
-property NEEDS_TRANSLATION:="needs-translation"  // The item needs to be translated.
-property NEEDS_REVIEW:="needs-review-translation"  // Only the text of the item needs to be reviewed.
+property STATE_NEW:="new"  // The item is new (not in a previous version of the document)
+property STATE_NEEDS_TRANSLATION:="needs-translation"  // The item needs to be translated.
+property STATE_NEEDS_REVIEW:="needs-review-translation"  // Only the text of the item needs to be reviewed.
 
 // MARK: Other 💾
 property attributes; language : Object
@@ -31,6 +31,7 @@ property languages:=[]
 property error : Text
 
 property duplicateID; duplicateResname; modified : Boolean
+property lastID : Integer
 
 Class constructor($file : 4D:C1709.File)
 	
@@ -59,12 +60,15 @@ Function deleteUnit($unit : cs:C1710.XliffUnit) : cs:C1710.XliffGroup
 	// Delete unit
 	This:C1470.remove($unit.node)
 	
+	var $indx : Integer:=This:C1470.allUnits.indices("id = :1"; $unit.id).first()
+	This:C1470.allUnits.remove($indx)
+	
 	// Update group
 	var $c:=Split string:C1554($unit.xpath; "/")
 	$c.pop()
-	var $group : cs:C1710.XliffGroup:=This:C1470.groups.query("xpath = :1"; $c.join("/")).pop()
+	var $group : cs:C1710.XliffGroup:=This:C1470.groups.query("xpath = :1"; $c.join("/")).first()
 	
-	var $indx : Integer:=$group.transunits.indices("id = :1"; $unit.id)[0]
+	$indx:=$group.transunits.indices("id = :1"; $unit.id)[0]
 	$group.transunits.remove($indx)
 	
 	return $group
@@ -73,10 +77,10 @@ Function deleteUnit($unit : cs:C1710.XliffUnit) : cs:C1710.XliffGroup
 	/// Creating and returning a new trans-unit
 Function createUnit($group : cs:C1710.XliffGroup; $resname : Text; $id : Text) : cs:C1710.XliffUnit
 	
-	var $attributes:={resname: $resname; id: Count parameters:C259=3 ? $id : This:C1470._uid()}
+	var $attributes:={resname: $resname; id: Count parameters:C259=3 ? $id : This:C1470.UID}
 	var $node:=This:C1470.create($group.node; "trans-unit"; $attributes)
-	var $unit:=cs:C1710.XliffUnit.new($node; $attributes)
 	
+	var $unit:=cs:C1710.XliffUnit.new($node; $attributes)
 	$unit.xpath:=$group.xpath+"/trans-unit[@id=\""+$unit.id+"\"]"
 	
 	$unit.source.node:=This:C1470.create($node; "source")
@@ -85,13 +89,27 @@ Function createUnit($group : cs:C1710.XliffGroup; $resname : Text; $id : Text) :
 	$unit.target.node:=This:C1470.create($node; "target")
 	$unit.target.xpath:=$unit.xpath+"/target"
 	
-	$group.transunits.push($unit)
-	
-	$group.transunits:=$group.transunits.orderBy("resname")
-	
 	This:C1470.allUnits.push($unit)
 	
+	$group.transunits.push($unit)
+	$group.transunits:=$group.transunits.orderBy("resname")
+	
 	return $unit
+	
+	// === === === === === === === === === === === === === === === === === === ===
+Function get UID() : Text
+	
+	var $uid : Integer:=(This:C1470.lastID#Null:C1517 ? This:C1470.lastID : This:C1470.allUnits.length)+1
+	
+	While (This:C1470.allUnits.query("id = :1"; $uid).first()#Null:C1517)
+		
+		$uid+=1
+		
+	End while 
+	
+	This:C1470.lastID:=$uid
+	
+	return String:C10(This:C1470.lastID)
 	
 	//<== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get fileNode() : Text
@@ -225,7 +243,7 @@ Function setState($node : Text; $state : Text)
 			var $currentState : Text:=String:C10(This:C1470.getAttributes($node).state)
 			
 			If (Length:C16($currentState)>0)\
-				 && (($currentState=This:C1470.NEW) | ($state=This:C1470.NEEDS_TRANSLATION) | ($state=This:C1470.NEEDS_REVIEW))
+				 && (($currentState=This:C1470.STATE_NEW) | ($state=This:C1470.STATE_NEEDS_TRANSLATION) | ($state=This:C1470.STATE_NEEDS_REVIEW))
 				
 				return   // Don't modify
 				
@@ -374,7 +392,7 @@ Function deDuplicateIDs($before : Collection; $after : Collection) : Boolean
 				
 				For ($indx; 0; $nodes.length-1; 1)
 					
-					$uid:=This:C1470._uid()
+					$uid:=This:C1470.UID  //This._uid()
 					This:C1470.setAttribute($unit.node; "id"; $uid)
 					$unit.id:=$uid
 					$unit.attributes.id:=$uid
@@ -504,7 +522,7 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 	
 	var $groupNode; $node; $t : Text
 	var $len; $pos : Integer
-	var $attributes; $string; $localizedGroup; $o : Object
+	var $attributes; $string; $o : Object
 	var $group : cs:C1710.XliffGroup
 	var $unit : cs:C1710.XliffUnit
 	var $xliff : cs:C1710.Xliff
@@ -533,7 +551,7 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 				
 				If (Not:C34(Bool:C1537($unit.noTranslate)))
 					
-					$xliff.setState($unit.node; This:C1470.NEW)
+					$xliff.setState($unit.node; This:C1470.STATE_NEW)
 					
 				End if 
 			End for each 
@@ -551,15 +569,15 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 			
 		End if 
 		
+		var $bodyNode : Text:=$xliff.findByXPath($xliff.XPATH_BODY)
+		
 		// Ensure that all groups are synchronized
 		For each ($group; This:C1470.groups)
 			
-			$localizedGroup:=$xliff.groups.query("resname = :1"; $group.resname).pop()
-			
-			If ($localizedGroup=Null:C1517)
+			If ($xliff.groups.query("resname = :1"; $group.resname).first()=Null:C1517)
 				
 				// Create the group
-				$groupNode:=$xliff.append($xliff.findByXPath($xliff.XPATH_BODY); $group.node)
+				$groupNode:=$xliff.append($bodyNode; $group.node)
 				
 				// Set all target states as "new"
 				For each ($node; $xliff.childrens($groupNode))
@@ -568,7 +586,7 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 					
 					If (String:C10($attributes.translate)#"no")
 						
-						$xliff.setState($node; This:C1470.NEW)
+						$xliff.setState($node; This:C1470.STATE_NEW)
 						
 					End if 
 				End for each 
@@ -584,11 +602,11 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 				
 				$string:=Null:C1517
 				
-				$o:=$xliff.groups.query("transunits[].id = :1"; $unit.id).pop()
+				$o:=$xliff.groups.query("transunits[].id = :1"; $unit.id).first()
 				
 				If ($o#Null:C1517)
 					
-					$string:=$o.transunits.query("id = :1"; $unit.id).pop()
+					$string:=$o.transunits.query("id = :1"; $unit.id).first()
 					
 				End if 
 				
@@ -600,7 +618,7 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 					If (String:C10($unit.attributes.translate)#"no")
 						
 						// Set the target state as "new"
-						$xliff.setState($node; This:C1470.NEW)
+						$xliff.setState($node; This:C1470.STATE_NEW)
 						
 					End if 
 				End if 
@@ -613,9 +631,7 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 	// === === === === === === === === === === === === === === === === === === ===
 Function updateHeader($name : Text; $version : Text)
 	
-	var $node : Text
-	
-	$node:=This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP)
+	var $node : Text:=This:C1470.findByXPath(This:C1470.XPATH_PROPERTIES)
 	
 	If (This:C1470.isReference($node))
 		
@@ -623,26 +639,26 @@ Function updateHeader($name : Text; $version : Text)
 		
 	Else 
 		
-		$node:=This:C1470.create(This:C1470.root; This:C1470.XPATH_PROP_GROUP; New object:C1471("name"; $name))
+		$node:=This:C1470.create(This:C1470.root; This:C1470.XPATH_PROPERTIES; {name: $name})
 		
 	End if 
 	
-	$node:=This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP+"/prop[@prop-type=\"version\"")
+	$node:=This:C1470.findByXPath(This:C1470.XPATH_PROPERTIES+"/prop[@prop-type=\"version\"")
 	
 	If (Not:C34(This:C1470.isReference($node)))
 		
-		$node:=This:C1470.create(This:C1470.root; This:C1470.XPATH_PROP_GROUP+"/prop"; New object:C1471("prop-type"; "version"))
+		$node:=This:C1470.create(This:C1470.root; This:C1470.XPATH_PROPERTIES+"/prop"; New object:C1471("prop-type"; "version"))
 		
 	End if 
 	
 	This:C1470.setValue($node; $version)
 	
-	// Delete old properties
-	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP+"/prop[@prop-type=\"resname-autofill\""))
-	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP+"/prop[@prop-type=\"resname-prefix\""))
-	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP+"/prop[@prop-type=\"resname-separator\""))
-	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP+"/prop[@prop-type=\"prefix\""))
-	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROP_GROUP+"/prop[@prop-type=\"separator\""))
+	// Delete old properties, if any
+	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROPERTIES+"/prop[@prop-type=\"resname-autofill\""))
+	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROPERTIES+"/prop[@prop-type=\"resname-prefix\""))
+	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROPERTIES+"/prop[@prop-type=\"resname-separator\""))
+	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROPERTIES+"/prop[@prop-type=\"prefix\""))
+	This:C1470.remove(This:C1470.findByXPath(This:C1470.XPATH_PROPERTIES+"/prop[@prop-type=\"separator\""))
 	
 	This:C1470.save()
 	

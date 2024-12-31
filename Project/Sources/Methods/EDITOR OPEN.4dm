@@ -26,7 +26,7 @@ If ($run)
 	var $data:={}
 	var $pref:=cs:C1710.Preferences.new()
 	
-	If (Not:C34($pref.exists))
+	If (Not:C34($pref.exists("wizard")))
 		
 		// First launch
 		$data.window:=Open form window:C675("WIZARD"; Movable form dialog box:K39:8; Horizontally centered:K39:1; Vertically centered:K39:4)
@@ -36,6 +36,7 @@ If ($run)
 		If (Bool:C1537(OK))
 			
 			// Save preferences
+			$pref.set("wizard"; True:C214)
 			$pref.set("currentProject"; $project.name)
 			$pref.set("sourceLanguage"; $data.reference.lproj)
 			$pref.set("targetLanguages"; $data.languages.extract("lproj"))

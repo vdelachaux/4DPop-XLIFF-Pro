@@ -40,17 +40,17 @@ Function handleEvents($e : cs:C1710.evt)
 		Case of 
 				
 				//______________________________________________________
-			: ($e.code=On Load:K2:1)
+			: ($e.load)
 				
 				This:C1470.form.onLoad()
 				
 				//______________________________________________________
-			: ($e.code=On Activate:K2:9)
+			: ($e.activate)
 				
 				//Never seems to trigger
 				
 				//______________________________________________________
-			: ($e.code=On Bound Variable Change:K2:52)
+			: ($e.boundVariableChange)
 				
 				This:C1470.form.update()
 				
@@ -72,14 +72,16 @@ Function handleEvents($e : cs:C1710.evt)
 			//==============================================
 		: (This:C1470.value.catch($e))
 			
-			If ($e.code=On Getting Focus:K2:7)
+			If ($e.gettingFocus)
+				
+				SPELL SET CURRENT DICTIONARY:C904(Form:C1466._container.lproj)
 				
 				This:C1470.value.backup().highlight()
 				return 
 				
 			End if 
 			
-			If ($e.code=On Losing Focus:K2:8)\
+			If ($e.losingFocus)\
 				 && (This:C1470.value.modified)
 				
 				Form:C1466._container.value:=This:C1470.value.getValue()
@@ -90,6 +92,8 @@ Function handleEvents($e : cs:C1710.evt)
 			
 			//==============================================
 		: (This:C1470.flag.catch($e))
+			
+			//TODO: Remove state "needs-review-translation"
 			
 			//Form._container.value:=This.value.getValue()
 			//This.form.callMeBack("_UPDATE_LOCALIZED_TARGET"; Form._container)
@@ -138,9 +142,6 @@ Function update()
 				
 			End if 
 		End if 
-		
-		SPELL SET CURRENT DICTIONARY:C904(Substring:C12(Form:C1466._container.lproj; 1; 2))
-		
 	End if 
 	
 	// Adjust value width

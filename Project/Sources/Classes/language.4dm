@@ -1,4 +1,3 @@
-
 property lproj; intl; localized; iso; legacy; flag; regional : Text
 
 property xliff : cs:C1710.Xliff

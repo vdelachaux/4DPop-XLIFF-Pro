@@ -1127,14 +1127,12 @@ Function setName($node : Text; $name : Text) : cs:C1710.xml
 	// Removes the element set by $node
 Function remove($node : Text) : cs:C1710.xml
 	
-	If (This:C1470._requiredParams(Count parameters:C259; 1))
+	If (This:C1470._requiredParams(Count parameters:C259; 1))\
+		 && (This:C1470.isReference($node))
 		
-		If (This:C1470._requiredRef($node))
-			
-			DOM REMOVE XML ELEMENT:C869($node)
-			This:C1470.success:=Bool:C1537(OK)
-			
-		End if 
+		DOM REMOVE XML ELEMENT:C869($node)
+		This:C1470.success:=Bool:C1537(OK)
+		
 	End if 
 	
 	return This:C1470
@@ -1459,7 +1457,7 @@ Function _requiredParams($count; $number) : Boolean
 	
 	If (Not:C34(This:C1470.success))
 		
-		This:C1470._pushError("Missing one or more parameters")
+		This:C1470._pushError("One or more parameters are missing")
 		
 	End if 
 	

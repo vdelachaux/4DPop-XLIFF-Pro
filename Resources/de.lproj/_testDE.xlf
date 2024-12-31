@@ -11,7 +11,7 @@ This file is distributed under the same license as the product package.
         
         
         
-        <prop prop-type="version">3.1</prop>
+        <prop prop-type="version">3.0</prop>
         
         
       </prop-group>
@@ -31,9 +31,9 @@ This file is distributed under the same license as the product package.
           <source>Not the same resname as "new element"</source>
           <target state="new">Not the same resname as "new element"</target>
         </trans-unit>
-        <trans-unit id="0B94AF98448241E5B86D6DC5F7255D2C" resname="new element" translate="no">
+        <trans-unit id="0B94AF98448241E5B86D6DC5F7255D2C" resname="newElement" translate="no">
           <source>Not the same resname as "NEW ELEMENT"</source>
-          <target>Not the same reesname as "NEW ELEMENT"</target>
+          
         </trans-unit>
         <trans-unit id="1E32B1E68C3E485E86BBC943CEF83FC3" resname="seeYouLater">
           <source>See you later</source>
@@ -55,21 +55,32 @@ This file is distributed under the same license as the product package.
           <source>Duplicate_resname_2</source>
           <target state="new">Duplicate_resname_2</target>
         </trans-unit>
-        <trans-unit id="FDD8311-2023C4B1A47B8B9B9FA78DF3DCB58" resname="seventy">
+        <trans-unit id="FDD8311-2024C4B1A47B8B9B9FA78DF3DCB58" resname="seventy">
           <source>Seventy</source>
-          <target state="new">Seventy</target>
+          <target>Siebzig</target>
         </trans-unit>
       </group>
       <group resname="New group">
-        <trans-unit id="zBX_6sXvLqDmOoj5lqJzVA" resname="newelement8">
+        <trans-unit id="zBX_6sXvLqDmOoj5lqJzVA" resname="newelement" translate="no">
           <source>TEST 2</source>
-          <target state="new">TEST 2</target>
-        </trans-unit>
+          
+          <target state="needs-translation">TEST 2</target></trans-unit>
         <trans-unit id="f3Yqfpkg1F9M3rt6_Ngg5A" resname="zzz">
           <source/>
           <target state="new"/>
         </trans-unit>
       </group>
+      <group resname="Group 1"/>
+      <group resname="Group 2"/>
+      <group resname="Group 3"/>
+      <group resname="Group 4">
+        <trans-unit id="WEeSSPPvT0mW8kYoQ0ZopA" resname="String 1">
+          <source/>
+          <target/>
+        </trans-unit>
+      </group>
+      <group resname="Group 5"/>
     </body>
   </file>
+
 </xliff>

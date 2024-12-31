@@ -11,7 +11,7 @@ This file is distributed under the same license as the product package.
         
         
         
-        <prop prop-type="version">3.1</prop>
+        <prop prop-type="version">3.0</prop>
         
         
 
@@ -478,6 +478,9 @@ Depending on the content of your project, the language of the system and the app
         </trans-unit><trans-unit id="Btuld_QPUCJavmfPBRJ1CQ" resname="wizardTitle">
           <source>Welcome to 4DPop XLIFF Pro</source>
           <target state="new">Welcome to 4DPop XLIFF Pro</target>
+        </trans-unit><trans-unit id="108" resname="languagesFound">
+          <source>LANGUAGES FOUND</source>
+          <target state="new">LANGUAGES FOUND</target>
         </trans-unit></group></body>
   </file>
 

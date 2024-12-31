@@ -4,7 +4,7 @@
   <file datatype="plaintext" original="Undefined" source-language="en" target-language="es">
     <header>
       <prop-group name="4DPop XLIFF Pro">
-        <prop prop-type="version">3.1</prop>
+        <prop prop-type="version">3.0</prop>
       </prop-group>
     </header>
     <body>
@@ -17,17 +17,22 @@
           <source>2</source>
           <target state="new">2</target>
         </trans-unit>
-        <trans-unit id="dUa_tmUemziamoU_O31XhQ" resname="00">
-          <source>00</source>
-          <target state="new">00</target>
-        </trans-unit>
+        
         <trans-unit id="IfPuwNfyOhVRc1fnV6q+IQ" resname="10">
-          <source>10</source>
-          <target state="new">10</target>
+          <source>103</source>
+          <target state="new">103</target>
         </trans-unit>
         <trans-unit id="zSA3_clmhtH5Gx2QekG4DA" resname="1">
           <source>1</source>
           <target state="new">1</target>
+        </trans-unit>
+        <trans-unit id="20" resname="String 2">
+          <source/>
+          <target/>
+        </trans-unit>
+        <trans-unit id="22" resname="String 5">
+          <source/>
+          <target/>
         </trans-unit>
       </group>
       <group resname="0">
@@ -96,6 +101,7 @@
       </group>
     </body>
   </file>
+
 
 
 </xliff>

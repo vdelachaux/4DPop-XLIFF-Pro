@@ -29,6 +29,8 @@ property spinner : cs:C1710.stepper
 
 // MARK: Constants 🔐
 property GENERATOR:=File:C1566(Structure file:C489; fk platform path:K87:2).name
+// TODO:Retrieve component version
+property VERSION:="3.0"
 
 // TODO:Could be a preference
 property AUTOSAVE:=True:C214  // Flag for automatic saving
@@ -57,10 +59,9 @@ Class constructor()
 	This:C1470.main.files:=This:C1470.getFiles()
 	
 	// MARK: default
-	// TODO:Retrieve component version
 	This:C1470.default:={\
 		language: This:C1470.main.language.lproj; \
-		version: "3.0"\
+		version: This:C1470.VERSION\
 		}
 	
 	// MARK: Managed languages
@@ -184,7 +185,6 @@ Function handleEvents($e : cs:C1710.evt)
 				//______________________________________________________
 			: ($e.code=On Resize:K2:27)
 				
-				This:C1470.strings.center(True:C214)
 				This:C1470.locked.center(True:C214)
 				
 				//______________________________________________________
@@ -221,6 +221,7 @@ Function handleEvents($e : cs:C1710.evt)
 		
 	End if 
 	
+	// MARK: Widget Methods
 	If ($e.objectName="stringSplitter")
 		
 		This:C1470.stringListConstraints.apply()
@@ -229,7 +230,6 @@ Function handleEvents($e : cs:C1710.evt)
 		
 	End if 
 	
-	// MARK: Widget Methods
 	Case of 
 			
 			//==============================================
@@ -288,14 +288,11 @@ Function onLoad()
 	This:C1470.resnamePtr:=OBJECT Get pointer:C1124(Object named:K67:5; "unit")
 	This:C1470.contentPtr:=OBJECT Get pointer:C1124(Object named:K67:5; "content")
 	
-	// Distribute the "String" buttons of the toolbar
+	// Adjust the width of toolbar buttons to suit localized titles
+	This:C1470.newFile.bestSize()
 	This:C1470.withFile.distributeLeftToRight().disable()
-	
 	This:C1470.filterLanguage.bestSize()
 	This:C1470.lockButton.bestSize()
-	
-	This:C1470.form.appendEvents(On Delete Action:K2:56)
-	This:C1470.form.appendEvents(On Expand:K2:41)
 	
 	This:C1470.form.focus(This:C1470.fileList.name)
 	
@@ -307,6 +304,9 @@ Function onLoad()
 		start: 0; \
 		borderColor: 0x00C0C0C0\
 		}
+	
+	// Add events that we cannot select in the form properties 😇
+	This:C1470.form.appendEvents([On Expand:K2:41; On Delete Action:K2:56; On Begin Drag Over:K2:44])
 	
 	This:C1470.stringListConstraints.apply()
 	
@@ -320,7 +320,7 @@ Function update()
 	If (This:C1470.fileList.item=Null:C1517)\
 		 && (This:C1470.fileList.rowsNumber>0)
 		
-		// Select last used file, if any
+		// Select last used file, if any…
 		var $currentFile : Text:=This:C1470.Preferences.get("currentFile")
 		var $c : Collection
 		
@@ -331,16 +331,20 @@ Function update()
 			
 		End if 
 		
-		// By default the first file if there is at least one file
+		// … or the first file if there is at least one file
 		This:C1470.doSelectFile(Bool:C1537($c.length) ? $c[0]+1 : Bool:C1537(This:C1470.fileList.rowsNumber) ? 1 : 0)
+		
+	Else 
+		
+		This:C1470.spinner.stop(True:C214)
 		
 	End if 
 	
-	var $isWritable:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
+	var $isWritable:=Not:C34(Bool:C1537(This:C1470.current.duplicateID)) && (This:C1470.fileList.item#Null:C1517)
 	
 	This:C1470.strings.show(This:C1470.current.error=Null:C1517)
-	This:C1470.newString.enable((This:C1470.stringList.item#Null:C1517) & $isWritable)
 	This:C1470.newGroup.enable($isWritable)
+	This:C1470.newString.enable($isWritable && This:C1470.stringList.item#Null:C1517)
 	
 	This:C1470.updateMenus($isWritable)
 	
@@ -355,7 +359,7 @@ Function update()
 		
 	End if 
 	
-	This:C1470.detail.show((This:C1470.stringList.item#Null:C1517) & ($isWritable))
+	This:C1470.detail.show($isWritable && (This:C1470.stringList.item#Null:C1517))
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function updateMenus($isWritable : Boolean)
@@ -433,6 +437,11 @@ Function handleMenus($what : Text)
 			This:C1470.doNewString()
 			
 			//______________________________________________________
+		: ($what="delete")
+			
+			This:C1470.doDeleteString()
+			
+			//______________________________________________________
 		: ($what="copy")
 			
 			If (This:C1470.form.focused=This:C1470.stringList.name)
@@ -505,7 +514,11 @@ Function _fileListManager($e : cs:C1710.evt)
 			//______________________________________________________
 		: ($e.code=On Selection Change:K2:29)
 			
-			This:C1470.spinner.start(True:C214)
+			If (This:C1470.stringList.item#Null:C1517)
+				
+				This:C1470.spinner.start(True:C214)
+				
+			End if 
 			
 			This:C1470.stringList.unselect()
 			This:C1470.stringList.item:=Null:C1517
@@ -605,12 +618,12 @@ Function _stringListManager($e : cs:C1710.evt)
 	Case of 
 			
 			//______________________________________________________
-		: ($e.code=On Selection Change:K2:29)
+		: ($e.selectionChange)
 			
 			This:C1470.form.refresh()
 			
 			//______________________________________________________
-		: ($e.code=On Clicked:K2:4)
+		: ($e.click)
 			
 			If (Contextual click:C713)
 				
@@ -676,7 +689,7 @@ Function _stringListManager($e : cs:C1710.evt)
 			This:C1470.form.refresh()
 			
 			//______________________________________________________
-		: ($e.code=On Expand:K2:41)
+		: ($e.expand)
 			
 			// Select the break line
 			This:C1470.stringList.selectBreak($e.row)
@@ -691,16 +704,16 @@ Function _stringListManager($e : cs:C1710.evt)
 			This:C1470.form.refresh()
 			
 			//______________________________________________________
-		: ($e.code=On Getting Focus:K2:7)
+		: ($e.gettingFocus)
 			
 			//If ($item=Null) && (This.stringList.rowsNumber>0)
 			//// Select the first group
 			//This.doSelectGroup(1; $e)
-			//This.form.refresh()
+			//  //This.form.refresh()
 			//End if 
 			
 			//______________________________________________________
-		: ($e.code=On Begin Drag Over:K2:44)
+		: ($e.beginDragOver)
 			
 			var $t : Text
 			var $isForm : Boolean
@@ -758,7 +771,7 @@ Function _stringListManager($e : cs:C1710.evt)
 			End if 
 			
 			//______________________________________________________
-		: ($e.code=On Delete Action:K2:56)
+		: ($e.delete)
 			
 			This:C1470.doDeleteString($e)
 			
@@ -806,13 +819,13 @@ Function doNewFile()
 	If (This:C1470.folders.length=0)
 		
 		var $folder : 4D:C1709.Folder
-		$folder:=Folder:C1567(fk resources folder:K87:11; *).folder(This:C1470.main.language+This:C1470.Editor.FOLDER_EXTENSION)
+		$folder:=Folder:C1567(fk resources folder:K87:11; *).folder(This:C1470.main.language.lproj+This:C1470.Editor.FOLDER_EXTENSION)
 		$folder.create()
 		This:C1470.folders.push($folder)
 		
 	End if 
 	
-	$file:=File:C1566("/RESOURCES/template.xlf").copyTo(This:C1470.folders.query("name = :1"; This:C1470.main.language).first(); $name; fk overwrite:K87:5)
+	$file:=File:C1566("/RESOURCES/template.xlf").copyTo(This:C1470.folders.query("name = :1"; This:C1470.main.language.lproj).first(); $name; fk overwrite:K87:5)
 	
 	$t:=$file.getText()
 	PROCESS 4D TAGS:C816($t; $t; This:C1470.default)
@@ -822,8 +835,7 @@ Function doNewFile()
 	
 	// Update UI
 	Form:C1466.files:=This:C1470.main.files
-	$indx:=This:C1470.main.files.indices("fullName = :1"; $name)[0]
-	This:C1470.fileList.select($indx+1)
+	This:C1470.fileList.select(This:C1470.main.files.indices("fullName = :1"; $name)[0]+1)
 	This:C1470.stringList.item:=Null:C1517
 	This:C1470._fileListManager({code: On Selection Change:K2:29})
 	
@@ -854,7 +866,7 @@ Function doNewGroup()
 	End for each 
 	
 	// Update UI
-	//FIXME:Turn around
+	// FIXME:Turn around
 	This:C1470._LOAD_STRINGS()
 	
 	This:C1470.stringList.sort(1)
@@ -948,7 +960,7 @@ Function doDeleteFile($file : 4D:C1709.File; $e : cs:C1710.evt)
 		
 	End if 
 	
-	$e:=$e || FORM Event:C1606
+	$e:=$e || cs:C1710.evt.new()
 	
 	$file.delete()
 	
@@ -963,7 +975,17 @@ Function doDeleteFile($file : 4D:C1709.File; $e : cs:C1710.evt)
 	
 	// Update UI
 	Form:C1466.files.remove(Form:C1466.files.indices("fullName = :1"; $file.fullName)[0])
-	This:C1470.fileList.doSafeSelect($e.row)
+	
+	If (Form:C1466.files.length>0)
+		
+		This:C1470.fileList.doSafeSelect($e.row)
+		
+	Else 
+		
+		This:C1470.fileList.item:=Null:C1517
+		
+	End if 
+	
 	$e.code:=On Selection Change:K2:29
 	This:C1470._fileListManager($e)
 	
@@ -1601,7 +1623,7 @@ Function _DISPLAY_FILE()
 						
 						This:C1470.current.languages.push({\
 							language: $signal.language; \
-							xliff: $signal.xliff})
+							xliff: OB Copy:C1225($signal.xliff)})  // Make unshared
 						
 						$parallel.remove($indx)
 						
@@ -1825,7 +1847,7 @@ Function _UPDATE_SOURCE($context : Object)
 		$source:=$xliff.sourceNode($unit; True:C214)
 		$target:=$xliff.targetNode($unit; True:C214)
 		
-		$isNew:=Length:C16($xliff.getValue($source))=0
+		$isNew:=Length:C16(String:C10($xliff.getValue($source)))=0
 		
 		$xliff.setValue($source; $string.source.value)
 		
@@ -1835,17 +1857,17 @@ Function _UPDATE_SOURCE($context : Object)
 			: ($isNew)
 				
 				$xliff.setValue($target; $string.source.value)
-				$xliff.setState($target; $xliff.NEW)
+				$xliff.setState($target; $xliff.STATE_NEW)
 				
 				//______________________________________________________
-			: (String:C10($xliff.getAttributes($target).state)=$xliff.NEW)
+			: (String:C10($xliff.getAttributes($target).state)=$xliff.STATE_NEW)
 				
 				$xliff.setValue($target; $string.source.value)
 				
 				//______________________________________________________
 			Else 
 				
-				$xliff.setState($target; $xliff.NEEDS_REVIEW)
+				$xliff.setState($target; $xliff.STATE_NEEDS_REVIEW)
 				
 				//______________________________________________________
 		End case 
@@ -1854,7 +1876,7 @@ Function _UPDATE_SOURCE($context : Object)
 		
 		// Updating of UI elements
 		$language.properties:=$language.properties || {}
-		$language.properties.state:=$xliff.NEEDS_REVIEW
+		$language.properties.state:=$xliff.STATE_NEEDS_REVIEW
 		
 	End for each 
 	
@@ -1863,27 +1885,22 @@ Function _UPDATE_SOURCE($context : Object)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _UPDATE_RESNAME($context : Object)
 	
-	var $itemPosition; $len; $pos; $row : Integer
-	var $ptr : Pointer
-	var $langue; $target : Object
-	var $group : cs:C1710.XliffGroup
-	var $xliff : cs:C1710.Xliff
-	
-	$target:=$context.string
+	var $target : Object:=$context.string
 	
 	// Update the reference XML tree
-	$xliff:=$context.file
+	var $xliff : cs:C1710.Xliff:=$context.file
 	$xliff.setAttribute($xliff.findByXPath($target.xpath); "resname"; $target.resname)
 	This:C1470.save($xliff)
 	
-	$ptr:=This:C1470.stringList.pointer
-	$itemPosition:=Find in array:C230($ptr->; True:C214)
+	var $ptr : Pointer:=This:C1470.stringList.pointer
+	var $itemPosition : Integer:=Find in array:C230($ptr->; True:C214)
 	
 	If (OB Instance of:C1731($target; cs:C1710.XliffGroup))
 		
-		$group:=$xliff.groups.query("previous = :1"; $target.previous).pop()
+		var $group : cs:C1710.XliffGroup:=$xliff.groups.query("previous = :1"; $target.previous).pop()
 		$group.setResname($target.resname)
 		
+		var $langue : Object
 		For each ($langue; $target.localizations)
 			
 			$xliff:=$langue.xliff
@@ -1901,6 +1918,8 @@ Function _UPDATE_RESNAME($context : Object)
 		
 		// Updating of UI elements
 		$ptr:=This:C1470.stringList.columnPtr("group")
+		
+		var $row : Integer
 		
 		Repeat 
 			
@@ -1926,6 +1945,7 @@ Function _UPDATE_RESNAME($context : Object)
 		// Synchronize attributes of other files
 		This:C1470._synchronizeAttributes($context.parent; $target; $xliff.getAttributes($target.node))
 		
+		var $len; $pos : Integer
 		If (Match regex:C1019("(?mi-s)(?<=trans-unit\\[@resname=\")([^\"]*)"; $target.xpath; 1; $pos; $len))
 			
 			$target.xpath:=Substring:C12($target.xpath; 1; $pos-1)+$target.resname+Substring:C12($target.xpath; $pos+$len)
@@ -1942,28 +1962,22 @@ Function _UPDATE_RESNAME($context : Object)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _UPDATE_TRANSLATE($context : Object)
 	
-	var $target; $unit; $value : Text
-	var $attributes; $language; $parent; $string : Object
-	var $xliff : cs:C1710.Xliff
-	
-	$string:=$context.string
-	$parent:=$context.parent
-	
-	// Update the reference XML tree
-	$xliff:=$context.file
-	$unit:=$xliff.findByXPath($string.xpath)
+	var $attributes; $language : Object
+	var $string : Object:=$context.string
+	var $parent : Object:=$context.parent
+	var $xliff : cs:C1710.Xliff:=$context.file
+	var $unit : Text:=$xliff.findByXPath($string.xpath)
 	
 	If ($string.attributes["translate"]=Null:C1517)
 		
 		$xliff.removeAttribute($unit; "translate")
 		$attributes:=$xliff.getAttributes($unit)
 		
-		$value:=$xliff.sourceValue($unit)
+		var $value : Text:=$xliff.sourceValue($unit)
 		
 		// Create if any & set value
-		$target:=$xliff.targetNode($unit; True:C214)
+		var $target : Text:=$xliff.targetNode($unit; True:C214)
 		$xliff.setValue($target; $value)
-		
 		This:C1470.save($xliff)
 		
 		$string.target.value:=$value
@@ -1973,16 +1987,14 @@ Function _UPDATE_TRANSLATE($context : Object)
 			// Update the XML tree
 			$xliff:=$language.xliff
 			$unit:=$xliff.findByXPath($string.xpath)
-			
 			$target:=$xliff.targetNode($unit; True:C214)
 			$xliff.setValue($target; $string.source.value)
-			$xliff.setState($target; $xliff.NEEDS_TRANSLATION)
-			
+			$xliff.setState($target; $xliff.STATE_NEEDS_TRANSLATION)
 			This:C1470.save($xliff)
 			
 			// Updating of UI elements
 			$language.properties:=$language.properties || {}
-			$language.properties.state:=$xliff.NEEDS_TRANSLATION
+			$language.properties.state:=$xliff.STATE_NEEDS_TRANSLATION
 			$language.value:=$string.source.value
 			
 		End for each 
@@ -1993,9 +2005,7 @@ Function _UPDATE_TRANSLATE($context : Object)
 		
 		$xliff.setAttribute($unit; "translate"; "no")
 		$attributes:=$xliff.getAttributes($unit)
-		
 		$xliff.remove($xliff.targetNode($unit))
-		
 		This:C1470.save($xliff)
 		
 		For each ($language; $string.localizations)
@@ -2004,7 +2014,6 @@ Function _UPDATE_TRANSLATE($context : Object)
 			$xliff:=$language.xliff
 			$unit:=$xliff.findByXPath($string.xpath)
 			$xliff.remove($xliff.targetNode($unit))
-			
 			This:C1470.save($xliff)
 			
 			// Updating of UI elements
@@ -2112,13 +2121,13 @@ Function _PROPAGATE_REFERENCE($context : Object)
 		$xliff:=$language.xliff
 		$unit:=$xliff.findByXPath($string.xpath)
 		$xliff.setValue($target; $string.source.value)
-		$xliff.setState($target; $xliff.NEEDS_TRANSLATION)
+		$xliff.setState($target; $xliff.STATE_NEEDS_TRANSLATION)
 		
 		This:C1470.save($xliff)
 		
 		// Updating of UI elements
 		$language.properties:=$language.properties || {}
-		$language.properties.state:=$xliff.NEEDS_TRANSLATION
+		$language.properties.state:=$xliff.STATE_NEEDS_TRANSLATION
 		$language.value:=$string.source.value
 		
 	End for each 
