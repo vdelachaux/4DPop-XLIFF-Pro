@@ -17,6 +17,7 @@ Class constructor
 		This:C1470.LANGS.push(cs:C1710.language.new({\
 			lproj: $key; \
 			intl: This:C1470.RESOURCES.intl[$indx]; \
+			fr: This:C1470.RESOURCES.fr[$indx]; \
 			localized: This:C1470.RESOURCES.localized[$indx]; \
 			iso: This:C1470.RESOURCES["ISO639-1"][$indx]; \
 			legacy: This:C1470.RESOURCES.legacy[$indx]; \

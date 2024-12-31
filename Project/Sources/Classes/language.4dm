@@ -1,4 +1,4 @@
-property lproj; intl; localized; iso; legacy; flag; regional : Text
+property lproj; intl; fr; localized; iso; legacy; flag; regional : Text
 
 property xliff : cs:C1710.Xliff
 property root : Text
@@ -13,7 +13,7 @@ Class constructor($in : Object)
 		
 	End for each 
 	
-	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function menuItem($withoutFlag : Boolean) : Text
 	
 	var $label : Text
@@ -28,10 +28,22 @@ Function menuItem($withoutFlag : Boolean) : Text
 		
 	End if 
 	
-	If (This:C1470.localized#This:C1470.intl)
+	If (Get database localization:C1009(User system localization:K5:23; *)="fr")\
+		 || (Get database localization:C1009(Current localization:K5:22; *)="fr")
 		
-		$label+=" ("+This:C1470.intl+")"
+		If (This:C1470.localized#This:C1470.fr)
+			
+			$label+=" ("+This:C1470.fr+")"
+			
+		End if 
 		
+	Else 
+		
+		If (This:C1470.localized#This:C1470.intl)
+			
+			$label+=" ("+This:C1470.intl+")"
+			
+		End if 
 	End if 
 	
 	return $label

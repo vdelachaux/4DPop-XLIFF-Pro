@@ -114,7 +114,7 @@ Function doSelectSourceLanguage()
 			
 		End if 
 		
-		For each ($language; $c.orderBy("lproj"))
+		For each ($language; $c.orderBy("localized"))
 			
 			$menu.append($language.menuItem(); $language.lproj)\
 				.mark($language.lproj=Form:C1466.reference.lproj)
@@ -127,7 +127,7 @@ Function doSelectSourceLanguage()
 	
 	$c:=$c.extract("lproj")
 	
-	For each ($language; This:C1470.Editor.LANGS.orderBy("lproj"))
+	For each ($language; This:C1470.Editor.LANGS.orderBy("localized"))
 		
 		If ($c.includes($language.lproj))
 			
@@ -156,7 +156,7 @@ Function doAddTargetLanguage()
 	
 	var $c : Collection:=Form:C1466.languages.copy().push(Form:C1466.reference).distinct().extract("lproj")
 	
-	For each ($language; This:C1470.Editor.LANGS.orderBy("lproj"))
+	For each ($language; This:C1470.Editor.LANGS.orderBy("localized"))
 		
 		$menu.append($language.menuItem(); $language.lproj)
 		
