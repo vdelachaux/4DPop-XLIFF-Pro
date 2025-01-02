@@ -80,56 +80,33 @@ Class constructor($node : Text; $attributes : Object)
 	This:C1470.xpath:=String:C10($attributes.xpath)
 	This:C1470.isconstant:=String:C10(This:C1470.attributes.restype)="x-4DK#"
 	
+	//OB REMOVE(This.attributes; "xpath")
+	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setResname($resname : Text)
 	
-	var $len; $pos : Integer
-	
 	This:C1470.resname:=$resname
 	This:C1470.attributes.resname:=$resname
+	This:C1470.xpath:="/xliff/file/body/group[@resname="+This:C1470.resname+"]"
+	This:C1470.attributes.xpath:=This:C1470.xpath
 	
-	If (Match regex:C1019(This:C1470.XPATH_PATTERN; This:C1470.xpath; 1; $pos; $len))
-		
-		This:C1470.xpath:=Substring:C12(This:C1470.xpath; 1; $pos-1)+$resname+Substring:C12(This:C1470.xpath; $pos+$len)
-		
-	End if 
-	
-	This:C1470.updateTransunits()
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function updateTransunits()
-	
-	var $len; $pos : Integer
+	// Update trans-units
 	var $unit : cs:C1710.XliffUnit
-	
 	For each ($unit; This:C1470.transunits)
 		
-		If (Match regex:C1019(This:C1470.XPATH_PATTERN; $unit.xpath; 1; $pos; $len))
-			
-			$unit.xpath:=Substring:C12($unit.xpath; 1; $pos-1)+This:C1470.resname+Substring:C12($unit.xpath; $pos+$len)
-			
-		End if 
-		
-		If (Match regex:C1019(This:C1470.XPATH_PATTERN; $unit.source.xpath; 1; $pos; $len))
-			
-			$unit.source.xpath:=Substring:C12($unit.source.xpath; 1; $pos-1)+This:C1470.resname+Substring:C12($unit.source.xpath; $pos+$len)
-			
-		End if 
+		$unit.xpath:=This:C1470.xpath+"/trans-unit[@id=\""+$unit.id+"\"]"
+		$unit.source.xpath:=$unit.xpath+"/source"
 		
 		If ($unit.target#Null:C1517)
 			
-			If (Match regex:C1019(This:C1470.XPATH_PATTERN; $unit.target.xpath; 1; $pos; $len))
-				
-				$unit.target.xpath:=Substring:C12($unit.target.xpath; 1; $pos-1)+This:C1470.resname+Substring:C12($unit.target.xpath; $pos+$len)
-				
-			End if 
+			$unit.source.xpath:=$unit.xpath+"/target"
+			
 		End if 
 	End for each 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function setAttributes($attributes : Object)
 	
-	var $len; $pos : Integer
 	var $unit : cs:C1710.XliffUnit
 	
 	This:C1470.attributes:=$attributes
@@ -138,25 +115,13 @@ Function setAttributes($attributes : Object)
 	
 	For each ($unit; This:C1470.transunits)
 		
-		If (Match regex:C1019(This:C1470.XPATH_PATTERN; $unit.xpath; 1; $pos; $len))
-			
-			$unit.xpath:=Substring:C12($unit.xpath; 1; $pos-1)+This:C1470.resname+Substring:C12($unit.xpath; $pos+$len)
-			
-		End if 
-		
-		If (Match regex:C1019(This:C1470.XPATH_PATTERN; $unit.source.xpath; 1; $pos; $len))
-			
-			$unit.source.xpath:=Substring:C12($unit.source.xpath; 1; $pos-1)+This:C1470.resname+Substring:C12($unit.source.xpath; $pos+$len)
-			
-		End if 
+		$unit.xpath:=This:C1470.xpath+"/trans-unit[@id=\""+$unit.id+"\"]"
+		$unit.source.xpath:=$unit.xpath+"/source"
 		
 		If ($unit.target#Null:C1517)
 			
-			If (Match regex:C1019(This:C1470.XPATH_PATTERN; $unit.target.xpath; 1; $pos; $len))
-				
-				$unit.target.xpath:=Substring:C12($unit.target.xpath; 1; $pos-1)+This:C1470.resname+Substring:C12($unit.target.xpath; $pos+$len)
-				
-			End if 
+			$unit.source.xpath:=$unit.xpath+"/target"
+			
 		End if 
 	End for each 
 	

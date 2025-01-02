@@ -77,7 +77,7 @@ Function deleteUnit($unit : cs:C1710.XliffUnit) : cs:C1710.XliffGroup
 	/// Creating and returning a new trans-unit
 Function createUnit($group : cs:C1710.XliffGroup; $resname : Text; $id : Text) : cs:C1710.XliffUnit
 	
-	var $attributes:={resname: $resname; id: Count parameters:C259=3 ? $id : This:C1470.UID}
+	var $attributes:={resname: $resname; id: Count parameters:C259=3 ? $id : This:C1470.getUID()}
 	var $node:=This:C1470.create($group.node; "trans-unit"; $attributes)
 	
 	var $unit:=cs:C1710.XliffUnit.new($node; $attributes)
@@ -97,9 +97,9 @@ Function createUnit($group : cs:C1710.XliffGroup; $resname : Text; $id : Text) :
 	return $unit
 	
 	// === === === === === === === === === === === === === === === === === === ===
-Function get UID() : Text
+Function getUID() : Text
 	
-	var $uid : Integer:=(This:C1470.lastID#Null:C1517 ? This:C1470.lastID : This:C1470.allUnits.length)+1
+	var $uid : Integer:=(This:C1470.lastID#Null:C1517 ? This:C1470.lastID : 0)+1
 	
 	While (This:C1470.allUnits.query("id = :1"; $uid).first()#Null:C1517)
 		
@@ -376,23 +376,24 @@ Function parse() : cs:C1710.Xliff
 	// === === === === === === === === === === === === === === === === === === ===
 Function deDuplicateIDs($before : Collection; $after : Collection) : Boolean
 	
-	var $node; $uid : Text
+	var $node : Text
 	var $indx : Integer
-	var $nodes : Collection
-	var $group : cs:C1710.XliffGroup
+	
 	var $unit : cs:C1710.XliffUnit
 	
-	If (Count parameters:C259=0)  // Main file
+	If (Count parameters:C259=0)
 		
+		// MARK: Main file
+		var $group : cs:C1710.XliffGroup
 		For each ($group; This:C1470.groups)
 			
 			For each ($unit; $group.transunits)
 				
-				$nodes:=This:C1470.find(This:C1470.root; "//trans-unit[@id=\""+Replace string:C233($unit.id; "/"; "//")+"\"]")
+				var $nodes : Collection:=This:C1470.find(This:C1470.root; "//trans-unit[@id=\""+Replace string:C233($unit.id; "/"; "//")+"\"]")
 				
 				For ($indx; 0; $nodes.length-1; 1)
 					
-					$uid:=This:C1470.UID  //This._uid()
+					var $uid : Text:=This:C1470.getUID()
 					This:C1470.setAttribute($unit.node; "id"; $uid)
 					$unit.id:=$uid
 					$unit.attributes.id:=$uid
@@ -401,8 +402,9 @@ Function deDuplicateIDs($before : Collection; $after : Collection) : Boolean
 			End for each 
 		End for each 
 		
-	Else   // Location file to be synchronized
+	Else 
 		
+		// MARK: Localization file to be synchronized
 		For each ($unit; $before)
 			
 			$node:=This:C1470.findUnitNode($unit)
@@ -435,26 +437,30 @@ Function deDuplicateIDs($before : Collection; $after : Collection) : Boolean
 	// Returns a trans-unit nodes accordind to id & resname & d4:inclu
 Function findUnitNode($unit : cs:C1710.XliffUnit) : Text
 	
-	var $node : Text
 	var $indice : Integer
-	var $attributes : Object
-	var $nodes : Collection
 	
 	// Search first with the id
-	$nodes:=This:C1470.find(This:C1470.root; $unit.xpath)
+	var $nodes : Collection:=This:C1470.find(This:C1470.root; $unit.xpath)
 	
 	If ($nodes.length>1)
 		
 		// More than one ID, so we need to compare resname (diacritic)
 		// and the platform, if there is one.
+		var $node : Text
 		For each ($node; $nodes.copy())
 			
-			$attributes:=This:C1470.getAttributes($node)
+			var $attributes : Object:=This:C1470.getAttributes($node)
 			
-			If ($attributes.resname#$unit.resname) | (Position:C15($unit.resname; $attributes.resname; 1; *)#1)\
+			If (String:C10($attributes.resname)#$unit.resname) | (Position:C15($unit.resname; String:C10($attributes.resname); 1; *)#1)\
 				 || (String:C10($attributes["d4:includeIf"])#String:C10($unit.attributes["d4:includeIf"]))
 				
 				$nodes.remove($indice)
+				
+				If ($nodes.length=1)
+					
+					break
+					
+				End if 
 				
 			Else 
 				
@@ -711,9 +717,4 @@ Function _child($item; $element : Text) : Text
 		return This:C1470.firstChild($item; $element)
 		
 	End if 
-	
-	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
-Function _uid() : Text
-	
-	return Replace string:C233(Delete string:C232(Generate digest:C1147(Generate UUID:C1066; _o_4D REST digest:K66:3); 23; 2); "/"; "_")
 	

@@ -308,8 +308,7 @@ This.adjustResname(False)
 			$localisation.string:=$string
 			
 			// Get localisation
-			// FIXME:Failed if 2 identical or diacritical resnames, the first one is returned.
-			var $node : Text:=$xliff.findByXPath($localisation.string.xpath)
+			var $node : Text:=$xliff.findById($localisation.string.id)
 			
 			If ($xliff.success)
 				
@@ -405,26 +404,27 @@ Function _resnameManager($e : cs:C1710.evt)
 		
 		If (Not:C34($success))
 			
+			// Keep the previous name to allow the updating of the hierarchical list-box
+			$string.previous:=Form:C1466.$backup.resname
 			ALERT:C41(Replace string:C233(Localized string:C991("theNameIsAlreadyTaken"); "{name}"; $string.resname))
 			$success:=Shift down:C543  // I know what I do ;-)
 			
 		End if 
 	End if 
 	
-	If (Not:C34($success))
+	If ($success)
+		
+		
+		// Keep the previous name to allow the updating of the hierarchical list-box
+		$string.previous:=Form:C1466.$backup.resname
+		
+	Else 
 		
 		// Restore the old value
 		This:C1470.resname.value:=Form:C1466.$backup.resname
 		This:C1470.resname.highlight().focus()
 		
 		return 
-		
-	End if 
-	
-	If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
-		
-		// Keep the previous name to allow the updating of the hierarchical list-box
-		$string.previous:=Form:C1466.$backup.resname
 		
 	End if 
 	
@@ -439,16 +439,8 @@ Function _actionManager($e : cs:C1710.evt)
 	
 	If ($e.code=On Clicked:K2:4)
 		
-		If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
-			
-			$string.previous:=$string.resname
-			
-		End if 
+		This:C1470._menuManager("camelCase")
 		
-		$string.resname:=This:C1470.str.lowerCamelCase($string.resname)
-		Form:C1466.$backup.resname:=$string.resname
-		
-		This:C1470.form.callMeBack("_UPDATE_RESNAME"; This:C1470.context())
 		return 
 		
 	End if 
@@ -494,57 +486,64 @@ Function _actionManager($e : cs:C1710.evt)
 	If ($menu.popup().selected)
 		
 		This:C1470.updateSource()
+		This:C1470._menuManager($menu.choice)
 		
-		Case of 
-				
-				//______________________________________________________
-			: ($menu.choice="camelCase")
-				
-				If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
-					
-					$string.previous:=$string.resname
-					
-				End if 
-				
-				$string.resname:=This:C1470.str.lowerCamelCase($string.resname)  //_o_convert_camelCase($string.resname)
-				Form:C1466.$backup.resname:=$string.resname
-				
-				This:C1470.form.callMeBack("_UPDATE_RESNAME"; This:C1470.context())
-				
-				//______________________________________________________
-			: ($menu.choice="comment")
-				
-				This:C1470.form.postKeyDown(Character code:C91("N"); Command key mask:K16:1 ?+ Option key bit:K16:8)
-				
-				//______________________________________________________
-			: ($menu.choice="propagateReference")
-				
-				This:C1470.form.callMeBack("_PROPAGATE_REFERENCE")
-				
-				//______________________________________________________
-			: ($menu.choice="mac")\
-				 | ($menu.choice="win")\
-				 | ($menu.choice="all")
-				
-				If ($menu.choice="all")
-					
-					OB REMOVE:C1226($string.attributes; "d4:includeIf")
-					
-				Else 
-					
-					$string.attributes["d4:includeIf"]:=$menu.choice
-					
-				End if 
-				
-				This:C1470.form.callMeBack("_UPDATE_PLATFORM"; This:C1470.context())
-				
-				// Set the platform indicator
-				This:C1470.mac.show($menu.choice="mac")
-				This:C1470.win.show($menu.choice="win")
-				
-				//______________________________________________________
-		End case 
 	End if 
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+Function _menuManager($what : Text)
+	
+	var $string : Object:=Form:C1466.string
+	
+	Case of 
+			
+			//______________________________________________________
+		: ($what="camelCase")
+			
+			If (This:C1470.isGroup($string))
+				
+				$string.previous:=$string.resname
+				
+			End if 
+			
+			$string.resname:=This:C1470.str.lowerCamelCase($string.resname)
+			Form:C1466.$backup.resname:=$string.resname
+			
+			This:C1470.form.callMeBack("_UPDATE_RESNAME"; This:C1470.context())
+			
+			//______________________________________________________
+		: ($what="comment")
+			
+			This:C1470.form.postKeyDown(Character code:C91("N"); Command key mask:K16:1 ?+ Option key bit:K16:8)
+			
+			//______________________________________________________
+		: ($what="propagateReference")
+			
+			This:C1470.form.callMeBack("_PROPAGATE_REFERENCE")
+			
+			//______________________________________________________
+		: ($what="mac")\
+			 | ($what="win")\
+			 | ($what="all")
+			
+			If ($what="all")
+				
+				OB REMOVE:C1226($string.attributes; "d4:includeIf")
+				
+			Else 
+				
+				$string.attributes["d4:includeIf"]:=$what
+				
+			End if 
+			
+			This:C1470.form.callMeBack("_UPDATE_PLATFORM"; This:C1470.context())
+			
+			// Set the platform indicator
+			This:C1470.mac.show($what="mac")
+			This:C1470.win.show($what="win")
+			
+			//______________________________________________________
+	End case 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _sourceManager($e : cs:C1710.evt)
@@ -712,6 +711,11 @@ Function updateSource()
 		Form:C1466.$backup.source.value:=Form:C1466.string.source.value
 		
 	End if 
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isGroup($target : Object) : Boolean
+	
+	return OB Instance of:C1731($target; cs:C1710.XliffGroup)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function context() : Object

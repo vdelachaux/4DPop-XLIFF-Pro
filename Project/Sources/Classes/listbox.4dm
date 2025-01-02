@@ -325,6 +325,7 @@ Function selectBreak($row : Integer; $column : Integer) : cs:C1710.listbox
 			$ptr->{$row-1}:=True:C214
 			
 		Else 
+			
 			//$ptr->{$row}:=True
 			
 		End if 
@@ -377,6 +378,24 @@ Function expandAll() : cs:C1710.listbox
 	End if 
 	
 	return This:C1470
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isExpanded($row : Integer) : Boolean
+	
+	If (This:C1470.isHierarchical(Current method name:C684))
+		
+		If ($row<This:C1470.rowsNumber)
+			
+			var $ptr : Pointer:=This:C1470.columnPtr(This:C1470.getColumnName(1))
+			return $ptr->{$row}=$ptr->{$row+1}
+			
+		End if 
+	End if 
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isCollapsed($row : Integer) : Boolean
+	
+	return Not:C34(This:C1470.isExpanded($row))
 	
 	// MARK:-
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
@@ -740,20 +759,16 @@ Function unselect($row : Integer) : cs:C1710.listbox
 		// Unselect all rows
 		LISTBOX SELECT ROW:C912(*; This:C1470.name; 0; lk remove from selection:K53:3)
 		
-		If (This:C1470.isCollection() || This:C1470.isEntitySelection())
-			
-			This:C1470.item:=Null:C1517
-			This:C1470.itemPosition:=0
-			This:C1470.items:=Null:C1517
-			
-		End if 
-		
 	Else 
 		
-		// #TO_DO: use a collection for multiple selection
+		// TODO: use a collection for multiple selection
 		LISTBOX SELECT ROW:C912(*; This:C1470.name; $row; lk remove from selection:K53:3)
 		
 	End if 
+	
+	This:C1470.item:=Null:C1517
+	This:C1470.itemPosition:=0
+	This:C1470.items:=Null:C1517
 	
 	return This:C1470
 	
