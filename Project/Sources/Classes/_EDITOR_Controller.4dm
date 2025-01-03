@@ -27,11 +27,6 @@ property fileList; stringList : cs:C1710.listbox
 property strings; locked; withFile : cs:C1710.group
 property spinner : cs:C1710.stepper
 
-// MARK: Constants 🔐
-property GENERATOR:=File:C1566(Structure file:C489; fk platform path:K87:2).name
-// TODO:Retrieve component version
-property VERSION:="3.0"
-
 // TODO:Could be a preference
 property AUTOSAVE:=True:C214  // Flag for automatic saving
 
@@ -43,6 +38,14 @@ property default; resources : Object
 property groupPtr; resnamePtr; contentPtr : Pointer
 
 property stringListConstraints : cs:C1710.constraints
+
+// MARK: Constants 🔐
+property GENERATOR:=File:C1566(Structure file:C489; fk platform path:K87:2).name
+// TODO:Retrieve component version
+property VERSION:="3.0"
+
+property DISPLAY_FILE:=-1
+property LOAD_STRINGS:=-2
 
 Class constructor()
 	
@@ -93,8 +96,14 @@ Function init()
 	var $menuEdit : cs:C1710.menu:=cs:C1710.menu.new().method($menuHandle)
 	$menuEdit.edit()  // Get a standard edit menu
 	
+	// Modify the cut item (4) to be able to manage it ourselves
+	$menuEdit.parameter("cut"; 4).method($menuHandle; 4).action(ak none:K76:35; 4)
+	
 	// Modify the copy item (5) to be able to manage it ourselves
 	$menuEdit.parameter("copy"; 5).method($menuHandle; 5).action(ak none:K76:35; 5)
+	
+	// Modify the past item (6) to be able to manage it ourselves
+	$menuEdit.parameter("paste"; 6).method($menuHandle; 6).action(ak none:K76:35; 6)
 	
 	// Insert custom copy items
 	$menuEdit.append(Localized string:C991("CommonMenuItemCopy")+" "+Localized string:C991("copyResname"); "copyResname"; 5).method($menuHandle).shortcut("C"; Shift key mask:K16:3)
@@ -321,6 +330,23 @@ Function onLoad()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function update()
 	
+	var $defered : Integer:=This:C1470.form.deferedTimer
+	
+	Case of 
+			
+			// ……………………………………………………………………………………………………
+		: ($defered=This:C1470.DISPLAY_FILE)
+			
+			This:C1470.form.callMeBack("_DISPLAY_FILE")
+			
+			// ……………………………………………………………………………………………………
+		: ($defered=This:C1470.LOAD_STRINGS)
+			
+			This:C1470.form.callMeBack("_LOAD_STRINGS")
+			
+			// ……………………………………………………………………………………………………
+	End case 
+	
 	If (This:C1470.fileList.item=Null:C1517)\
 		 && (This:C1470.fileList.rowsNumber>0)
 		
@@ -340,7 +366,7 @@ Function update()
 		
 	Else 
 		
-		This:C1470.spinner.stop(True:C214)
+		//This.spinner.stop(True)
 		
 	End if 
 	
@@ -375,13 +401,19 @@ Function updateMenus($isWritable : Boolean)
 	
 	If (This:C1470.form.focused=This:C1470.stringList.name)
 		
+		This:C1470.menuBar.enableItem("cut"; This:C1470.stringList.item#Null:C1517)
 		This:C1470.menuBar.enableItem("copy"; (This:C1470.stringList.item#Null:C1517) && (This:C1470.stringList.item.id#Null:C1517))
+		var $x : Blob
+		GET PASTEBOARD DATA:C401("pop.xliff"; $x)
+		This:C1470.menuBar.enableItem("paste"; BLOB size:C605($x)>0)
 		This:C1470.menuBar.enableItem("copyResname"; This:C1470.stringList.item#Null:C1517)
 		This:C1470.menuBar.enableItem("copyCode"; This:C1470.stringList.item#Null:C1517)
 		
 	Else 
 		
+		This:C1470.menuBar.enableItem("cut"; Length:C16(Get edited text:C655)>0)
 		This:C1470.menuBar.enableItem("copy"; Length:C16(Get edited text:C655)>0)
+		This:C1470.menuBar.enableItem("paste"; Length:C16(Get text from pasteboard:C524)>0)
 		This:C1470.menuBar.disableItem("copyResname")
 		This:C1470.menuBar.disableItem("copyCode")
 		
@@ -412,6 +444,11 @@ Function deinit()
 Function handleMenus($what : Text)
 	
 	$what:=$what || Get selected menu item parameter:C1005
+	
+	var $text; $key : Text
+	var $start; $stop : Integer
+	var $item; $o : Object
+	var $x : Blob
 	
 	Case of 
 			
@@ -446,6 +483,152 @@ Function handleMenus($what : Text)
 			This:C1470.doDeleteString()
 			
 			//______________________________________________________
+		: ($what="cut")
+			
+			If (This:C1470.form.focused=This:C1470.stringList.name)
+				
+				$item:=OB Copy:C1225(This:C1470.stringList.item)
+				
+				If (This:C1470.isGroup($item))
+					
+					ASSERT:C1129(False:C215; "TODO: Paste a group")
+					return 
+					
+				End if 
+				
+				For each ($o; $item.localizations)
+					
+					$o.localized:=$o.xliff.allUnits.query("id = :1"; $item.id).first()
+					
+				End for each 
+				
+				VARIABLE TO BLOB:C532($item; $x; *)
+				CLEAR PASTEBOARD:C402
+				APPEND DATA TO PASTEBOARD:C403("pop.xliff"; $x)
+				
+				// This.doDeleteString(False)
+				
+			Else 
+				
+				$text:=Get edited text:C655
+				
+				If (Length:C16($text)>0)
+					
+					GET HIGHLIGHT:C209(*; This:C1470.form.focused; $start; $stop)
+					
+					If ($start#$stop)
+						
+						SET TEXT TO PASTEBOARD:C523(Substring:C12($text; $start; $stop))
+						
+					End if 
+				End if 
+			End if 
+			
+			//______________________________________________________
+		: ($what="paste")
+			
+			GET PASTEBOARD DATA:C401("pop.xliff"; $x)
+			
+			If (Not:C34(Bool:C1537(OK)))
+				
+				return 
+				
+			End if 
+			
+			BLOB TO VARIABLE:C533($x; $item)
+			
+			var $xliff : cs:C1710.Xliff:=This:C1470.current
+			
+			var $target : Object:=This:C1470.stringList.item
+			var $id : Text
+			
+			If (This:C1470.isGroup($item))
+				
+				// TODO: Paste a group
+				ASSERT:C1129(False:C215; "TODO: Paste a group")
+				
+			Else 
+				
+				If (This:C1470.isTransUnit($target))
+					
+					// Get parent group
+					$target:=This:C1470.parentGroup($target)
+					
+				End if 
+				
+				$item.resname+=" (copy)"
+				
+				var $unit : cs:C1710.XliffUnit:=This:C1470.current.createUnit($target; $item.resname)
+				
+				For each ($key; $item.attributes)
+					
+					If ($key="resname") || ($key="id")
+						
+						continue
+						
+					End if 
+					
+					$xliff.setAttribute($unit.node; $key; $item.attributes[$key])
+					
+				End for each 
+				
+				$xliff.setValue($unit.source.node; $item.source.value)
+				$xliff.setValue($unit.target.node; $item.source.value)
+				This:C1470.save(This:C1470.current)
+				
+				// Update localized files
+				For each ($o; $item.localizations)
+					
+					$xliff:=$o.xliff
+					var $group : cs:C1710.XliffGroup:=$xliff.groups.query("xpath = :1"; $target.xpath).first()
+					
+					If (Asserted:C1132($group#Null:C1517))
+						
+						$unit:=$xliff.createUnit($group; $item.resname; $unit.id)
+						
+						For each ($key; $item.attributes)
+							
+							If ($key="resname") || ($key="id")
+								
+								continue
+								
+							End if 
+							
+							$xliff.setAttribute($unit.node; $key; $item.attributes[$key])
+							
+						End for each 
+						
+						var $localized : Object:=$o.localized
+						
+						//$xliff.setValue($unit.source.node; $item.source.value)
+						//$xliff.setValue($unit.target.node; $o.value)
+						
+						This:C1470.save($xliff)
+						
+					End if 
+				End for each 
+				
+				// Update UI
+				If ($target.transunits.length=1)
+					
+					var $row : Integer:=Find in array:C230(This:C1470.groupPtr->; $target.resname)
+					This:C1470.resnamePtr->{$row}:=$item.resname
+					This:C1470.contentPtr->{$row}:=$unit
+					
+				Else 
+					
+					APPEND TO ARRAY:C911((This:C1470.groupPtr)->; $target.resname)
+					APPEND TO ARRAY:C911((This:C1470.resnamePtr)->; $item.resname)
+					APPEND TO ARRAY:C911((This:C1470.contentPtr)->; $unit)
+					
+				End if 
+				
+				This:C1470.stringList.sort(2)
+				This:C1470.doSelectUnit(Find in array:C230((This:C1470.resnamePtr)->; $item.resname))
+				
+			End if 
+			
+			//______________________________________________________
 		: ($what="copy")
 			
 			If (This:C1470.form.focused=This:C1470.stringList.name)
@@ -454,12 +637,10 @@ Function handleMenus($what : Text)
 				
 			Else 
 				
-				var $text : Text
 				$text:=Get edited text:C655
 				
 				If (Length:C16($text)>0)
 					
-					var $start; $stop : Integer
 					GET HIGHLIGHT:C209(*; This:C1470.form.focused; $start; $stop)
 					
 					If ($start#$stop)
@@ -518,14 +699,7 @@ Function _fileListManager($e : cs:C1710.evt)
 			//______________________________________________________
 		: ($e.code=On Selection Change:K2:29)
 			
-			If (This:C1470.stringList.item#Null:C1517)
-				
-				This:C1470.spinner.start(True:C214)
-				
-			End if 
-			
 			This:C1470.stringList.unselect()
-			This:C1470.stringList.item:=Null:C1517
 			
 			// Reset the search
 			This:C1470.searchPicker.data.start:=0
@@ -540,7 +714,8 @@ Function _fileListManager($e : cs:C1710.evt)
 				
 			End if 
 			
-			This:C1470.form.callMeBack("_DISPLAY_FILE")
+			This:C1470.spinner.start(True:C214)
+			This:C1470.form.deferTimer(This:C1470.DISPLAY_FILE)
 			
 			//______________________________________________________
 		: ($e.code=On Clicked:K2:4)
@@ -778,7 +953,7 @@ Function _stringListManager($e : cs:C1710.evt)
 			//______________________________________________________
 		: ($e.delete)
 			
-			This:C1470.doDeleteString($e)
+			This:C1470.doDeleteString()
 			
 			//______________________________________________________
 		Else 
@@ -986,7 +1161,7 @@ Function doDeleteFile($file : 4D:C1709.File; $e : cs:C1710.evt)
 	This:C1470._fileListManager($e)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function doDeleteString($e : cs:C1710.evt)
+Function doDeleteString($confirm : Boolean)
 	
 	var $row : Integer
 	var $language : Object
@@ -1001,14 +1176,17 @@ Function doDeleteString($e : cs:C1710.evt)
 		
 	End if 
 	
-	CONFIRM:C162(Replace string:C233(\
-		Localized string:C991(OB Instance of:C1731($target; cs:C1710.XliffUnit) ? "DeleteItem" : "DeleteGroup"); \
-		"{item}"; $target.resname))
-	
-	If (OK=0)
+	If (Count parameters:C259=0 ? True:C214 : $confirm)
 		
-		return 
+		CONFIRM:C162(Replace string:C233(\
+			Localized string:C991(OB Instance of:C1731($target; cs:C1710.XliffUnit) ? "DeleteItem" : "DeleteGroup"); \
+			"{item}"; $target.resname))
 		
+		If (OK=0)
+			
+			return 
+			
+		End if 
 	End if 
 	
 	var $xliff : cs:C1710.Xliff:=This:C1470.current
@@ -1554,7 +1732,7 @@ Function _synchronizeAttributes($parent : Object; $string : Object; $attributes 
 		
 		// Update the XML tree
 		var $xliff : cs:C1710.Xliff:=$parent.cache.query("root = :1"; $langue.root).pop()
-		var $node : Text:=$xliff.findByXPath($string.xpath)
+		var $node : Text:=$xliff.findById($string.id)
 		
 		If ($xliff.success)
 			
@@ -1576,6 +1754,8 @@ Function _DISPLAY_FILE()
 	var $file : 4D:C1709.File
 	
 	If ($xliff=Null:C1517)
+		
+		IDLE:C311
 		
 		$xliff:=This:C1470.parse(This:C1470.fileList.item)
 		
@@ -1650,13 +1830,7 @@ Function _DISPLAY_FILE()
 		
 	End if 
 	
-	This:C1470.form.callMeBack("_LOAD_STRINGS")
-	
-	If ($xliff.duplicateResname)
-		
-		This:C1470.form.callMeBack("_HIGHLIGHTING_DUPLICATES")
-		
-	End if 
+	This:C1470.form.deferTimer(This:C1470.LOAD_STRINGS)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _SELECT_STRING($data : Object)
@@ -1693,20 +1867,18 @@ Function _SELECT_STRING($data : Object)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _LOAD_STRINGS()
 	
-	var $main : cs:C1710.Xliff
 	var $group : cs:C1710.XliffGroup
 	var $unit : cs:C1710.XliffUnit
 	
-	//FIXME:Optimize
 	ARRAY TEXT:C222($groupResnames; 0x0000)
 	ARRAY TEXT:C222($stringResnames; 0x0000)
 	ARRAY OBJECT:C1221($units; 0x0000)
 	
-	$main:=This:C1470.current
+	var $xliff : cs:C1710.Xliff:=This:C1470.current
 	
-	If ($main.groups.length>0)
+	If ($xliff.groups.length>0)
 		
-		For each ($group; $main.groups)
+		For each ($group; $xliff.groups)
 			
 			If ($group.transunits.length>0)
 				
@@ -1744,7 +1916,13 @@ Function _LOAD_STRINGS()
 	
 	This:C1470.spinner.stop(True:C214)
 	
-	This:C1470.locked.show($main.duplicateID)
+	If ($xliff.duplicateResname)
+		
+		This:C1470.form.callMeBack("_HIGHLIGHTING_DUPLICATES")
+		
+	End if 
+	
+	This:C1470.locked.show($xliff.duplicateID)
 	This:C1470.form.refresh()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
@@ -1887,25 +2065,24 @@ Function _UPDATE_RESNAME($context : Object)
 	var $ptr : Pointer
 	var $row : Integer
 	var $target : Object:=$context.string
-	
-	// Update the reference XML tree
 	var $xliff : cs:C1710.Xliff:=$context.file
-	var $node : Text:=$xliff.groups.query("xpath = :1"; $target.xpath).first().node
-	$xliff.setAttribute($node; "resname"; $target.resname)
+	var $parent : Object:=$context.parent
+	
+	$xliff.setAttribute($target.node; "resname"; $target.resname)
 	This:C1470.save($xliff)
 	
-	// MARK:-Group resname
+	// MARK:-Group
 	If (This:C1470.isGroup($target))
 		
 		var $group : cs:C1710.XliffGroup:=$xliff.groups.query("previous = :1"; $target.previous).first()
 		$group.setResname($target.resname)
+		This:C1470.save($xliff)
 		
 		var $item : Object
 		For each ($item; $target.localizations)
 			
 			$xliff:=$item.xliff
 			$group:=$xliff.groups.query("resname = :1"; $target.previous).first()
-			
 			$xliff.setAttribute($group.node; "resname"; $target.resname)
 			This:C1470.save($xliff)
 			
@@ -1913,14 +2090,19 @@ Function _UPDATE_RESNAME($context : Object)
 			
 		End for each 
 		
-		// UI: Rename
-		$row:=Find in array:C230((This:C1470.groupPtr)->; $target.previous)
-		(This:C1470.groupPtr)->{$row}:=$target.resname
+		// UI
+		Repeat 
+			
+			$row:=Find in array:C230((This:C1470.groupPtr)->; $target.previous)
+			
+			If ($row#-1)
+				
+				(This:C1470.groupPtr)->{$row}:=$target.resname
+				
+			End if 
+		Until ($row=-1)
 		
-		// UI: Sort
 		This:C1470.stringList.sort(1)
-		
-		// UI: Select
 		$row:=Find in array:C230((This:C1470.groupPtr)->; $target.resname)
 		This:C1470.doSelectGroup($row)
 		
@@ -1938,22 +2120,14 @@ Function _UPDATE_RESNAME($context : Object)
 		
 	End if 
 	
-	// MARK:-Unit resname
-	// Synchronize attributes of other files
+	// MARK:-Unit: Synchronize attributes of other files
 	This:C1470._synchronizeAttributes($context.parent; $target; $xliff.getAttributes($target.node))
 	
-	var $len; $pos : Integer
-	If (Match regex:C1019("(?mi-s)(?<=trans-unit\\[@resname=\")([^\"]*)"; $target.xpath; 1; $pos; $len))
-		
-		$target.xpath:=Substring:C12($target.xpath; 1; $pos-1)+$target.resname+Substring:C12($target.xpath; $pos+$len)
-		
-	End if 
-	
+	// MARK:-UI
 	var $c:=[]
 	ARRAY TO COLLECTION:C1563($c; This:C1470.stringList.columnPtr("content")->)
 	$row:=$c.indices("id = :1"; $context.string.id)[0]+1
 	(This:C1470.stringList.columnPtr("unit"))->{$row}:=$target.resname
-	
 	This:C1470.stringList.sort(2)
 	This:C1470.stringList.focus()
 	
@@ -2135,20 +2309,10 @@ Function _PROPAGATE_REFERENCE($context : Object)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _UPDATE_LOCALIZED_TARGET($context : Object)
 	
-	var $target : Text
-	var $xliff : cs:C1710.Xliff
-	
-	// Get xliff
-	$xliff:=This:C1470.cache.query("root=:1"; $context.root).pop()
-	
-	// Get target & set value
-	$target:=$xliff.findByXPath($context.string.target.xpath)
-	$xliff.setValue($target; $context.value)
-	
-	// Remove state attribute
-	$xliff.removeState($target)
-	
-	// Save
+	var $xliff : cs:C1710.Xliff:=This:C1470.cache.query("root = :1"; $context.root).first()
+	var $targetNode : Text:=$xliff.findByXPath($context.string.target.xpath)
+	$xliff.setValue($targetNode; $context.value)
+	$xliff.removeState($targetNode)
 	This:C1470.save($xliff)
 	
 	//MARK:-[FILTERS]
@@ -2202,4 +2366,10 @@ Function todo() : Collection
 Function isGroup($target : Object) : Boolean
 	
 	return OB Instance of:C1731($target; cs:C1710.XliffGroup)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+Function isTransUnit($target : Object) : Boolean
+	
+	return OB Instance of:C1731($target; cs:C1710.XliffUnit)
+	
 	

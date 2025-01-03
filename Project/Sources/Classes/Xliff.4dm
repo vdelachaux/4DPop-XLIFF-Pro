@@ -204,6 +204,16 @@ Function targetValue($unit) : Text
 	return String:C10(This:C1470.getValue(This:C1470._child($unit; "target")))
 	
 	// === === === === === === === === === === === === === === === === === === ===
+Function targetExists($unit) : Boolean
+	
+	//var $node : Text:=This._child($unit; "target")
+	//return This.isNotNull($node)
+	
+	
+	var $node : Text:=This:C1470.targetNode($unit)
+	return This:C1470.isNotNull($node)
+	
+	// === === === === === === === === === === === === === === === === === === ===
 Function targetAttributes($unit) : Object
 	
 	var $node:=This:C1470.firstChild($unit; "target")
@@ -332,11 +342,24 @@ Function parse() : cs:C1710.Xliff
 		// Get the trans-units
 		For each ($node; This:C1470.groupUnitNodes($group.node))
 			
+			If (This:C1470.getName($node)#"trans-unit")
+				
+				continue
+				
+			End if 
+			
 			var $unit:=cs:C1710.XliffUnit.new($node; This:C1470.getAttributes($node))
 			$unit.xpath:=$group.xpath+"/trans-unit[@id=\""+$unit.id+"\"]"
 			
 			$unit.source.value:=This:C1470.sourceValue($node)
 			$unit.source.xpath:=$unit.xpath+"/source"
+			
+			If (Not:C34(This:C1470.isReference(This:C1470.targetNode($unit))))
+				
+				This:C1470.setAttribute($unit.node; "translate"; "no")
+				$unit.noTranslate:=True:C214
+				
+			End if 
 			
 			If (Not:C34($unit.noTranslate))
 				

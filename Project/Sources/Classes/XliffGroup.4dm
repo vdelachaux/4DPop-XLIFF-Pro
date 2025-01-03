@@ -120,7 +120,7 @@ Function setAttributes($attributes : Object)
 		
 		If ($unit.target#Null:C1517)
 			
-			$unit.source.xpath:=$unit.xpath+"/target"
+			$unit.target.xpath:=$unit.xpath+"/target"
 			
 		End if 
 	End for each 

@@ -405,20 +405,20 @@ Function _resnameManager($e : cs:C1710.evt)
 		If (Not:C34($success))
 			
 			// Keep the previous name to allow the updating of the hierarchical list-box
-			$string.previous:=Form:C1466.$backup.resname
+			
 			ALERT:C41(Replace string:C233(Localized string:C991("theNameIsAlreadyTaken"); "{name}"; $string.resname))
 			$success:=Shift down:C543  // I know what I do ;-)
 			
 		End if 
+		
+		If ($success)
+			
+			$string.previous:=Form:C1466.$backup.resname
+			
+		End if 
 	End if 
 	
-	If ($success)
-		
-		
-		// Keep the previous name to allow the updating of the hierarchical list-box
-		$string.previous:=Form:C1466.$backup.resname
-		
-	Else 
+	If (Not:C34($success))
 		
 		// Restore the old value
 		This:C1470.resname.value:=Form:C1466.$backup.resname
@@ -429,7 +429,6 @@ Function _resnameManager($e : cs:C1710.evt)
 	End if 
 	
 	Form:C1466.$backup.resname:=$string.resname
-	
 	This:C1470.form.callMeBack("_UPDATE_RESNAME"; This:C1470.context())
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===

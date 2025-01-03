@@ -351,11 +351,17 @@ Function save($file; $keepStructure : Boolean) : cs:C1710.xml
 	
 	//———————————————————————————————————————————————————————————
 	// Close the XML tree
-Function close() : cs:C1710.xml
+Function close($tidy : Boolean) : cs:C1710.xml
 	
 	This:C1470.success:=(This:C1470.root#Null:C1517)
 	
 	If (This:C1470.success)
+		
+		If ($tidy)
+			
+			This:C1470.tidy()
+			
+		End if 
 		
 		DOM CLOSE XML:C722(This:C1470.root)
 		This:C1470.success:=Bool:C1537(OK)
@@ -1423,7 +1429,7 @@ Function setValue($node : Text; $value : Variant; $inCDATA : Boolean) : cs:C1710
 	// —————————————————————————————————————————————————————————————————————————————————
 Function isNull($reference : Text) : Boolean
 	
-	return Match regex:C1019("0{32}"; $reference; 1)
+	return Match regex:C1019("^0{32}$"; $reference; 1)
 	
 	// —————————————————————————————————————————————————————————————————————————————————
 Function isNotNull($reference : Text) : Boolean
@@ -1435,6 +1441,19 @@ Function isNotNull($reference : Text) : Boolean
 Function isReference($text : Text) : Boolean
 	
 	return This:C1470.isNotNull($text) && Match regex:C1019("[[:xdigit:]]{32}"; $text; 1)
+	
+	// —————————————————————————————————————————————————————————————————————————————————
+Function tidy()
+	
+	//export to text
+	//DOM EXPORT TO VAR(This.root; $xml)
+	//close
+	//DOM CLOSE XML(This.root)
+	//replace multiple carriage return by one
+	//
+	
+	
+	
 	
 	// —————————————————————————————————————————————————————————————————————————————————
 Function _requiredRef($reference : Text) : Boolean
@@ -1477,6 +1496,12 @@ Function _convert($textValue : Text)->$value
 		: (Match regex:C1019("(?m-is)^(?:[tT]rue|[fF]alse)$"; $textValue; 1; *))
 			
 			$value:=($textValue="true")
+			
+			//______________________________________________________
+		: (Match regex:C1019("(?m-si)^0\\d+$"; $textValue; 1; *))
+			
+			// Keep the initial zero
+			$value:=$textValue
 			
 			//______________________________________________________
 		: (Match regex:C1019("(?m-si)^(?:\\+|-)?\\d+(?:\\.\\d+)?$"; $textValue; 1; *))
