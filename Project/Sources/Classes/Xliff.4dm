@@ -250,7 +250,7 @@ Function setState($node : Text; $state : Text)
 		
 		If (Length:C16($state)>0)
 			
-			var $currentState : Text:=String:C10(This:C1470.getAttributes($node).state)
+			var $currentState:=String:C10(This:C1470.getAttributes($node).state)
 			
 			If (Length:C16($currentState)>0)\
 				 && (($currentState=This:C1470.STATE_NEW) | ($state=This:C1470.STATE_NEEDS_TRANSLATION) | ($state=This:C1470.STATE_NEEDS_REVIEW))

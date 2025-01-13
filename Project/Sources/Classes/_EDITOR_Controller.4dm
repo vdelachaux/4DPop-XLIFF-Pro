@@ -396,23 +396,28 @@ Function updateMenus($isWritable : Boolean)
 	
 	$isWritable:=Count parameters:C259=1 ? $isWritable : Not:C34(Bool:C1537(This:C1470.current.duplicateID))
 	
+	var $item : Object:=This:C1470.stringList.item
+	var $isSelected:=$item#Null:C1517
+	
 	This:C1470.menuBar.enableItem("newGroup"; $isWritable)
-	This:C1470.menuBar.enableItem("newString"; $isWritable & (This:C1470.stringList.item#Null:C1517))
+	This:C1470.menuBar.enableItem("newString"; $isWritable & $isSelected)
 	
 	If (This:C1470.form.focused=This:C1470.stringList.name)
 		
-		This:C1470.menuBar.enableItem("cut"; This:C1470.stringList.item#Null:C1517)
-		This:C1470.menuBar.enableItem("copy"; (This:C1470.stringList.item#Null:C1517) && (This:C1470.stringList.item.id#Null:C1517))
+		This:C1470.menuBar.enableItem("cut"; $isSelected)
+		This:C1470.menuBar.enableItem("copy"; $isSelected && ($item.id#Null:C1517))
+		
 		var $x : Blob
 		GET PASTEBOARD DATA:C401("pop.xliff"; $x)
 		This:C1470.menuBar.enableItem("paste"; BLOB size:C605($x)>0)
-		This:C1470.menuBar.enableItem("copyResname"; This:C1470.stringList.item#Null:C1517)
-		This:C1470.menuBar.enableItem("copyCode"; This:C1470.stringList.item#Null:C1517)
+		This:C1470.menuBar.enableItem("copyResname"; $isSelected)
+		This:C1470.menuBar.enableItem("copyCode"; $isSelected)
 		
 	Else 
 		
-		This:C1470.menuBar.enableItem("cut"; Length:C16(Get edited text:C655)>0)
-		This:C1470.menuBar.enableItem("copy"; Length:C16(Get edited text:C655)>0)
+		var $text:=Get edited text:C655
+		This:C1470.menuBar.enableItem("cut"; Length:C16($text)>0)
+		This:C1470.menuBar.enableItem("copy"; Length:C16($text)>0)
 		This:C1470.menuBar.enableItem("paste"; Length:C16(Get text from pasteboard:C524)>0)
 		This:C1470.menuBar.disableItem("copyResname")
 		This:C1470.menuBar.disableItem("copyCode")
@@ -485,47 +490,45 @@ Function handleMenus($what : Text)
 			//______________________________________________________
 		: ($what="cut")
 			
-			If (This:C1470.form.focused=This:C1470.stringList.name)
+			If (Is editing text:C1744)
 				
-				$item:=OB Copy:C1225(This:C1470.stringList.item)
+				INVOKE ACTION:C1439(ak cut:K76:53)
 				
-				If (This:C1470.isGroup($item))
-					
-					ASSERT:C1129(False:C215; "TODO: Paste a group")
-					return 
-					
-				End if 
+				return 
 				
-				For each ($o; $item.localizations)
-					
-					$o.localized:=$o.xliff.allUnits.query("id = :1"; $item.id).first()
-					
-				End for each 
-				
-				VARIABLE TO BLOB:C532($item; $x; *)
-				CLEAR PASTEBOARD:C402
-				APPEND DATA TO PASTEBOARD:C403("pop.xliff"; $x)
-				
-				// This.doDeleteString(False)
-				
-			Else 
-				
-				$text:=Get edited text:C655
-				
-				If (Length:C16($text)>0)
-					
-					GET HIGHLIGHT:C209(*; This:C1470.form.focused; $start; $stop)
-					
-					If ($start#$stop)
-						
-						SET TEXT TO PASTEBOARD:C523(Substring:C12($text; $start; $stop))
-						
-					End if 
-				End if 
 			End if 
+			
+			$item:=OB Copy:C1225(This:C1470.stringList.item)
+			
+			If (This:C1470.isGroup($item))
+				
+				ASSERT:C1129(False:C215; "TODO: Paste a group")
+				return 
+				
+			End if 
+			
+			For each ($o; $item.localizations)
+				
+				$o.localized:=$o.xliff.allUnits.query("id = :1"; $item.id).first()
+				
+			End for each 
+			
+			VARIABLE TO BLOB:C532($item; $x; *)
+			CLEAR PASTEBOARD:C402
+			APPEND DATA TO PASTEBOARD:C403("pop.xliff"; $x)
+			
+			// This.doDeleteString(False)
 			
 			//______________________________________________________
 		: ($what="paste")
+			
+			If (Is editing text:C1744)
+				
+				INVOKE ACTION:C1439(ak paste:K76:55)
+				
+				return 
+				
+			End if 
 			
 			GET PASTEBOARD DATA:C401("pop.xliff"; $x)
 			
@@ -628,27 +631,18 @@ Function handleMenus($what : Text)
 				
 			End if 
 			
+			
 			//______________________________________________________
 		: ($what="copy")
 			
-			If (This:C1470.form.focused=This:C1470.stringList.name)
+			If (Is editing text:C1744)
 				
-				SET TEXT TO PASTEBOARD:C523(":xliff:"+This:C1470.stringList.item.resname)  // XLIFF reference
+				INVOKE ACTION:C1439(ak copy:K76:54)
 				
 			Else 
 				
-				$text:=Get edited text:C655
+				SET TEXT TO PASTEBOARD:C523(":xliff:"+This:C1470.stringList.item.resname)  // XLIFF reference
 				
-				If (Length:C16($text)>0)
-					
-					GET HIGHLIGHT:C209(*; This:C1470.form.focused; $start; $stop)
-					
-					If ($start#$stop)
-						
-						SET TEXT TO PASTEBOARD:C523(Substring:C12($text; $start; $stop))
-						
-					End if 
-				End if 
 			End if 
 			
 			//………………………………………………………………………………………
@@ -1472,7 +1466,8 @@ Function _populateString($column : Integer; $row : Integer) : Object
 	var $o : Object:=(This:C1470.contentPtr)->{$row}
 	//%W+533.3
 	
-	var $string : Object:=($column=1) & (OB Instance of:C1731($o; cs:C1710.XliffUnit)) ? This:C1470.parentGroup($o) : $o
+	var $isGroup : Boolean:=($column=1) & (OB Instance of:C1731($o; cs:C1710.XliffUnit))
+	var $string : Object:=$isGroup ? This:C1470.parentGroup($o) : $o
 	
 	If (Structure file:C489=Structure file:C489(*))
 		
@@ -1503,11 +1498,34 @@ Function _populateString($column : Integer; $row : Integer) : Object
 				
 				$language.root:=$xliff.root
 				
-				$string.localizations.push({\
-					language: $language; \
-					xliff: $xliff\
-					})
-				
+				If ($isGroup)
+					
+					$string.localizations.push({\
+						language: $language; \
+						xliff: $xliff\
+						})
+					
+				Else 
+					
+					var $attributes : Object:=Null:C1517
+					var $node : Text:=$xliff.findById($string.id)
+					If ($xliff.isNotNull($node))
+						
+						$node:=$xliff.targetNode($node)
+						If ($xliff.isNotNull($node))
+							
+							$attributes:=$xliff.getAttributes($node)
+							
+						End if 
+					End if 
+					
+					$string.localizations.push({\
+						language: $language; \
+						xliff: $xliff; \
+						properties: $attributes\
+						})
+					
+				End if 
 			End if 
 		End for each 
 	End if 
