@@ -1,10 +1,10 @@
 //%attributes = {"invisible":true}
 #DECLARE($run : Boolean)
 
-var $me:="$4DPop XLIFF Pro"
+var $name:="$4DPop XLIFF Pro"
 
 If (Not:C34($run))\
- && (cs:C1710.process.new().isProcessExists($me; True:C214))
+ && (cs:C1710.userProcesses.me.isProcessExists($name; True:C214))
 	
 	return 
 	
@@ -41,11 +41,11 @@ If ($run)
 			$pref.set("sourceLanguage"; $data.reference.lproj)
 			$pref.set("targetLanguages"; $data.languages.extract("lproj"))
 			
-			CALL WORKER:C1389($me; Current method name:C684; True:C214)
+			CALL WORKER:C1389($name; Current method name:C684; True:C214)
 			
 		Else 
 			
-			CALL WORKER:C1389($me; Formula:C1597(KILL WORKER:C1390($me)))
+			CALL WORKER:C1389($name; Formula:C1597(KILL WORKER:C1390($name)))
 			
 		End if 
 		
@@ -58,6 +58,6 @@ If ($run)
 	
 Else 
 	
-	CALL WORKER:C1389($me; Current method name:C684; True:C214)
+	CALL WORKER:C1389($name; Current method name:C684; True:C214)
 	
 End if 

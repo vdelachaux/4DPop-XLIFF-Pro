@@ -112,7 +112,7 @@
 		"classes": [
 			"motor",
 			"os",
-			"process",
+			"userProcesses",
 			"xml"
 		]
 	},
