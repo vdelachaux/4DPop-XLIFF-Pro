@@ -74,7 +74,7 @@
 				},
 				"toolbarNewTransUnit": {
 					"type": "button",
-					"top": 2,
+					"top": 4,
 					"left": 255,
 					"width": 82,
 					"height": 28,
@@ -94,7 +94,7 @@
 				},
 				"toolbarNewGroup": {
 					"type": "button",
-					"top": 2,
+					"top": 4,
 					"left": 161,
 					"width": 84,
 					"height": 28,
@@ -145,7 +145,7 @@
 				},
 				"localization": {
 					"type": "button",
-					"top": 2,
+					"top": 4,
 					"left": 370,
 					"width": 86,
 					"height": 28,
@@ -202,7 +202,7 @@
 				},
 				"toolbarInfos": {
 					"type": "button",
-					"top": 2,
+					"top": 4,
 					"left": 128,
 					"width": 21,
 					"height": 28,
@@ -237,7 +237,7 @@
 						{
 							"header": {
 								"name": "project",
-								"text": "Project"
+								"text": "__PROJECT__"
 							},
 							"name": "fileNames",
 							"footer": {
@@ -386,7 +386,7 @@
 				},
 				"toolbarNewFile": {
 					"type": "button",
-					"top": 2,
+					"top": 4,
 					"left": 0,
 					"width": 102,
 					"height": 28,
@@ -452,6 +452,31 @@
 					"width": 32,
 					"height": 32,
 					"visibility": "hidden"
+				},
+				"trace": {
+					"type": "checkbox",
+					"text": "TRACE",
+					"top": 10,
+					"left": 467,
+					"width": 54,
+					"height": 12,
+					"events": [],
+					"dataSourceTypeHint": "boolean",
+					"dataSource": "Form:C1466.TRACE",
+					"visibility": "hidden",
+					"class": "dev"
+				},
+				"Button": {
+					"type": "button",
+					"text": "Button",
+					"top": 9,
+					"left": 524,
+					"width": 53,
+					"height": 14,
+					"events": [
+						"onClick"
+					],
+					"class": "dev"
 				}
 			},
 			"entryOrder": [
@@ -464,7 +489,9 @@
 				"toolbarInfos",
 				"toolbarNewFile",
 				"localization",
-				"searchPicker"
+				"searchPicker",
+				"trace",
+				"Button"
 			]
 		}
 	],
@@ -493,7 +520,8 @@
 		"version": "1",
 		"kind": "form"
 	},
-	"geometryStamp": 994,
+	"geometryStamp": 1031,
 	"method": "formMethod",
-	"memorizeGeometry": true
+	"memorizeGeometry": true,
+	"formClass": "_EDITOR_Controller"
 }

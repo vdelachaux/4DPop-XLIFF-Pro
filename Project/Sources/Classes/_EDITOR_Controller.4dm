@@ -3,21 +3,23 @@ Class: _EDITOR_Controller - (4DPop XLIFF Pro)
 Created 1-1-2023 by Vincent de Lachaux
 */
 
-// MARK: Default values ⚙️
+// MARK:-[PROPERTIES]
+
+// MARK:- Default values ⚙️
 property isSubform:=False:C215
 property toBeInitialized:=False:C215
 property main:={}
 
-// MARK: Delegates 📦
+// MARK:- Delegates 📦
 property form : cs:C1710.form
+property stringListConstraints : cs:C1710.constraints
 property Xliff : cs:C1710.Xliff
 property menuBar : cs:C1710.menuBar
 property Preferences : cs:C1710.Preferences
 property str : cs:C1710.str:=cs:C1710.str.new()
 property Editor : cs:C1710._Editor:=cs:C1710._Editor.new()
 
-
-// MARK: Widgets 🧱
+// MARK:- Widgets 🧱
 property lock; lockMessage : cs:C1710.static
 property wrap : cs:C1710.widget
 property newFile; newGroup; newString; filterLanguage : cs:C1710.button
@@ -30,16 +32,14 @@ property spinner : cs:C1710.stepper
 // TODO:Could be a preference
 property AUTOSAVE:=True:C214  // Flag for automatic saving
 
-// MARK: Other 💾
+// MARK:- Other 💾
 property current : cs:C1710.Xliff
 property folders; cache; languages : Collection
-property default; resources : Object
+property default : Object
 
 property groupPtr; resnamePtr; contentPtr : Pointer
 
-property stringListConstraints : cs:C1710.constraints
-
-// MARK: Constants 🔐
+// MARK:- Constants 🔐
 property GENERATOR:=File:C1566(Structure file:C489; fk platform path:K87:2).name
 // TODO:Retrieve component version
 property VERSION:="3.0"
@@ -47,6 +47,12 @@ property VERSION:="3.0"
 property DISPLAY_FILE:=-1
 property LOAD_STRINGS:=-2
 
+// MARK:- Form 📈
+property files : Collection
+property project : Text
+property TRACE : Boolean
+
+// MARK:-
 Class constructor()
 	
 	// MARK:Delegates 📦
@@ -283,14 +289,14 @@ Function handleEvents($e : cs:C1710.evt)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function onLoad()
 	
-	Form:C1466.files:=This:C1470.main.files
-	Form:C1466.project:=File:C1566(Structure file:C489(*); fk platform path:K87:2).name
-	
-	OBJECT SET TITLE:C194(*; "project"; Form:C1466.project)
-	
 	// Avoid the offset created if the vertical bar is not displayed
 	This:C1470.fileList.setVerticalScrollbar(2)
 	This:C1470.stringList.setVerticalScrollbar(2)
+	
+	Form:C1466.files:=This:C1470.main.files
+	Form:C1466.project:=File:C1566(Structure file:C489(*); fk platform path:K87:2).name
+	
+	This:C1470.fileList.setColumnTitle(1; Form:C1466.project)
 	
 	// Pointers to the dynamics
 	This:C1470.groupPtr:=OBJECT Get pointer:C1124(Object named:K67:5; "group")
@@ -322,8 +328,10 @@ Function onLoad()
 	This:C1470.spinner.start(True:C214)
 	
 	// MARK: *************************** [DEV]
-	OBJECT SET VISIBLE:C603(*; "trace"; cs:C1710.database.new().isDebug)
-	OBJECT SET VISIBLE:C603(*; "Button"; cs:C1710.database.new().isDebug)
+	If (cs:C1710.database.new().isDebug)
+		OBJECT SET VISIBLE:C603(*; "trace"; True:C214)
+		OBJECT SET VISIBLE:C603(*; "button"; True:C214)
+	End if 
 	
 	This:C1470.form.refresh()
 	

@@ -1269,6 +1269,32 @@ Function restoreProperties()
 	
 	OBJECT SET RGB COLORS:C628(*; This:C1470.name; $properties.foreground; $properties.background; $properties.altBackground)
 	
+	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
+Function setColumnTitle($column; $title : Text) : cs:C1710.listbox
+	
+	This:C1470.updateDefinition()
+	
+	If (Value type:C1509($column)=Is real:K8:4) | (Value type:C1509($column)=Is longint:K8:6)
+		
+		If (Asserted:C1132($column<=This:C1470.definition.length; "Index out of range"))
+			
+			OBJECT SET TITLE:C194(*; This:C1470.definition[$column-1].header; $title)
+			
+		End if 
+		
+	Else 
+		
+		var $o : Object:=This:C1470.definition.query("name = "; String:C10($column)).first()
+		
+		If (Asserted:C1132($o#Null:C1517; "Unknown column name"))
+			
+			OBJECT SET TITLE:C194(*; $o.header; $title)
+			
+		End if 
+	End if 
+	
+	return This:C1470
+	
 	//mark:-[PRIVATE]
 	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
 Function _listboxProperties() : Object

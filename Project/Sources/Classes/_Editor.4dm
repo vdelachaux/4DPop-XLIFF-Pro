@@ -22,8 +22,7 @@ Class constructor
 			iso: This:C1470.RESOURCES["ISO639-1"][$indx]; \
 			legacy: This:C1470.RESOURCES.legacy[$indx]; \
 			flag: This:C1470.RESOURCES.flag[$indx]; \
-			regional: This:C1470.RESOURCES.regional[$indx]\
-			}))
+			regional: This:C1470.RESOURCES.regional[$indx]}))
 		
 		$indx+=1
 		

@@ -15,13 +15,13 @@
         </trans-unit>
       </group>
       <group resname="New Group 2">
-        <trans-unit id="YeUhIzTOaeNb2a8Jrrwvmg" resname="New Element 2">
-          <source/>
-          <target state="new"/>
+        <trans-unit id="YeUhIzTOaeNb2a8Jrrwvmg" resname="A">
+          <source>AA</source>
+          <target>DD</target>
         </trans-unit>
-        <trans-unit id="384cJHTL9+kbkM+Tdfqk7Q" resname="New Element 3">
-          <source/>
-          <target state="new"/>
+        <trans-unit id="384cJHTL9+kbkM+Tdfqk7Q" resname="B">
+          <source>AAB</source>
+          <target>DDB</target>
         </trans-unit>
       </group>
     </body>
