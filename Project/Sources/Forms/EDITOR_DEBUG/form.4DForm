@@ -1,0 +1,57 @@
+{
+	"$4d": {
+		"version": "1",
+		"kind": "form"
+	},
+	"windowSizingX": "variable",
+	"windowSizingY": "variable",
+	"windowMinWidth": 0,
+	"windowMinHeight": 0,
+	"windowMaxWidth": 32767,
+	"windowMaxHeight": 32767,
+	"rightMargin": 18,
+	"bottomMargin": 18,
+	"events": [
+		"onLoad",
+		"onPageChange",
+		"onValidate",
+		"onClick",
+		"onDoubleClick",
+		"onOutsideCall",
+		"onBeginDragOver",
+		"onDragOver",
+		"onDrop",
+		"onAfterKeystroke",
+		"onMenuSelect",
+		"onPluginArea",
+		"onAfterEdit",
+		"onTimer",
+		"onBoundVariableChange"
+	],
+	"windowTitle": "window title",
+	"destination": "detailScreen",
+	"pages": [
+		{
+			"objects": {}
+		},
+		{
+			"objects": {
+				"Input": {
+					"type": "input",
+					"left": 2,
+					"top": 39,
+					"width": 713,
+					"height": 769,
+					"dataSourceTypeHint": "object",
+					"sizingX": "grow",
+					"sizingY": "grow",
+					"enterable": true,
+					"hideFocusRing": true,
+					"scrollbarHorizontal": "automatic",
+					"scrollbarVertical": "visible"
+				}
+			}
+		}
+	],
+	"geometryStamp": 10
+}

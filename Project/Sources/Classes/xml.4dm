@@ -634,12 +634,12 @@ Function findByXPath($xpath : Text; $node : Text)->$reference : Text
 		
 		If (Count parameters:C259>=2)
 			
-			$reference:=DOM Find XML element:C864($node; $xpath)
+			$reference:=Try(DOM Find XML element:C864($node; $xpath))
 			
 		Else 
 			
 			// Search from the root
-			$reference:=DOM Find XML element:C864(This:C1470.root; $xpath)
+			$reference:=Try(DOM Find XML element:C864(This:C1470.root; $xpath))
 			
 		End if 
 		

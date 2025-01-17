@@ -8,23 +8,27 @@
       </prop-group>
     </header>
     <body>
-      <group resname="New Group">
-        <trans-unit id="4JtbDkgU2Mxm3eAJswC2CA" resname="New Element">
-          <source>zzz</source>
-          <target>ccc</target>
+      <group resname="Group A">
+        <trans-unit id="4JtbDkgU2Mxm3eAJswC2CA" resname="AA">
+          <source>AA_EN</source>
+          <target>AA_JA</target>
+        </trans-unit>
+        <trans-unit id="1" resname="AB">
+          <source>AB_EN</source>
+          <target>AB_JA</target>
         </trans-unit>
       </group>
-      <group resname="New Group 2">
+      <group resname="Group B">
         
-        <trans-unit id="384cJHTL9+kbkM+Tdfqk7Q" resname="B">
-          <source>AAB</source>
-          <target>FFB</target>
+        
+        <trans-unit id="YeUhIzTOaeNb2a8Jrrwvmg" resname="BA">
+          <source>BA_EN</source>
+          <target>BA_JA</target>
         </trans-unit>
-        <trans-unit id="YeUhIzTOaeNb2a8Jrrwvmg" resname="A">
-          <source>AA</source>
-          <target>FF</target>
-        </trans-unit></group>
+      </group>
     </body>
   </file>
+
+
 
 </xliff>

@@ -116,7 +116,7 @@ Function get fileNode() : Text
 	
 	If (This:C1470.root#Null:C1517)
 		
-		return This:C1470.findByXPath(This:C1470.XPATH_FILE)
+		return This:C1470.findByXPath(This:C1470.XPATH_FILE; This:C1470.root)
 		
 	End if 
 	
@@ -125,7 +125,7 @@ Function get bodyNode() : Text
 	
 	If (This:C1470.root#Null:C1517)
 		
-		return This:C1470.findByXPath(This:C1470.XPATH_BODY)
+		return This:C1470.findByXPath(This:C1470.XPATH_BODY; This:C1470.root)
 		
 	End if 
 	

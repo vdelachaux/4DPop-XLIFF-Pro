@@ -4,7 +4,7 @@
 var $name:="$4DPop XLIFF Pro"
 
 If (Not:C34($run))\
- && (cs:C1710.userProcesses.me.isProcessExists($name; True:C214))
+ && (cs:C1710.userProcesses.me.exists($name; True:C214))
 	
 	return 
 	

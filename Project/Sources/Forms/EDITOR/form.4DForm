@@ -456,10 +456,10 @@
 				"trace": {
 					"type": "checkbox",
 					"text": "TRACE",
-					"top": 10,
+					"top": 9,
 					"left": 467,
 					"width": 54,
-					"height": 12,
+					"height": 18,
 					"events": [],
 					"dataSourceTypeHint": "boolean",
 					"dataSource": "Form:C1466.TRACE",
@@ -469,10 +469,10 @@
 				"Button": {
 					"type": "button",
 					"text": "Button",
-					"top": 9,
+					"top": 8,
 					"left": 524,
 					"width": 53,
-					"height": 14,
+					"height": 20,
 					"events": [
 						"onClick"
 					],
@@ -520,7 +520,7 @@
 		"version": "1",
 		"kind": "form"
 	},
-	"geometryStamp": 1031,
+	"geometryStamp": 1044,
 	"method": "formMethod",
 	"memorizeGeometry": true,
 	"formClass": "_EDITOR_Controller"

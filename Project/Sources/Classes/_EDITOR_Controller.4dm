@@ -16,8 +16,9 @@ property stringListConstraints : cs:C1710.constraints
 property Xliff : cs:C1710.Xliff
 property menuBar : cs:C1710.menuBar
 property Preferences : cs:C1710.Preferences
-property str : cs:C1710.str:=cs:C1710.str.new()
-property Editor : cs:C1710._Editor:=cs:C1710._Editor.new()
+property str:=cs:C1710.str.new()
+property Editor:=cs:C1710._Editor.new()
+property database:=cs:C1710.database.new()
 
 // MARK:- Widgets 🧱
 property lock; lockMessage : cs:C1710.static
@@ -328,9 +329,13 @@ Function onLoad()
 	This:C1470.spinner.start(True:C214)
 	
 	// MARK: *************************** [DEV]
-	If (cs:C1710.database.new().isDebug)
+	If (This:C1470.database.isDebug)
+		
 		OBJECT SET VISIBLE:C603(*; "trace"; True:C214)
 		OBJECT SET VISIBLE:C603(*; "button"; True:C214)
+		
+		CALL WORKER:C1389("DEBUG"; Formula:C1597(EDITOR_DEBUG).source)
+		
 	End if 
 	
 	This:C1470.form.refresh()
@@ -397,6 +402,13 @@ Function update()
 		
 	End if 
 	
+	If (This:C1470.database.isDebug) && (This:C1470.stringList.item#Null:C1517)
+		
+		var $o : Object:=This:C1470.stringList.item
+		CALL WORKER:C1389("DEBUG"; Formula:C1597(EDITOR_DEBUG("update"; $o)))
+		
+	End if 
+	
 	This:C1470.detail.show($isWritable && (This:C1470.stringList.item#Null:C1517))
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
@@ -452,6 +464,13 @@ Function updateMenus($isWritable : Boolean)
 Function deinit()
 	
 	CALL WORKER:C1389("$4DPop XLIFF Pro"; Formula:C1597(EDITOR CLOSE).source; Form:C1466)
+	
+	// MARK: *************************** [DEV]
+	If (This:C1470.database.isDebug)
+		
+		KILL WORKER:C1390("DEBUG")
+		
+	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function handleMenus($what : Text)
