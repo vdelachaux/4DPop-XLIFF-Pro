@@ -67,6 +67,9 @@ property node; resname; xpath : Text
 property attributes : Object
 property isconstant : Boolean
 
+property isGroup:=True:C214
+property isUnit:=False:C215
+
 property transunits:=[]
 
 // MARK: Constants 🔐
@@ -87,7 +90,7 @@ Function setResname($resname : Text)
 	
 	This:C1470.resname:=$resname
 	This:C1470.attributes.resname:=$resname
-	This:C1470.xpath:="/xliff/file/body/group[@resname="+This:C1470.resname+"]"
+	This:C1470.xpath:="/xliff/file/body/group[@resname="+$resname+"]"
 	This:C1470.attributes.xpath:=This:C1470.xpath
 	
 	// Update trans-units

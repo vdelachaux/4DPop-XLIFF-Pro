@@ -61,6 +61,9 @@ property node; resname; xpath; id : Text
 property attributes : Object
 property noTranslate : Boolean
 
+property isUnit:=True:C214
+property isGroup:=False:C215
+
 Class constructor($node : Text; $attributes : Object)
 	
 	This:C1470.node:=$node
