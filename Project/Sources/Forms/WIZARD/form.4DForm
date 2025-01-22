@@ -21,15 +21,15 @@
 				"Text4": {
 					"type": "text",
 					"text": ":xliff:wizardComment",
-					"top": 54,
-					"left": 45,
+					"top": 74,
+					"left": 21,
 					"width": 573,
 					"height": 184
 				},
 				"reference language flag": {
 					"type": "input",
-					"left": 252,
-					"top": 242,
+					"left": 227,
+					"top": 262,
 					"width": 53,
 					"height": 30,
 					"dataSource": "Form:C1466.reference.flag",
@@ -45,8 +45,8 @@
 				"Text8": {
 					"type": "text",
 					"text": ".Source language:",
-					"top": 249,
-					"left": 72,
+					"top": 269,
+					"left": 47,
 					"width": 180,
 					"height": 16,
 					"fontTheme": "normal",
@@ -55,8 +55,8 @@
 				},
 				"source": {
 					"type": "button",
-					"top": 249,
-					"left": 301,
+					"top": 269,
+					"left": 276,
 					"width": 266,
 					"height": 17,
 					"events": [
@@ -71,8 +71,8 @@
 				},
 				"List Box": {
 					"type": "listbox",
-					"left": 262,
-					"top": 275,
+					"left": 237,
+					"top": 295,
 					"width": 307,
 					"height": 209,
 					"events": [
@@ -84,7 +84,7 @@
 					"verticalLineStroke": "transparent",
 					"fill": "transparent",
 					"scrollbarVertical": "automatic",
-					"right": 569,
+					"right": 544,
 					"sizingY": "grow",
 					"currentItemSource": "formGetInstance.targets.item",
 					"currentItemPositionSource": "formGetInstance.targets.itemPosition",
@@ -125,8 +125,8 @@
 				"Text2": {
 					"type": "text",
 					"text": ".Target languages:",
-					"top": 283,
-					"left": 83,
+					"top": 303,
+					"left": 58,
 					"width": 169,
 					"height": 16,
 					"textAlign": "right",
@@ -134,8 +134,8 @@
 				},
 				"Button3": {
 					"type": "button",
-					"top": 489,
-					"left": 262,
+					"top": 509,
+					"left": 237,
 					"width": 16,
 					"height": 16,
 					"events": [
@@ -148,8 +148,8 @@
 				},
 				"Button4": {
 					"type": "button",
-					"top": 489,
-					"left": 284,
+					"top": 509,
+					"left": 259,
 					"width": 16,
 					"height": 16,
 					"events": [
@@ -162,8 +162,8 @@
 				},
 				"Line2": {
 					"type": "line",
-					"top": 484,
-					"left": 261,
+					"top": 504,
+					"left": 236,
 					"width": 308,
 					"height": 0,
 					"sizingY": "move"
@@ -172,17 +172,17 @@
 					"type": "text",
 					"text": ":xliff:thisIsTheFirstTime",
 					"top": 18,
-					"left": 0,
-					"width": 663,
-					"height": 31,
+					"left": 21,
+					"width": 573,
+					"height": 46,
 					"textAlign": "center",
 					"fontTheme": "main"
 				},
 				"Button": {
 					"type": "button",
 					"text": ":xliff:OKButton",
-					"top": 527,
-					"left": 550,
+					"top": 547,
+					"left": 525,
 					"width": 68,
 					"height": 29,
 					"events": [
@@ -194,8 +194,8 @@
 				"Button5": {
 					"type": "button",
 					"text": ":xliff:CancelButton",
-					"top": 527,
-					"left": 449,
+					"top": 547,
+					"left": 424,
 					"width": 81,
 					"height": 29,
 					"events": [
@@ -212,15 +212,15 @@
 				},
 				"Line1": {
 					"type": "line",
-					"top": 275,
-					"left": 261,
+					"top": 295,
+					"left": 236,
 					"width": 308,
 					"height": 0
 				}
 			}
 		}
 	],
-	"geometryStamp": 479,
+	"geometryStamp": 495,
 	"editor": {
 		"activeView": "View 1",
 		"defaultView": "View 1",
@@ -230,7 +230,7 @@
 	},
 	"method": "formMethod",
 	"windowSizingX": "fixed",
-	"rightMargin": 0,
+	"rightMargin": 20,
 	"bottomMargin": 20,
 	"windowMinHeight": 500
 }

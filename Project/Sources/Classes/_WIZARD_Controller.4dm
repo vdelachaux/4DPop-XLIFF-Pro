@@ -10,6 +10,10 @@ property source : cs:C1710.button
 property targetAdd; targetRemove : cs:C1710.button
 property targets : cs:C1710.listbox
 
+// MARK: Form
+property reference : cs:C1710.language
+property languages : Collection
+
 Class constructor
 	
 	// MARK:Delegates 📦
@@ -121,7 +125,8 @@ Function doSelectSourceLanguage()
 			
 		End for each 
 		
-		$menu.line()
+		$menu.line()\
+			.append(Localized string:C991("availableLanguages")).disable()
 		
 	End if 
 	
@@ -186,8 +191,7 @@ Function doDeleteLanguage()
 	
 	If (Not:C34(Bool:C1537(OK)))
 		
-		// FIXME: To translate
-		CONFIRM:C162(".The content of this language folder will be deleted"; ".Delete")
+		CONFIRM:C162(Replace string:C233(Localized string:C991("theFolderWillBeDeleted"); "{lang}"; $folder.fullName); Localized string:C991("remove"))
 		
 	End if 
 	

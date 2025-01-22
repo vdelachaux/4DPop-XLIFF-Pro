@@ -26,7 +26,22 @@ If ($run)
 	var $data:={}
 	var $pref:=cs:C1710.Preferences.new()
 	
-	If (Not:C34($pref.exists("wizard")))
+	var $runWizard:=Not:C34($pref.exists("wizard"))
+	
+	If (Not:C34($runWizard))
+		
+		// Checking for changes…
+		var $editor:=cs:C1710._Editor.new()
+		$runWizard:=$pref.get("sourceLanguage")#$editor.getLanguage($editor.mainLanguage).lproj
+		
+		If (Not:C34($runWizard))
+			
+			$runWizard:=Not:C34($pref.get("targetLanguages").equal($editor.targetLanguages().extract("lproj")))
+			
+		End if 
+	End if 
+	
+	If ($runWizard) | Shift down:C543
 		
 		// First launch
 		$data.window:=Open form window:C675("WIZARD"; Movable form dialog box:K39:8; Horizontally centered:K39:1; Vertically centered:K39:4)

@@ -88,7 +88,7 @@
 		"groups": [
 			"_UPDATES",
 			"EDITOR",
-			"Wizard"
+			"WIZARD"
 		],
 		"classes": [
 			"_Editor"
@@ -163,7 +163,7 @@
 			"WRAP_AROUND"
 		]
 	},
-	"Wizard": {
+	"WIZARD": {
 		"forms": [
 			"WIZARD"
 		],

@@ -19,85 +19,85 @@ This file is distributed under the same license as the product package.
     </header>
     <body>
       <group resname="Buttons">
-        <trans-unit id="Etc+hg4PD38EH2G8ky181g" resname="SaveButton">
+        <trans-unit id="13" resname="SaveButton">
           <source>Save</source>
           <target>Save</target>
         </trans-unit>
-        <trans-unit id="bffVgwLoR87jRGkiZe2uyQ" resname="CancelButton">
+        <trans-unit id="2" resname="CancelButton">
           <source>Cancel</source>
           <target>Cancel</target>
         </trans-unit>
-        <trans-unit id="yZ3AfJGnMb3Z6e7HelWENg" resname="OKButton">
+        <trans-unit id="12" resname="OKButton">
           <source>OK</source>
           <target>OK</target>
         </trans-unit>
-        <trans-unit id="tqP1B_dB3_puf_Gi8iiLMg" resname="YesButton">
+        <trans-unit id="17" resname="YesButton">
           <source>Yes</source>
           <target>Yes</target>
         </trans-unit>
-        <trans-unit id="pPA+mZAXFIOAfyQ3XSEcug" resname="NoButton">
+        <trans-unit id="10" resname="NoButton">
           <source>No</source>
           <target>No</target>
         </trans-unit>
-        <trans-unit id="ideNIH3kX_gWJgdX5ZI_SA" resname="NewButton">
+        <trans-unit id="9" resname="NewButton">
           <source>New</source>
           <target>New</target>
         </trans-unit>
-        <trans-unit id="S9NGaVI2BdMbcb57AusrnA" resname="EditionButton">
+        <trans-unit id="5" resname="EditionButton">
           <source>Edition</source>
           <target>Edition</target>
         </trans-unit>
-        <trans-unit id="TWCS2Rg61zCyo2TCkUUM3A" resname="SourceButton">
+        <trans-unit id="15" resname="SourceButton">
           <source>Source</source>
           <target>Source</target>
         </trans-unit>
-        <trans-unit id="79ZfbGmiFRwRA_WRA1O0Aw" resname="ChangeButton">
+        <trans-unit id="4" resname="ChangeButton">
           <source>Change…</source>
           <target>Change…</target>
         </trans-unit>
-        <trans-unit id="gFej9LrhF2hDKYM9YLN5OA" resname="makeIdsUnique">
+        <trans-unit id="7" resname="makeIdsUnique">
           <source>Make IDs unique</source>
           <target>Make IDs unique</target>
         </trans-unit>
       </group>
       <group resname="Messages">
-        <trans-unit id="EMm0Hl91a5fA5UblbYVEMA" resname="FileName">
+        <trans-unit id="138" resname="FileName">
           <source>File name:</source>
           <target>File name:</target>
         </trans-unit>
-        <trans-unit id="bbCfLyWLegaM8e+iR6cpUA" resname="DeleteGroup">
+        <trans-unit id="135" resname="DeleteGroup">
           <source>Are you sure that you want to delete the group "{item}" ?</source>
           <target>Are you sure that you want to delete the group "{item}" ?</target>
         </trans-unit>
-        <trans-unit id="GYyZTEy5V7KgM5xTppDZXg" resname="DeleteItem">
+        <trans-unit id="136" resname="DeleteItem">
           <source>Are you sure that you want to delete the item "{item}" ?</source>
           <target>Are you sure that you want to delete the item "{item}" ?</target>
         </trans-unit>
-        <trans-unit id="1ZSBTp_lgKWRUHIHiO04KQ" resname="AreYouSure">
+        <trans-unit id="132" resname="AreYouSure">
           <source>Are you sure?</source>
           <target>Are you sure?</target>
         </trans-unit>
-        <trans-unit id="IJ7d_8jTKRVSBSQfFgLu4g" resname="DeleteFile">
+        <trans-unit id="133" resname="DeleteFile">
           <source>Are you sure that you want to delete the file "{filename}"?</source>
           <target>Are you sure that you want to delete the file "{filename}"?</target>
         </trans-unit>
-        <trans-unit id="MId0HH_JHczBrKoNhNjtCA" resname="theNameIsAlreadyTaken">
+        <trans-unit id="148" resname="theNameIsAlreadyTaken">
           <source>The name "{name}" is already taken. Please choose a different name.</source>
           <target>The name "{name}" is already taken. Please choose a different name.</target>
         </trans-unit>
-        <trans-unit id="boR7z4+yZvJqOhC9w84tLw" resname="theNameMustNotBeEmpty">
+        <trans-unit id="149" resname="theNameMustNotBeEmpty">
           <source>The name must not be empty. Please enter a valid name.</source>
           <target>The name must not be empty. Please enter a valid name.</target>
         </trans-unit>
-        <trans-unit id="FRl8bPKsQaufaxxMxqryig" resname="selectTheXliffFileToImport">
+        <trans-unit id="145" resname="selectTheXliffFileToImport">
           <source>Select the xliff file to import</source>
           <target>Select the xliff file to import</target>
         </trans-unit>
-        <trans-unit id="R79jEvFZBcu_TFpWRse7Xw" resname="modificationsAreNotAllowedBecauseTheIdsAreNotUnique">
+        <trans-unit id="143" resname="modificationsAreNotAllowedBecauseTheIdsAreNotUnique">
           <source>Modifications are not allowed because the IDs are not unique</source>
           <target>Modifications are not allowed because the IDs are not unique</target>
         </trans-unit>
-        <trans-unit id="yPJIl1zOIv6TAsCe5mQ4HQ" resname="theFileAlreadyExists">
+        <trans-unit id="146" resname="theFileAlreadyExists">
           <source>The file {name} already exists.
 
 Do you want to replace it?</source>
@@ -105,7 +105,7 @@ Do you want to replace it?</source>
 
 Do you want to replace it?</target>
         </trans-unit>
-        <trans-unit id="5pdTP37L6EJYiPLnv54nxw" resname="makingTheIdsUniqueWillPreventTheOldCommand">
+        <trans-unit id="141" resname="makingTheIdsUniqueWillPreventTheOldCommand">
           <source>Making the IDs unique will prevent the old command "{command}" from being used.
 
 Changes will be saved and cannot be undone.</source>
@@ -113,362 +113,362 @@ Changes will be saved and cannot be undone.</source>
 
 Changes will be saved and cannot be undone.</target>
         </trans-unit>
-        <trans-unit id="dOI1j7oKQnX2KM7HB5cOVA" resname="iHaveUnderstoodWell">
+        <trans-unit id="140" resname="iHaveUnderstoodWell">
           <source>I have understood well</source>
           <target>I have understood well</target>
         </trans-unit>
-        <trans-unit id="xSJBod06tPNlYm1axWEg0A" resname="uniqueIdsAssignmentFailure">
+        <trans-unit id="151" resname="uniqueIdsAssignmentFailure">
           <source>Unique IDs assignment failure</source>
           <target>Unique IDs assignment failure</target>
         </trans-unit>
       </group>
       <group resname="Tips">
-        <trans-unit id="ws5Sj7LQ8wajCPptvAl0Ow" resname="TipAddFile">
+        <trans-unit id="153" resname="TipAddFile">
           <source>New file</source>
           <target>New file</target>
         </trans-unit>
-        <trans-unit id="cMDlNCKkyGzCVeVEDwKiXA" resname="TipNewGroup">
+        <trans-unit id="156" resname="TipNewGroup">
           <source>Add a group in the current file</source>
           <target>Add a group in the current file</target>
         </trans-unit>
-        <trans-unit id="vzZUx6m40ZP0oYaG1Zd5NA" resname="TipNewTransUnit">
+        <trans-unit id="157" resname="TipNewTransUnit">
           <source>Add a string to the current group</source>
           <target>Add a string to the current group</target>
         </trans-unit>
         
-        <trans-unit id="sZfVVGbxxBGD9YnECU9UMg" resname="TipInfo">
+        <trans-unit id="154" resname="TipInfo">
           <source>Current file's info</source>
           <target>Current file's info</target>
         </trans-unit>
-        <trans-unit id="_ElEJA_Dz57uagS_sIiUkg" resname="TipPreferences">
+        <trans-unit id="159" resname="TipPreferences">
           <source>Preferences</source>
           <target>Preferences</target>
         </trans-unit>
-        <trans-unit id="JUnfZZIDBhWKqxryicrxJw" resname="TipToggleWindow">
+        <trans-unit id="167" resname="TipToggleWindow">
           <source>Switch between the editor and the pallet</source>
           <target>Switch between the editor and the pallet</target>
         </trans-unit>
-        <trans-unit id="zYBmHuJEr2RFy_4xf4F2KQ" resname="TipString">
+        <trans-unit id="166" resname="TipString">
           <source>Show or Hide the string box</source>
           <target>Show or Hide the string box</target>
         </trans-unit>
-        <trans-unit id="1oyLXX5THt82Mc60FGApVg" resname="TipsShowOrHideTheAttributesBox">
+        <trans-unit id="164" resname="TipsShowOrHideTheAttributesBox">
           <source>Show or Hide the attributes box</source>
           <target>Show or Hide the attributes box</target>
         </trans-unit>
-        <trans-unit id="LvqrQseT5mwGQW0cr5lh7Q" resname="Tips_XLIFF10Specification">
+        <trans-unit id="162" resname="Tips_XLIFF10Specification">
           <source>XLIFF 1.0 Specification</source>
           <target>XLIFF 1.0 Specification</target>
         </trans-unit>
-        <trans-unit id="m_ozwy_zVfzbHKDZtXczxg" resname="Tips_ShortCuts">
+        <trans-unit id="161" resname="Tips_ShortCuts">
           <source>Short cuts for the current actions.</source>
           <target>Short cuts for the current actions.</target>
         </trans-unit>
-        <trans-unit id="0hEob2kqeSEVlL24_e+5Lw" resname="ToolTip">
+        <trans-unit id="169" resname="ToolTip">
           <source>A multilingual XLIFF editor</source>
           <target>A multilingual XLIFF editor</target>
         </trans-unit>
       </group>
       <group resname="Default Values">
-        <trans-unit id="TFjzAWkDKqXsC_63Tk6lzA" resname="NewGroup">
+        <trans-unit id="20" resname="NewGroup">
           <source>Group</source>
           <target>Group</target>
         </trans-unit>
-        <trans-unit id="qFsFk6deJCa4pbF4_BTMTw" resname="NewItem">
+        <trans-unit id="22" resname="NewItem">
           <source>String</source>
           <target>String</target>
         </trans-unit>
-        <trans-unit id="m8Nho_arJYYTynvPLITgvQ" resname="NewFile">
+        <trans-unit id="18" resname="NewFile">
           <source>File</source>
           <target>File</target>
         </trans-unit>
       </group>
       <group resname="Menus">
-        <trans-unit id="Ha6QGHXbcBCyE+U6fW4I6w" resname="newFile">
+        <trans-unit id="117" resname="newFile">
           <source>New File</source>
           <target>New File</target>
         </trans-unit>
-        <trans-unit id="CYfwytwxnRW_esAX1A_vXg" resname="MenuNew">
+        <trans-unit id="106" resname="MenuNew">
           <source>New</source>
           <target>New</target>
         </trans-unit>
-        <trans-unit id="wbIAEm2BS8nAOtatfa1yvQ" resname="Menuxliff">
+        <trans-unit id="115" resname="Menuxliff">
           <source>File...</source>
           <target>File...</target>
         </trans-unit>
         
         
-        <trans-unit id="Z+ShxxlYZrS3cFEYz3IuEg" resname="Menus_FillIn">
+        <trans-unit id="109" resname="Menus_FillIn">
           <source>Fill in</source>
           <target>Fill in</target>
         </trans-unit>
-        <trans-unit id="YtblRRBo2MnCc_ug+I670A" resname="Menus_Preferences…">
+        <trans-unit id="111" resname="Menus_Preferences…">
           <source>Preferences…</source>
           <target>Preferences…</target>
         </trans-unit>
-        <trans-unit id="7cmx6Z0BrLJV3RUJk2Aa2g" resname="Menus_Rename">
+        <trans-unit id="112" resname="Menus_Rename">
           <source>Rename…</source>
           <target>Rename…</target>
         </trans-unit>
-        <trans-unit id="suoBeB+7+oLQUE45L9ryRw" resname="delete">
+        <trans-unit id="91" resname="delete">
           <source>Delete.…</source>
           <target>Delete.…</target>
         </trans-unit>
-        <trans-unit id="wkOWJsT_vVy4_VbIdxJ1IA" resname="fileInformations">
+        <trans-unit id="96" resname="fileInformations">
           <source>File informations…</source>
           <target>File informations…</target>
         </trans-unit>
-        <trans-unit id="IJFIeB7ML_LZ_CLcz3oYXQ" resname="Menus_AddAgroup">
+        <trans-unit id="107" resname="Menus_AddAgroup">
           <source>Add a group</source>
           <target>Add a group</target>
         </trans-unit>
-        <trans-unit id="m8JJZM1hZlECfox0va7sYg" resname="showOnDisk">
+        <trans-unit id="128" resname="showOnDisk">
           <source>Show on disk</source>
           <target>Show on disk</target>
         </trans-unit>
-        <trans-unit id="8qGXohGFBdUDHq7WcJofAw" resname="Menus_ValidateUsingDTD">
+        <trans-unit id="114" resname="Menus_ValidateUsingDTD">
           <source>Validate using the DTD</source>
           <target>Validate using the DTD</target>
         </trans-unit>
-        <trans-unit id="okzO7kOBAJk78NWombimAg" resname="Menu_Editor">
+        <trans-unit id="104" resname="Menu_Editor">
           <source>Editor…</source>
           <target>Editor…</target>
         </trans-unit>
-        <trans-unit id="Y1zhETYX9hdBlNccfBJeqA" resname="setReferenceValueToAllLanguages">
+        <trans-unit id="127" resname="setReferenceValueToAllLanguages">
           <source>Set reference value to all languages</source>
           <target>Set reference value to all languages</target>
         </trans-unit>
-        <trans-unit id="54UkaIhot2GxdBwiSOY+sA" resname="prefixWithTheGroupName">
+        <trans-unit id="123" resname="prefixWithTheGroupName">
           <source>Prefix with the group name</source>
           <target>Prefix with the group name</target>
         </trans-unit>
-        <trans-unit id="hu3YGqInhfLqbLAD5gzuRA" resname="addComment">
+        <trans-unit id="78" resname="addComment">
           <source>Add a comment</source>
           <target>Add a comment</target>
         </trans-unit>
-        <trans-unit id="RizOisw0gnq1TDSgRVsY8A" resname="editComment">
+        <trans-unit id="94" resname="editComment">
           <source>Edit comment</source>
           <target>Edit comment</target>
         </trans-unit>
-        <trans-unit id="P5A+5NUtHZrltv1H_8HQAg" resname="closeComment">
+        <trans-unit id="83" resname="closeComment">
           <source>Close comment</source>
           <target>Close comment</target>
         </trans-unit>
-        <trans-unit id="s+TdS_xh697eKczRzAIZhw" resname="all">
+        <trans-unit id="80" resname="all">
           <source>All</source>
           <target>All</target>
         </trans-unit>
-        <trans-unit id="3Y0XJq4eZl2G2bXkRL_kLQ" resname="operatingSystems">
+        <trans-unit id="122" resname="operatingSystems">
           <source>Operating Systems</source>
           <target>Operating Systems</target>
         </trans-unit>
-        <trans-unit id="pEzLdrhb0OFuOXN34NG+4A" resname="projectSettings">
+        <trans-unit id="125" resname="projectSettings">
           <source>Project Settings…</source>
           <target>Project Settings…</target>
         </trans-unit>
-        <trans-unit id="qXKS72rkijNmb_QNMzv56A" resname="import">
+        <trans-unit id="101" resname="import">
           <source>Import…</source>
           <target>Import…</target>
         </trans-unit>
-        <trans-unit id="jAeYrzeWGkS_RZhGC5zXug" resname="copyAsXliffReference">
+        <trans-unit id="86" resname="copyAsXliffReference">
           <source>XLIFF reference</source>
           <target>XLIFF reference</target>
         </trans-unit>
-        <trans-unit id="cHNteiyD4w2Qf3XwZVGEbg" resname="copyTheCode">
+        <trans-unit id="89" resname="copyTheCode">
           <source>4D Code</source>
           <target>4D Code</target>
         </trans-unit>
-        <trans-unit id="bsbXk+VAlpG0kUJ056ckCQ" resname="copyResname">
+        <trans-unit id="88" resname="copyResname">
           <source>Resname</source>
           <target>Resname</target>
         </trans-unit>
-        <trans-unit id="ws3wGB9KVmHurIHh5pT6DA" resname="newGroup">
+        <trans-unit id="119" resname="newGroup">
           <source>New Group</source>
           <target>New Group</target>
         </trans-unit>
-        <trans-unit id="_E6t+ECqF_7+Rxa+jEDJ5Q" resname="newString">
+        <trans-unit id="120" resname="newString">
           <source>New String</source>
           <target>New String</target>
         </trans-unit>
-        <trans-unit id="8imXgYzEjxUe1XwwzCLumg" resname="duplicate">
+        <trans-unit id="93" resname="duplicate">
           <source>Duplicate</source>
           <target>Duplicate</target>
         </trans-unit>
-        <trans-unit id="6rtxRcRqzfYaF7cd7uXEnQ" resname="menu">
+        <trans-unit id="102" resname="menu">
           <source>Menu</source>
           <target>Menu</target>
         </trans-unit>
         
-        <trans-unit id="l5bYn_r2svuMpagzUFuttQ" resname="close">
+        <trans-unit id="81" resname="close">
           <source>Close</source>
           <target>Close</target>
         </trans-unit>
-        <trans-unit id="2ZRKAxegG9hpuLy1oN7PLQ" resname="codeFor">
+        <trans-unit id="85" resname="codeFor">
           <source>Code for </source>
           <target>Code for </target>
         </trans-unit>
         
         
         
-        <trans-unit id="C6__N1_DK9wPNMT9CgPlwg" resname="window">
+        <trans-unit id="130" resname="window">
           <source>Window</source>
           <target>Window</target>
         </trans-unit>
-        <trans-unit id="_4sDJFeb70IDWhKM+eyVLQ" resname="find">
+        <trans-unit id="98" resname="find">
           <source>Find</source>
           <target>Find</target>
         </trans-unit>
-        <trans-unit id="4uMS8ISXJFgDpnRABgMqAg" resname="findNext">
+        <trans-unit id="99" resname="findNext">
           <source>Find next</source>
           <target>Find next</target>
         </trans-unit>
       </group>
       <group resname="Labels">
-        <trans-unit id="3hicZsNirwTW6Mc2d+5Jeg" resname="WindowEditor">
+        <trans-unit id="75" resname="WindowEditor">
           <source>Xliff Editor</source>
           <target>Xliff Editor</target>
         </trans-unit>
-        <trans-unit id="rh0YEh7NpRqlvi2y8M78gg" resname="WindowPalette" translate="no">
+        <trans-unit id="77" resname="WindowPalette" translate="no">
           <source>Xliff</source>
         </trans-unit>
-        <trans-unit id="OHHfXZCMp+I9+PEniLIt6g" resname="searchlabel">
+        <trans-unit id="60" resname="searchlabel">
           <source>Find...</source>
           <target>Find...</target>
         </trans-unit>
-        <trans-unit id="IP1tOHGAdVPUx0xKyBYRvQ" resname="DontSave">
+        <trans-unit id="34" resname="DontSave">
           <source>Don't save</source>
           <target>Don't save</target>
         </trans-unit>
-        <trans-unit id="AwNnb5cOW0QQbbKBwNGFaQ" resname="ResourcesFolder">
+        <trans-unit id="59" resname="ResourcesFolder">
           <source>Resources Folder</source>
           <target>Resources Folder</target>
         </trans-unit>
-        <trans-unit id="9T5TweiVqlsVokwuZzy+Dw" resname="DefaultValues">
+        <trans-unit id="33" resname="DefaultValues">
           <source>Default values</source>
           <target>Default values</target>
         </trans-unit>
-        <trans-unit id="JADxCoGK76ROddkTzm7UHQ" resname="UseTheDatabasesFolder">
+        <trans-unit id="70" resname="UseTheDatabasesFolder">
           <source>Use the database's folder</source>
           <target>Use the database's folder</target>
         </trans-unit>
-        <trans-unit id="yrIMQVhQqd7VRNDRBq6ptA" resname="UseTheFolder">
+        <trans-unit id="72" resname="UseTheFolder">
           <source>Use the folder:</source>
           <target>Use the folder:</target>
         </trans-unit>
-        <trans-unit id="bXGAXwYUcTMiKzrOQWQkjA" resname="Comments">
+        <trans-unit id="30" resname="Comments">
           <source>Comments</source>
           <target>Comments</target>
         </trans-unit>
-        <trans-unit id="M6niHd+7SNXeThOmBlQBAg" resname="MetalWindow">
+        <trans-unit id="52" resname="MetalWindow">
           <source>Metal Window</source>
           <target>Metal Window</target>
         </trans-unit>
-        <trans-unit id="4lKH5r4CFNmZnnQ6tXbZFQ" resname="Languages">
+        <trans-unit id="46" resname="Languages">
           <source>Languages</source>
           <target>Languages</target>
         </trans-unit>
-        <trans-unit id="rfuvO6pu6dXN0+oT_HKGUA" resname="General">
+        <trans-unit id="43" resname="General">
           <source>General</source>
           <target>General</target>
         </trans-unit>
-        <trans-unit id="8l+F0naHBhvBxFDzwvrkdA" resname="Database">
+        <trans-unit id="31" resname="Database">
           <source>Database</source>
           <target>Database</target>
         </trans-unit>
-        <trans-unit id="cDCeeHxxLXK1MqVV0O6gOA" resname="Attributes">
+        <trans-unit id="28" resname="Attributes">
           <source>Attributes</source>
           <target>Attributes</target>
         </trans-unit>
-        <trans-unit id="iE16JoMnBZGV4_5WSBq7wg" resname="Values">
+        <trans-unit id="73" resname="Values">
           <source>Values</source>
           <target>Values</target>
         </trans-unit>
-        <trans-unit id="BI1fZpeA7ponIfRKFVxrpw" resname="SelectTheTargetResourceFolder">
+        <trans-unit id="62" resname="SelectTheTargetResourceFolder">
           <source>Select the Target Resource Folder.</source>
           <target>Select the Target Resource Folder.</target>
         </trans-unit>
-        <trans-unit id="PR1kSZGGXgazGe4m1SsbeQ" resname="UseGroupsResname">
+        <trans-unit id="67" resname="UseGroupsResname">
           <source>Use group's resname</source>
           <target>Use group's resname</target>
         </trans-unit>
-        <trans-unit id="ZGwSobokBKDtFjLHp1CGhg" resname="UsePrefix">
+        <trans-unit id="68" resname="UsePrefix">
           <source>Use prefix:</source>
           <target>Use prefix:</target>
         </trans-unit>
-        <trans-unit id="49D7RWNfkyxAXXDY9figDQ" resname="SeparatingCharacter">
+        <trans-unit id="64" resname="SeparatingCharacter">
           <source>Separating character:</source>
           <target>Separating character:</target>
         </trans-unit>
-        <trans-unit id="klBsnLlHnvkWXnbyYGjRLw" resname="EscapedCharacters">
+        <trans-unit id="38" resname="EscapedCharacters">
           <source>Escaped characters</source>
           <target>Escaped characters</target>
         </trans-unit>
-        <trans-unit id="jGP5nAjMw7H1zk8XAGA1kw" resname="MaximumSizeOfTheResname">
+        <trans-unit id="51" resname="MaximumSizeOfTheResname">
           <source>Maximum size of the resname</source>
           <target>Maximum size of the resname</target>
         </trans-unit>
-        <trans-unit id="2QqLnUSB6pD8mJ6u7VsgXA" resname="Advanced">
+        <trans-unit id="26" resname="Advanced">
           <source>Advanced</source>
           <target>Advanced</target>
         </trans-unit>
-        <trans-unit id="jB8e9u3DeStgSkNsDy23mw" resname="Labels_Files">
+        <trans-unit id="44" resname="Labels_Files">
           <source>Files</source>
           <target>Files</target>
         </trans-unit>
-        <trans-unit id="Y2T5NsN4wQboql17MAXpVw" resname="DragAndDropInForm">
+        <trans-unit id="36" resname="DragAndDropInForm">
           <source>Drag &amp; drop in form:</source>
           <target>Drag &amp; drop in form:</target>
         </trans-unit>
-        <trans-unit id="rM2TbBKvAZh2VgyrhyOe_A" resname="StyledText">
+        <trans-unit id="65" resname="StyledText">
           <source>Styled text</source>
           <target>Styled text</target>
         </trans-unit>
-        <trans-unit id="JRz6FN3I9v+AGJBbcSJyXw" resname="localization">
+        <trans-unit id="47" resname="localization">
           <source>Localization</source>
           <target>Localization</target>
         </trans-unit>
-        <trans-unit id="vKZzk+UqFjhgqAu33onEzg" resname="projectPath">
+        <trans-unit id="56" resname="projectPath">
           <source>Project</source>
           <target>Project</target>
         </trans-unit>
-        <trans-unit id="Y0C1TBt+9r+kXoRLsO3PTA" resname="projectLanguages">
+        <trans-unit id="54" resname="projectLanguages">
           <source>Languages</source>
           <target>Languages</target>
         </trans-unit>
-        <trans-unit id="udVYFomewc8AjZUnPI9lIw" resname="reference">
+        <trans-unit id="57" resname="reference">
           <source>Reference</source>
           <target>Reference</target>
         </trans-unit>
-        <trans-unit id="UCRlv_j5uZAh3chjW0E+og" resname="localizations">
+        <trans-unit id="49" resname="localizations">
           <source>Localizations</source>
           <target>Localizations</target>
         </trans-unit>
-        <trans-unit id="YhV4l4EKVwi8QXiizkLy9A" resname="filter">
+        <trans-unit id="41" resname="filter">
           <source>Filter</source>
           <target>Filter</target>
         </trans-unit>
-        <trans-unit id="xOVu10HXcP2Aj1hE3UGMmg" resname="file">
+        <trans-unit id="39" resname="file">
           <source>File</source>
           <target>File</target>
         </trans-unit>
       </group>
       
       <group resname="DO NOT TRANSLATE">
-        <trans-unit id="Q+i1gHBC0A6bRTB2fAhr5Q" resname="DOCTYPE" translate="no">
+        <trans-unit id="23" resname="DOCTYPE" translate="no">
           <source>xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd"</source>
           <target>xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd"</target></trans-unit>
-        <trans-unit id="ssvI5z6qVuetOkKgfb1_ew" resname="XliffComment" translate="no">
+        <trans-unit id="25" resname="XliffComment" translate="no">
           <source> Translation file. This file is distributed under the same license as the product package.</source>
           <target> Translation file. This file is distributed under the same license as the product package.</target></trans-unit>
       </group>
       
       
       <group resname="WIZARD">
-        <trans-unit id="PY+sMCwv_ObDTmbf6huGcQ" resname="thisIsTheFirstTime">
-          <source>This is the first time you've opened this editor for this project, so let's do a few checks...</source>
-          <target>This is the first time you've opened this editor for this project, so let's do a few checks...</target>
+        <trans-unit id="176" resname="thisIsTheFirstTime">
+          <source>This is the first time you've opened the XLIFF editor for this project, or perhaps you've changed the target languages, so let's have a look...</source>
+          <target>This is the first time you've opened the XLIFF editor for this project, or perhaps you've changed the target languages, so let's have a look...</target>
         </trans-unit>
-        <trans-unit id="d_Y0ZG0xwVF_1bmg7pS2Qw" resname="wizardComment">
+        <trans-unit id="178" resname="wizardComment">
           <source>The XLIFF standard requires us to determine a source language in which all strings are written. This language will be the reference language, from which all translations will be made. The other languages are referred to as target languages, and will be used for dialogues, warnings, printouts and so on. This is the language that will be used for the end user, according to your choice.
 
 Depending on the content of your project, the language of the system and the application, I've tried to determine the source and target languages. You can change the source language and add target languages if you wish.</source>
@@ -476,17 +476,32 @@ Depending on the content of your project, the language of the system and the app
 
 Depending on the content of your project, the language of the system and the application, I've tried to determine the source and target languages. You can change the source language and add target languages if you wish.</target>
         </trans-unit>
-        <trans-unit id="Btuld_QPUCJavmfPBRJ1CQ" resname="wizardTitle">
+        <trans-unit id="179" resname="wizardTitle">
           <source>Welcome to 4DPop XLIFF Pro</source>
           <target>Welcome to 4DPop XLIFF Pro</target>
         </trans-unit>
-        <trans-unit id="108" resname="languagesFound">
+        <trans-unit id="172" resname="languagesFound">
           <source>LANGUAGES FOUND</source>
           <target>LANGUAGES FOUND</target>
+        </trans-unit>
+        <trans-unit id="171" resname="availableLanguages">
+          <source>AVAILABLE LANGUAGES</source>
+          <target>AVAILABLE LANGUAGES</target>
+        </trans-unit>
+        <trans-unit id="174" resname="theFolderWillBeDeleted">
+          <source>The "{lang}" folder and its contents will be deleted.</source>
+          <target>The "{lang}" folder and its contents will be deleted.</target>
+        </trans-unit>
+        <trans-unit id="173" resname="remove">
+          <source>Remove</source>
+          <target>Remove</target>
         </trans-unit>
       </group>
     </body>
   </file>
+
+
+
 
 
 

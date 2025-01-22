@@ -555,6 +555,7 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 	var $group : cs:C1710.XliffGroup
 	var $unit : cs:C1710.XliffUnit
 	var $xliff : cs:C1710.Xliff
+	var $oo : Object
 	
 	If (Not:C34($file.exists))
 		
@@ -630,6 +631,7 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 			For each ($unit; $group.transunits.orderBy("resname"))
 				
 				$string:=Null:C1517
+				$oo:=Null:C1517
 				
 				$o:=$xliff.groups.query("transunits[].id = :1"; $unit.id).first()
 				
@@ -637,6 +639,17 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 					
 					$string:=$o.transunits.query("id = :1"; $unit.id).first()
 					
+					If ($string#Null:C1517)
+						
+						// Search for the same resname with a different ID
+						$oo:=$xliff.groups.query("transunits[].resname = :1"; $unit.resname).first()
+						
+						If ($oo#Null:C1517)
+							
+							$oo:=$oo.transunits.query("id != :1 & resname = :2"; $unit.id; $unit.resname).first()
+							
+						End if 
+					End if 
 				End if 
 				
 				If ($string=Null:C1517)
@@ -650,6 +663,12 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 						$xliff.setState($node; This:C1470.STATE_NEW)
 						
 					End if 
+				End if 
+				
+				If ($oo#Null:C1517)
+					
+					$xliff.remove($oo.node)
+					
 				End if 
 			End for each 
 		End for each 
