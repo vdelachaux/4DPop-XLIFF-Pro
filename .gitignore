@@ -79,3 +79,4 @@ Resources/_*
 *.bbprojectd
 Preferences/4DPop XLIFF.settings
 Project/Sources/dependencies.json
+/Components
