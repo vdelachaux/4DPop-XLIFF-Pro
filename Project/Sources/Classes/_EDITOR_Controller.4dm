@@ -12,8 +12,8 @@ property main:={}
 
 // MARK:- Delegates 📦
 property form : cs:C1710.form
-property stringListConstraints : cs:C1710.constraints
-property Xliff : cs:C1710.Xliff
+property stringListConstraints  //: cs.constraints
+property Xliff  //: cs.Xliff
 property menuBar : cs:C1710.menuBar
 property Preferences : cs:C1710.Preferences
 property str:=cs:C1710.str.new()

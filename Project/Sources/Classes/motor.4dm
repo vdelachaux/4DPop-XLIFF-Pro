@@ -303,7 +303,7 @@ Function get newConnectionsAllowed() : Boolean
 	return This:C1470.infos.newConnectionsAllowed
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function acceptNewConnections
+shared Function acceptNewConnections
 	
 	If (Asserted:C1132(This:C1470.isServer; Current method name:C684+" - In local mode this method does nothing"))
 		
@@ -313,7 +313,7 @@ Function acceptNewConnections
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === === === ===
-Function rejectNewConnections
+shared Function rejectNewConnections
 	
 	If (Asserted:C1132(This:C1470.isServer; Current method name:C684+" - In local mode this method does nothing"))
 		

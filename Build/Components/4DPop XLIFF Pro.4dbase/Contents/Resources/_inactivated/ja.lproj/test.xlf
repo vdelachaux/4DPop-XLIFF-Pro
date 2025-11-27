@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<xliff version="1.0" xmlns:d4="http://www.4d.com/d4-ns">
+  <file datatype="x-STR#" original="Undefined" source-language="en" target-language="ja">
+    <header>
+      <prop-group name="4DPop XLIFF Pro">
+        <prop prop-type="version">3.0</prop>
+      </prop-group>
+    </header>
+    <body>
+      <group resname="first">
+        <trans-unit id="1" resname="one">
+          <source>EN</source>
+          <target state="new">EN</target>
+        </trans-unit>
+        <trans-unit id="1" resname="String 1">
+          <source/>
+          <target/>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+
+
+</xliff>

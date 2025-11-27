@@ -184,7 +184,13 @@ Les modifications seront enregistrées et ne pourront pas être annulées.</targ
           <target>Chaîne</target>
         </trans-unit>
         
-        </group>
+        <trans-unit id="18" resname="NewFile">
+          <source>File</source>
+          <target state="new">File</target>
+        </trans-unit><trans-unit id="20" resname="NewGroup">
+          <source>Group</source>
+          <target state="new">Group</target>
+        </trans-unit></group>
       <group resname="Menus">
         <trans-unit id="117" resname="newFile">
           <source>New File</source>

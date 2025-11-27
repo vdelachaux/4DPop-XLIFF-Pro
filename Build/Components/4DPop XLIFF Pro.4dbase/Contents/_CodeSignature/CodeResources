@@ -88,6 +88,38 @@
 		<data>
 		qkmZ3hxpvUpll5TWtg8xlf9+4ss=
 		</data>
+		<key>Resources/Images/minus.png</key>
+		<data>
+		UwISYNVIkf//CKz29gSaC4ROy8c=
+		</data>
+		<key>Resources/Images/minus@2x.png</key>
+		<data>
+		rb+UxsP0dGncrT+XFYQ8n1ZhQzU=
+		</data>
+		<key>Resources/Images/minus@2x_dark.png</key>
+		<data>
+		FRhb1pU6s0xIHu9f4nYfqMumX04=
+		</data>
+		<key>Resources/Images/minus_dark.png</key>
+		<data>
+		+DqxCOR3rGByAErHpEXq+0MKFiQ=
+		</data>
+		<key>Resources/Images/more.png</key>
+		<data>
+		MMeRTJowpV120lt6KCsrZSXJBtc=
+		</data>
+		<key>Resources/Images/more@2x.png</key>
+		<data>
+		mvyQ0QSf/zB1pICwzTme67jORzM=
+		</data>
+		<key>Resources/Images/more@2x_dark.png</key>
+		<data>
+		wb6DPacunK1TP/18mb1mXfgkmkc=
+		</data>
+		<key>Resources/Images/more_dark.png</key>
+		<data>
+		CUHUjLinw9KnTwTT3QRnoKwLagA=
+		</data>
 		<key>Resources/Images/new.png</key>
 		<data>
 		66sN1oOFyXRYMAqhB2NJEftqv5s=
@@ -103,6 +135,22 @@
 		<key>Resources/Images/note_on.png</key>
 		<data>
 		AskWynlNvRx1AJNRW3+U+ImWOlk=
+		</data>
+		<key>Resources/Images/plus.png</key>
+		<data>
+		oCBJzRCLFISbWgb9vZRmmG4ihuY=
+		</data>
+		<key>Resources/Images/plus@2x.png</key>
+		<data>
+		VLorvQtNr88TmF5VlqLga0IOGak=
+		</data>
+		<key>Resources/Images/plus@2x_dark.png</key>
+		<data>
+		6zkDx+Cgw56pZBEmszJmfGJ+RbE=
+		</data>
+		<key>Resources/Images/plus_dark.png</key>
+		<data>
+		CvTDos1PUM2knz6C4PPPmlI/uNk=
 		</data>
 		<key>Resources/Images/wait.gif</key>
 		<data>
@@ -126,7 +174,7 @@
 		</data>
 		<key>Resources/InfoPlist.strings</key>
 		<data>
-		gsdNZaanRwU+HMZ0fKYGfXxBMZ8=
+		I7vpJ39WfxI9nYhcb0QLOvF8rYI=
 		</data>
 		<key>Resources/SearchPicker/search.png</key>
 		<data>
@@ -144,11 +192,578 @@
 		<data>
 		6tWD2H/dUoQgjIculr+muipGoZs=
 		</data>
+		<key>Resources/_inactivated/albanian.lproj/Xliff Editor.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			XZBJS94AnECvABCLT3PHrU2n354=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/albanian.lproj/widgets.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NOj/7Wu3KwnxdtV+9BkXcbfF39s=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/Demo.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			sCg9Fh9j5WK4ahA3sdnnQ9bk5uo=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/Documents.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RlZUPPO8hHUOGlV7RcKJb9zXL/I=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/NEW.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			aBdG2nknqVLUkLioAwNePh7S6yA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/Untitled.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Jx5xL161PsnOCyf5BrsR22QHygM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/Xliff Editor.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			/SIdbJ/P79NwKDJKsiZCwkRBjQs=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/_0_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			oirradlzMybv+JS2soTuoq7A7s0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/_duplicateIDs.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			a3wEQoZtq7hDG8Fj+LGgGeYmECc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/_noGroup.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			qWSQxRbrZXENT8qmooUV+NyjZIU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			xuntSaP05FCFBpDrLB4j3GaH58g=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/_testDE.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			3ci8bCPugQTdoq8f+2AGg3/Znf4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/newDE.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1Fvic3suFvlQjFwQsh2iUfcNXkc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/one.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			OVenUWibA+Ko4U6T4x81Jyy+H90=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			S8hxtIAljt35EudvvTT14vyCeoA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/widgets.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			bTqvgjavuHh9kGrj21dZKuw0Rks=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/Demo.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			AWPmH00FYCL+Icaj+t/xkscsOYI=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/Documents.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			qjmfcspFyJuyc7oUa0bYKr1cTfw=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/NEW.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			C4HwrYaVOiUrXn+ZRprt+5zGFcc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/Untitled.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Oq4k6p27XsBskATV2NYXHOuMUCk=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/Xliff Editor.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			nmE6dLPCYDWDlMVNQya9nIMq8As=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/_0_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			LiHk89kyCRgmzZ8VvyhpZ/xDNVo=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/_duplicateIDs.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			kWBKNYTVAl5QSHcO5vdK9I2s3mk=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/_noGroup.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			jR4zy+sgkt6fCt9jCFpTo3kN4tw=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			xOPAiFfPD6kaqLNyRj1jBN+L8/w=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/_testES.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			fEtcbTMcRth0m8YoZ+e3XpEeEkw=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/newES.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RHhT9Xu7k3U2XrxUZMYZWjpNRhM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/one.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			uPOGthQ0szEE4MnPBvKzTI10pC8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			kgQ2CK0IzuMfF5zHySJbRfV4XKo=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/widgets.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			wKFf2oYAgxEcTtQa4bY8Lx2gE/I=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
 		<key>Resources/_inactivated/fr-ch.lproj/zzz.xlf</key>
 		<dict>
 			<key>hash</key>
 			<data>
 			HXPlbewkDhmDikQcUNlijTHN86s=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/4D Constant.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			keLPXwwjVaHj5zckrf+6jjvXR3E=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/Demo.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9Rvo5Em4r0zAZPVfI9SXSy2hlbY=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/Documents.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			iPU2JGEZVTdRSNtNE033FNLj5p8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/NEW.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			y7WQYy6Un1CYWyP+RnHEbVRVh8g=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/Untitled.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+vtGABtBXpwKYF6QUuwN/uUhQCA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/Xliff Editor.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+3OBl0nRT3uJdKbGzegSy4TXVho=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/_0_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			i1urPPFB3LyaMGJLVBAnDgAPJWY=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/_duplicateIDs.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7H1f5wyXGgaHoylCLAXNPMDm8JQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/_noGroup.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			5NgOhUd1+OBlEqYCBYLyRBRKWx0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			jNgTMRYvSTE0I+EgKhsJJ5pJW6I=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/_testEN.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NLGm30Km9ITClN55NS9GCqYyC34=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/_testJA.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			JTaLPqK+VHnqz8WfnGIgpHC3zPk=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/newEN.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Uf6gDgloVtslSEWgo8apnn1b0gY=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/newJA.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			SPozrCjWfIH0Z4Edx5IjCOMyywI=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/one.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			qF7QDUUtEuo4NxXE0zI3rMLDyY0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			HStTXvXbSBGjFlK7bMzQKSFfENs=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/widgets.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			R3vKgG5ZUQh4/RpgAsRb6U2yx3g=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/Demo.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NLsAVEOhllXE8xJq/rguFQHiWks=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/Documents.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZObGoe1+tw+PiS9FH+ECcze/KKE=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/NEW.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RtUBYBqHfDC4X1gHcXJYi9yJS7k=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/Untitled.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9fIK/IA3e7SdUEMqu7P+amP5Axo=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/Xliff Editor.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			s1ufFUT9R5KwkxWP3a1dWEZV9go=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/_0_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			vG0e0qLxYMilcH8bO7NkhdT+E9w=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/_duplicateIDs.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			hm6ICzNiHsw+9EH3nu3w5/uHmGA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/_noGroup.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			GC6HOtT87WiFJzDsP5CYVEGheVg=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1pCcG2KyZlzpPvMFlzWJl9wCbhw=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/_testPT.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			g+SoGssBWqCfLPTZDKlWxMawQBo=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/newPT.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			In5jR/UJNFLtn/ZSr8UovgrGTe0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/one.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			cNEqnSY2ghAuR1B9US7VAbOlJeY=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			0OozbcU8QFhN/gsc7+GQ3CobPH8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/widgets.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			s64kNz/MUK0lT4PwZOyYy9GKf/8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ukrainian.lproj/Xliff Editor.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			eN/Oh+eHbKq+Z2a6zIMaZ5Q/JQc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ukrainian.lproj/widgets.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			A9e2Tgibdo6cP+9ujnW3DectSjA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -179,7 +794,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6gUFpw4G3TEfULre4145SW5p9WU=
+			xq+E0nYAbz/nzQSPNr2/Nfm13OQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -188,7 +803,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ysEguY8zf2EUn8PyLMb17EeQV7E=
+			DKazyAu4CFioRMlyhraKXFbi7f8=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -197,7 +812,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ELuwg5wWYa7Lxc4CDSufB2om6PI=
+			s+I2VnjuxAWjN9uxsJ4bzSnTQGE=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -242,7 +857,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8fxy/w29p/c9OcJYJDCQgp+S45Y=
+			lgXGDnzw8soA7jhSEP9bTU4uDxY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -270,123 +885,6 @@
 			<key>hash</key>
 			<data>
 			xqA/K5aRxhToZ0JxJGZUAebEh4Q=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/Demo.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			sCg9Fh9j5WK4ahA3sdnnQ9bk5uo=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/Documents.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			RlZUPPO8hHUOGlV7RcKJb9zXL/I=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/NEW.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			I/WhIQ5P/m2r1IFh0K36SOFJ+l4=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/Untitled.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			HUZp+UnFXWqyj20FErdsZ8Ro0JU=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/Xliff Editor.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			5HC5gliEUMBi8k/3wS4k5J+BSIw=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/_0_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			oirradlzMybv+JS2soTuoq7A7s0=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/_duplicateIDs.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			a3wEQoZtq7hDG8Fj+LGgGeYmECc=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/_noGroup.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			qWSQxRbrZXENT8qmooUV+NyjZIU=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			xuntSaP05FCFBpDrLB4j3GaH58g=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/_testDE.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			lcQJP796QVYyHzXshm7r29WG9C8=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/newDE.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			1Fvic3suFvlQjFwQsh2iUfcNXkc=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/one.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			OVenUWibA+Ko4U6T4x81Jyy+H90=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/widgets.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			bTqvgjavuHh9kGrj21dZKuw0Rks=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -422,7 +920,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Kcs5DphRsjnrOOYSs8TNPYanfjc=
+			StUvMTGhXqPUl2IM8JYobVzAgfk=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -431,7 +929,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1zgGeQ3cpjwI+aedsKxnE0crey4=
+			EOlzHwsgOdQ0pf4JMYvH30Wv9f4=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -440,7 +938,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			FYiZcqq+snE5h+ArT4mB30YjKQk=
+			srfIcg3ZrLy0p7wbwQTZnOt4ahQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -494,7 +992,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sO3BfaORkpHxopI4n34cmXR2sr0=
+			7bSzYQf9JYVXo9vSJAAXdnoOkPY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -517,128 +1015,20 @@
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>Resources/en.lproj/test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+ztuoi0TBMQ0cFmvd+K4DkdbaDU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
 		<key>Resources/en.lproj/widgets.xlf</key>
 		<dict>
 			<key>hash</key>
 			<data>
 			ALaLLhFaW8wgugika5SKxZmMRWI=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/Demo.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			AWPmH00FYCL+Icaj+t/xkscsOYI=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/Documents.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			qjmfcspFyJuyc7oUa0bYKr1cTfw=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/NEW.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			xcLmBojR9C05vl0jdm+sO2nxxUA=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/Untitled.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			5QUOAa4x0MrzYagGekQPFW2HOUI=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/Xliff Editor.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			cgHDGMjACxcsXXjMWkpYJAHcGkA=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/_0_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			LiHk89kyCRgmzZ8VvyhpZ/xDNVo=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/_duplicateIDs.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			kWBKNYTVAl5QSHcO5vdK9I2s3mk=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/_noGroup.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			jR4zy+sgkt6fCt9jCFpTo3kN4tw=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			xOPAiFfPD6kaqLNyRj1jBN+L8/w=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/_testES.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Z3W5c2ePLpIsu5CUtNxr17Apd3w=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/newES.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			RHhT9Xu7k3U2XrxUZMYZWjpNRhM=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/one.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			uPOGthQ0szEE4MnPBvKzTI10pC8=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/widgets.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			wKFf2oYAgxEcTtQa4bY8Lx2gE/I=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -665,7 +1055,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Vm2HCbKds9O1xv40DcZ8XX3/6lI=
+			zYf5OiKjgd97NLdub01MhS2LXkc=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -674,7 +1064,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9lyFYxjIhsFOd2NTlzeICoxAqww=
+			LFbPySqua+Vndm9yTXCEDHsIlqs=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -683,7 +1073,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ovifaNjXiL1mccW1xvttISVQfN8=
+			WfrEKsf8kX8/rOMwHfFWi9tXFzU=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -728,7 +1118,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			71+aosYp3sqUmveVCr0viOsMIqw=
+			ImCeTQznaRc08oQgNUsu6gzxASI=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -751,6 +1141,15 @@
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>Resources/fr.lproj/test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			AxV+Pr6tI654cqrV3fSxmvDpJPg=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
 		<key>Resources/fr.lproj/widgets.xlf</key>
 		<dict>
 			<key>hash</key>
@@ -760,271 +1159,10 @@
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Resources/ja.lproj/4D Constant.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			keLPXwwjVaHj5zckrf+6jjvXR3E=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/Demo.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			9Rvo5Em4r0zAZPVfI9SXSy2hlbY=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/Documents.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			iPU2JGEZVTdRSNtNE033FNLj5p8=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/NEW.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			jnP5a8hWBAHDHT++Xuf7NVgMTAE=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/Untitled.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			5PPf/9jwhDViXGgU/bkkKRcFwDw=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/Xliff Editor.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			wyBwUh9ILyAP3r1bSpaYJasRKFE=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/_0_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			i1urPPFB3LyaMGJLVBAnDgAPJWY=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/_duplicateIDs.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			7H1f5wyXGgaHoylCLAXNPMDm8JQ=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/_noGroup.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			5NgOhUd1+OBlEqYCBYLyRBRKWx0=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			jNgTMRYvSTE0I+EgKhsJJ5pJW6I=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/_testEN.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			NLGm30Km9ITClN55NS9GCqYyC34=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/_testJA.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			P0bLkINJaelwIzLpmCln5HqJdIw=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/newEN.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Uf6gDgloVtslSEWgo8apnn1b0gY=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/newJA.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			SPozrCjWfIH0Z4Edx5IjCOMyywI=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/one.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			qF7QDUUtEuo4NxXE0zI3rMLDyY0=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/widgets.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			R3vKgG5ZUQh4/RpgAsRb6U2yx3g=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
 		<key>Resources/languages.json</key>
 		<data>
-		rN7NVrRjk5YmGe9YPzJBXvkJqSA=
+		rKi4beWfTZZnXz9UvsztSb2zEAc=
 		</data>
-		<key>Resources/pt.lproj/Demo.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			NLsAVEOhllXE8xJq/rguFQHiWks=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/Documents.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			ZObGoe1+tw+PiS9FH+ECcze/KKE=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/NEW.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			beq1fcr137JF6af6+/+HcLPRKuk=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/Untitled.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			vgdq3CoYUJxqu7jfs848FMNZSV0=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/Xliff Editor.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			9KL3tN3h1nYol/PRmpJcp8MQTag=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/_0_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			vG0e0qLxYMilcH8bO7NkhdT+E9w=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/_duplicateIDs.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			hm6ICzNiHsw+9EH3nu3w5/uHmGA=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/_noGroup.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			GC6HOtT87WiFJzDsP5CYVEGheVg=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			1pCcG2KyZlzpPvMFlzWJl9wCbhw=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/_testPT.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			gCHKdRnY8gTDdccriW6z3Gyf/Ww=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/newPT.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			In5jR/UJNFLtn/ZSr8UovgrGTe0=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/one.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			cNEqnSY2ghAuR1B9US7VAbOlJeY=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/widgets.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			s64kNz/MUK0lT4PwZOyYy9GKf/8=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
 		<key>Resources/template.xlf</key>
 		<data>
 		2Twq5aexR2S1M/Vo4O+h+qcOf54=
@@ -1040,7 +1178,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			VgkG9iYqLu0E1OyGDwfWIr72JRI=
+			WsFeD/YqzYZ7MgZt+HOtFpA2ajc=
 			</data>
 			<key>requirement</key>
 			<string>identifier "4DPop XLIFF Pro.4DZ" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = DYRKW64QA9</string>
@@ -1049,11 +1187,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			PYzDmC/Qce0gkLO6eezIGsIZKSc=
+			neIPRBsrHnOMWlMS+mVqfIvjRQY=
 			</data>
 			<key>hash2</key>
 			<data>
-			3JxY1MZ1vSvyPiSZbsodlKlXwwVJQmEH/ajyXEvAN8U=
+			SU9jHUtbI17E1TvpkggeCgDLJkOJ+NuuSCafkOppNhc=
 			</data>
 		</dict>
 		<key>Resources/4DPop xliff/collection.group</key>
@@ -1287,6 +1425,94 @@
 			2Au16a5pu1FM/kKyGnmlwAJYZsAXIHnKIJy7/cVE520=
 			</data>
 		</dict>
+		<key>Resources/Images/minus.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			UwISYNVIkf//CKz29gSaC4ROy8c=
+			</data>
+			<key>hash2</key>
+			<data>
+			jOzQzNg7WCo0fZnP/lbfKqI52bfGFibqwdp4nOlwfFg=
+			</data>
+		</dict>
+		<key>Resources/Images/minus@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			rb+UxsP0dGncrT+XFYQ8n1ZhQzU=
+			</data>
+			<key>hash2</key>
+			<data>
+			HjmzOHfd3HeFl7uYlQu4pw0O/QYdlg4/tOLny92Ic+k=
+			</data>
+		</dict>
+		<key>Resources/Images/minus@2x_dark.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			FRhb1pU6s0xIHu9f4nYfqMumX04=
+			</data>
+			<key>hash2</key>
+			<data>
+			DrqZCn/2izxGq0klVwUnuC3Ef4i6eQaK2h24wzT0SZQ=
+			</data>
+		</dict>
+		<key>Resources/Images/minus_dark.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+DqxCOR3rGByAErHpEXq+0MKFiQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			YQo0sEgOeFksovEsAmKjN2/kcCibh4OkKBuIi8V24lI=
+			</data>
+		</dict>
+		<key>Resources/Images/more.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			MMeRTJowpV120lt6KCsrZSXJBtc=
+			</data>
+			<key>hash2</key>
+			<data>
+			c/tK3/iQjJvSHlfNfhif24XMbA33ahT8msAGZ5Lc9po=
+			</data>
+		</dict>
+		<key>Resources/Images/more@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			mvyQ0QSf/zB1pICwzTme67jORzM=
+			</data>
+			<key>hash2</key>
+			<data>
+			mTT7Ty9/fwv2d6uBuRcTAVwUY7MupVYqHWDQBwjmiaI=
+			</data>
+		</dict>
+		<key>Resources/Images/more@2x_dark.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			wb6DPacunK1TP/18mb1mXfgkmkc=
+			</data>
+			<key>hash2</key>
+			<data>
+			xg1C1Ja8UmixMUSg2UjhwMbsDpooUC1ylj53QeDiXsk=
+			</data>
+		</dict>
+		<key>Resources/Images/more_dark.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			CUHUjLinw9KnTwTT3QRnoKwLagA=
+			</data>
+			<key>hash2</key>
+			<data>
+			HlWWpPC8cWm/cUm/q5YA2C6JFpqI4bmixIcQyKpU/A4=
+			</data>
+		</dict>
 		<key>Resources/Images/new.png</key>
 		<dict>
 			<key>hash</key>
@@ -1329,6 +1555,50 @@
 			<key>hash2</key>
 			<data>
 			nM6kIrSGAEUXPEHqMAuoU3Gg1uP83kcIS6Gjk5NCfH4=
+			</data>
+		</dict>
+		<key>Resources/Images/plus.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			oCBJzRCLFISbWgb9vZRmmG4ihuY=
+			</data>
+			<key>hash2</key>
+			<data>
+			rACWUFNnQzl7hsMBaMOfCU3ss3VvKXncvJpLnessKOA=
+			</data>
+		</dict>
+		<key>Resources/Images/plus@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			VLorvQtNr88TmF5VlqLga0IOGak=
+			</data>
+			<key>hash2</key>
+			<data>
+			koURM5U3oQiEBufn0yyOe/4DeyHgFC6biV6yS+2aSBk=
+			</data>
+		</dict>
+		<key>Resources/Images/plus@2x_dark.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			6zkDx+Cgw56pZBEmszJmfGJ+RbE=
+			</data>
+			<key>hash2</key>
+			<data>
+			n1ZTBn43R2hOKvP5hRZsKm5X6qmxrTk2SAFR3v1Tp7c=
+			</data>
+		</dict>
+		<key>Resources/Images/plus_dark.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			CvTDos1PUM2knz6C4PPPmlI/uNk=
+			</data>
+			<key>hash2</key>
+			<data>
+			/s6MEwjKXNWywDObAFwdBh/J5lPveIBLdDyWMSZpVEs=
 			</data>
 		</dict>
 		<key>Resources/Images/wait.gif</key>
@@ -1390,11 +1660,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			gsdNZaanRwU+HMZ0fKYGfXxBMZ8=
+			I7vpJ39WfxI9nYhcb0QLOvF8rYI=
 			</data>
 			<key>hash2</key>
 			<data>
-			Qm+HnL8S0bVhC6E6lNfBz3ixIkL6H8Pbri1tVoYwiyY=
+			tmp3O2jlHAd17rbJ/zXfm7KPXRAt5kv2rpwE3b9pu48=
 			</data>
 		</dict>
 		<key>Resources/SearchPicker/search.png</key>
@@ -1441,6 +1711,396 @@
 			D/YZKZnLv/8P/bHVanpEPxTrmtqTUs2MUpbjK6QjU+I=
 			</data>
 		</dict>
+		<key>Resources/_inactivated/albanian.lproj/Xliff Editor.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			XZBJS94AnECvABCLT3PHrU2n354=
+			</data>
+			<key>hash2</key>
+			<data>
+			VQ84Vk6nuMdBuJw+820OE+oHckuBBLmRHcfq/UhxXvY=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/albanian.lproj/widgets.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NOj/7Wu3KwnxdtV+9BkXcbfF39s=
+			</data>
+			<key>hash2</key>
+			<data>
+			duaZIjORjx7OeVKti49vPEmWDN8wXzA0A31o67jYOk0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/Demo.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			sCg9Fh9j5WK4ahA3sdnnQ9bk5uo=
+			</data>
+			<key>hash2</key>
+			<data>
+			2yItBTN5QIc+EiHFesxrw8examCb8yNx4EAYBErZhHE=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/Documents.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RlZUPPO8hHUOGlV7RcKJb9zXL/I=
+			</data>
+			<key>hash2</key>
+			<data>
+			YUuEpS1HC5W7BxEM64wKU4TaC/gKN2KsBCOB4v/GvIU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/NEW.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			aBdG2nknqVLUkLioAwNePh7S6yA=
+			</data>
+			<key>hash2</key>
+			<data>
+			lswimDraCxJ5psBMCm0kTF3TEPZCE2zEepI6N0/VxK4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/Untitled.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Jx5xL161PsnOCyf5BrsR22QHygM=
+			</data>
+			<key>hash2</key>
+			<data>
+			wxY9gi8Loa2nIRce0acTXQDAw4KxGKqNOK88jsf2Zyo=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/Xliff Editor.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			/SIdbJ/P79NwKDJKsiZCwkRBjQs=
+			</data>
+			<key>hash2</key>
+			<data>
+			cdkMizUIv7xl3KI5/B0Vh+hzdl2c65NneBfVr3XXJEQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/_0_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			oirradlzMybv+JS2soTuoq7A7s0=
+			</data>
+			<key>hash2</key>
+			<data>
+			HsLNps68I3lVDSLSWi8jAzPFNqPnXxvDJY+lbmsX+1M=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/_duplicateIDs.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			a3wEQoZtq7hDG8Fj+LGgGeYmECc=
+			</data>
+			<key>hash2</key>
+			<data>
+			R5u6Ex7lNhlehFMWKdkMJqybgQtajXp9Lyd83rEqiY8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/_noGroup.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			qWSQxRbrZXENT8qmooUV+NyjZIU=
+			</data>
+			<key>hash2</key>
+			<data>
+			b2jEoAvZ7oqKMmhz2X1JbEpaxtF284MN3qouPuGbGOM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			xuntSaP05FCFBpDrLB4j3GaH58g=
+			</data>
+			<key>hash2</key>
+			<data>
+			ugt9ETADj45o7a58lNfWgfCBvwv0QZ+k6jdlWdh4sHU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/_testDE.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			3ci8bCPugQTdoq8f+2AGg3/Znf4=
+			</data>
+			<key>hash2</key>
+			<data>
+			2YqJwrMw1790JxUYjZtFKMF/1MPcvB+Vjg0xbx6kZ5M=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/newDE.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1Fvic3suFvlQjFwQsh2iUfcNXkc=
+			</data>
+			<key>hash2</key>
+			<data>
+			4MovfCZBjPBt0XGmiS82Sd9bRpfA3+eCbzbyNHzayxA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/one.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			OVenUWibA+Ko4U6T4x81Jyy+H90=
+			</data>
+			<key>hash2</key>
+			<data>
+			6TvIl2IW8fPG6EReOyzY0bB5qfG0HxiMO2vCLaCr62k=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			S8hxtIAljt35EudvvTT14vyCeoA=
+			</data>
+			<key>hash2</key>
+			<data>
+			Rys2LLwjHmPoisGqQmIuNyiNuOoaRuOrYuKSEWLJiZ4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/de.lproj/widgets.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			bTqvgjavuHh9kGrj21dZKuw0Rks=
+			</data>
+			<key>hash2</key>
+			<data>
+			i6VKRfCFO++ocjobp9cXgMnAQrTbdO8+ISTRsdLbf1Q=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/Demo.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			AWPmH00FYCL+Icaj+t/xkscsOYI=
+			</data>
+			<key>hash2</key>
+			<data>
+			TzKs+L3hjtdkcfmBRc4k4dsP4MnTtRoPg3k0mhS8VVc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/Documents.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			qjmfcspFyJuyc7oUa0bYKr1cTfw=
+			</data>
+			<key>hash2</key>
+			<data>
+			uqdP1MVt52A0I/zlmpYp14CRV5WA0svYOPGHjzBFAyw=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/NEW.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			C4HwrYaVOiUrXn+ZRprt+5zGFcc=
+			</data>
+			<key>hash2</key>
+			<data>
+			GOJh6ChCHHq+d7Vz5FfTSOShzGLKhiY7ZzBPq8lRTTU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/Untitled.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Oq4k6p27XsBskATV2NYXHOuMUCk=
+			</data>
+			<key>hash2</key>
+			<data>
+			XIhZVhBvz2xWB8ZqsNhnMCyAAjB0zzVTitlHFW+U214=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/Xliff Editor.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			nmE6dLPCYDWDlMVNQya9nIMq8As=
+			</data>
+			<key>hash2</key>
+			<data>
+			p9WMru7BTvDUQGMlwuaLiMIaEwWzF327PhuURIny5G0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/_0_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			LiHk89kyCRgmzZ8VvyhpZ/xDNVo=
+			</data>
+			<key>hash2</key>
+			<data>
+			d++EwJa76YI6yonHKAO8yHb//gHsXmsYA89TSNcpp4M=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/_duplicateIDs.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			kWBKNYTVAl5QSHcO5vdK9I2s3mk=
+			</data>
+			<key>hash2</key>
+			<data>
+			KnaeoOgz/hSRHPOEvolquABupyS0ZtqQ/HoHqHo8SXA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/_noGroup.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			jR4zy+sgkt6fCt9jCFpTo3kN4tw=
+			</data>
+			<key>hash2</key>
+			<data>
+			y4HQeLmC5dIPwpIhHWWJ/sq/mAsFZFt6DDYvNEFMnL0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			xOPAiFfPD6kaqLNyRj1jBN+L8/w=
+			</data>
+			<key>hash2</key>
+			<data>
+			k6Rk42HscvOonDj1ErWQGEl/BthbcsM2hDxQ5qAcLBs=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/_testES.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			fEtcbTMcRth0m8YoZ+e3XpEeEkw=
+			</data>
+			<key>hash2</key>
+			<data>
+			EAE6OApJuwjCTne77CFIS1d20Ycnxx67G+HgoitBC6U=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/newES.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RHhT9Xu7k3U2XrxUZMYZWjpNRhM=
+			</data>
+			<key>hash2</key>
+			<data>
+			hUCux0yLUGuAG3QXihk62qZUzRa6YMsAdXKt7xdAeP8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/one.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			uPOGthQ0szEE4MnPBvKzTI10pC8=
+			</data>
+			<key>hash2</key>
+			<data>
+			cXWra6Om0Jvp1INIDO+aAF/KQevWjOSzUkivDzjPK4k=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			kgQ2CK0IzuMfF5zHySJbRfV4XKo=
+			</data>
+			<key>hash2</key>
+			<data>
+			gDd9rHA/84uBtJCxdfEfLo5kADkgOR8o4Gys0oB4WTU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/es.lproj/widgets.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			wKFf2oYAgxEcTtQa4bY8Lx2gE/I=
+			</data>
+			<key>hash2</key>
+			<data>
+			qad3+qiy3j2dZ79HDKFBBh9JnhtgLsZAalcsgluFujQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
 		<key>Resources/_inactivated/fr-ch.lproj/zzz.xlf</key>
 		<dict>
 			<key>hash</key>
@@ -1450,6 +2110,435 @@
 			<key>hash2</key>
 			<data>
 			1aXkW4fC62lqCM1ChcmuW7H7AduqRrFZHCs4k1fQvSo=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/4D Constant.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			keLPXwwjVaHj5zckrf+6jjvXR3E=
+			</data>
+			<key>hash2</key>
+			<data>
+			LcujaEEoth3EtHVNjtaaQJDAIc4hphFJ/G6BGdv0VF0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/Demo.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9Rvo5Em4r0zAZPVfI9SXSy2hlbY=
+			</data>
+			<key>hash2</key>
+			<data>
+			0NhqqlTRtk1L3vGIAV3WphulFCApzWNB3d+YcYQZD7E=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/Documents.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			iPU2JGEZVTdRSNtNE033FNLj5p8=
+			</data>
+			<key>hash2</key>
+			<data>
+			WhXO+mJlSjBuyxcFNLlM7XQWv3M7BJJzh/eBZosshNc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/NEW.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			y7WQYy6Un1CYWyP+RnHEbVRVh8g=
+			</data>
+			<key>hash2</key>
+			<data>
+			mr533cREnd2mvY6TzhdGaAyykp8ygJBVTwLOCcYWkSQ=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/Untitled.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+vtGABtBXpwKYF6QUuwN/uUhQCA=
+			</data>
+			<key>hash2</key>
+			<data>
+			/fy2p6pe5HWHhOkLrLxShdIXd48eL5eyRi6Fg5QlEf4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/Xliff Editor.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+3OBl0nRT3uJdKbGzegSy4TXVho=
+			</data>
+			<key>hash2</key>
+			<data>
+			4UJSprnKwS8jCnsQbBzGk/pNV8KzI3SF5GUtANU8iXw=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/_0_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			i1urPPFB3LyaMGJLVBAnDgAPJWY=
+			</data>
+			<key>hash2</key>
+			<data>
+			gpvLb6tjIyganM7IprQDJg88FCxQfWNljHgcS9Rvhco=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/_duplicateIDs.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7H1f5wyXGgaHoylCLAXNPMDm8JQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			UV9nnEESd8GDYzDCFILq4GyoztbSsiDzaqmA5uhZ9o8=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/_noGroup.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			5NgOhUd1+OBlEqYCBYLyRBRKWx0=
+			</data>
+			<key>hash2</key>
+			<data>
+			zNMrrxxQ0JjGS1wBz/vUrTLr8N+1ch/HwzClqTP5VDc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			jNgTMRYvSTE0I+EgKhsJJ5pJW6I=
+			</data>
+			<key>hash2</key>
+			<data>
+			5hQHTvlAvaSWoiGTl8CjiFwShInSxXRwi30cVUkzoOw=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/_testEN.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NLGm30Km9ITClN55NS9GCqYyC34=
+			</data>
+			<key>hash2</key>
+			<data>
+			VQV5eMxQjV+9ib8LKdTF9Rzjg4r2+lQnFzaETcI+KHE=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/_testJA.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			JTaLPqK+VHnqz8WfnGIgpHC3zPk=
+			</data>
+			<key>hash2</key>
+			<data>
+			26LiBdKUVGpF6c7cb3suIPviPELY6Yw/FAQGU/iJM/g=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/newEN.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Uf6gDgloVtslSEWgo8apnn1b0gY=
+			</data>
+			<key>hash2</key>
+			<data>
+			po9YliD+SU71bbW4PP3PEzR8nEwhnTIj7kCUJZ9py6w=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/newJA.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			SPozrCjWfIH0Z4Edx5IjCOMyywI=
+			</data>
+			<key>hash2</key>
+			<data>
+			0VE8MntA9zct0rWp0hWurrm5TWe9y6kQDRXwPYaUrKs=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/one.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			qF7QDUUtEuo4NxXE0zI3rMLDyY0=
+			</data>
+			<key>hash2</key>
+			<data>
+			AL/DBSuiF1K1z7GsTGGYS/d6weaApdxviyoWkwfiPwU=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			HStTXvXbSBGjFlK7bMzQKSFfENs=
+			</data>
+			<key>hash2</key>
+			<data>
+			xbmDXdpRasBEuAXYcbjJUy/Ej1+HrtQsW3h23UFbp9M=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ja.lproj/widgets.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			R3vKgG5ZUQh4/RpgAsRb6U2yx3g=
+			</data>
+			<key>hash2</key>
+			<data>
+			i3IPInmWXoLzc+leY4Y33H7xp+7klx5FBJwCf/EMHZ4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/Demo.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			NLsAVEOhllXE8xJq/rguFQHiWks=
+			</data>
+			<key>hash2</key>
+			<data>
+			qYdzmib07pf7RXQxYB16AYQ5+Yw857RGCRv2wQHzOm0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/Documents.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZObGoe1+tw+PiS9FH+ECcze/KKE=
+			</data>
+			<key>hash2</key>
+			<data>
+			FZAsvJxXJZf1R5eRnQmBP/cbzW8Dd0DwO6Cbi5mlj7g=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/NEW.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			RtUBYBqHfDC4X1gHcXJYi9yJS7k=
+			</data>
+			<key>hash2</key>
+			<data>
+			7ijhd5sh31g0Ma+UiUhQsG+eCu33uhc+KjiI56vDHqc=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/Untitled.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9fIK/IA3e7SdUEMqu7P+amP5Axo=
+			</data>
+			<key>hash2</key>
+			<data>
+			E3+LRnZuEahnaQwc5+diT+aZ4LmH9uO/zFoaQwWVqns=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/Xliff Editor.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			s1ufFUT9R5KwkxWP3a1dWEZV9go=
+			</data>
+			<key>hash2</key>
+			<data>
+			0n5mZugdncGOj/j0QtJAOLr6MYZnxgSQfNBDjlTQpek=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/_0_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			vG0e0qLxYMilcH8bO7NkhdT+E9w=
+			</data>
+			<key>hash2</key>
+			<data>
+			/o5g7p7dOR1M2EQSbpoVdoluis5DmTc94FZ20n3uI24=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/_duplicateIDs.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			hm6ICzNiHsw+9EH3nu3w5/uHmGA=
+			</data>
+			<key>hash2</key>
+			<data>
+			bNF69XhDFf4nZCIkG/ijqlIphuFGNLeMWVQdU1i1MuM=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/_noGroup.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			GC6HOtT87WiFJzDsP5CYVEGheVg=
+			</data>
+			<key>hash2</key>
+			<data>
+			ljW42ct12a1CCTqW4Z6RKqSS7a7Vtlb8M1DiyHKkz00=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/_test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			1pCcG2KyZlzpPvMFlzWJl9wCbhw=
+			</data>
+			<key>hash2</key>
+			<data>
+			cydywaYryfvLQEuSELvGOIvpM9fkumGoGj6TILXst00=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/_testPT.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			g+SoGssBWqCfLPTZDKlWxMawQBo=
+			</data>
+			<key>hash2</key>
+			<data>
+			/vQj76ku3lE+WKjyFvcKxpO2uZNoJ565zQ3glp75ldY=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/newPT.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			In5jR/UJNFLtn/ZSr8UovgrGTe0=
+			</data>
+			<key>hash2</key>
+			<data>
+			dvgk56opKFHuVH1RwC5eBqiG2AErw9KdYn2dVyeSMWA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/one.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			cNEqnSY2ghAuR1B9US7VAbOlJeY=
+			</data>
+			<key>hash2</key>
+			<data>
+			6qrL4176WWPfyN59B3hzIoNhImJpzOjuahKULxwKAu4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			0OozbcU8QFhN/gsc7+GQ3CobPH8=
+			</data>
+			<key>hash2</key>
+			<data>
+			BigD+P8EzQdl/Rvy0kP6mWFoVX6Xd8MvSTb7ONg3b0E=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/pt.lproj/widgets.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			s64kNz/MUK0lT4PwZOyYy9GKf/8=
+			</data>
+			<key>hash2</key>
+			<data>
+			kGX716BMAOx0/c6ZKlu0oGs4NocEt4J+Mk7VmlCc0ZA=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ukrainian.lproj/Xliff Editor.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			eN/Oh+eHbKq+Z2a6zIMaZ5Q/JQc=
+			</data>
+			<key>hash2</key>
+			<data>
+			takbMJ9nQZdj5Uh/wQ6MTJiBcrS8B13oPSi9TQJ4q/4=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Resources/_inactivated/ukrainian.lproj/widgets.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			A9e2Tgibdo6cP+9ujnW3DectSjA=
+			</data>
+			<key>hash2</key>
+			<data>
+			giWNHIJVOtjQFnl0YcRiMt1CIBO2lajBzOG29jzEeRk=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1495,11 +2584,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6gUFpw4G3TEfULre4145SW5p9WU=
+			xq+E0nYAbz/nzQSPNr2/Nfm13OQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			y9ByZ3eCLgO+5bvJ1iRLSKzQtSdo+D3agVtqMdWbMk0=
+			Fvh6MOMqTQOoxM1x/U/Ve85ZrFAK2J4lJEg9h6Ag+O4=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1508,11 +2597,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ysEguY8zf2EUn8PyLMb17EeQV7E=
+			DKazyAu4CFioRMlyhraKXFbi7f8=
 			</data>
 			<key>hash2</key>
 			<data>
-			0AIok0RDkRX1VEIpQihaB8NNRryvulcBJxuyOmJXGE8=
+			xWNvgLH2ScQHO0YapyTm0ixjGb35WsgOb6YZ3In1+JU=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1521,11 +2610,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ELuwg5wWYa7Lxc4CDSufB2om6PI=
+			s+I2VnjuxAWjN9uxsJ4bzSnTQGE=
 			</data>
 			<key>hash2</key>
 			<data>
-			QM1nNj6SNKUdato3Qw420V4nHbvzgcCZAEvmakQRgM8=
+			5mIKPxkoZKlUPAT0e0lDIX6ajcC1srNsfdwW1/t0dPo=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1586,11 +2675,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8fxy/w29p/c9OcJYJDCQgp+S45Y=
+			lgXGDnzw8soA7jhSEP9bTU4uDxY=
 			</data>
 			<key>hash2</key>
 			<data>
-			DAWj9OmnpAOtFnV4/13rAJdqeSOeJ6v7Qt1jNV/ryHI=
+			zsvsLmwUQ2Ra/ePFfUhOelPreSYnAstVeDLXWP/G6X8=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1630,175 +2719,6 @@
 			<key>hash2</key>
 			<data>
 			5PjUB5DsuqTHkCgvfxcLnFiOBGxa7SaAFiSpDd5y3UI=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/Demo.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			sCg9Fh9j5WK4ahA3sdnnQ9bk5uo=
-			</data>
-			<key>hash2</key>
-			<data>
-			2yItBTN5QIc+EiHFesxrw8examCb8yNx4EAYBErZhHE=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/Documents.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			RlZUPPO8hHUOGlV7RcKJb9zXL/I=
-			</data>
-			<key>hash2</key>
-			<data>
-			YUuEpS1HC5W7BxEM64wKU4TaC/gKN2KsBCOB4v/GvIU=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/NEW.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			I/WhIQ5P/m2r1IFh0K36SOFJ+l4=
-			</data>
-			<key>hash2</key>
-			<data>
-			pwUqqrW+ufaPi97BTs376tzmrDwtCvRjzmiuOAMND/g=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/Untitled.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			HUZp+UnFXWqyj20FErdsZ8Ro0JU=
-			</data>
-			<key>hash2</key>
-			<data>
-			iMoT+dGySuM4uNFx19S7YHuFRRs7Pvf8a0erPEsCmEE=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/Xliff Editor.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			5HC5gliEUMBi8k/3wS4k5J+BSIw=
-			</data>
-			<key>hash2</key>
-			<data>
-			kMacocuzj8LLmSkAfE2XKbRu/zqybao2XifhSjjZ244=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/_0_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			oirradlzMybv+JS2soTuoq7A7s0=
-			</data>
-			<key>hash2</key>
-			<data>
-			HsLNps68I3lVDSLSWi8jAzPFNqPnXxvDJY+lbmsX+1M=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/_duplicateIDs.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			a3wEQoZtq7hDG8Fj+LGgGeYmECc=
-			</data>
-			<key>hash2</key>
-			<data>
-			R5u6Ex7lNhlehFMWKdkMJqybgQtajXp9Lyd83rEqiY8=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/_noGroup.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			qWSQxRbrZXENT8qmooUV+NyjZIU=
-			</data>
-			<key>hash2</key>
-			<data>
-			b2jEoAvZ7oqKMmhz2X1JbEpaxtF284MN3qouPuGbGOM=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			xuntSaP05FCFBpDrLB4j3GaH58g=
-			</data>
-			<key>hash2</key>
-			<data>
-			ugt9ETADj45o7a58lNfWgfCBvwv0QZ+k6jdlWdh4sHU=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/_testDE.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			lcQJP796QVYyHzXshm7r29WG9C8=
-			</data>
-			<key>hash2</key>
-			<data>
-			zCVo3tiJBY537wJWnC2CXomYGaIzF+pLKZbFUE4I82U=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/newDE.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			1Fvic3suFvlQjFwQsh2iUfcNXkc=
-			</data>
-			<key>hash2</key>
-			<data>
-			4MovfCZBjPBt0XGmiS82Sd9bRpfA3+eCbzbyNHzayxA=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/one.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			OVenUWibA+Ko4U6T4x81Jyy+H90=
-			</data>
-			<key>hash2</key>
-			<data>
-			6TvIl2IW8fPG6EReOyzY0bB5qfG0HxiMO2vCLaCr62k=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/de.lproj/widgets.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			bTqvgjavuHh9kGrj21dZKuw0Rks=
-			</data>
-			<key>hash2</key>
-			<data>
-			i6VKRfCFO++ocjobp9cXgMnAQrTbdO8+ISTRsdLbf1Q=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1846,11 +2766,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Kcs5DphRsjnrOOYSs8TNPYanfjc=
+			StUvMTGhXqPUl2IM8JYobVzAgfk=
 			</data>
 			<key>hash2</key>
 			<data>
-			SBitau5fVkKUrejvtWf+90zlQ1M9rwwh6+rEnZ8iFrM=
+			ydwFrdt7qWq4ZjgJOhD/7zQauYHmSxnMvI7Jsqc9a1o=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1859,11 +2779,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1zgGeQ3cpjwI+aedsKxnE0crey4=
+			EOlzHwsgOdQ0pf4JMYvH30Wv9f4=
 			</data>
 			<key>hash2</key>
 			<data>
-			X/L6tAVsDCxSLBJIhV3s7fD3SLX6KFP9YZCM9CqdKS4=
+			XF7LURWBEJXuFiWeSkgu7ZsTHPT3leZFFEKAZ7c4BJY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1872,11 +2792,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			FYiZcqq+snE5h+ArT4mB30YjKQk=
+			srfIcg3ZrLy0p7wbwQTZnOt4ahQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			H9gAN6KtLsJbFrRP3JR41Ez5PnKKZN3C5ZzHquEtDv8=
+			InMnVu/OxSClatepg9gIulbiDowoLiSrQGk07BSfyp8=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1950,11 +2870,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sO3BfaORkpHxopI4n34cmXR2sr0=
+			7bSzYQf9JYVXo9vSJAAXdnoOkPY=
 			</data>
 			<key>hash2</key>
 			<data>
-			+Vekmr26hJV29sHRtot8Dh6q80wSdw4vzlTqExoSEzA=
+			BUEwm+mMsOZaAplShSQkHTjMSUofohvHK091BpKiyxA=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -1985,6 +2905,19 @@
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>Resources/en.lproj/test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+ztuoi0TBMQ0cFmvd+K4DkdbaDU=
+			</data>
+			<key>hash2</key>
+			<data>
+			DSaXRPao7Furjb1DF+NxaUSPFeXmYrnVX2Tsda+NQ08=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
 		<key>Resources/en.lproj/widgets.xlf</key>
 		<dict>
 			<key>hash</key>
@@ -1994,175 +2927,6 @@
 			<key>hash2</key>
 			<data>
 			fgYfcS6iOODmMmPTQVTgucKURvnGmgKMs0hsF6ha9V8=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/Demo.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			AWPmH00FYCL+Icaj+t/xkscsOYI=
-			</data>
-			<key>hash2</key>
-			<data>
-			TzKs+L3hjtdkcfmBRc4k4dsP4MnTtRoPg3k0mhS8VVc=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/Documents.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			qjmfcspFyJuyc7oUa0bYKr1cTfw=
-			</data>
-			<key>hash2</key>
-			<data>
-			uqdP1MVt52A0I/zlmpYp14CRV5WA0svYOPGHjzBFAyw=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/NEW.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			xcLmBojR9C05vl0jdm+sO2nxxUA=
-			</data>
-			<key>hash2</key>
-			<data>
-			djSgK0YA5N8OUCaWmQCTYZcBp1i2J/AQ8SGpCSc1v/M=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/Untitled.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			5QUOAa4x0MrzYagGekQPFW2HOUI=
-			</data>
-			<key>hash2</key>
-			<data>
-			tknk8CuONS6C/E9rHrsgZBLOw0jvi2SCRvAWOO7sNEk=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/Xliff Editor.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			cgHDGMjACxcsXXjMWkpYJAHcGkA=
-			</data>
-			<key>hash2</key>
-			<data>
-			5gVeNMksW6ouSSLaeDhVSpiiHKn8hWPNI+OTbMQ3bso=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/_0_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			LiHk89kyCRgmzZ8VvyhpZ/xDNVo=
-			</data>
-			<key>hash2</key>
-			<data>
-			d++EwJa76YI6yonHKAO8yHb//gHsXmsYA89TSNcpp4M=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/_duplicateIDs.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			kWBKNYTVAl5QSHcO5vdK9I2s3mk=
-			</data>
-			<key>hash2</key>
-			<data>
-			KnaeoOgz/hSRHPOEvolquABupyS0ZtqQ/HoHqHo8SXA=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/_noGroup.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			jR4zy+sgkt6fCt9jCFpTo3kN4tw=
-			</data>
-			<key>hash2</key>
-			<data>
-			y4HQeLmC5dIPwpIhHWWJ/sq/mAsFZFt6DDYvNEFMnL0=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			xOPAiFfPD6kaqLNyRj1jBN+L8/w=
-			</data>
-			<key>hash2</key>
-			<data>
-			k6Rk42HscvOonDj1ErWQGEl/BthbcsM2hDxQ5qAcLBs=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/_testES.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Z3W5c2ePLpIsu5CUtNxr17Apd3w=
-			</data>
-			<key>hash2</key>
-			<data>
-			VF+S3Qzvc2z9oOTZFHLo6MA9eTn46n9wWMITacrd4fc=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/newES.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			RHhT9Xu7k3U2XrxUZMYZWjpNRhM=
-			</data>
-			<key>hash2</key>
-			<data>
-			hUCux0yLUGuAG3QXihk62qZUzRa6YMsAdXKt7xdAeP8=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/one.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			uPOGthQ0szEE4MnPBvKzTI10pC8=
-			</data>
-			<key>hash2</key>
-			<data>
-			cXWra6Om0Jvp1INIDO+aAF/KQevWjOSzUkivDzjPK4k=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/es.lproj/widgets.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			wKFf2oYAgxEcTtQa4bY8Lx2gE/I=
-			</data>
-			<key>hash2</key>
-			<data>
-			qad3+qiy3j2dZ79HDKFBBh9JnhtgLsZAalcsgluFujQ=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -2197,11 +2961,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Vm2HCbKds9O1xv40DcZ8XX3/6lI=
+			zYf5OiKjgd97NLdub01MhS2LXkc=
 			</data>
 			<key>hash2</key>
 			<data>
-			yosoocRhKsRU1VW+gxcS56oUW2YhUyTbROt2zlXx8ww=
+			HU8+YOQb8OzIaWjLqJxw0nYUH4HYPKBEYoa/UcsTXZo=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -2210,11 +2974,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			9lyFYxjIhsFOd2NTlzeICoxAqww=
+			LFbPySqua+Vndm9yTXCEDHsIlqs=
 			</data>
 			<key>hash2</key>
 			<data>
-			btcRrE+ZYE1pHSkBxFmrieSm1TnCdjEyGMcCnsjHRmE=
+			UySlNmtJ8exmQPKYjSpHzJ5GDfNaws46mipvHVHrJOo=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -2223,11 +2987,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ovifaNjXiL1mccW1xvttISVQfN8=
+			WfrEKsf8kX8/rOMwHfFWi9tXFzU=
 			</data>
 			<key>hash2</key>
 			<data>
-			11SuuLvAOUyEoSIr1mWb3NdC8KfODVJIdiNVgaVyHUA=
+			zG9USGJ7LnhWMkIfQLvhYZbXGnSUgReCXA+QzYgLHmY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -2288,11 +3052,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			71+aosYp3sqUmveVCr0viOsMIqw=
+			ImCeTQznaRc08oQgNUsu6gzxASI=
 			</data>
 			<key>hash2</key>
 			<data>
-			A2TKwW/+pPUC4ymvGREHhOqtX7jlUFeBSONQTjicwOs=
+			Rh1UHz6MgiWTKN+FppdiAMaOv3We0mznTn2PhwY4OyY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -2323,6 +3087,19 @@
 			<key>optional</key>
 			<true/>
 		</dict>
+		<key>Resources/fr.lproj/test.xlf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			AxV+Pr6tI654cqrV3fSxmvDpJPg=
+			</data>
+			<key>hash2</key>
+			<data>
+			iFmW7ZaLgpBd0zFxaqfAc78RT3yFvzD+OeoXVetA0S0=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
 		<key>Resources/fr.lproj/widgets.xlf</key>
 		<dict>
 			<key>hash</key>
@@ -2336,393 +3113,16 @@
 			<key>optional</key>
 			<true/>
 		</dict>
-		<key>Resources/ja.lproj/4D Constant.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			keLPXwwjVaHj5zckrf+6jjvXR3E=
-			</data>
-			<key>hash2</key>
-			<data>
-			LcujaEEoth3EtHVNjtaaQJDAIc4hphFJ/G6BGdv0VF0=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/Demo.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			9Rvo5Em4r0zAZPVfI9SXSy2hlbY=
-			</data>
-			<key>hash2</key>
-			<data>
-			0NhqqlTRtk1L3vGIAV3WphulFCApzWNB3d+YcYQZD7E=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/Documents.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			iPU2JGEZVTdRSNtNE033FNLj5p8=
-			</data>
-			<key>hash2</key>
-			<data>
-			WhXO+mJlSjBuyxcFNLlM7XQWv3M7BJJzh/eBZosshNc=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/NEW.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			jnP5a8hWBAHDHT++Xuf7NVgMTAE=
-			</data>
-			<key>hash2</key>
-			<data>
-			inhh8cQhMmgnAOmtNy46UuoDftvYIhm1hYce7kYjiOU=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/Untitled.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			5PPf/9jwhDViXGgU/bkkKRcFwDw=
-			</data>
-			<key>hash2</key>
-			<data>
-			/G95HG22wvR7A2CKUKTLWNgitl/kl2I+T7QvqgvoaME=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/Xliff Editor.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			wyBwUh9ILyAP3r1bSpaYJasRKFE=
-			</data>
-			<key>hash2</key>
-			<data>
-			njS4ulHbBVwQWJXfcEdQ2Re7Rrl5h9AUl5hi2VN7sHU=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/_0_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			i1urPPFB3LyaMGJLVBAnDgAPJWY=
-			</data>
-			<key>hash2</key>
-			<data>
-			gpvLb6tjIyganM7IprQDJg88FCxQfWNljHgcS9Rvhco=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/_duplicateIDs.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			7H1f5wyXGgaHoylCLAXNPMDm8JQ=
-			</data>
-			<key>hash2</key>
-			<data>
-			UV9nnEESd8GDYzDCFILq4GyoztbSsiDzaqmA5uhZ9o8=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/_noGroup.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			5NgOhUd1+OBlEqYCBYLyRBRKWx0=
-			</data>
-			<key>hash2</key>
-			<data>
-			zNMrrxxQ0JjGS1wBz/vUrTLr8N+1ch/HwzClqTP5VDc=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			jNgTMRYvSTE0I+EgKhsJJ5pJW6I=
-			</data>
-			<key>hash2</key>
-			<data>
-			5hQHTvlAvaSWoiGTl8CjiFwShInSxXRwi30cVUkzoOw=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/_testEN.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			NLGm30Km9ITClN55NS9GCqYyC34=
-			</data>
-			<key>hash2</key>
-			<data>
-			VQV5eMxQjV+9ib8LKdTF9Rzjg4r2+lQnFzaETcI+KHE=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/_testJA.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			P0bLkINJaelwIzLpmCln5HqJdIw=
-			</data>
-			<key>hash2</key>
-			<data>
-			qjimrO3h2harwJIf1RSEOSTy1R2b1Bbk6LMWQnYJFVc=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/newEN.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			Uf6gDgloVtslSEWgo8apnn1b0gY=
-			</data>
-			<key>hash2</key>
-			<data>
-			po9YliD+SU71bbW4PP3PEzR8nEwhnTIj7kCUJZ9py6w=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/newJA.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			SPozrCjWfIH0Z4Edx5IjCOMyywI=
-			</data>
-			<key>hash2</key>
-			<data>
-			0VE8MntA9zct0rWp0hWurrm5TWe9y6kQDRXwPYaUrKs=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/one.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			qF7QDUUtEuo4NxXE0zI3rMLDyY0=
-			</data>
-			<key>hash2</key>
-			<data>
-			AL/DBSuiF1K1z7GsTGGYS/d6weaApdxviyoWkwfiPwU=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/ja.lproj/widgets.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			R3vKgG5ZUQh4/RpgAsRb6U2yx3g=
-			</data>
-			<key>hash2</key>
-			<data>
-			i3IPInmWXoLzc+leY4Y33H7xp+7klx5FBJwCf/EMHZ4=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
 		<key>Resources/languages.json</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			rN7NVrRjk5YmGe9YPzJBXvkJqSA=
+			rKi4beWfTZZnXz9UvsztSb2zEAc=
 			</data>
 			<key>hash2</key>
 			<data>
-			qjunINF+ELSrolhmAJHLnUU+JairMbHYpU0IOxTYKNw=
+			R/4FrGyEgfr3D6HW0k5x+MPcXMoq+UfIBFqLQCwqnlY=
 			</data>
-		</dict>
-		<key>Resources/pt.lproj/Demo.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			NLsAVEOhllXE8xJq/rguFQHiWks=
-			</data>
-			<key>hash2</key>
-			<data>
-			qYdzmib07pf7RXQxYB16AYQ5+Yw857RGCRv2wQHzOm0=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/Documents.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			ZObGoe1+tw+PiS9FH+ECcze/KKE=
-			</data>
-			<key>hash2</key>
-			<data>
-			FZAsvJxXJZf1R5eRnQmBP/cbzW8Dd0DwO6Cbi5mlj7g=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/NEW.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			beq1fcr137JF6af6+/+HcLPRKuk=
-			</data>
-			<key>hash2</key>
-			<data>
-			paBs5LNFVAigBo7XxBo0+x+MW5Qni2DV2v0alC4kGeI=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/Untitled.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			vgdq3CoYUJxqu7jfs848FMNZSV0=
-			</data>
-			<key>hash2</key>
-			<data>
-			24oTA70UguY6h2zJnc2JhLqL0pBbht8sKK7dXOp5mb8=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/Xliff Editor.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			9KL3tN3h1nYol/PRmpJcp8MQTag=
-			</data>
-			<key>hash2</key>
-			<data>
-			Wz5lnNZ9VMxpzyXjpQt2QggDWqUH2TFy9i5BqPZlllA=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/_0_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			vG0e0qLxYMilcH8bO7NkhdT+E9w=
-			</data>
-			<key>hash2</key>
-			<data>
-			/o5g7p7dOR1M2EQSbpoVdoluis5DmTc94FZ20n3uI24=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/_duplicateIDs.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			hm6ICzNiHsw+9EH3nu3w5/uHmGA=
-			</data>
-			<key>hash2</key>
-			<data>
-			bNF69XhDFf4nZCIkG/ijqlIphuFGNLeMWVQdU1i1MuM=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/_noGroup.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			GC6HOtT87WiFJzDsP5CYVEGheVg=
-			</data>
-			<key>hash2</key>
-			<data>
-			ljW42ct12a1CCTqW4Z6RKqSS7a7Vtlb8M1DiyHKkz00=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/_test.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			1pCcG2KyZlzpPvMFlzWJl9wCbhw=
-			</data>
-			<key>hash2</key>
-			<data>
-			cydywaYryfvLQEuSELvGOIvpM9fkumGoGj6TILXst00=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/_testPT.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			gCHKdRnY8gTDdccriW6z3Gyf/Ww=
-			</data>
-			<key>hash2</key>
-			<data>
-			oTuXxGQ7foecVk8BeBKuVdMeTIDAGsHoTCSJTR2tZzk=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/newPT.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			In5jR/UJNFLtn/ZSr8UovgrGTe0=
-			</data>
-			<key>hash2</key>
-			<data>
-			dvgk56opKFHuVH1RwC5eBqiG2AErw9KdYn2dVyeSMWA=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/one.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			cNEqnSY2ghAuR1B9US7VAbOlJeY=
-			</data>
-			<key>hash2</key>
-			<data>
-			6qrL4176WWPfyN59B3hzIoNhImJpzOjuahKULxwKAu4=
-			</data>
-			<key>optional</key>
-			<true/>
-		</dict>
-		<key>Resources/pt.lproj/widgets.xlf</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			s64kNz/MUK0lT4PwZOyYy9GKf/8=
-			</data>
-			<key>hash2</key>
-			<data>
-			kGX716BMAOx0/c6ZKlu0oGs4NocEt4J+Mk7VmlCc0ZA=
-			</data>
-			<key>optional</key>
-			<true/>
 		</dict>
 		<key>Resources/template.xlf</key>
 		<dict>
