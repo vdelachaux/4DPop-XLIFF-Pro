@@ -59,7 +59,7 @@ Class constructor()
 	// MARK:Delegates 📦
 	This:C1470.form:=cs:C1710.form.new(This:C1470)
 	This:C1470.Preferences:=cs:C1710.Preferences.new()
-	This:C1470.Xliff:=cs:C1710.Xliff
+	This:C1470.Xliff:=cs:C1710.Xliff.new()
 	
 	// MARK:Retrieving active lproj folders
 	This:C1470.folders:=This:C1470.Editor.lprojFolders
