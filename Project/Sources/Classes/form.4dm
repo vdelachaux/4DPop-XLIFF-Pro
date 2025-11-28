@@ -60,7 +60,7 @@ property tabControl : 4D:C1709.Class
 property thermometer : 4D:C1709.Class
 property webArea : 4D:C1709.Class
 property widget : 4D:C1709.Class
-property constraints : 4D:C1709.Class
+property constraints : cs:C1710.constraints
 /**************************************************************************/
 
 Class constructor($param)
