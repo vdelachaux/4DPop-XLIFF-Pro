@@ -1,6 +1,5 @@
 {
   "name": "Xliff Pro",
-  "media": "4DPop.png",
   "helptip": ":xliff:ToolTip",
   "handler": "_4DPopXliff",
   "tools": {
