@@ -46,53 +46,45 @@ This file is distributed under the same license as the product package.
         <trans-unit id="0B94AF98448241E5B86D6DC5F7255D2C" resname="new element" translate="no">
           <source>Not the same reesname as "NEW ELEMENT"</source>
         </trans-unit>
-        <trans-unit d4:includeIf="win" id="AE9E027B8B36449CA278453223F9B1AF" resname="platformDependent">
-          <source>Windows string</source>
-          <target state="needs-translation">Windows string</target>
-        </trans-unit>
-        <trans-unit d4:includeIf="mac" id="7D6678E5DE2145038F2F0338DF8C4634" resname="platformDependent" translate="macOS string">
-          <source>macOS string</source>
-          <target state="needs-translation">macOS string</target>
-        </trans-unit>
-        <trans-unit id="E89EE009E2D5458E9CE64FFF78D410DA" resname="duplicateResname">
-          <source>Duplicate_resname_2</source>
-          <target>Duplicate_resname_2</target>
-        </trans-unit>
+
+
+
         <trans-unit id="FDD8311C4B1A47B8B9B9FA78DF3DCB58" resname="seventies">
           <source>Seventy</source>
           <target>Soixante-dix</target>
         </trans-unit>
-        <trans-unit id="62BFF83A354A4A83B1E1B0AA2D209790" resname="duplicateResname">
-          <source>Duplicate_resname_1</source>
-          <target state="needs-translation">Duplicate_resname_1</target>
-        </trans-unit>
+
+
+
+
+
+
+
+
+
       </group>
       <group resname="newGroup2">
-        <trans-unit id="FeNrY6DSpP9l9mzAeCn7jg" resname="TEST_23">
-          <source>zzzzzz</source>
-          <target state="needs-translation">zzzzzz</target>
-        </trans-unit>
-        <trans-unit id="zBX_6sXvLqDmOoj5lqJzVA" resname="zzzTEST_20" translate="en">
-          <source>en</source>
-          <target state="needs-translation">en</target>
-        </trans-unit>
+
+
         <trans-unit id="wvp67kfhNL0_IF9eAXxTIQ" resname="unitResname">
           <source>en</source>
           <target state="new">en</target>
-        </trans-unit><trans-unit id="QhMeC9kCSQzMOJHEDWDTvw" resname="unitResname_8" translate="no">
+        </trans-unit>
+        <trans-unit id="QhMeC9kCSQzMOJHEDWDTvw" resname="unitResname_8" translate="no">
           <source>XXXX</source>
-        </trans-unit></group>
-      <group resname="agroup">
-        <trans-unit id="525B8FB18B0C47359FA2D0AEC03AF7B2" resname="New element 7" translate="no">
-          <source>TEST_23</source>aaa
-        
         </trans-unit>
-        <trans-unit id="1C7368614EC44BCF975463E793ADE2E5" resname="New element 8">
+        <trans-unit id="525B8FB18B0C47359FA2D0AEC03AF7B2" resname="TEST_23" translate="no">
+          <source>TEST_23</source>
+        </trans-unit>
+        <trans-unit id="1C7368614EC44BCF975463E793ADE2E5" resname="zzzTEST_20">
           <source>TEST_20</source>
-          <target state="needs-translation">TEST_20</target>
-          <note>TEST_20TEST_20</note>8858
-        
+          <target state="new">TEST_20</target>
+          <note>TEST_20TEST_20</note>
         </trans-unit>
+      </group>
+      <group resname="agroup">
+
+
         <trans-unit id="ZAM7+gSvosRelroUsIoBzg" resname="New element 3">
           <source>New element 3</source>
           <target state="needs-translation">New element 3</target>
@@ -112,6 +104,14 @@ This file is distributed under the same license as the product package.
         <trans-unit id="hR3cFNHtbQhTL1Ch6vinVQ" resname="New element 5">
           <source>sssssssfffffff</source>
           <target state="needs-translation">sssssssfffffff</target>
+        </trans-unit>
+        <trans-unit id="FeNrY6DSpP9l9mzAeCn7jg" resname="New element 7">
+          <source>zzzzzz</source>
+          <target state="new">zzzzzz</target>
+        </trans-unit>
+        <trans-unit id="zBX_6sXvLqDmOoj5lqJzVA" resname="New element 8">
+          <source>en</source>
+          <target state="new">en</target>
         </trans-unit>
       </group>
     </body>

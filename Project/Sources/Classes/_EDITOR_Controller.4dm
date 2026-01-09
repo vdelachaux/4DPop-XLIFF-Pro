@@ -1536,9 +1536,11 @@ Function _populateString($column : Integer; $row : Integer) : Object
 					
 					var $attributes : Object:=Null:C1517
 					var $node : Text:=$xliff.findById($string.id)
+					
 					If ($xliff.isNotNull($node))
 						
 						$node:=$xliff.targetNode($node)
+						
 						If ($xliff.isNotNull($node))
 							
 							$attributes:=$xliff.getAttributes($node)

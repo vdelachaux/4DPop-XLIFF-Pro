@@ -31,30 +31,12 @@ This file is distributed under the same license as the product package.
           <target state="new">Hello World!</target>
           <note>A "Hello, World!" program is a computer program that outputs or displays "Hello, World!" to the user.</note>
         </trans-unit>
-        <trans-unit id="0B94AF98448241E5B86D6DC5F7255D2D" resname="NEW ELEMENT">
-          <source>Not the same resname as "new element"</source>
-          <target state="new">Not the same resname as "new element"</target>
-        </trans-unit>
-        <trans-unit id="0B94AF98448241E5B86D6DC5F7255D2C" resname="new element">
-          <source>Not the same resname as "NEW ELEMENT"</source>
-          <target state="new">Not the same resname as "NEW ELEMENT"</target>
-        </trans-unit>
-        <trans-unit d4:includeIf="win" id="AE9E027B8B36449CA278453223F9B1AF" resname="platformDependent">
-          <source>Windows string</source>
-          <target state="new">Windows string</target>
-        </trans-unit>
-        <trans-unit d4:includeIf="mac" id="7D6678E5DE2145038F2F0338DF8C4634" resname="platformDependent" translate="macOS string">
-          <source>macOS string</source>
-          <target state="new">macOS string</target>
-        </trans-unit>
-        <trans-unit id="62BFF83A354A4A83B1E1B0AA2D209790" resname="duplicateResname">
-          <source>Duplicate_1</source>
-          <target state="new">Duplicate_1</target>
-        </trans-unit>
-        <trans-unit id="E89EE009E2D5458-2023E9CE64FFF78D410DA" resname="duplicateResname">
-          <source>Duplicate_2</source>
-          <target state="new">Duplicate_2</target>
-        </trans-unit>
+
+
+
+
+
+
       </group>
       <group resname="Indexed strings">
         <trans-unit id="sQx8qotbF99xnRneCxm8+A" resname="String_1">

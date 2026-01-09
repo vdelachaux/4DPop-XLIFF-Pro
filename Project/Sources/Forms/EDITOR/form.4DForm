@@ -522,6 +522,5 @@
 	},
 	"geometryStamp": 1044,
 	"method": "formMethod",
-	"memorizeGeometry": true,
-	"formClass": "_EDITOR_Controller"
+	"memorizeGeometry": true
 }

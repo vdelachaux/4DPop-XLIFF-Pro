@@ -47,22 +47,10 @@ This file is distributed under the same license as the product package.
           <source>See you later.</source>
           <target state="new">See you later.</target>
         </trans-unit>
-        <trans-unit d4:includeIf="win" id="AE9E027B8B36449CA278453223F9B1AF" resname="platformDependent">
-          <source>Windows string</source>
-          <target state="new">Windows string</target>
-        </trans-unit>
-        <trans-unit d4:includeIf="mac" id="7D6678E5DE2145038F2F0338DF8C4634" resname="platformDependent" translate="macOS string">
-          <source>macOS string</source>
-          <target state="new">macOS string</target>
-        </trans-unit>
-        <trans-unit id="62BFF83A354A4A83B1E1B0AA2D209790" resname="duplicateResname">
-          <source>Duplicate_resname_1</source>
-          <target state="new">Duplicate_resname_1</target>
-        </trans-unit>
-        <trans-unit id="E89EE009E2D5458E9CE64FFF78D410DA" resname="duplicateResname">
-          <source>Duplicate_resname_2</source>
-          <target state="new">Duplicate_resname_2</target>
-        </trans-unit>
+
+
+
+
         <trans-unit id="FDD8311C4B1A47B8B9B9FA78DF3DCB58" resname="seventies">
           <source>Seventy</source>
           <target state="new">Seventy</target>

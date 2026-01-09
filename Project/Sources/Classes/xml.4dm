@@ -1429,7 +1429,7 @@ Function setValue($node : Text; $value : Variant; $inCDATA : Boolean) : cs:C1710
 	// —————————————————————————————————————————————————————————————————————————————————
 Function isNull($reference : Text) : Boolean
 	
-	return Match regex:C1019("^0{32}$"; $reference; 1)
+	return (Length:C16($reference)=0) || Match regex:C1019("^0{32}$"; $reference; 1)
 	
 	// —————————————————————————————————————————————————————————————————————————————————
 Function isNotNull($reference : Text) : Boolean
