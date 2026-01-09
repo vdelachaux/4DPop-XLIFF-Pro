@@ -170,7 +170,7 @@
 		</data>
 		<key>Resources/InfoPlist.strings</key>
 		<data>
-		IB23p1epff0381DMtN3JelC0tX0=
+		VGxWObVKZSqBcDFZJeQalOQiWt0=
 		</data>
 		<key>Resources/SearchPicker/search.png</key>
 		<data>
@@ -1178,7 +1178,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			8IjH09XBmT4wb+D+ifQEFi9lfnY=
+			Z9dTFNZNG0X49kFfms+t1qo725A=
 			</data>
 			<key>requirement</key>
 			<string>identifier "4DPop XLIFF Pro.4DZ" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = DYRKW64QA9</string>
@@ -1187,7 +1187,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			UWZb3wsbHkI82vniHQPyJi2DitBVKHxeU+sRwMYhy7s=
+			gMlVwQOistMO+4wJb1CVBgbw+juQTVYpui7NEYppS8A=
 			</data>
 		</dict>
 		<key>Resources/4DPop xliff/collection.group</key>
@@ -1481,7 +1481,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			esjo5u8sl+eGgd/aThnx9rYekGeB2sk8YS2PEHxZ1Wo=
+			xzZUWI/wwys1eHgVGh5lmoMH+YuIZXGsOuOsedHWHoQ=
 			</data>
 		</dict>
 		<key>Resources/SearchPicker/search.png</key>
