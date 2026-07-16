@@ -1,4 +1,13 @@
 {
 	"version": 2100,
-	"dependencies": {}
+	"dependencies": {
+		"4DPop": {
+			"github": "vdelachaux/4DPop",
+			"version": "4d"
+		},
+		"UI with Classes": {
+			"github": "vdelachaux/UI-with-Classes",
+			"version": "4d"
+		}
+	}
 }

@@ -7,7 +7,7 @@ This file is distributed under the same license as the product package.-->
     <header>
       <prop-group name="Xliff-Editor.4dbase">
         <prop prop-type="version">2.0</prop>
-        </prop-group>
+      </prop-group>
     </header>
     <body>
       <group resname="path">

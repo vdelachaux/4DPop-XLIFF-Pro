@@ -12,21 +12,7 @@
 	"rightMargin": 18,
 	"bottomMargin": 18,
 	"events": [
-		"onLoad",
-		"onPageChange",
-		"onValidate",
-		"onClick",
-		"onDoubleClick",
-		"onOutsideCall",
-		"onBeginDragOver",
-		"onDragOver",
-		"onDrop",
-		"onAfterKeystroke",
-		"onMenuSelect",
-		"onPluginArea",
-		"onAfterEdit",
-		"onTimer",
-		"onBoundVariableChange"
+		"onUnload"
 	],
 	"windowTitle": "window title",
 	"destination": "detailScreen",
@@ -48,10 +34,13 @@
 					"enterable": true,
 					"hideFocusRing": true,
 					"scrollbarHorizontal": "automatic",
-					"scrollbarVertical": "visible"
+					"scrollbarVertical": "visible",
+					"fontFamily": "JetBrains Mono Regular",
+					"fontSize": 13
 				}
 			}
 		}
 	],
-	"geometryStamp": 10
+	"geometryStamp": 10,
+	"method": "method.4dm"
 }

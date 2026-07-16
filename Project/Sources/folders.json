@@ -36,12 +36,26 @@
 	},
 	"⚙️ MACROS": {},
 	"👥 NAMESPACE": {
+		"groups": [
+			"database",
+			"env"
+		],
+		"methods": [
+			"envNonThreadSafe",
+			"getProject"
+		],
 		"classes": [
+			"database",
+			"env",
 			"language",
+			"motor",
+			"os",
 			"Preferences",
+			"userProcesses",
 			"Xliff",
 			"XliffGroup",
-			"XliffUnit"
+			"XliffUnit",
+			"xml"
 		]
 	},
 	"👩‍💻 UI": {
@@ -94,32 +108,14 @@
 			"_Editor"
 		]
 	},
-	"🛠️Tools": {
-		"groups": [
-			"database",
-			"env"
-		],
-		"classes": [
-			"motor",
-			"os",
-			"userProcesses",
-			"xml"
-		]
-	},
+	"🛠️Tools": {},
 	"4️⃣ 4DPop": {
 		"methods": [
 			"_4DPopXliff",
 			"editor"
 		]
 	},
-	"database": {
-		"methods": [
-			"getProject"
-		],
-		"classes": [
-			"database"
-		]
-	},
+	"database": {},
 	"EDITOR": {
 		"methods": [
 			"EDITOR CALLBACK",
@@ -139,14 +135,7 @@
 			"_STRING_Controller"
 		]
 	},
-	"env": {
-		"methods": [
-			"envNonThreadSafe"
-		],
-		"classes": [
-			"env"
-		]
-	},
+	"env": {},
 	"SEARH PICKER": {
 		"forms": [
 			"SEARCH_PICKER"

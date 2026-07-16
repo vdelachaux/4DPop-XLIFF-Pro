@@ -9,6 +9,11 @@ Case of
 		DIALOG:C40("EDITOR_DEBUG"; *)
 		
 		//______________________________________________________
+	: (winRef=0)
+		
+		// Closed
+		
+		//______________________________________________________
 	: ($action="update")
 		
 		CALL FORM:C1391(winRef; Formula:C1597(OBJECT SET VALUE:C1742("Input"; $data)))
@@ -17,6 +22,11 @@ Case of
 	: ($action="close")
 		
 		CALL FORM:C1391(winRef; Formula:C1597(CANCEL:C270))
+		
+		//______________________________________________________
+	: ($action="reset")
+		
+		CLEAR VARIABLE:C89(winRef)
 		
 		//______________________________________________________
 	Else 
