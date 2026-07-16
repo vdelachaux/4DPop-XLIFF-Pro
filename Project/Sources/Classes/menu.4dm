@@ -1178,11 +1178,6 @@ Function _proxy($proxy : Text) : Text
 			return "path:/FORM/"+Delete string:C232($proxy; 1; 1)
 			
 			//______________________________________________________
-		: ($proxy="|@")
-			
-			return "path:/.PRODUCT_RESOURCES/"+Delete string:C232($proxy; 1; 1)
-			
-			//______________________________________________________
 		: (Position:C15("/"; $proxy)=1)
 			
 			return "path:"+$proxy

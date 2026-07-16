@@ -192,7 +192,7 @@
 					"left": 101,
 					"width": 24,
 					"height": 25,
-					"icon": "/.PRODUCT_RESOURCES/Internal Components/development.4dbase/Resources/images/toolbar/preferences.png",
+					"icon": "/RESOURCES/Images/preferences.png",
 					"style": "toolbar",
 					"events": [
 						"onClick"
@@ -520,7 +520,7 @@
 		"version": "1",
 		"kind": "form"
 	},
-	"geometryStamp": 1044,
+	"geometryStamp": 1045,
 	"method": "formMethod",
 	"memorizeGeometry": true
 }
