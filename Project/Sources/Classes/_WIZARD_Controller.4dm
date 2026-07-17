@@ -3,12 +3,12 @@ property isSubform:=False:C215
 property toBeInitialized:=False:C215
 
 // MARK: Delegates 📦
-property form : cs:C1710.form
+property form : cs:C1710.ui.form
 property Editor : cs:C1710._Editor:=cs:C1710._Editor.new()
 
-property source : cs:C1710.button
-property targetAdd; targetRemove : cs:C1710.button
-property targets : cs:C1710.listbox
+property source : cs:C1710.ui.button
+property targetAdd; targetRemove : cs:C1710.ui.button
+property targets : cs:C1710.ui.listbox
 
 // MARK: Form
 property reference : cs:C1710.language
@@ -17,7 +17,7 @@ property languages : Collection
 Class constructor
 	
 	// MARK:Delegates 📦
-	This:C1470.form:=cs:C1710.form.new(This:C1470)
+	This:C1470.form:=cs:C1710.ui.form.new(This:C1470)
 	
 	This:C1470.form.init()
 	
@@ -31,7 +31,7 @@ Function init()
 	This:C1470.targetRemove:=This:C1470.form.Button("Button4")
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function handleEvents($e : cs:C1710.evt)
+Function handleEvents($e : cs:C1710.ui.evt)
 	
 	$e:=$e || FORM Event:C1606
 	
@@ -106,7 +106,7 @@ Function update()
 Function doSelectSourceLanguage()
 	
 	var $language : cs:C1710.language
-	var $menu : cs:C1710.menu:=cs:C1710.menu.new()
+	var $menu : cs:C1710.ui.menu:=cs:C1710.ui.menu.new()
 	
 	var $c : Collection:=Form:C1466.languages.copy().push(Form:C1466.reference).distinct()
 	
@@ -157,7 +157,7 @@ Function doSelectSourceLanguage()
 Function doAddTargetLanguage()
 	
 	var $language : cs:C1710.language
-	var $menu : cs:C1710.menu:=cs:C1710.menu.new()
+	var $menu : cs:C1710.ui.menu:=cs:C1710.ui.menu.new()
 	
 	var $c : Collection:=Form:C1466.languages.copy().push(Form:C1466.reference).distinct().extract("lproj")
 	

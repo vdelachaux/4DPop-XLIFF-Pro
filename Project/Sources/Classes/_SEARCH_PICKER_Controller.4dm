@@ -11,17 +11,17 @@ property borderColor:=0x00E5E5E5
 property expanded:=False:C215
 
 // MARK: Delegates 📦
-property form : cs:C1710.form
+property form : cs:C1710.ui.form
 
 // MARK: Widgets 🧱
-property box : cs:C1710.input
-property glass : cs:C1710.button
-property ring : cs:C1710.static
+property box : cs:C1710.ui.input
+property glass : cs:C1710.ui.button
+property ring : cs:C1710.ui.static
 
 Class constructor()
 	
 	// MARK:-Delegates 📦
-	This:C1470.form:=cs:C1710.form.new(This:C1470)
+	This:C1470.form:=cs:C1710.ui.form.new(This:C1470)
 	
 	This:C1470.form.init()
 	
@@ -34,7 +34,7 @@ Function init()
 	This:C1470.glass:=This:C1470.form.Button("searchGlass")
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function handleEvents($e : cs:C1710.evt)
+Function handleEvents($e : cs:C1710.ui.evt)
 	
 	$e:=$e || FORM Event:C1606
 	
@@ -104,7 +104,7 @@ Function handleEvents($e : cs:C1710.evt)
 					//______________________________________________________
 				: ($e.code=On Data Change:K2:15)
 					
-					This:C1470.form.containerInstance.data.value:=This:C1470.box.value
+					This:C1470.form.container.data.value:=This:C1470.box.value
 					
 					// Inform the host
 					This:C1470.form.containerValue:=This:C1470
@@ -154,5 +154,5 @@ Function reset()
 	This:C1470.collapse()
 	
 	This:C1470.box.setColors(Foreground color:K23:1; Background color none:K23:10)
-	This:C1470.ring.setColors(This:C1470.form.containerInstance.data.borderColor || This:C1470.borderColor; Background color none:K23:10).show()
+	This:C1470.ring.setColors(This:C1470.form.container.data.borderColor || This:C1470.borderColor; Background color none:K23:10).show()
 	

@@ -40,13 +40,7 @@
 			"database",
 			"env"
 		],
-		"methods": [
-			"envNonThreadSafe",
-			"getProject"
-		],
 		"classes": [
-			"database",
-			"env",
 			"language",
 			"motor",
 			"os",
@@ -67,35 +61,6 @@
 			"formMenuHandle",
 			"formMethod",
 			"subformWidgetMethod"
-		],
-		"classes": [
-			"button",
-			"colour",
-			"comboBox",
-			"constraints",
-			"coord",
-			"dim",
-			"dropDown",
-			"evt",
-			"form",
-			"group",
-			"hList",
-			"input",
-			"listbox",
-			"menu",
-			"menuBar",
-			"onBoard",
-			"picture",
-			"scrollable",
-			"selector",
-			"static",
-			"stepper",
-			"subform",
-			"tabControl",
-			"thermometer",
-			"webArea",
-			"widget",
-			"window"
 		]
 	},
 	"📦 MAIN": {
@@ -115,7 +80,14 @@
 			"editor"
 		]
 	},
-	"database": {},
+	"database": {
+		"methods": [
+			"getProject"
+		],
+		"classes": [
+			"database"
+		]
+	},
 	"EDITOR": {
 		"methods": [
 			"EDITOR CALLBACK",
@@ -135,7 +107,14 @@
 			"_STRING_Controller"
 		]
 	},
-	"env": {},
+	"env": {
+		"methods": [
+			"envNonThreadSafe"
+		],
+		"classes": [
+			"env"
+		]
+	},
 	"SEARH PICKER": {
 		"forms": [
 			"SEARCH_PICKER"

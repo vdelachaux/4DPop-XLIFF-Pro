@@ -3,7 +3,7 @@
 // ID[FA7DB5B98D2D4E8EADB6A101D8983968]
 // Created #3-1-2017 by Vincent de Lachaux
 // ----------------------------------------------------
-var $e : cs:C1710.evt
+var $e : cs:C1710.ui.evt
 
 $e:=FORM Event:C1606
 

@@ -11,24 +11,24 @@ property toBeInitialized:=False:C215
 property main:={}
 
 // MARK:- Delegates 📦
-property form : cs:C1710.form
-property stringListConstraints  //: cs.constraints
+property form : cs:C1710.ui.form
+property stringListConstraints  //: cs.ui.constraints
 property Xliff  //: cs.Xliff
-property menuBar : cs:C1710.menuBar
+property menuBar : cs:C1710.ui.menuBar
 property Preferences : cs:C1710.Preferences
 property str:=cs:C1710.str.new()
 property Editor:=cs:C1710._Editor.new()
 property database:=cs:C1710.database.new()
 
 // MARK:- Widgets 🧱
-property lock; lockMessage : cs:C1710.static
-property wrap : cs:C1710.widget
-property newFile; newGroup; newString; filterLanguage : cs:C1710.button
-property stringSplitter; lockButton : cs:C1710.button
-property detail; searchPicker : cs:C1710.subform
-property fileList; stringList : cs:C1710.listbox
-property strings; locked; withFile : cs:C1710.group
-property spinner : cs:C1710.stepper
+property lock; lockMessage : cs:C1710.ui.static
+property wrap : cs:C1710.ui.widget
+property newFile; newGroup; newString; filterLanguage : cs:C1710.ui.button
+property stringSplitter; lockButton : cs:C1710.ui.button
+property detail; searchPicker : cs:C1710.ui.subform
+property fileList; stringList : cs:C1710.ui.listbox
+property strings; locked; withFile : cs:C1710.ui.group
+property spinner : cs:C1710.ui.stepper
 
 // TODO:Could be a preference
 property AUTOSAVE:=True:C214  // Flag for automatic saving
@@ -57,7 +57,7 @@ property TRACE : Boolean
 Class constructor()
 	
 	// MARK:Delegates 📦
-	This:C1470.form:=cs:C1710.form.new(This:C1470)
+	This:C1470.form:=cs:C1710.ui.form.new(This:C1470)
 	
 	This:C1470.Preferences:=cs:C1710.Preferences.new()
 	This:C1470.Xliff:=cs:C1710.Xliff.new()
@@ -90,7 +90,7 @@ Function init()
 	// MARK: Installing the menu bar
 	var $menuHandle : Text:=Formula:C1597(formMenuHandle).source
 	
-	var $menuFile : cs:C1710.menu:=cs:C1710.menu.new()
+	var $menuFile : cs:C1710.ui.menu:=cs:C1710.ui.menu.new()
 	$menuFile.file()  // Get a standard file menu
 	
 	// Insert custom items at the beginning
@@ -101,7 +101,7 @@ Function init()
 		.append(":xliff:close"; "close"; 4).method($menuHandle).shortcut("W")\
 		.line(5)
 	
-	var $menuEdit : cs:C1710.menu:=cs:C1710.menu.new().method($menuHandle)
+	var $menuEdit : cs:C1710.ui.menu:=cs:C1710.ui.menu.new().method($menuHandle)
 	$menuEdit.edit()  // Get a standard edit menu
 	
 	// Modify the cut item (4) to be able to manage it ourselves
@@ -123,12 +123,11 @@ Function init()
 		.append(":xliff:findNext"; "findNext"; -1).method($menuHandle).shortcut("G")\
 		.line(-1)
 	
-	This:C1470.menuBar:=cs:C1710.menuBar.new([\
+	This:C1470.menuBar:=cs:C1710.ui.menuBar.new([\
 		":xliff:CommonMenuFile"; $menuFile; \
 		":xliff:CommonMenuEdit"; $menuEdit]).set()
 	
 	// MARK: Callback
-	This:C1470.form.callback:=Formula:C1597(EDITOR CALLBACK).source
 	
 	// MARK: Toolbar buttons
 	This:C1470.newFile:=This:C1470.form.Button("toolbarNewFile")
@@ -179,7 +178,7 @@ Function init()
 		reference: "stringList"})
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function handleEvents($e : cs:C1710.evt)
+Function handleEvents($e : cs:C1710.ui.evt)
 	
 	$e:=$e || FORM Event:C1606
 	
@@ -351,13 +350,11 @@ Function update()
 			// ……………………………………………………………………………………………………
 		: ($defered=This:C1470.DISPLAY_FILE)
 			
-			This:C1470.form.callMeBack("_DISPLAY_FILE")
-			
+			This:C1470.form.callMeBack(Null:C1517; "_DISPLAY_FILE")
 			// ……………………………………………………………………………………………………
 		: ($defered=This:C1470.LOAD_STRINGS)
 			
-			This:C1470.form.callMeBack("_LOAD_STRINGS")
-			
+			This:C1470.form.callMeBack(Null:C1517; "_LOAD_STRINGS")
 			// ……………………………………………………………………………………………………
 	End case 
 	
@@ -710,7 +707,7 @@ Function handleMenus($what : Text)
 	
 	//MARK:-[MANAGERS]
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function _fileListManager($e : cs:C1710.evt)
+Function _fileListManager($e : cs:C1710.ui.evt)
 	
 	var $file : 4D:C1709.File
 	
@@ -744,7 +741,7 @@ Function _fileListManager($e : cs:C1710.evt)
 			
 			If (Contextual click:C713)
 				
-				var $menu : cs:C1710.menu:=cs:C1710.menu.new()
+				var $menu : cs:C1710.ui.menu:=cs:C1710.ui.menu.new()
 				
 				$menu.append(":xliff:projectSettings"; "projectSettings").disable()
 				
@@ -806,7 +803,7 @@ Function _fileListManager($e : cs:C1710.evt)
 	This:C1470.updateMenus()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function _stringListManager($e : cs:C1710.evt)
+Function _stringListManager($e : cs:C1710.ui.evt)
 	
 	If (Not:C34(Bool:C1537($e.force)))
 		
@@ -829,11 +826,11 @@ Function _stringListManager($e : cs:C1710.evt)
 			If (Contextual click:C713)
 				
 				var $isWritable : Boolean:=Not:C34(Bool:C1537(This:C1470.current.duplicateID))
-				var $menu : cs:C1710.menu:=cs:C1710.menu.new()
+				var $menu : cs:C1710.ui.menu:=cs:C1710.ui.menu.new()
 				
 				If ($item#Null:C1517)
 					
-					var $copy : cs:C1710.menu:=cs:C1710.menu.new()
+					var $copy : cs:C1710.ui.menu:=cs:C1710.ui.menu.new()
 					$copy.append(":xliff:copyAsXliffReference"; "copy").shortcut("C").enable(OB Instance of:C1731($item; cs:C1710.XliffUnit))\
 						.append(":xliff:copyResname"; "copyResname").shortcut("C"; Shift key mask:K16:3)\
 						.append(":xliff:copyTheCode"; "copyCode").shortcut("C"; Option key mask:K16:7)
@@ -1127,9 +1124,9 @@ Function doNewString()
 	// FIXME: Update the duplicates
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function _searchPickerManager($e : cs:C1710.evt)
+Function _searchPickerManager($e : cs:C1710.ui.evt)
 	
-	$e:=$e || cs:C1710.evt.new()
+	$e:=$e || cs:C1710.ui.evt.new()
 	
 	If ($e.dataChange)
 		
@@ -1140,7 +1137,7 @@ Function _searchPickerManager($e : cs:C1710.evt)
 	
 	//MARK:-
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function doDeleteFile($file : 4D:C1709.File; $e : cs:C1710.evt)
+Function doDeleteFile($file : 4D:C1709.File; $e : cs:C1710.ui.evt)
 	
 	var $language : Object
 	var $xliff : cs:C1710.Xliff
@@ -1153,7 +1150,7 @@ Function doDeleteFile($file : 4D:C1709.File; $e : cs:C1710.evt)
 		
 	End if 
 	
-	$e:=$e || cs:C1710.evt.new()
+	$e:=$e || cs:C1710.ui.evt.new()
 	
 	$file.delete()
 	
@@ -1366,9 +1363,9 @@ indexes < 10 are prefixed by 0.
 	return $code
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function doSearch($searchText : Text; $e : cs:C1710.evt)
+Function doSearch($searchText : Text; $e : cs:C1710.ui.evt)
 	
-	$e:=$e || cs:C1710.evt.new()
+	$e:=$e || cs:C1710.ui.evt.new()
 	
 	var $data : Object:=This:C1470.searchPicker.data
 	
@@ -1412,7 +1409,7 @@ Function doSearch($searchText : Text; $e : cs:C1710.evt)
 		If ($initialSearch)
 			
 			// Trick to force update (I'm not proud of it)
-			var $coord : cs:C1710.coord:=This:C1470.stringList.cellCoordinates(2; $data.start)
+			var $coord : cs:C1710.ui.coordinates:=This:C1470.stringList.cellCoordinates(2; $data.start)
 			This:C1470.stringList.click($coord.left+40; $coord.top+10)
 			
 		Else 
@@ -1426,8 +1423,7 @@ Function doSearch($searchText : Text; $e : cs:C1710.evt)
 			
 		End if 
 		
-		This:C1470.form.callMeBack("_SELECT_STRING")
-		
+		This:C1470.form.callMeBack(Null:C1517; "_SELECT_STRING")
 	Else 
 		
 		BEEP:C151
@@ -1464,7 +1460,7 @@ Function uniqueResname($what : Text) : Text
 	return $resname
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function setCurrentString($e : cs:C1710.evt) : Object
+Function setCurrentString($e : cs:C1710.ui.evt) : Object
 	
 	If (Bool:C1537(Form:C1466.TRACE))
 		TRACE:C157
@@ -1563,13 +1559,13 @@ Function _populateString($column : Integer; $row : Integer) : Object
 	return $string
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function doSelectFile($row : Integer; $e : cs:C1710.evt)
+Function doSelectFile($row : Integer; $e : cs:C1710.ui.evt)
 	
 	// Select the file
 	This:C1470.fileList.select($row)
 	
 	// & call back the _fileListManager manager
-	$e:=$e || cs:C1710.evt.new()
+	$e:=$e || cs:C1710.ui.evt.new()
 	$e.column:=1
 	$e.row:=$row
 	$e.code:=On Selection Change:K2:29
@@ -1579,7 +1575,7 @@ Function doSelectFile($row : Integer; $e : cs:C1710.evt)
 	This:C1470.fileList.focus()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function doSelectGroup($row : Integer; $e : cs:C1710.evt)
+Function doSelectGroup($row : Integer; $e : cs:C1710.ui.evt)
 	
 	$row:=$row<=0 ? 1 : $row
 	
@@ -1590,7 +1586,7 @@ Function doSelectGroup($row : Integer; $e : cs:C1710.evt)
 	This:C1470.stringList.item:=$item
 	
 	// Call back the stringList manager
-	$e:=$e || cs:C1710.evt.new()
+	$e:=$e || cs:C1710.ui.evt.new()
 	$e.column:=1
 	$e.row:=$row
 	$e.code:=On Selection Change:K2:29
@@ -1611,8 +1607,7 @@ Function doSelectUnit($row : Integer)
 	
 	This:C1470.stringList.select($row)
 	
-	This:C1470.form.callMeBack("_SELECT_STRING"; {row: $row})
-	
+	This:C1470.form.callMeBack({row: $row}; "_SELECT_STRING")
 	This:C1470.stringList.focus()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
@@ -1883,7 +1878,7 @@ Function _DISPLAY_FILE()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _SELECT_STRING($data : Object)
 	
-	var $e : cs:C1710.evt:=cs:C1710.evt.new()
+	var $e : cs:C1710.ui.evt:=cs:C1710.ui.evt.new()
 	
 	If ($data=Null:C1517)
 		
@@ -1966,8 +1961,7 @@ Function _LOAD_STRINGS()
 	
 	If ($xliff.duplicateResname)
 		
-		This:C1470.form.callMeBack("_HIGHLIGHTING_DUPLICATES")
-		
+		This:C1470.form.callMeBack(Null:C1517; "_HIGHLIGHTING_DUPLICATES")
 	End if 
 	
 	This:C1470.locked.show($xliff.duplicateID)

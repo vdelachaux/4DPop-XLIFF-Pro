@@ -8,16 +8,15 @@ property isSubform:=True:C214
 property toBeInitialized:=False:C215
 
 // MARK: Delegates 📦
-property form : cs:C1710.form
+property form : cs:C1710.ui.form
 
 // MARK: Widgets 🧱
-property flag; value : cs:C1710.input
+property flag; value : cs:C1710.ui.input
 
 Class constructor
 	
 	// MARK:Delegates 📦
-	This:C1470.form:=cs:C1710.form.new(This:C1470)
-	This:C1470.form.callback:=Formula:C1597(EDITOR CALLBACK).source
+	This:C1470.form:=cs:C1710.ui.form.new(This:C1470)
 	
 	This:C1470.form.init()
 	
@@ -30,9 +29,9 @@ Function init()
 	This:C1470.value:=This:C1470.form.Input("value")
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function handleEvents($e : cs:C1710.evt)
+Function handleEvents($e : cs:C1710.ui.evt)
 	
-	$e:=$e || cs:C1710.evt.new()
+	$e:=$e || cs:C1710.ui.evt.new()
 	
 	// MARK:Form Method
 	If ($e.objectName=Null:C1517)
@@ -85,7 +84,7 @@ Function handleEvents($e : cs:C1710.evt)
 				 && (This:C1470.value.modified)
 				
 				Form:C1466._container.value:=This:C1470.value.getValue()
-				This:C1470.form.callMeBack("_UPDATE_LOCALIZED_TARGET"; Form:C1466._container)
+				This:C1470.form.callMeBack(Form:C1466._container; "_UPDATE_LOCALIZED_TARGET")
 				This:C1470.value.setColors(Foreground color:K23:1; Background color:K23:2)
 				
 			End if 
@@ -148,7 +147,7 @@ Function update()
 	var $height; $width : Integer
 	OBJECT GET SUBFORM CONTAINER SIZE:C1148($width; $height)
 	
-	var $coord : cs:C1710.coord:=This:C1470.value.coordinates
+	var $coord : cs:C1710.ui.coordinates:=This:C1470.value.coordinates
 	$coord.top:=5
 	$coord.right:=$width-18
 	$coord.bottom:=$height-9

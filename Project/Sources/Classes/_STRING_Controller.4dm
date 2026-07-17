@@ -8,15 +8,15 @@ property isSubform:=True:C214
 property toBeInitialized:=False:C215
 
 // MARK: Delegates 📦
-property form : cs:C1710.form
+property form : cs:C1710.ui.form
 property str : cs:C1710.str:=cs:C1710.str.new()
 
 // MARK: Widgets 🧱
-property resname; flag; lang; source : cs:C1710.input
-property action; handleButton; noteIndicator; noTranslate; propagate : cs:C1710.button
-property handle; mac; win : cs:C1710.static
-property note : cs:C1710.widget
-property unitGroup; languageGroup; movable : cs:C1710.group
+property resname; flag; lang; source : cs:C1710.ui.input
+property action; handleButton; noteIndicator; noTranslate; propagate : cs:C1710.ui.button
+property handle; mac; win : cs:C1710.ui.static
+property note : cs:C1710.ui.widget
+property unitGroup; languageGroup; movable : cs:C1710.ui.group
 
 // MARK: Constants 🔐
 
@@ -25,7 +25,7 @@ property unitGroup; languageGroup; movable : cs:C1710.group
 Class constructor
 	
 	// MARK:-Delegates 📦
-	This:C1470.form:=cs:C1710.form.new(This:C1470)
+	This:C1470.form:=cs:C1710.ui.form.new(This:C1470)
 	
 	This:C1470.form.init()
 	
@@ -34,13 +34,12 @@ Class constructor
 Function init()
 	
 	// MARK: Callback
-	This:C1470.form.callback:=Formula:C1597(EDITOR CALLBACK).source
 	
 	// MARK:Wigets
 	This:C1470.resname:=This:C1470.form.Input("resname.box")
 	This:C1470.action:=This:C1470.form.Button("action")
 	
-	var $group : cs:C1710.group
+	var $group : cs:C1710.ui.group
 	This:C1470.unitGroup:=This:C1470.form.Group()
 	This:C1470.flag:=This:C1470.form.Input("unit.flag").addToGroup(This:C1470.unitGroup)
 	This:C1470.handle:=This:C1470.form.Static("unit.handle").addToGroup(This:C1470.unitGroup)
@@ -63,9 +62,9 @@ Function init()
 	This:C1470.languageGroup:=This:C1470.form.Group()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function handleEvents($e : cs:C1710.evt)
+Function handleEvents($e : cs:C1710.ui.evt)
 	
-	$e:=$e || cs:C1710.evt.new()
+	$e:=$e || cs:C1710.ui.evt.new()
 	
 	//TRACE
 	
@@ -134,8 +133,7 @@ Function handleEvents($e : cs:C1710.evt)
 					
 					If (Form:C1466.string.note#Form:C1466.string.$note)
 						
-						This:C1470.form.callMeBack("_UPDATE_NOTE"; This:C1470.context())
-						
+						This:C1470.form.callMeBack(This:C1470.context(); "_UPDATE_NOTE")
 					End if 
 					
 					OB REMOVE:C1226(Form:C1466.string; "$note")
@@ -161,8 +159,7 @@ Function handleEvents($e : cs:C1710.evt)
 					
 				End if 
 				
-				This:C1470.form.callMeBack("_UPDATE_TRANSLATE"; This:C1470.context())
-				
+				This:C1470.form.callMeBack(This:C1470.context(); "_UPDATE_TRANSLATE")
 				//==============================================
 			: (This:C1470.handleButton.catch($e))
 				
@@ -172,8 +169,7 @@ Function handleEvents($e : cs:C1710.evt)
 			: (This:C1470.propagate.catch($e))
 				
 				This:C1470.updateSource()
-				This:C1470.form.callMeBack("_PROPAGATE_REFERENCE")
-				
+				This:C1470.form.callMeBack(Null:C1517; "_PROPAGATE_REFERENCE")
 				//==============================================
 		End case 
 	End if 
@@ -191,7 +187,7 @@ Function onLoad()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function update()
 	
-	var $parent : cs:C1710._EDITOR_Controller:=This:C1470.form.container
+	var $parent : cs:C1710._EDITOR_Controller:=This:C1470.form.container.__SUPER__
 	
 	If (This:C1470.form.toBeInitialized)
 		
@@ -215,7 +211,7 @@ Function update()
 		
 	End if 
 	
-	var $colour : cs:C1710.colour:=cs:C1710.colour.new()
+	var $colour : cs:C1710.ui.colors:=cs:C1710.ui.colors.new()
 	$colour.foreground:=Foreground color:K23:1
 	$colour.background:=Background color:K23:2
 	
@@ -362,7 +358,7 @@ This.action.hide()
 	
 	// MARK:-[Managers]
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function _resnameManager($e : cs:C1710.evt)
+Function _resnameManager($e : cs:C1710.ui.evt)
 	
 	If ($e.code#On Losing Focus:K2:8)
 		
@@ -370,7 +366,7 @@ Function _resnameManager($e : cs:C1710.evt)
 		
 	End if 
 	
-	var $parent : cs:C1710._EDITOR_Controller:=This:C1470.form.container
+	var $parent : cs:C1710._EDITOR_Controller:=This:C1470.form.container.__SUPER__
 	var $string : Object:=Form:C1466.string
 	
 	// Don't allow empty value
@@ -429,10 +425,9 @@ Function _resnameManager($e : cs:C1710.evt)
 	End if 
 	
 	Form:C1466.$backup.resname:=$string.resname
-	This:C1470.form.callMeBack("_UPDATE_RESNAME"; This:C1470.context())
-	
+	This:C1470.form.callMeBack(This:C1470.context(); "_UPDATE_RESNAME")
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function _actionManager($e : cs:C1710.evt)
+Function _actionManager($e : cs:C1710.ui.evt)
 	
 	var $string : Object:=Form:C1466.string
 	
@@ -444,12 +439,12 @@ Function _actionManager($e : cs:C1710.evt)
 		
 	End if 
 	
-	var $menu : cs:C1710.menu:=cs:C1710.menu.new()
+	var $menu : cs:C1710.ui.menu:=cs:C1710.ui.menu.new()
 	$menu.append("camelCase"; "camelCase")  //.shortcut("c"; Option key mask)
 	
 	If (OB Instance of:C1731($string; cs:C1710.XliffUnit))
 		
-		var $sub : cs:C1710.menu:=cs:C1710.menu.new()
+		var $sub : cs:C1710.ui.menu:=cs:C1710.ui.menu.new()
 		$sub.append("all"; "all").mark($string.attributes["d4:includeIf"]=Null:C1517)\
 			.line()\
 			.append("macOS"; "mac").icon("#images/maOS.png").mark(String:C10($string.attributes["d4:includeIf"])="mac")\
@@ -508,8 +503,7 @@ Function _menuManager($what : Text)
 			$string.resname:=This:C1470.str.lowerCamelCase($string.resname)
 			Form:C1466.$backup.resname:=$string.resname
 			
-			This:C1470.form.callMeBack("_UPDATE_RESNAME"; This:C1470.context())
-			
+			This:C1470.form.callMeBack(This:C1470.context(); "_UPDATE_RESNAME")
 			//______________________________________________________
 		: ($what="comment")
 			
@@ -518,8 +512,7 @@ Function _menuManager($what : Text)
 			//______________________________________________________
 		: ($what="propagateReference")
 			
-			This:C1470.form.callMeBack("_PROPAGATE_REFERENCE")
-			
+			This:C1470.form.callMeBack(Null:C1517; "_PROPAGATE_REFERENCE")
 			//______________________________________________________
 		: ($what="mac")\
 			 | ($what="win")\
@@ -535,8 +528,7 @@ Function _menuManager($what : Text)
 				
 			End if 
 			
-			This:C1470.form.callMeBack("_UPDATE_PLATFORM"; This:C1470.context())
-			
+			This:C1470.form.callMeBack(This:C1470.context(); "_UPDATE_PLATFORM")
 			// Set the platform indicator
 			This:C1470.mac.show($what="mac")
 			This:C1470.win.show($what="win")
@@ -545,7 +537,7 @@ Function _menuManager($what : Text)
 	End case 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function _sourceManager($e : cs:C1710.evt)
+Function _sourceManager($e : cs:C1710.ui.evt)
 	
 	Case of 
 			
@@ -564,11 +556,11 @@ Function _sourceManager($e : cs:C1710.evt)
 	End case 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function _handleManager($e : cs:C1710.evt)
+Function _handleManager($e : cs:C1710.ui.evt)
 	
 	var $moveV; $resize : Integer
-	var $handle; $source : cs:C1710.coord
-	var $language : cs:C1710.static
+	var $handle; $source : cs:C1710.ui.coordinates
+	var $language : cs:C1710.ui.static
 	
 	$source:=This:C1470.source.coordinates
 	
@@ -613,8 +605,8 @@ Function initGeometry($editor : cs:C1710._EDITOR_Controller)
 	var $index : Integer
 	var $nil : Pointer
 	
-	var $coordinates; $position : cs:C1710.coord
-	var $dimensions : cs:C1710.dim
+	var $coordinates; $position : cs:C1710.ui.coordinates
+	var $dimensions : cs:C1710.ui.dimensions
 	
 	ARRAY TEXT:C222($objects; 0)
 	ARRAY TEXT:C222($tabOrder; 0)
@@ -639,7 +631,7 @@ Function initGeometry($editor : cs:C1710._EDITOR_Controller)
 	FORM GET OBJECTS:C898($objects; Form current page:K67:6)
 	
 	var $language : cs:C1710.language
-	For each ($language; This:C1470.form.container.languages)
+	For each ($language; This:C1470.form.container.__SUPER__.languages)
 		
 		$widget:="lang_"+$language.lproj
 		
@@ -704,8 +696,7 @@ Function updateSource()
 	
 	If (Form:C1466.string.source.value#Form:C1466.$backup.source.value)  // Both are undefined for a group
 		
-		This:C1470.form.callMeBack("_UPDATE_SOURCE"; This:C1470.context())
-		
+		This:C1470.form.callMeBack(This:C1470.context(); "_UPDATE_SOURCE")
 		// Update backup value
 		Form:C1466.$backup.source.value:=Form:C1466.string.source.value
 		
@@ -721,7 +712,7 @@ Function context() : Object
 	
 	return {\
 		string: Form:C1466.string; \
-		parent: This:C1470.form.container; \
-		file: This:C1470.form.container.current\
+		parent: This:C1470.form.container.__SUPER__; \
+		file: This:C1470.form.container.__SUPER__.current\
 		}
 	
