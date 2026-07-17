@@ -122,7 +122,8 @@ Function handleEvents($e : cs:C1710.ui.evt)
 					
 				Else 
 					
-					This:C1470.note.setCoordinates(This:C1470.source.getCoordinates()).show().focus()
+					This:C1470.note.setCoordinates(This:C1470.source.getCoordinates()).show()
+					This:C1470.note.focus()
 					
 				End if 
 				

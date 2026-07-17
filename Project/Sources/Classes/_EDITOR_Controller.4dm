@@ -23,6 +23,7 @@ property database:=cs:C1710.database.new()
 // MARK:- Widgets 🧱
 property lock; lockMessage : cs:C1710.ui.static
 property wrap : cs:C1710.ui.widget
+property _wrapTimer : Integer
 property newFile; newGroup; newString; filterLanguage : cs:C1710.ui.button
 property stringSplitter; lockButton : cs:C1710.ui.button
 property detail; searchPicker : cs:C1710.ui.subform
@@ -389,14 +390,14 @@ Function update()
 	
 	This:C1470.updateMenus($isWritable)
 	
-	If (Num:C11(This:C1470.wrap.timer)=0)
+	If (Num:C11(This:C1470._wrapTimer)=0)
 		
 		This:C1470.wrap.hide()
 		
 	Else 
 		
-		This:C1470.form.refresh(This:C1470.wrap.timer)
-		This:C1470.wrap.timer:=0
+		This:C1470.form.refresh(This:C1470._wrapTimer)
+		This:C1470._wrapTimer:=0
 		
 	End if 
 	
@@ -803,9 +804,9 @@ Function _fileListManager($e : cs:C1710.ui.evt)
 	This:C1470.updateMenus()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function _stringListManager($e : cs:C1710.ui.evt)
+Function _stringListManager($e : cs:C1710.ui.evt; $force : Boolean)
 	
-	If (Not:C34(Bool:C1537($e.force)))
+	If (Not:C34(Bool:C1537($force)))
 		
 		This:C1470.stringList.cellPosition($e)
 		
@@ -1074,6 +1075,10 @@ Function doNewString()
 	
 	var $target : Object:=This:C1470.stringList.item
 	
+	/* Capture the localizations from the displayed item now, before $target is
+	   reassigned to a freshly-queried parent group that has none populated */
+	var $localizations : Collection:=$target.localizations
+	
 	// Trigger string update
 	This:C1470.form.removeFocus()
 	
@@ -1090,7 +1095,7 @@ Function doNewString()
 	
 	// Update localized files
 	var $item : Object
-	For each ($item; $target.localizations)
+	For each ($item; $localizations)
 		
 		var $xliff : cs:C1710.Xliff:=$item.xliff
 		var $group : cs:C1710.XliffGroup:=$xliff.groups.query("xpath = :1"; $target.xpath).pop()
@@ -1399,7 +1404,7 @@ Function doSearch($searchText : Text; $e : cs:C1710.ui.evt)
 		
 		// Start from scratch
 		$data.start:=Find in array:C230((This:C1470.resnamePtr)->; $searchText)
-		This:C1470.wrap.timer:=10
+		This:C1470._wrapTimer:=10
 		This:C1470.wrap.show()
 		
 	End if 
@@ -1410,7 +1415,7 @@ Function doSearch($searchText : Text; $e : cs:C1710.ui.evt)
 			
 			// Trick to force update (I'm not proud of it)
 			var $coord : cs:C1710.ui.coordinates:=This:C1470.stringList.cellCoordinates(2; $data.start)
-			This:C1470.stringList.click($coord.left+40; $coord.top+10)
+			POST CLICK:C466($coord.left+40; $coord.top+10)
 			
 		Else 
 			
@@ -1429,7 +1434,7 @@ Function doSearch($searchText : Text; $e : cs:C1710.ui.evt)
 		BEEP:C151
 		
 		$data.start:=0
-		This:C1470.wrap.timer:=0
+		This:C1470._wrapTimer:=0
 		This:C1470.wrap.hide()
 		
 		This:C1470.menuBar.disableItem("findNext")
@@ -1569,7 +1574,6 @@ Function doSelectFile($row : Integer; $e : cs:C1710.ui.evt)
 	$e.column:=1
 	$e.row:=$row
 	$e.code:=On Selection Change:K2:29
-	$e.force:=True:C214
 	This:C1470._fileListManager($e)
 	
 	This:C1470.fileList.focus()
@@ -1590,8 +1594,7 @@ Function doSelectGroup($row : Integer; $e : cs:C1710.ui.evt)
 	$e.column:=1
 	$e.row:=$row
 	$e.code:=On Selection Change:K2:29
-	$e.force:=True:C214
-	This:C1470._stringListManager($e)
+	This:C1470._stringListManager($e; True:C214)
 	
 	This:C1470.stringList.focus()
 	
@@ -1900,8 +1903,7 @@ Function _SELECT_STRING($data : Object)
 		$e.column:=2
 		$e.row:=$data.row
 		$e.code:=On Selection Change:K2:29
-		$e.force:=True:C214
-		This:C1470._stringListManager($e)
+		This:C1470._stringListManager($e; True:C214)
 		
 	End if 
 	
