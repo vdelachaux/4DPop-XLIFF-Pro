@@ -95,11 +95,11 @@ Function init()
 	$menuFile.file()  // Get a standard file menu
 	
 	// Insert custom items at the beginning
-	$menuFile.append(":xliff:newFile"; "newFile"; 0).method($menuHandle)\
-		.append(":xliff:newGroup"; "newGroup"; 1).method($menuHandle).shortcut("N"; Option key mask:K16:7)\
-		.append(":xliff:newString"; "newString"; 2).method($menuHandle).shortcut("N")\
+	$menuFile.append(Localized string:C991("newFile"); "newFile"; 0).method($menuHandle)\
+		.append(Localized string:C991("newGroup"); "newGroup"; 1).method($menuHandle).shortcut("N"; Option key mask:K16:7)\
+		.append(Localized string:C991("newString"); "newString"; 2).method($menuHandle).shortcut("N")\
 		.line(3)\
-		.append(":xliff:close"; "close"; 4).method($menuHandle).shortcut("W")\
+		.append(Localized string:C991("close"); "close"; 4).method($menuHandle).shortcut("W")\
 		.line(5)
 	
 	var $menuEdit : cs:C1710.ui.menu:=cs:C1710.ui.menu.new().method($menuHandle)
@@ -120,13 +120,13 @@ Function init()
 	
 	// Insert custom items before the last
 	$menuEdit.line()\
-		.append(":xliff:find"; "find"; -1).method($menuHandle).shortcut("F")\
-		.append(":xliff:findNext"; "findNext"; -1).method($menuHandle).shortcut("G")\
+		.append(Localized string:C991("find"); "find"; -1).method($menuHandle).shortcut("F")\
+		.append(Localized string:C991("findNext"); "findNext"; -1).method($menuHandle).shortcut("G")\
 		.line(-1)
 	
 	This:C1470.menuBar:=cs:C1710.ui.menuBar.new([\
-		":xliff:CommonMenuFile"; $menuFile; \
-		":xliff:CommonMenuEdit"; $menuEdit]).set()
+		Localized string:C991("CommonMenuFile"); $menuFile; \
+		Localized string:C991("CommonMenuEdit"); $menuEdit]).set()
 	
 	// MARK: Callback
 	
@@ -744,25 +744,25 @@ Function _fileListManager($e : cs:C1710.ui.evt)
 				
 				var $menu : cs:C1710.ui.menu:=cs:C1710.ui.menu.new()
 				
-				$menu.append(":xliff:projectSettings"; "projectSettings").disable()
+				$menu.append(Localized string:C991("projectSettings"); "projectSettings").disable()
 				
 				If ($e.row#Null:C1517)
 					
-					$menu.line().append(":xliff:fileInformations"; "fileInformations").disable()\
-						.append(":xliff:showOnDisk"; "showOnDisk")\
-						.append(":xliff:delete"; "delete")
+					$menu.line().append(Localized string:C991("fileInformations"); "fileInformations").disable()\
+						.append(Localized string:C991("showOnDisk"); "showOnDisk")\
+						.append(Localized string:C991("delete"); "delete")
 					
 				End if 
 				
 				If (This:C1470.current.duplicateID)
 					
 					$menu.line()\
-						.append(":xliff:makeIdsUnique"; "uid")
+						.append(Localized string:C991("makeIdsUnique"); "uid")
 					
 				End if 
 				
 				$menu.line()\
-					.append(":xliff:import"; "import").disable()
+					.append(Localized string:C991("import"); "import").disable()
 				
 				$menu.popup()
 				
@@ -832,9 +832,9 @@ Function _stringListManager($e : cs:C1710.ui.evt; $force : Boolean)
 				If ($item#Null:C1517)
 					
 					var $copy : cs:C1710.ui.menu:=cs:C1710.ui.menu.new()
-					$copy.append(":xliff:copyAsXliffReference"; "copy").shortcut("C").enable(OB Instance of:C1731($item; cs:C1710.XliffUnit))\
-						.append(":xliff:copyResname"; "copyResname").shortcut("C"; Shift key mask:K16:3)\
-						.append(":xliff:copyTheCode"; "copyCode").shortcut("C"; Option key mask:K16:7)
+					$copy.append(Localized string:C991("copyAsXliffReference"); "copy").shortcut("C").enable(OB Instance of:C1731($item; cs:C1710.XliffUnit))\
+						.append(Localized string:C991("copyResname"); "copyResname").shortcut("C"; Shift key mask:K16:3)\
+						.append(Localized string:C991("copyTheCode"); "copyCode").shortcut("C"; Option key mask:K16:7)
 					
 					var $files : Collection:=Folder:C1567("/RESOURCES/4DPop xliff").files()
 					
@@ -861,20 +861,20 @@ Function _stringListManager($e : cs:C1710.ui.evt; $force : Boolean)
 					
 					// TODO: Allow to copy/cut an item to paste it in another group/file
 					
-					$menu.append(":xliff:CommonMenuItemCopy"; $copy)
+					$menu.append(Localized string:C991("CommonMenuItemCopy"); $copy)
 					$menu.line()
 					
 				End if 
 				
-				$menu.append(":xliff:newGroup"; "newGroup").shortcut("N"; Option key mask:K16:7).enable($isWritable)
+				$menu.append(Localized string:C991("newGroup"); "newGroup").shortcut("N"; Option key mask:K16:7).enable($isWritable)
 				
 				If ($item#Null:C1517)
 					
-					$menu.append(":xliff:newString"; "newString").shortcut("N").enable($isWritable)\
+					$menu.append(Localized string:C991("newString"); "newString").shortcut("N").enable($isWritable)\
 						.line()\
-						.append(":xliff:duplicate"; "duplicate").shortcut("D").enable($isWritable)\
+						.append(Localized string:C991("duplicate"); "duplicate").shortcut("D").enable($isWritable)\
 						.line()\
-						.append(":xliff:delete"; "delete").shortcut("[Del]").enable($isWritable)
+						.append(Localized string:C991("delete"); "delete").shortcut("[Del]").enable($isWritable)
 					
 				End if 
 				
@@ -1075,7 +1075,7 @@ Function doNewString()
 	
 	var $target : Object:=This:C1470.stringList.item
 	
-	/* Capture the localizations from the displayed item now, before $target is
+/* Capture the localizations from the displayed item now, before $target is
 	   reassigned to a freshly-queried parent group that has none populated */
 	var $localizations : Collection:=$target.localizations
 	
