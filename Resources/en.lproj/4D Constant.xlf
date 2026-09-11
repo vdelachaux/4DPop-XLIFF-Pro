@@ -1,28 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<xliff version="1.0" xmlns:d4="http://www.4d.com/d4-ns">
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-
-
-  
-
-<!--
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xliff xmlns:d4="http://www.4d.com/d4-ns" version="1.0">
+  <!--
     Created with 4DPop Constants Editor
   -->
-
   <file datatype="x-4DK#" original="x-undefined" source-language="x-none" target-language="x-none">
     <header>
       <prop-group name="4DPop Constant editor">
@@ -33,16 +13,7 @@
       </prop-group>
     </header>
     <body>
-      
-
-      
-
-      
-
-      
-
-      
-<!--groups' labels-->
+      <!--groups' labels-->
       <group resname="themes">
         <trans-unit id="thm_1" resname="E4A1D7C0F32F4E66A7F82429D82994E8">
           <source>VP Properties</source>
@@ -53,16 +24,7 @@
           <target>VP Values</target>
         </trans-unit>
       </group>
-      
-
-      
-
-      
-
-      
-
-      
-<!--constants-->
+      <!--constants-->
       <group d4:groupName="E4A1D7C0F32F4E66A7F82429D82994E8" restype="x-4DK#">
         <trans-unit d4:value="allowUserDragDrop:S" id="k_1">
           <source>vp Drag and Drop</source>
@@ -113,14 +75,4 @@
       </group>
     </body>
   </file>
-
-
-
-
-
-
-
-
-
-
 </xliff>
