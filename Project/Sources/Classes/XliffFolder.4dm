@@ -47,8 +47,8 @@ Function detectDuplicates() : Collection
 
 	// === === === === === === === === === === === === === === === === === === ===
 	// Renumbers every trans-unit id to 1..N per family, in document order (using
-	// "en" as the reference language when present, else the first language
-	// alphabetically), synced across every language that has that family.
+	// the project's main language as the reference language), synced across
+	// every language that has that family.
 	// Aborts (writes nothing) if any true duplicate is found; returns
 	// {ok; duplicates; families; error}.
 Function renumberIds() : Object
@@ -89,7 +89,14 @@ Function renumberIds() : Object
 
 	End if
 
-	var $refLang : Text:=($langs.indexOf("en")>=0) ? "en" : $langs[0]
+	var $editor : cs:C1710._Editor:=cs:C1710._Editor.new()
+	var $refLang : Text:=$editor.mainLanguage
+
+	If ($langs.indexOf($refLang)<0)
+
+		$refLang:=$langs[0]
+
+	End if
 
 	var $family; $lang : Text
 	var $node : Text
