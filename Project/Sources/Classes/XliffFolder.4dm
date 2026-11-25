@@ -23,14 +23,24 @@ The identity key for a trans-unit is (resname, d4:includeIf): a resname
 legitimately repeats when platform-conditional variants exist
 (d4:includeIf="mac" / "win"), each with distinct content. A TRUE duplicate is
 the same (resname, d4:includeIf) appearing more than once in the same file.
+
+A .xlf file that cannot be read (malformed XML, empty file...) never raises a
+4D error: it is listed in This.unreadable [{file; path; error}] (reset by each
+public function). renumberIds() then aborts (writes nothing) with ok=False.
 */
 
+property unreadable : Collection
+
 Class constructor()
+
+	This:C1470.unreadable:=[]
 
 // === === === === === === === === === === === === === === === === === === ===
 // Returns duplicates found across the whole tree: [{family; languages; file;
 // resname; includeIf; count}]. Nothing is written to disk.
 Function detectDuplicates() : Collection
+
+	This:C1470.unreadable:=[]
 
 	var $resourcesFolder : 4D:C1709.Folder:=This:C1470._resourcesFolder()
 
@@ -54,6 +64,8 @@ Function detectDuplicates() : Collection
 Function renumberIds() : Object
 
 	var $report : Object:={ok: True:C214; duplicates: []; families: []}
+
+	This:C1470.unreadable:=[]
 
 	var $resourcesFolder : 4D:C1709.Folder:=This:C1470._resourcesFolder()
 
@@ -80,6 +92,16 @@ Function renumberIds() : Object
 	var $families : Collection:=$discovery.families
 
 	var $duplicates : Collection:=This:C1470._scanDuplicates($families; $langs; $fileMap)
+
+	// A file that cannot be read: abort before writing anything
+	If (This:C1470.unreadable.length>0)
+
+		$report.ok:=False:C215
+		$report.unreadable:=This:C1470.unreadable.copy()
+		$report.error:="Unreadable XLIFF file(s): "+This:C1470.unreadable.extract("path").join(", ")
+		return $report
+
+	End if
 
 	If ($duplicates.length>0)
 
@@ -146,7 +168,13 @@ Function renumberIds() : Object
 
 			$readPaths[$path]:=True:C214
 
-			var $xliff : cs:C1710.Xliff:=cs:C1710.Xliff.new($file)
+			var $xliff : cs:C1710.Xliff:=This:C1470._open($file)
+
+			If ($xliff=Null:C1517)
+
+				continue
+
+			End if
 
 			For each ($node; $xliff.find($xliff.root; "//trans-unit"))
 
@@ -198,8 +226,14 @@ Function renumberIds() : Object
 
 			$writtenPaths[$wpath]:=True:C214
 
-			var $wxliff : cs:C1710.Xliff:=cs:C1710.Xliff.new($wfile)
+			var $wxliff : cs:C1710.Xliff:=This:C1470._open($wfile)
 			var $changed : Integer:=0
+
+			If ($wxliff=Null:C1517)
+
+				continue
+
+			End if
 
 			For each ($node; $wxliff.find($wxliff.root; "//trans-unit"))
 
@@ -245,6 +279,8 @@ Function stripGroupIds() : Object
 
 	var $report : Object:={filesChanged: 0; tagsRemoved: 0; details: []}
 
+	This:C1470.unreadable:=[]
+
 	var $resourcesFolder : 4D:C1709.Folder:=This:C1470._resourcesFolder()
 
 	If (Not:C34($resourcesFolder.exists))
@@ -258,9 +294,15 @@ Function stripGroupIds() : Object
 
 	For each ($file; $resourcesFolder.files(fk recursive:K87:7).query("extension = .xlf"))
 
-		var $xliff : cs:C1710.Xliff:=cs:C1710.Xliff.new($file)
+		var $xliff : cs:C1710.Xliff:=This:C1470._open($file)
 		var $node : Text
 		var $count : Integer:=0
+
+		If ($xliff=Null:C1517)
+
+			continue
+
+		End if
 
 		For each ($node; $xliff.find($xliff.root; "//group[@id]"))
 
@@ -285,6 +327,13 @@ Function stripGroupIds() : Object
 
 	End for each
 
+	If (This:C1470.unreadable.length>0)
+
+		$report.unreadable:=This:C1470.unreadable.copy()
+		$report.error:="Unreadable XLIFF file(s): "+This:C1470.unreadable.extract("path").join(", ")
+
+	End if
+
 	return $report
 
 	// === === === === === === === === === === === === === === === === === === ===
@@ -294,6 +343,45 @@ Function stripGroupIds() : Object
 Function _resourcesFolder() : 4D:C1709.Folder
 
 	return Folder:C1567("/RESOURCES/"; *)
+
+	// === === === === === === === === === === === === === === === === === === ===
+	// Opens an XLIFF file without raising a 4D error. Returns Null, and records
+	// the file in This.unreadable, if it cannot be read.
+Function _open($file : 4D:C1709.File) : cs:C1710.Xliff
+
+	var $xliff : cs:C1710.Xliff:=Try(cs:C1710.Xliff.new($file))
+
+	If ($xliff#Null:C1517)
+
+		If ($xliff.success && ($xliff.root#Null:C1517))
+
+			return $xliff
+
+		End if
+
+	End if
+
+	var $error : Text:="Unable to read the XLIFF file"
+
+	If ($xliff=Null:C1517)
+
+		var $errors : Collection:=Last errors:C1799
+
+		If ($errors#Null:C1517)
+
+			If ($errors.length>0)
+
+				$error+=": "+String:C10($errors[0].message)+" ("+String:C10($errors[0].errCode)+")"
+
+			End if
+
+		End if
+
+	End if
+
+	This:C1470.unreadable.push({file: $file.fullName; path: $file.path; error: $error})
+
+	return Null:C1517
 
 	// === === === === === === === === === === === === === === === === === === ===
 	// Sorted language codes from the <lang>.lproj folder names.
@@ -453,9 +541,15 @@ Function _scanDuplicates($families : Collection; $langs : Collection; $fileMap :
 		For each ($path; $fileForPath)
 
 			var $dupFile : 4D:C1709.File:=$fileForPath[$path]
-			var $xliff : cs:C1710.Xliff:=cs:C1710.Xliff.new($dupFile)
+			var $xliff : cs:C1710.Xliff:=This:C1470._open($dupFile)
 			var $seen : Object:={}
 			var $node : Text
+
+			If ($xliff=Null:C1517)
+
+				continue
+
+			End if
 
 			For each ($node; $xliff.find($xliff.root; "//trans-unit"))
 
