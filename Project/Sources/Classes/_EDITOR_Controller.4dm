@@ -386,7 +386,7 @@ Function update()
 	
 	This:C1470.strings.show(This:C1470.current.error=Null:C1517)
 	This:C1470.newGroup.enable($isWritable)
-	This:C1470.newString.enable($isWritable && This:C1470.stringList.item#Null:C1517)
+	This:C1470.newString.enable($isWritable && (This:C1470.stringList.item#Null:C1517))
 	
 	This:C1470.updateMenus($isWritable)
 	
@@ -1042,6 +1042,12 @@ Function doNewFile()
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function doNewGroup()
 	
+	If (This:C1470.current=Null:C1517)
+		
+		return  // No file displayed
+		
+	End if 
+	
 	// Trigger string update
 	This:C1470.form.removeFocus()
 	
@@ -1072,6 +1078,12 @@ Function doNewGroup()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function doNewString()
+	
+	If (This:C1470.current=Null:C1517)
+		
+		return  // No file displayed
+		
+	End if 
 	
 	var $target : Object:=This:C1470.stringList.item
 	
