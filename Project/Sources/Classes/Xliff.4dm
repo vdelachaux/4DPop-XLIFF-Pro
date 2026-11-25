@@ -32,6 +32,8 @@ property error : Text
 
 property duplicateID; duplicateResname; modified : Boolean
 property lastID : Integer
+property _usedIDs : Object  // Index of the ids in use (keys), see getUID()
+property _usedIDsCount : Integer
 
 Class constructor($file : 4D:C1709.File)
 	
@@ -59,6 +61,7 @@ Function deleteUnit($unit : cs:C1710.XliffUnit) : cs:C1710.XliffGroup
 	
 	// Delete unit
 	This:C1470.remove($unit.node)
+	This:C1470._usedIDs:=Null:C1517  // The index of the ids in use is rebuilt on the next getUID()
 	
 	var $indx : Integer:=This:C1470.allUnits.indices("id = :1"; $unit.id).first()
 	This:C1470.allUnits.remove($indx)
@@ -91,6 +94,19 @@ Function createUnit($group : cs:C1710.XliffGroup; $resname : Text; $id : Text) :
 	
 	This:C1470.allUnits.push($unit)
 	
+	// Keep the index of the ids in use up to date (if it was in sync before the push)
+	If (This:C1470._usedIDs#Null:C1517) && (This:C1470._usedIDsCount=(This:C1470.allUnits.length-1))
+		
+		If (Length:C16($unit.id)>0)
+			
+			This:C1470._usedIDs[$unit.id]:=True:C214
+			
+		End if 
+		
+		This:C1470._usedIDsCount:=This:C1470.allUnits.length
+		
+	End if 
+	
 	$group.transunits.push($unit)
 	$group.transunits:=$group.transunits.orderBy("resname")
 	
@@ -99,17 +115,45 @@ Function createUnit($group : cs:C1710.XliffGroup; $resname : Text; $id : Text) :
 	// === === === === === === === === === === === === === === === === === === ===
 Function getUID() : Text
 	
+	// The ids are Text: look them up as Text, in an index built once
+	// (and rebuilt if allUnits changed outside createUnit), not with one query per candidate id
+	If (This:C1470._usedIDs=Null:C1517) || (This:C1470._usedIDsCount#This:C1470.allUnits.length)
+		
+		This:C1470._indexIDs()
+		
+	End if 
+	
 	var $uid : Integer:=(This:C1470.lastID#Null:C1517 ? This:C1470.lastID : 0)+1
 	
-	While (This:C1470.allUnits.query("id = :1"; $uid).first()#Null:C1517)
+	While (This:C1470._usedIDs[String:C10($uid)]#Null:C1517)
 		
 		$uid+=1
 		
 	End while 
 	
 	This:C1470.lastID:=$uid
+	This:C1470._usedIDs[String:C10($uid)]:=True:C214
 	
 	return String:C10(This:C1470.lastID)
+	
+	// === === === === === === === === === === === === === === === === === === ===
+	// Builds the index of the ids in use: {id: True}
+Function _indexIDs()
+	
+	var $unit : Object
+	
+	This:C1470._usedIDs:={}
+	
+	For each ($unit; This:C1470.allUnits)
+		
+		If (Length:C16(String:C10($unit.id))>0)
+			
+			This:C1470._usedIDs[String:C10($unit.id)]:=True:C214
+			
+		End if 
+	End for each 
+	
+	This:C1470._usedIDsCount:=This:C1470.allUnits.length
 	
 	//<== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get fileNode() : Text
@@ -329,6 +373,7 @@ Function parse() : cs:C1710.Xliff
 		"target"; This:C1470.attributes["target-language"])
 	
 	This:C1470.allUnits:=[]
+	This:C1470._usedIDs:=Null:C1517
 	
 	// Get the groups
 	This:C1470.groups:=[]
@@ -452,6 +497,9 @@ Function deDuplicateIDs($before : Collection; $after : Collection) : Boolean
 			$indx+=1
 			
 		End for each 
+		
+		This:C1470._usedIDs:=Null:C1517  // Ids changed: the index of the ids in use is rebuilt on the next getUID()
+		
 	End if 
 	
 	return This:C1470.success
