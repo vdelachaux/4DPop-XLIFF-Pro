@@ -364,7 +364,9 @@ Function parse() : cs:C1710.Xliff
 		
 	End if 
 	
-	This:C1470.attributes:=This:C1470.getAttributes(This:C1470.fileNode)
+	// A well-formed XML document that is not XLIFF has no /xliff/file element
+	var $fileNode : Text:=This:C1470.fileNode
+	This:C1470.attributes:=This:C1470.isReference($fileNode) ? This:C1470.getAttributes($fileNode) : {}
 	
 	This:C1470.datatype:=String:C10(This:C1470.attributes.datatype)
 	
