@@ -48,7 +48,7 @@ Function createGroup($resname : Text) : cs:C1710.XliffGroup
 	
 	var $attributes:={resname: $resname}
 	var $node:=This:C1470.create(This:C1470.bodyNode; "group"; $attributes)
-	$attributes.xpath:=This:C1470.XPATH_BODY+"/group[@resname=\""+$resname+"\"]"  // Update me
+	$attributes.xpath:=This:C1470.XPATH_BODY+"/group[@resname="+XLIFF_xpathLiteral($resname)+"]"
 	var $group:=cs:C1710.XliffGroup.new($node; $attributes)
 	
 	This:C1470.groups.push($group)
@@ -84,7 +84,7 @@ Function createUnit($group : cs:C1710.XliffGroup; $resname : Text; $id : Text) :
 	var $node:=This:C1470.create($group.node; "trans-unit"; $attributes)
 	
 	var $unit:=cs:C1710.XliffUnit.new($node; $attributes)
-	$unit.xpath:=$group.xpath+"/trans-unit[@id=\""+$unit.id+"\"]"
+	$unit.xpath:=$group.xpath+"/trans-unit[@id="+XLIFF_xpathLiteral($unit.id)+"]"
 	
 	$unit.source.node:=This:C1470.create($node; "source")
 	$unit.source.xpath:=$unit.xpath+"/source"
@@ -382,7 +382,7 @@ Function parse() : cs:C1710.Xliff
 	For each ($node; This:C1470.groupNodes())
 		
 		var $group:=cs:C1710.XliffGroup.new($node; This:C1470.getAttributes($node))
-		$group.xpath:=This:C1470.XPATH_BODY+"/group[@resname=\""+$group.resname+"\"]"
+		$group.xpath:=This:C1470.XPATH_BODY+"/group[@resname="+XLIFF_xpathLiteral($group.resname)+"]"
 		
 		// Get the trans-units
 		For each ($node; This:C1470.groupUnitNodes($group.node))
@@ -394,7 +394,7 @@ Function parse() : cs:C1710.Xliff
 			End if 
 			
 			var $unit:=cs:C1710.XliffUnit.new($node; This:C1470.getAttributes($node))
-			$unit.xpath:=$group.xpath+"/trans-unit[@id=\""+$unit.id+"\"]"
+			$unit.xpath:=$group.xpath+"/trans-unit[@id="+XLIFF_xpathLiteral($unit.id)+"]"
 			
 			$unit.source.value:=This:C1470.sourceValue($node)
 			$unit.source.xpath:=$unit.xpath+"/source"
