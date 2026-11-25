@@ -90,7 +90,7 @@ Function setResname($resname : Text)
 	
 	This:C1470.resname:=$resname
 	This:C1470.attributes.resname:=$resname
-	This:C1470.xpath:="/xliff/file/body/group[@resname="+$resname+"]"
+	This:C1470.xpath:="/xliff/file/body/group[@resname=\""+$resname+"\"]"
 	This:C1470.attributes.xpath:=This:C1470.xpath
 	
 	// Update trans-units
@@ -102,7 +102,7 @@ Function setResname($resname : Text)
 		
 		If ($unit.target#Null:C1517)
 			
-			$unit.source.xpath:=$unit.xpath+"/target"
+			$unit.target.xpath:=$unit.xpath+"/target"
 			
 		End if 
 	End for each 
