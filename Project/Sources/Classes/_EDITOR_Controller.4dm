@@ -1625,6 +1625,23 @@ Function doSelectGroup($row : Integer; $e : cs:C1710.ui.evt)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function doSelectUnit($row : Integer)
 	
+	If ($row<1)
+		
+		return  // Row not found
+		
+	End if 
+	
+/* A row just added with APPEND TO ARRAY is not yet in the Boolean array of the list box
+	   (no immediate synchronization), and stringList.select() writes into that array: error 53
+	   when the new row is beyond its size (new string sorted last)*/
+	var $selection : Pointer:=OBJECT Get pointer:C1124(Object named:K67:5; This:C1470.stringList.name)
+	
+	If (Size of array:C274($selection->)<$row)
+		
+		INSERT IN ARRAY:C227($selection->; Size of array:C274($selection->)+1; $row-Size of array:C274($selection->))
+		
+	End if 
+	
 	// Expand group if any
 	If (This:C1470.stringList.item#Null:C1517) && (This:C1470.isGroup(This:C1470.stringList.item))
 		
