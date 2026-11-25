@@ -2,13 +2,13 @@
 var $id; $node : Text
 var $folder : 4D:C1709.Folder
 var $file : 4D:C1709.File
-var $xml : cs:C1710.xml
+var $xml : cs:C1710.Xliff  // Xliff keeps the ids as Text (no _convert)
 
 For each ($folder; Folder:C1567("/RESOURCES/"; *).folders().query("extension=.lproj"))
 	
 	For each ($file; $folder.files().query("extension = .xlf"))
 		
-		$xml:=cs:C1710.xml.new($file)
+		$xml:=cs:C1710.Xliff.new($file)
 		
 		For each ($node; $xml.find("/xliff/file/body/group/trans-unit"))
 			

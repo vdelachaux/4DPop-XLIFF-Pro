@@ -808,3 +808,10 @@ Function _child($item; $element : Text) : Text
 		
 	End if 
 	
+	
+	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+	// Overrides xml._convert(): XLIFF texts and attribute values are kept as Text,
+	// never converted to Real, Boolean, Date or Collection ("1.50", "true", "2024-01-15", "[draft]"…)
+Function _convert($textValue : Text)->$value
+	
+	$value:=$textValue
