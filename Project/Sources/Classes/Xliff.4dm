@@ -623,6 +623,22 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 		// Set all targets state as "new"
 		$xliff:=cs:C1710.Xliff.new($file).parse()
 		
+		// The reference has no target-language attribute: add it
+		If ($xliff.root#Null:C1517)
+			
+			$node:=$xliff.fileNode
+			
+			If ($xliff.isReference($node))
+				
+				If (String:C10($xliff.attributes["target-language"])#$targetLanguage)
+					
+					$xliff.setAttribute($node; "target-language"; $targetLanguage)
+					$xliff.attributes["target-language"]:=$targetLanguage
+					
+				End if 
+			End if 
+		End if 
+		
 		For each ($group; $xliff.groups)
 			
 			For each ($unit; $group.transunits)
