@@ -1107,6 +1107,12 @@ Function doNewString()
 		
 	End if 
 	
+	If ($target=Null:C1517)
+		
+		return  // No group to add the string to (no current item, or its group was not found)
+		
+	End if 
+	
 	var $resname : Text:=This:C1470.uniqueResname("trans-unit")
 	var $unit : cs:C1710.XliffUnit:=This:C1470.current.createUnit($target; $resname)
 	This:C1470.save(This:C1470.current)
