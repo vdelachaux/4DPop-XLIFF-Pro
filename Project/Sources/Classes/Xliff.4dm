@@ -667,18 +667,22 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 		
 		var $bodyNode : Text:=$xliff.findByXPath($xliff.XPATH_BODY)
 		
-		// Units of the localized file by (resname, d4:includeIf), to find the same string with another id
+		// Units of the localized file by (group, resname, d4:includeIf), to find the same string with another id in the same group
 		var $homonyms : Object:={}
 		var $refIDs : Object:={}
 		var $item : Object
 		var $key : Text
+		var $localizedGroup : cs:C1710.XliffGroup
 		
-		For each ($item; $xliff.allUnits)
+		For each ($localizedGroup; $xliff.groups)
 			
-			$key:=This:C1470._homonymKey($item)
-			$homonyms[$key]:=$homonyms[$key] || []
-			$homonyms[$key].push($item)
-			
+			For each ($item; $localizedGroup.transunits)
+				
+				$key:=This:C1470._homonymKey($item; $localizedGroup.resname)
+				$homonyms[$key]:=$homonyms[$key] || []
+				$homonyms[$key].push($item)
+				
+			End for each 
 		End for each 
 		
 		For each ($item; This:C1470.allUnits)
@@ -730,8 +734,8 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 					
 				End if 
 				
-				// Search for the same resname (and the same d4:includeIf) with a different ID, not used by the reference
-				$oo:=This:C1470._homonym($homonyms; $refIDs; $unit)
+				// Search, in the same group, for the same resname (and the same d4:includeIf) with a different ID, not used by the reference
+				$oo:=This:C1470._homonym($homonyms; $refIDs; $unit; $group.resname)
 				
 				If ($string=Null:C1517)
 					
@@ -769,17 +773,17 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 	$xliff.save()
 	
 	// === === === === === === === === === === === === === === === === === === ===
-	// Key of a unit for synchronize(): resname + d4:includeIf (case and accents are significant)
-Function _homonymKey($unit : Object) : Text
+	// Key of a unit for synchronize(): group resname + resname + d4:includeIf (case and accents are significant)
+Function _homonymKey($unit : Object; $groupResname : Text) : Text
 	
-	return String:C10($unit.resname)+"\t"+String:C10($unit.attributes["d4:includeIf"])
+	return $groupResname+"\t"+String:C10($unit.resname)+"\t"+String:C10($unit.attributes["d4:includeIf"])
 	
 	// === === === === === === === === === === === === === === === === === === ===
-	// Returns, and takes out of $homonyms, a unit of the localized file with the same key as $unit,
+	// Returns, and takes out of $homonyms, a unit of the localized file in the same group with the same key as $unit,
 	// another ID, and an ID that the reference does not use
-Function _homonym($homonyms : Object; $refIDs : Object; $unit : Object) : Object
+Function _homonym($homonyms : Object; $refIDs : Object; $unit : Object; $groupResname : Text) : Object
 	
-	var $candidates : Collection:=$homonyms[This:C1470._homonymKey($unit)]
+	var $candidates : Collection:=$homonyms[This:C1470._homonymKey($unit; $groupResname)]
 	
 	If ($candidates=Null:C1517)
 		
