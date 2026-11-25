@@ -382,6 +382,12 @@ Function update()
 		
 	End if 
 	
+	If (This:C1470.fileList.rowsNumber=0)
+		
+		This:C1470.spinner.stop(True:C214)  // No file to load: nothing to wait for
+		
+	End if 
+	
 	var $isWritable:=Not:C34(Bool:C1537(This:C1470.current.duplicateID)) && (This:C1470.fileList.item#Null:C1517)
 	
 	This:C1470.strings.show(This:C1470.current.error=Null:C1517)
