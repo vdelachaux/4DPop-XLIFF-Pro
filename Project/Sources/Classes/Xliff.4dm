@@ -649,6 +649,29 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 		
 		var $bodyNode : Text:=$xliff.findByXPath($xliff.XPATH_BODY)
 		
+		// Units of the localized file by (resname, d4:includeIf), to find the same string with another id
+		var $homonyms : Object:={}
+		var $refIDs : Object:={}
+		var $item : Object
+		var $key : Text
+		
+		For each ($item; $xliff.allUnits)
+			
+			$key:=This:C1470._homonymKey($item)
+			$homonyms[$key]:=$homonyms[$key] || []
+			$homonyms[$key].push($item)
+			
+		End for each 
+		
+		For each ($item; This:C1470.allUnits)
+			
+			If (Length:C16(String:C10($item.id))>0)
+				
+				$refIDs[String:C10($item.id)]:=True:C214
+				
+			End if 
+		End for each 
+		
 		// Ensure that all groups are synchronized
 		For each ($group; This:C1470.groups)
 			
@@ -687,29 +710,32 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 					
 					$string:=$o.transunits.query("id = :1"; $unit.id).first()
 					
-					If ($string#Null:C1517)
-						
-						// Search for the same resname with a different ID
-						$oo:=$xliff.groups.query("transunits[].resname = :1"; $unit.resname).first()
-						
-						If ($oo#Null:C1517)
-							
-							$oo:=$oo.transunits.query("id != :1 & resname = :2"; $unit.id; $unit.resname).first()
-							
-						End if 
-					End if 
 				End if 
+				
+				// Search for the same resname (and the same d4:includeIf) with a different ID, not used by the reference
+				$oo:=This:C1470._homonym($homonyms; $refIDs; $unit)
 				
 				If ($string=Null:C1517)
 					
-					// Create the unit
-					$node:=$xliff.append($groupNode; $unit.node)
-					
-					If (String:C10($unit.attributes.translate)#"no")
+					If ($oo#Null:C1517)
 						
-						// Set the target state as "new"
-						$xliff.setState($node; This:C1470.STATE_NEW)
+						// Same string with another ID: give it the reference ID, the translation is kept
+						$xliff.setAttribute($oo.node; "id"; $unit.id)
+						$oo.id:=$unit.id
+						$oo.attributes.id:=$unit.id
+						$oo:=Null:C1517
 						
+					Else 
+						
+						// Create the unit
+						$node:=$xliff.append($groupNode; $unit.node)
+						
+						If (String:C10($unit.attributes.translate)#"no")
+							
+							// Set the target state as "new"
+							$xliff.setState($node; This:C1470.STATE_NEW)
+							
+						End if 
 					End if 
 				End if 
 				
@@ -723,6 +749,43 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 	End if 
 	
 	$xliff.save()
+	
+	// === === === === === === === === === === === === === === === === === === ===
+	// Key of a unit for synchronize(): resname + d4:includeIf (case and accents are significant)
+Function _homonymKey($unit : Object) : Text
+	
+	return String:C10($unit.resname)+"\t"+String:C10($unit.attributes["d4:includeIf"])
+	
+	// === === === === === === === === === === === === === === === === === === ===
+	// Returns, and takes out of $homonyms, a unit of the localized file with the same key as $unit,
+	// another ID, and an ID that the reference does not use
+Function _homonym($homonyms : Object; $refIDs : Object; $unit : Object) : Object
+	
+	var $candidates : Collection:=$homonyms[This:C1470._homonymKey($unit)]
+	
+	If ($candidates=Null:C1517)
+		
+		return Null:C1517
+		
+	End if 
+	
+	var $i : Integer
+	
+	For ($i; 0; $candidates.length-1; 1)
+		
+		var $candidate : Object:=$candidates[$i]
+		var $id : Text:=String:C10($candidate.id)
+		
+		If (Compare strings:C1756($id; String:C10($unit.id); sk char codes)#0)\
+			 && ((Length:C16($id)=0) || ($refIDs[$id]=Null:C1517))
+			
+			$candidates.remove($i)
+			return $candidate
+			
+		End if 
+	End for 
+	
+	return Null:C1517
 	
 	// === === === === === === === === === === === === === === === === === === ===
 Function updateHeader($name : Text; $version : Text)
