@@ -2241,8 +2241,15 @@ Function _UPDATE_RESNAME($context : Object)
 	
 	// The target must belong to the file of the context (the string shown in the editor can be one of a file displayed before):
 	// otherwise its node is in another tree and the UI rows are not its rows (error -10713)
-	If ($target=Null:C1517) || ($xliff=Null:C1517)\
-		 || ((This:C1470.isGroup($target) ? $xliff.groups : $xliff.allUnits).indexOf($target)<0)
+	If ($target=Null:C1517) || ($xliff=Null:C1517)
+		
+		return 
+		
+	End if 
+	
+	var $in : Collection:=This:C1470.isGroup($target) ? $xliff.groups : $xliff.allUnits
+	
+	If ($in.indexOf($target)<0)
 		
 		return 
 		
