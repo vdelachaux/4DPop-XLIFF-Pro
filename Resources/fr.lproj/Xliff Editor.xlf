@@ -240,6 +240,10 @@ Les modifications seront enregistrées et ne pourront pas être annulées.</targ
           <source>Unable to rename the file. Nothing was changed.</source>
           <target>Impossible de renommer le fichier. Rien n’a été modifié.</target>
         </trans-unit>
+        <trans-unit id="182" resname="renameFileExists">
+          <source>A file named “{name}” already exists: {files}. On macOS, names that differ only in case are the same file. Nothing was renamed.</source>
+          <target>Un fichier nommé « {name} » existe déjà : {files}. Sur macOS, deux noms qui ne diffèrent que par la casse désignent le même fichier. Rien n’a été renommé.</target>
+        </trans-unit>
         <trans-unit id="128" resname="showOnDisk">
           <source>Show on disk</source>
           <target>Montrer le fichier</target>

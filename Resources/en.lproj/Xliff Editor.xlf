@@ -230,6 +230,10 @@ Changes will be saved and cannot be undone.</target>
           <source>Unable to rename the file. Nothing was changed.</source>
           <target>Unable to rename the file. Nothing was changed.</target>
         </trans-unit>
+        <trans-unit id="182" resname="renameFileExists">
+          <source>A file named “{name}” already exists: {files}. On macOS, names that differ only in case are the same file. Nothing was renamed.</source>
+          <target>A file named “{name}” already exists: {files}. On macOS, names that differ only in case are the same file. Nothing was renamed.</target>
+        </trans-unit>
         <trans-unit id="128" resname="showOnDisk">
           <source>Show on disk</source>
           <target>Show on disk</target>

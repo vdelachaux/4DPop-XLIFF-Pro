@@ -1258,7 +1258,7 @@ Function doDeleteFile($file : 4D:C1709.File; $e : cs:C1710.ui.evt)
 	// $newName given: no dialog (tests). Returns {success; renamed: [{from; to}]; errors: []}
 Function doRenameFile($file : 4D:C1709.File; $newName : Text) : Object
 	
-	var $result : Object:={success: False:C215; renamed: []; errors: []}
+	var $result : Object:={success: False:C215; renamed: []; errors: []; existing: []; message: ""}
 	var $interactive : Boolean:=(Count parameters:C259<2)
 	
 	If ($file=Null:C1517) || (Not:C34($file.exists))
@@ -1328,22 +1328,35 @@ Function doRenameFile($file : 4D:C1709.File; $newName : Text) : Object
 	
 	$xliff.close()
 	
-	// Collisions: a target that exists and is not the file itself (a case-only rename on a case-insensitive disk)
+	// Collisions (B30), compared without the case: on APFS (case-insensitive) "test1.xlf" IS "Test1.xlf". The real name of
+	// the existing file is reported. The file itself in another case is not a collision: a case-only rename (test2 -> Test2),
+	// done through a temporary name (_renameFile)
 	var $step : Object
+	var $other : 4D:C1709.File
 	For each ($step; $plan)
 		
-		If ($step.to.exists) && ($step.to.platformPath#$step.from.platformPath)
+		For each ($other; $step.to.parent.files())
 			
-			$result.errors.push($step.to.path)
-			
-		End if 
+			If (Compare strings:C1756($other.fullName; $step.to.fullName; sk case insensitive)=0)\
+				 && (Compare strings:C1756($other.fullName; $step.from.fullName; sk char codes)#0)
+				
+				$result.errors.push($other.path)
+				$result.existing.push($other.parent.fullName+"/"+$other.fullName)
+				
+			End if 
+		End for each 
 	End for each 
 	
 	If ($result.errors.length>0)
 		
+		// Only an information: nothing is renamed and nothing can be replaced (the former text, "theFileAlreadyExists",
+		// is the question of the "new file" dialog, "Do you want to replace it?", shown here with OK only)
+		$result.message:=Replace string:C233(Replace string:C233(Localized string:C991("renameFileExists"); \
+			"{name}"; $newName+This:C1470.Editor.FILE_EXTENSION); "{files}"; $result.existing.join(", "))
+		
 		If ($interactive)
 			
-			ALERT:C41(Replace string:C233(Localized string:C991("theFileAlreadyExists"); "{name}"; $result.errors.join(", ")))
+			ALERT:C41($result.message)
 			
 		End if 
 		
@@ -1367,9 +1380,9 @@ Function doRenameFile($file : 4D:C1709.File; $newName : Text) : Object
 	var $renamed : 4D:C1709.File
 	For each ($step; $plan)
 		
-		$renamed:=Try($step.from.rename($step.to.fullName))
+		$renamed:=This:C1470._renameFile($step.from; $step.to.fullName)
 		
-		If ($renamed=Null:C1517) || (Not:C34($renamed.exists))
+		If ($renamed=Null:C1517)
 			
 			$result.errors.push($step.from.path)
 			break
@@ -1385,7 +1398,7 @@ Function doRenameFile($file : 4D:C1709.File; $newName : Text) : Object
 		var $done : Object
 		For each ($done; $result.renamed.reverse())
 			
-			Try(File:C1566($done.to).rename(File:C1566($done.from).fullName))
+			This:C1470._renameFile(File:C1566($done.to); File:C1566($done.from).fullName)
 			
 		End for each 
 		
@@ -1411,6 +1424,47 @@ Function doRenameFile($file : 4D:C1709.File; $newName : Text) : Object
 	This:C1470._fileListManager({code: On Selection Change:K2:29})
 	
 	return $result
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Renames a file, also when only the case changes (APFS: the new name "exists", it is the file itself): through a
+	// temporary name in this case. Returns Null if the file does not have exactly the new name afterwards (it gets
+	// its first name back if the second step fails)
+Function _renameFile($file : 4D:C1709.File; $fullName : Text) : 4D:C1709.File
+	
+	var $renamed; $temp : 4D:C1709.File
+	
+	If (Compare strings:C1756($file.fullName; $fullName; sk case insensitive)=0)
+		
+		$temp:=Try($file.rename($file.name+" ("+Generate UUID:C1066+")"+$file.extension))
+		
+		If ($temp=Null:C1517) || (Not:C34($temp.exists))
+			
+			return Null:C1517
+			
+		End if 
+		
+		$renamed:=Try($temp.rename($fullName))
+		
+		If ($renamed=Null:C1517) || (Not:C34($renamed.exists))
+			
+			Try($temp.rename($file.fullName))
+			return Null:C1517
+			
+		End if 
+		
+	Else 
+		
+		$renamed:=Try($file.rename($fullName))
+		
+	End if 
+	
+	If ($renamed=Null:C1517) || (Not:C34($renamed.exists))
+		
+		return Null:C1517
+		
+	End if 
+	
+	return $renamed
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function doDeleteString($confirm : Boolean)
