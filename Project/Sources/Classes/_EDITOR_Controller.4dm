@@ -727,6 +727,11 @@ Function _fileListManager($e : cs:C1710.ui.evt)
 			
 			This:C1470.stringList.unselect()
 			
+			// No current string while another file is displayed: the editor kept the string of the previous file
+			// (its "…" menu then renamed it through _UPDATE_RESNAME in the new file, error -10713)
+			This:C1470.stringList.item:=Null:C1517
+			This:C1470.detail.hide()
+			
 			// Reset the search
 			This:C1470.searchPicker.data.start:=0
 			
@@ -2218,6 +2223,18 @@ Function _UPDATE_RESNAME($context : Object)
 	var $xliff : cs:C1710.Xliff:=$context.file
 	var $parent : Object:=$context.parent
 	
+	// The target must belong to the file of the context (the string shown in the editor can be one of a file displayed before):
+	// otherwise its node is in another tree and the UI rows are not its rows (error -10713)
+	If ($target=Null:C1517) || ($xliff=Null:C1517)\
+		 || ((This:C1470.isGroup($target) ? $xliff.groups : $xliff.allUnits).indexOf($target)<0)
+		
+		return 
+		
+	End if 
+	
+	// The list shows this file (not another one displayed since the name was edited)
+	var $isDisplayed : Boolean:=($xliff=This:C1470.current)
+	
 	$xliff.setAttribute($target.node; "resname"; $target.resname)
 	This:C1470.save($xliff)
 	
@@ -2232,27 +2249,49 @@ Function _UPDATE_RESNAME($context : Object)
 		For each ($item; $target.localizations)
 			
 			$xliff:=$item.xliff
-			$group:=$xliff.groups.query("resname = :1"; $target.previous).first()
-			$xliff.setAttribute($group.node; "resname"; $target.resname)
-			This:C1470.save($xliff)
 			
-			$group.setResname($target.resname)
+			// Resnames are case sensitive (XLIFF, Localized string): "debit" -> "Debit" is a rename
+			$group:=Null:C1517
+			var $g : cs:C1710.XliffGroup
+			For each ($g; $xliff.groups)
+				
+				If ($group=Null:C1517) && (Compare strings(String:C10($g.resname); $target.previous; sk char codes)=0)
+					
+					$group:=$g
+					
+				End if 
+			End for each 
 			
+			If ($group#Null:C1517)
+				
+				$xliff.setAttribute($group.node; "resname"; $target.resname)
+				This:C1470.save($xliff)
+				
+				$group.setResname($target.resname)
+				
+			End if 
 		End for each 
+		
+		If (Not:C34($isDisplayed))
+			
+			OB REMOVE:C1226($target; "previous")
+			return 
+			
+		End if 
 		
 		// UI
 		var $selected : Object:=This:C1470.stringList.item  // A string of the group created before this callback ran ("+ String" without Tab)
 		
-		Repeat 
+		// The rows of the group: same name with the same case (Find in array ignores the case, "debit" -> "Debit" looped)
+		var $i : Integer
+		For ($i; 1; Size of array:C274(This:C1470.groupPtr->))
 			
-			$row:=Find in array:C230((This:C1470.groupPtr)->; $target.previous)
-			
-			If ($row#-1)
+			If (Compare strings((This:C1470.groupPtr)->{$i}; $target.previous; sk char codes)=0)
 				
-				(This:C1470.groupPtr)->{$row}:=$target.resname
+				(This:C1470.groupPtr)->{$i}:=$target.resname
 				
 			End if 
-		Until ($row=-1)
+		End for 
 		
 		This:C1470.stringList.sort(1)
 		
@@ -2267,7 +2306,16 @@ Function _UPDATE_RESNAME($context : Object)
 			
 		End if 
 		
-		$row:=Find in array:C230((This:C1470.groupPtr)->; $target.resname)
+		// First row of the group (same case)
+		$row:=-1
+		For ($i; 1; Size of array:C274(This:C1470.groupPtr->))
+			
+			If ($row=-1) && (Compare strings((This:C1470.groupPtr)->{$i}; $target.resname; sk char codes)=0)
+				
+				$row:=$i
+				
+			End if 
+		End for 
 		
 		// Without taking the focus: this callback runs after the resname field lost the focus (Tab, or a click elsewhere)
 		This:C1470.doSelectGroup($row; Null:C1517; True:C214)
@@ -2301,9 +2349,22 @@ Function _UPDATE_RESNAME($context : Object)
 	This:C1470._synchronizeAttributes($context.parent; $target; $xliff.getAttributes($target.node))
 	
 	// MARK:-UI
+	If (Not:C34($isDisplayed))
+		
+		return 
+		
+	End if 
+	
 	var $c:=[]
 	ARRAY TO COLLECTION:C1563($c; This:C1470.stringList.columnPtr("content")->)
-	$row:=$c.indices("id = :1"; $context.string.id)[0]+1
+	$row:=$c.indexOf($target)+1  // Its row (by id, a string of another file with the same id could match)
+	
+	If ($row=0)
+		
+		return 
+		
+	End if 
+	
 	(This:C1470.stringList.columnPtr("unit"))->{$row}:=$target.resname
 	This:C1470.stringList.sort(2)
 	

@@ -359,8 +359,9 @@ Function _resnameManager($e : cs:C1710.ui.evt)
 	// Don't allow empty value
 	var $success : Boolean:=(Length:C16($string.resname)>0)
 	
+	// Resnames are case sensitive (XLIFF, Localized string) but "=" ignores the case: "debit" -> "Debit" is a change
 	If ($success)\
-		 && ($string.resname=Form:C1466.$backup.resname)
+		 && (Compare strings($string.resname; String:C10(Form:C1466.$backup.resname); sk char codes)=0)
 		
 		// Nothing was changed
 		return 
@@ -377,7 +378,17 @@ Function _resnameManager($e : cs:C1710.ui.evt)
 	// For a group, do not allow duplicate names
 	If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
 		
-		$success:=$parent.current.groups.query("name = :1"; $string.resname).first()=Null:C1517
+		// Another group with exactly the same name (same case: "debit" and "Debit" are two resnames)
+		// The query was on "name", which groups do not have: the check never found anything
+		var $other : Object
+		For each ($other; $parent.current.groups)
+			
+			If ($success) && ($other#$string) && (Compare strings(String:C10($other.resname); $string.resname; sk char codes)=0)
+				
+				$success:=False:C215
+				
+			End if 
+		End for each 
 		
 		If (Not:C34($success))
 			
