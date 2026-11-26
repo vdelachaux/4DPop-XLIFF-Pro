@@ -57,6 +57,42 @@ Function createGroup($resname : Text) : cs:C1710.XliffGroup
 	return $group
 	
 	// === === === === === === === === === === === === === === === === === === ===
+	/// Deletes a group, its node and its trans-units, also from the collections (B32): a file displayed again from the
+	/// cache showed a deleted group whose node no longer exists (-9926 on the next Delete). False if the group is not
+	/// (any more) one of this file: its node is not touched
+Function deleteGroup($group : cs:C1710.XliffGroup) : Boolean
+	
+	If ($group=Null:C1517) || (This:C1470.groups.indexOf($group)=-1)
+		
+		return False:C215
+		
+	End if 
+	
+	This:C1470.remove($group.node)
+	This:C1470._usedIDs:=Null:C1517  // The index of the ids in use is rebuilt on the next getUID()
+	
+	var $unit : Object
+	var $indx : Integer
+	
+	If ($group.transunits#Null:C1517)
+		
+		For each ($unit; $group.transunits)
+			
+			$indx:=This:C1470.allUnits.indexOf($unit)
+			
+			If ($indx>=0)
+				
+				This:C1470.allUnits.remove($indx)
+				
+			End if 
+		End for each 
+	End if 
+	
+	This:C1470.groups.remove(This:C1470.groups.indexOf($group))
+	
+	return True:C214
+	
+	// === === === === === === === === === === === === === === === === === === ===
 Function deleteUnit($unit : cs:C1710.XliffUnit) : cs:C1710.XliffGroup
 	
 	// Delete unit

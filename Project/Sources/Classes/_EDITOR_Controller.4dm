@@ -1500,34 +1500,66 @@ Function doDeleteString($confirm : Boolean)
 	
 	If (This:C1470.isGroup($target))
 		
-		// Update files
-		$xliff.remove($target.node)
+		// Update files (B32): the group also leaves the collections of the file; a group that is no longer one of the
+		// displayed file (already deleted, or of another file) is not touched
+		If (Not:C34($xliff.deleteGroup($target)))
+			
+			This:C1470.stringList.unselect()
+			This:C1470.stringList.item:=Null:C1517
+			This:C1470.detail.hide()
+			return 
+			
+		End if 
+		
 		This:C1470.save($xliff)
 		
+		var $localized : Object
 		For each ($language; This:C1470.current.languages)
 			
 			$xliff:=$language.xliff
 			$group:=$xliff.groups.query("xpath = :1"; $target.xpath).pop()
-			$xliff.remove($group.node)
-			This:C1470.save($xliff)
 			
+			If ($group=Null:C1517)
+				
+				// By its name (exact case), else absent from this language: nothing to delete
+				For each ($localized; $xliff.groups)
+					
+					If (Compare strings:C1756(String:C10($localized.resname); String:C10($target.resname); sk char codes)=0)
+						
+						$group:=$localized
+						
+					End if 
+				End for each 
+			End if 
+			
+			If ($xliff.deleteGroup($group))
+				
+				This:C1470.save($xliff)
+				
+			End if 
 		End for each 
 		
-		// Update UI
-		While ($row#-1)
+		// Update UI: the rows of the group, found by their content (the group or one of its strings), not by name
+		// ("=" ignores the case: "group 10" next to "Group 10")
+		var $content : Collection:=[]
+		ARRAY TO COLLECTION:C1563($content; This:C1470.contentPtr->)
+		
+		For ($row; $content.length; 1; -1)
 			
-			$row:=Find in array:C230(This:C1470.groupPtr->; $target.resname)
-			
-			If ($row#-1)
+			If ($content[$row-1]=$target)\
+				 || (($target.transunits#Null:C1517) && ($target.transunits.indexOf($content[$row-1])>=0))
 				
 				DELETE FROM ARRAY:C228((This:C1470.groupPtr)->; $row)
 				DELETE FROM ARRAY:C228((This:C1470.resnamePtr)->; $row)
 				DELETE FROM ARRAY:C228((This:C1470.contentPtr)->; $row)
 				
 			End if 
-		End while 
+		End for 
 		
+		// No current item any more: a second Delete (key or menu) found the deleted group, whose node no longer exists
 		This:C1470.stringList.unselect()
+		This:C1470.stringList.item:=Null:C1517
+		This:C1470.detail.hide()
 		
 	Else 
 		
