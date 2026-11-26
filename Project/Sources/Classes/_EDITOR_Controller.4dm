@@ -1194,7 +1194,7 @@ Function doNewString()
 	This:C1470.stringList.sort(2)
 	This:C1470.doSelectUnit(Find in array:C230((This:C1470.resnamePtr)->; $resname))
 	
-	// FIXME: Update the duplicates
+	This:C1470._HIGHLIGHTING_DUPLICATES()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _searchPickerManager($e : cs:C1710.ui.evt)
@@ -1534,6 +1534,8 @@ Function doDeleteString($confirm : Boolean)
 			
 		End if 
 	End if 
+	
+	This:C1470._HIGHLIGHTING_DUPLICATES()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function getItemCode($item : Object; $type : Text) : Text
@@ -2298,87 +2300,104 @@ Function _LOAD_STRINGS()
 	
 	This:C1470.spinner.stop(True:C214)
 	
-	If ($xliff.duplicateResname)
-		
-		This:C1470.form.callMeBack(Null:C1517; "_HIGHLIGHTING_DUPLICATES")
-	End if 
+	// Always: the flags of a cached file may be stale
+	This:C1470.form.callMeBack({expand: True:C214}; "_HIGHLIGHTING_DUPLICATES")
 	
 	This:C1470.locked.show($xliff.duplicateID)
 	This:C1470.form.refresh()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function _HIGHLIGHTING_DUPLICATES()
+Function _HIGHLIGHTING_DUPLICATES($data : Object)
 	
-	var $column; $t : Text
-	var $isDuplicated : Boolean
-	var $i; $row : Integer
-	var $o : Object
+	// Recomputed from scratch for the whole file, after loading, deleting, creating or renaming: the flags and the red
+	// rows were only set (never cleared) when the file was loaded, so a string stayed red once its duplicate was deleted.
+	// Same rule as isResnameTaken() (B28): another string of the file with the same resname, ignoring the case and the
+	// accents, and the same d4:includeIf (a mac and a win variant are not duplicates)
+	If (This:C1470.current=Null:C1517)
+		
+		return 
+		
+	End if 
 	
-	// TODO:Working with the collections
-	$column:=This:C1470.stringList.getColumnName(2)
+	var $expand : Boolean:=($data#Null:C1517) && Bool:C1537($data.expand)
+	var $current : Object:=This:C1470.stringList.item
+	var $wasDuplicated : Boolean:=OB Instance of:C1731($current; cs:C1710.XliffUnit) && Bool:C1537($current.duplicateResname)
+	var $unit; $other : Object
+	var $buckets : Object:={}
+	var $key : Text
 	
-	For ($i; 1; Size of array:C274(This:C1470.resnamePtr->); 1)
+	For each ($unit; This:C1470.current.allUnits)
 		
-		$t:=(This:C1470.resnamePtr)->{$i}
+		$unit.duplicateResname:=False:C215
 		
-		$isDuplicated:=($t#"...")\
-			 & (Count in array:C907(This:C1470.resnamePtr->; $t)>1)
+		// Same length first (cheap), then Compare strings
+		$key:=String:C10(Length:C16(String:C10($unit.resname)))
 		
-		If ($isDuplicated)  // More than one value found
+		If ($buckets[$key]=Null:C1517)
 			
-			// First occurence
-			$row:=Find in array:C230(This:C1470.resnamePtr->; $t)
+			$buckets[$key]:=[]
 			
-			// Case sensitive comparison with the current value
-			$isDuplicated:=(Position:C15($t; (This:C1470.resnamePtr)->{$row}; *)=1)
+		End if 
+		
+		$buckets[$key].push($unit)
+		
+	End for each 
+	
+	var $bucket : Collection
+	var $i; $j : Integer
+	
+	For each ($key; $buckets)
+		
+		$bucket:=$buckets[$key]
+		
+		For ($i; 0; $bucket.length-2)
 			
-			If ($isDuplicated)  // Check platform restriction
+			For ($j; $i+1; $bucket.length-1)
 				
-				$o:=(This:C1470.contentPtr)->{$row}
+				$unit:=$bucket[$i]
+				$other:=$bucket[$j]
 				
-				$isDuplicated:=($o.attributes["d4:includeIf"]=Null:C1517)\
-					 | (Length:C16(String:C10($o.attributes["d4:includeIf"]))=0)
+				If (String:C10($unit.attributes["d4:includeIf"])=String:C10($other.attributes["d4:includeIf"]))\
+					 && (Compare strings(String:C10($unit.resname); String:C10($other.resname); sk case insensitive+sk diacritic insensitive)=0)
+					
+					$unit.duplicateResname:=True:C214
+					$other.duplicateResname:=True:C214
+					
+				End if 
+			End for 
+		End for 
+	End for each 
+	
+	This:C1470.current.duplicateResname:=This:C1470.current.allUnits.query("duplicateResname = :1"; True:C214).length>0
+	
+	// UI: every row again (the colors are per row: after a deletion, an insertion or a sort they were on other strings)
+	This:C1470.stringList.resetForegroundColor(2)
+	
+	var $row : Integer
+	For ($row; 1; Size of array:C274(This:C1470.contentPtr->))
+		
+		$unit:=(This:C1470.contentPtr)->{$row}
+		
+		If (OB Instance of:C1731($unit; cs:C1710.XliffUnit)) && (Bool:C1537($unit.duplicateResname))
+			
+			This:C1470.stringList.setRowForegroundColor($row; "red"; 2)
+			
+			If ($expand)
+				
+				// Expand the group (when the file is loaded)
+				This:C1470.stringList.expand(Find in array:C230(This:C1470.groupPtr->; (This:C1470.groupPtr)->{$row}); lk break row:K53:18)
 				
 			End if 
-			
-			Repeat 
-				
-				// Search the next value
-				$row:=Find in array:C230(This:C1470.resnamePtr->; $t; $row+1)
-				
-				If ($row>0)
-					
-					// Case sensitive comparison with the current value
-					$isDuplicated:=$isDuplicated\
-						 & (Position:C15($t; (This:C1470.resnamePtr)->{$row}; *)=1)
-					
-					If ($isDuplicated)  // Check platform restriction
-						
-						$o:=(This:C1470.contentPtr)->{$row}
-						$isDuplicated:=($o.attributes["d4:includeIf"]=Null:C1517)\
-							 | (Length:C16(String:C10($o.attributes["d4:includeIf"]))=0)
-						
-					End if 
-				End if 
-			Until ($row=-1)\
-				 | ($isDuplicated)
-			
-		End if 
-		
-		If ($isDuplicated)
-			
-			// Flag as containing duplicates
-			(This:C1470.contentPtr)->{$i}.duplicateResname:=True:C214
-			
-			// Set resname color
-			This:C1470.stringList.setRowForegroundColor($i; "red"; 2)
-			
-			// Expand the group
-			$row:=Find in array:C230(This:C1470.groupPtr->; (This:C1470.groupPtr)->{$i})
-			This:C1470.stringList.expand($row; lk break row:K53:18)
-			
 		End if 
 	End for 
+	
+	// The resname field of the editor (red background, white text) follows the flag of the current string:
+	// refreshed only when it changed (a refresh during a Tab to the languages would disturb the entry, B16/B17)
+	If (OB Instance of:C1731($current; cs:C1710.XliffUnit)) && (Bool:C1537($current.duplicateResname)#$wasDuplicated)
+		
+		This:C1470.detail.refresh()
+		
+	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _UPDATE_SOURCE($context : Object)
@@ -2531,6 +2550,8 @@ Function _UPDATE_RESNAME($context : Object)
 		
 		This:C1470.stringList.sort(1)
 		
+		This:C1470._HIGHLIGHTING_DUPLICATES()  // rows moved by the sort
+		
 		If (OB Instance of:C1731($selected; cs:C1710.XliffUnit)) && ($target.transunits#Null:C1517) && ($target.transunits.query("id = :1"; String:C10($selected.id)).length>0)
 			
 			// Keep the string selected
@@ -2603,6 +2624,8 @@ Function _UPDATE_RESNAME($context : Object)
 	
 	(This:C1470.stringList.columnPtr("unit"))->{$row}:=$target.resname
 	This:C1470.stringList.sort(2)
+	
+	This:C1470._HIGHLIGHTING_DUPLICATES()  // the rename can create or remove a duplicate
 	
 	// No stringList.focus() here: this callback runs after the resname field lost the focus (Tab),
 	// giving the focus back to the list took it away from the next field of the entry order (the languages)
