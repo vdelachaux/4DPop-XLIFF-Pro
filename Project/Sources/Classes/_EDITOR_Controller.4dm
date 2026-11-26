@@ -1406,7 +1406,6 @@ Function doRenameFile($file : 4D:C1709.File; $newName : Text) : Object
 	// Update UI: the list of files, the renamed file selected and displayed again
 	This:C1470.main.files:=This:C1470.getFiles()
 	Form:C1466.files:=This:C1470.main.files
-	This:C1470.current:=Null:C1517
 	This:C1470.fileList.select(This:C1470.main.files.indices("fullName = :1"; $target.fullName)[0]+1)
 	This:C1470.stringList.item:=Null:C1517
 	This:C1470._fileListManager({code: On Selection Change:K2:29})
