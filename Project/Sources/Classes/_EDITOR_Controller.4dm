@@ -1721,7 +1721,9 @@ Function doSelectUnit($row : Integer)
 	
 	This:C1470.stringList.select($row)
 	
-	This:C1470.form.callMeBack({row: $row}; "_SELECT_STRING")
+	// The string itself, not only its row: a callback queued before (_UPDATE_RESNAME of a renamed group) can sort
+	// the list again before _SELECT_STRING runs, the row then shows another string (B25)
+	This:C1470.form.callMeBack({row: $row; item: (This:C1470.contentPtr)->{$row}}; "_SELECT_STRING")
 	This:C1470.stringList.focus()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
@@ -2007,6 +2009,20 @@ Function _SELECT_STRING($data : Object)
 		This:C1470.detail.refresh()
 		
 	Else 
+		
+		If ($data.item#Null:C1517)
+			
+			// Its row now (the list may have been sorted again since doSelectUnit)
+			var $c : Collection:=[]
+			ARRAY TO COLLECTION:C1563($c; This:C1470.contentPtr->)
+			var $row : Integer:=$c.indexOf($data.item)+1
+			
+			If ($row>0)
+				
+				$data.row:=$row
+				
+			End if 
+		End if 
 		
 		This:C1470.stringList.select($data.row)
 		
