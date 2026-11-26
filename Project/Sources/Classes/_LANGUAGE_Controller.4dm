@@ -200,6 +200,7 @@ Function _savePending() : Boolean
 				 && (String:C10($displayed.string.id)=$target.id)
 				
 				$displayed.value:=$context.value  // Still displayed
+				This:C1470.displayed:=$context.value  // Reference for the next typing in the field (update() is not called after a Tab)
 				
 			End if 
 		End if 
