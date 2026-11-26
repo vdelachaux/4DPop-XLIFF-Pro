@@ -232,6 +232,14 @@ Les modifications seront enregistrées et ne pourront pas être annulées.</targ
           <source>Add a group</source>
           <target>Ajouter un groupe</target>
         </trans-unit>
+        <trans-unit id="180" resname="renameFile">
+          <source>Rename…</source>
+          <target>Renommer…</target>
+        </trans-unit>
+        <trans-unit id="181" resname="renameFileFailed">
+          <source>Unable to rename the file. Nothing was changed.</source>
+          <target>Impossible de renommer le fichier. Rien n’a été modifié.</target>
+        </trans-unit>
         <trans-unit id="128" resname="showOnDisk">
           <source>Show on disk</source>
           <target>Montrer le fichier</target>

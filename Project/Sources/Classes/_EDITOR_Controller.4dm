@@ -761,6 +761,7 @@ Function _fileListManager($e : cs:C1710.ui.evt)
 					
 					$menu.line().append(Localized string:C991("fileInformations"); "fileInformations").disable()\
 						.append(Localized string:C991("showOnDisk"); "showOnDisk")\
+						.append(Localized string:C991("renameFile"); "rename")\
 						.append(Localized string:C991("delete"); "delete")
 					
 				End if 
@@ -782,6 +783,11 @@ Function _fileListManager($e : cs:C1710.ui.evt)
 					: (Not:C34($menu.selected))
 						
 						//
+						
+						//_____________________________________
+					: ($menu.choice="rename")
+						
+						This:C1470.doRenameFile($file)
 						
 						//_____________________________________
 					: ($menu.choice="delete")
@@ -1245,6 +1251,167 @@ Function doDeleteFile($file : 4D:C1709.File; $e : cs:C1710.ui.evt)
 	
 	$e.code:=On Selection Change:K2:29
 	This:C1470._fileListManager($e)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Renames a file of the reference language and the same file in every other language (*.lproj), as localizedFile() pairs them
+	// (same name, or the language suffix: CommonEN.xlf / CommonFR.xlf). Nothing is renamed if one target name is taken.
+	// $newName given: no dialog (tests). Returns {success; renamed: [{from; to}]; errors: []}
+Function doRenameFile($file : 4D:C1709.File; $newName : Text) : Object
+	
+	var $result : Object:={success: False:C215; renamed: []; errors: []}
+	var $interactive : Boolean:=(Count parameters:C259<2)
+	
+	If ($file=Null:C1517) || (Not:C34($file.exists))
+		
+		return $result
+		
+	End if 
+	
+	If ($interactive)
+		
+		$newName:=Request:C163(Localized string:C991("FileName"); $file.name)
+		
+		If (OK=0)
+			
+			return $result
+			
+		End if 
+	End if 
+	
+	$newName:=Replace string:C233(Replace string:C233($newName; ".xliff"; ""); This:C1470.Editor.FILE_EXTENSION; "")
+	
+	If (Length:C16($newName)=0) || (Position:C15("/"; $newName)>0) || (Position:C15(":"; $newName)>0) || (Position:C15("\\"; $newName)>0)
+		
+		$result.errors.push("invalidName")
+		
+		If ($interactive)
+			
+			ALERT:C41(Localized string:C991("theNameMustNotBeEmpty"))
+			
+		End if 
+		
+		return $result
+		
+	End if 
+	
+	If (Compare strings($newName; $file.name; sk char codes)=0)
+		
+		$result.success:=True:C214  // Same name: nothing to do
+		return $result
+		
+	End if 
+	
+	// The plan: the reference file, then each localized file that exists
+	var $master : Text:=This:C1470.main.language.lproj
+	var $target : 4D:C1709.File:=$file.parent.file($newName+This:C1470.Editor.FILE_EXTENSION)
+	var $plan : Collection:=[{from: $file; to: $target}]
+	var $folder : 4D:C1709.Folder
+	var $from; $to : 4D:C1709.File
+	var $xliff : cs:C1710.Xliff:=cs:C1710.Xliff.new($file)  // only for localizedFile()
+	
+	For each ($folder; This:C1470.folders)
+		
+		If ($folder.name=$master)
+			
+			continue
+			
+		End if 
+		
+		$from:=$xliff.localizedFile($file; $master; $folder.name)
+		
+		If ($from.exists)
+			
+			$plan.push({from: $from; to: $xliff.localizedFile($target; $master; $folder.name)})
+			
+		End if 
+	End for each 
+	
+	$xliff.close()
+	
+	// Collisions: a target that exists and is not the file itself (a case-only rename on a case-insensitive disk)
+	var $step : Object
+	For each ($step; $plan)
+		
+		If ($step.to.exists) && ($step.to.platformPath#$step.from.platformPath)
+			
+			$result.errors.push($step.to.path)
+			
+		End if 
+	End for each 
+	
+	If ($result.errors.length>0)
+		
+		If ($interactive)
+			
+			ALERT:C41(Replace string:C233(Localized string:C991("theFileAlreadyExists"); "{name}"; $result.errors.join(", ")))
+			
+		End if 
+		
+		return $result
+		
+	End if 
+	
+	// The parsed files are closed and removed from the cache (their File objects point to the old paths)
+	var $cached : Object
+	For each ($step; $plan)
+		
+		For each ($cached; This:C1470.cache.query("file.path = :1"; $step.from.path))
+			
+			Try($cached.close())
+			This:C1470.cache.remove(This:C1470.cache.indexOf($cached))
+			
+		End for each 
+	End for each 
+	
+	// Rename, and undo the renamed ones if one fails
+	var $renamed : 4D:C1709.File
+	For each ($step; $plan)
+		
+		$renamed:=Try($step.from.rename($step.to.fullName))
+		
+		If ($renamed=Null:C1517) || (Not:C34($renamed.exists))
+			
+			$result.errors.push($step.from.path)
+			break
+			
+		End if 
+		
+		$result.renamed.push({from: $step.from.path; to: $renamed.path})
+		
+	End for each 
+	
+	If ($result.errors.length>0)
+		
+		var $done : Object
+		For each ($done; $result.renamed.reverse())
+			
+			Try(File:C1566($done.to).rename(File:C1566($done.from).fullName))
+			
+		End for each 
+		
+		$result.renamed:=[]
+		
+		If ($interactive)
+			
+			ALERT:C41(Localized string:C991("renameFileFailed"))
+			
+		End if 
+		
+		return $result
+		
+	End if 
+	
+	$result.success:=True:C214
+	
+	// Update UI: the list of files, the renamed file selected and displayed again
+	This:C1470.main.files:=This:C1470.getFiles()
+	Form:C1466.files:=This:C1470.main.files
+	This:C1470.current:=Null:C1517
+	This:C1470.fileList.select(This:C1470.main.files.indices("fullName = :1"; $target.fullName)[0]+1)
+	This:C1470.stringList.item:=Null:C1517
+	This:C1470._fileListManager({code: On Selection Change:K2:29})
+	
+	return $result
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function doDeleteString($confirm : Boolean)
