@@ -1727,6 +1727,38 @@ Function doSelectUnit($row : Integer)
 	This:C1470.stringList.focus()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// True if another group (for a group) or another string of the displayed file (for a string) has exactly this name.
+	// Same case and accents (Compare strings with sk char codes): resnames are case sensitive, "debit" and "Debit" are two names.
+	// A string is identified in the whole file, not in its group: Localized string(resname) has no group or file parameter.
+	// Same resname with another d4:includeIf (mac/win variants) is allowed, as in XliffFolder (identity = resname + d4:includeIf)
+Function isResnameTaken($string : Object; $xliff : cs:C1710.Xliff) : Boolean
+	
+	$xliff:=$xliff || This:C1470.current
+	
+	If ($string=Null:C1517) || ($xliff=Null:C1517)
+		
+		return False:C215
+		
+	End if 
+	
+	var $isGroup : Boolean:=OB Instance of:C1731($string; cs:C1710.XliffGroup)
+	var $others : Collection:=$isGroup ? $xliff.groups : $xliff.allUnits
+	var $other : Object
+	
+	For each ($other; $others)
+		
+		If ($other#$string)\
+			 && (Compare strings(String:C10($other.resname); String:C10($string.resname); sk char codes)=0)\
+			 && ($isGroup || (String:C10($other.attributes["d4:includeIf"])=String:C10($string.attributes["d4:includeIf"])))
+			
+			return True:C214
+			
+		End if 
+	End for each 
+	
+	return False:C215
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function parentGroup($unit : Object) : Object
 	
 	var $c : Collection

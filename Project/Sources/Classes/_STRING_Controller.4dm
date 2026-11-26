@@ -375,41 +375,19 @@ Function _resnameManager($e : cs:C1710.ui.evt)
 		
 	End if 
 	
-	// For a group, do not allow duplicate names
-	If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
+	// No duplicate names: a group like another group, a string like another string of the file (same d4:includeIf)
+	If ($parent.isResnameTaken($string))
 		
-		// Another group with exactly the same name (same case: "debit" and "Debit" are two resnames)
-		// The query was on "name", which groups do not have: the check never found anything
-		var $other : Object
-		For each ($other; $parent.current.groups)
-			
-			If ($success) && ($other#$string) && (Compare strings(String:C10($other.resname); $string.resname; sk char codes)=0)
-				
-				$success:=False:C215
-				
-			End if 
-		End for each 
+		ALERT:C41(Replace string:C233(Localized string:C991("theNameIsAlreadyTaken"); "{name}"; $string.resname))
+		$success:=Shift down:C543  // I know what I do ;-)
 		
-		If (Not:C34($success))
-			
-			// TODO:diacritical
-			
-		End if 
+	End if 
+	
+	If ($success) && (OB Instance of:C1731($string; cs:C1710.XliffGroup))
 		
-		If (Not:C34($success))
-			
-			// Keep the previous name to allow the updating of the hierarchical list-box
-			
-			ALERT:C41(Replace string:C233(Localized string:C991("theNameIsAlreadyTaken"); "{name}"; $string.resname))
-			$success:=Shift down:C543  // I know what I do ;-)
-			
-		End if 
+		// Keep the previous name to allow the updating of the hierarchical list-box
+		$string.previous:=Form:C1466.$backup.resname
 		
-		If ($success)
-			
-			$string.previous:=Form:C1466.$backup.resname
-			
-		End if 
 	End if 
 	
 	If (Not:C34($success))
