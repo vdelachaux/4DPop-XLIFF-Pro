@@ -363,7 +363,13 @@ Function _resnameManager($e : cs:C1710.ui.evt)
 	If ($success)\
 		 && (Compare strings($string.resname; String:C10(Form:C1466.$backup.resname); sk char codes)=0)
 		
-		// Nothing was changed
+		// Nothing was changed. A group: Tab must not leave the editor for the file list (B31, as after a rename B22)
+		If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
+			
+			This:C1470.form.callMeBack(This:C1470.context(); "_FOCUS_AFTER_GROUP")
+			
+		End if 
+		
 		return 
 		
 	End if 
