@@ -10,6 +10,7 @@
 		"onLoad",
 		"onActivate",
 		"onGettingFocus",
+		"onLosingFocus",
 		"onBoundVariableChange"
 	],
 	"pageFormat": {
