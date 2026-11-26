@@ -1221,6 +1221,7 @@ Function doDeleteFile($file : 4D:C1709.File; $e : cs:C1710.ui.evt)
 Function doDeleteString($confirm : Boolean)
 	
 	var $row : Integer
+	var $c : Collection
 	var $language : Object
 	var $group : cs:C1710.XliffGroup
 	var $unit : cs:C1710.XliffUnit
@@ -1296,9 +1297,24 @@ Function doDeleteString($confirm : Boolean)
 		End for each 
 		
 		$group:=This:C1470.parentGroup($target)
-		$row:=Find in array:C230(This:C1470.groupPtr->; $group.resname; 1)
+		
+		// Row of the deleted string (not the first row of its group: deleting another string of the group
+		// removed the wrong row, the deleted string stayed in the list with a node no longer in the tree: error -9926 on a new Delete)
+		$c:=[]
+		ARRAY TO COLLECTION:C1563($c; This:C1470.contentPtr->)
+		$row:=$c.indexOf($target)+1
+		
+		If ($row=0)
+			
+			return  // Not in the list
+			
+		End if 
 		
 		If ($group.transunits=Null:C1517) || ($group.transunits.length=0)
+			
+			// The group is now empty: its row shows the group (as in _LOAD_STRINGS)
+			(This:C1470.resnamePtr)->{$row}:=""
+			(This:C1470.contentPtr)->{$row}:=$group
 			
 			// Select the break line, collapse & select
 			This:C1470.stringList.collapse($row; lk selection:K53:17)
@@ -1311,7 +1327,13 @@ Function doDeleteString($confirm : Boolean)
 			DELETE FROM ARRAY:C228((This:C1470.resnamePtr)->; $row)
 			DELETE FROM ARRAY:C228((This:C1470.contentPtr)->; $row)
 			
-			// Select
+			// Select the next string of the group, or the previous one if the deleted string was the last one
+			If ($row>Size of array:C274(This:C1470.groupPtr->)) || ((This:C1470.groupPtr)->{$row}#$group.resname)
+				
+				$row-=1
+				
+			End if 
+			
 			This:C1470.stringList.doSafeSelect($row)
 			This:C1470.doSelectUnit($row)
 			
