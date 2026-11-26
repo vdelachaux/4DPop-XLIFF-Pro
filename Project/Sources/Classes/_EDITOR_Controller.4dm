@@ -1727,8 +1727,11 @@ Function doSelectUnit($row : Integer)
 	This:C1470.stringList.focus()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-	// True if another group (for a group) or another string of the displayed file (for a string) has exactly this name.
-	// Same case and accents (Compare strings with sk char codes): resnames are case sensitive, "debit" and "Debit" are two names.
+	// True if another group (for a group) or another string of the displayed file (for a string) has this name,
+	// ignoring the case and the accents: XLIFF resnames are case sensitive, but the editor finds groups and rows with
+	// queries and Find in array, which ignore the case ("debit" next to "Debit": a click on one selected the other).
+	// Refusing such near-duplicates keeps the files unambiguous for both. Renaming an item to another case of its own
+	// name stays possible (B26): the item itself is not compared.
 	// A string is identified in the whole file, not in its group: Localized string(resname) has no group or file parameter.
 	// Same resname with another d4:includeIf (mac/win variants) is allowed, as in XliffFolder (identity = resname + d4:includeIf)
 Function isResnameTaken($string : Object; $xliff : cs:C1710.Xliff) : Boolean
@@ -1748,7 +1751,7 @@ Function isResnameTaken($string : Object; $xliff : cs:C1710.Xliff) : Boolean
 	For each ($other; $others)
 		
 		If ($other#$string)\
-			 && (Compare strings(String:C10($other.resname); String:C10($string.resname); sk char codes)=0)\
+			 && (Compare strings(String:C10($other.resname); String:C10($string.resname); sk case insensitive+sk diacritic insensitive)=0)\
 			 && ($isGroup || (String:C10($other.attributes["d4:includeIf"])=String:C10($string.attributes["d4:includeIf"])))
 			
 			return True:C214
@@ -1921,8 +1924,17 @@ Function _synchronizeAttributes($parent : Object; $string : Object; $attributes 
 	
 	For each ($langue; $parent.languages)
 		
-		// Update the XML tree
-		var $xliff : cs:C1710.Xliff:=$parent.cache.query("root = :1"; $langue.root).pop()
+		// Update the XML tree of the localized file of THIS string ($langue.root is the one of the last string
+		// loaded, possibly of another file: the attributes were written into the wrong file, as for B18)
+		var $own : Object:=($string.localizations=Null:C1517) ? Null:C1517 : $string.localizations.query("language.lproj = :1"; $langue.lproj).first()
+		var $xliff : cs:C1710.Xliff:=(($own#Null:C1517) && ($own.xliff#Null:C1517)) ? $own.xliff : $parent.cache.query("root = :1"; $langue.root).pop()
+		
+		If ($xliff=Null:C1517)
+			
+			continue
+			
+		End if 
+		
 		var $node : Text:=$xliff.findById($string.id)
 		
 		If ($xliff.success)
@@ -2288,7 +2300,11 @@ Function _UPDATE_RESNAME($context : Object)
 	End if 
 	
 	// The list shows this file (not another one displayed since the name was edited)
-	var $isDisplayed : Boolean:=($xliff=This:C1470.current)
+	// ... and the file list still shows it: after a click on another file, the callback can run before _DISPLAY_FILE
+	// (This.current not replaced yet): doSelectGroup then made the group of the previous file current again
+	var $isDisplayed : Boolean:=($xliff=This:C1470.current)\
+		 && (This:C1470.fileList.item#Null:C1517)\
+		 && (String:C10(This:C1470.fileList.item.path)=$xliff.file.path)
 	
 	$xliff.setAttribute($target.node; "resname"; $target.resname)
 	This:C1470.save($xliff)
