@@ -2303,8 +2303,7 @@ Function _UPDATE_RESNAME($context : Object)
 	// ... and the file list still shows it: after a click on another file, the callback can run before _DISPLAY_FILE
 	// (This.current not replaced yet): doSelectGroup then made the group of the previous file current again
 	var $isDisplayed : Boolean:=($xliff=This:C1470.current)\
-		 && (This:C1470.fileList.item#Null:C1517)\
-		 && (String:C10(This:C1470.fileList.item.path)=$xliff.file.path)
+		 && ((This:C1470.fileList.item=Null:C1517) || (String:C10(This:C1470.fileList.item.path)=$xliff.file.path))
 	
 	$xliff.setAttribute($target.node; "resname"; $target.resname)
 	This:C1470.save($xliff)
