@@ -2440,13 +2440,29 @@ Function localisation($string : Object; $language : Object) : Object
 	return $localisation
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function _UPDATE_LOCALIZED_TARGET($context : Object)
+Function _UPDATE_LOCALIZED_TARGET($context : Object) : Boolean
 	
 	var $xliff : cs:C1710.Xliff:=This:C1470.cache.query("root = :1"; $context.root).first()
+	
+	If ($xliff=Null:C1517)
+		
+		return False:C215  // File closed or reloaded: write nothing
+		
+	End if 
+	
 	var $targetNode : Text:=$xliff.findByXPath($context.string.target.xpath)
+	
+	If (Not:C34($xliff.success)) || (Not:C34($xliff.isReference($targetNode)))
+		
+		return False:C215  // This trans-unit is not in this file: never write elsewhere
+		
+	End if 
+	
 	$xliff.setValue($targetNode; $context.value)
 	$xliff.removeState($targetNode)
 	This:C1470.save($xliff)
+	
+	return True:C214
 	
 	//MARK:-[FILTERS]
 	// === === === === === === === === === === === === === === === === === === === === === === === ===

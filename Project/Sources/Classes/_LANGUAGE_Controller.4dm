@@ -13,9 +13,11 @@ property form : cs:C1710.ui.form
 // MARK: Widgets 🧱
 property flag; value : cs:C1710.ui.input
 
-// MARK: Text being typed (Get edited text), not yet in the variable
+// MARK: Text being typed (Get edited text), not yet in the variable, and the trans-unit it belongs to,
+// memorized when the typing starts (never the string displayed when saving)
 property pending : Variant
-property original : Text
+property target : Object
+property displayed : Text
 
 Class constructor
 	
@@ -55,8 +57,8 @@ Function handleEvents($e : cs:C1710.ui.evt)
 				//______________________________________________________
 			: ($e.boundVariableChange)
 				
-				// Another string, file or language is displayed: save what was being typed for the previous one
-				This:C1470._savePending(Form:C1466._container)
+				// Another string, file or language is displayed: save what was being typed, to its own trans-unit
+				This:C1470._savePending()
 				
 				This:C1470.form.update()
 				
@@ -64,7 +66,7 @@ Function handleEvents($e : cs:C1710.ui.evt)
 			: ($e.unload)
 				
 				// Window closed without leaving the field: save now, a callback would never run
-				This:C1470._savePending(Form:C1466._container)
+				This:C1470._savePending()
 				
 				//______________________________________________________
 			Else 
@@ -89,32 +91,36 @@ Function handleEvents($e : cs:C1710.ui.evt)
 				SPELL SET CURRENT DICTIONARY:C904(Form:C1466._container.lproj)
 				
 				This:C1470.value.backup().highlight()
-				This:C1470.original:=String:C10(This:C1470.value.getValue())
 				This:C1470.pending:=Null:C1517
+				This:C1470.target:=This:C1470._target(Form:C1466._container)
 				return 
 				
 			End if 
 			
 			If ($e.afterEdit)
 				
-				This:C1470.pending:=Get edited text:C655
+				// getValue() returns Get edited text while the field has the focus
+				This:C1470.target:=This:C1470.target || This:C1470._target(Form:C1466._container)
+				This:C1470.pending:=This:C1470.value.getValue()
 				return 
 				
 			End if 
 			
 			If ($e.losingFocus)
 				
-				This:C1470.pending:=Null:C1517
+				If (This:C1470.pending=Null:C1517)\
+					 && (This:C1470.target#Null:C1517)\
+					 && (This:C1470.value.modified)
+					
+					This:C1470.pending:=This:C1470.value.getValue()  // Modified without On After Edit
+					
+				End if 
 				
-			End if 
-			
-			If ($e.losingFocus)\
-				 && (This:C1470.value.modified)
-				
-				Form:C1466._container.value:=This:C1470.value.getValue()
-				This:C1470.form.callMeBack(Form:C1466._container; "_UPDATE_LOCALIZED_TARGET")
-				This:C1470.value.setColors(Foreground color:K23:1; Background color:K23:2)
-				
+				If (This:C1470._savePending())
+					
+					This:C1470.value.setColors(Foreground color:K23:1; Background color:K23:2)
+					
+				End if 
 			End if 
 			
 			//==============================================
@@ -130,37 +136,83 @@ Function handleEvents($e : cs:C1710.ui.evt)
 	End case 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-	// Saves the text typed in the field (Get edited text) when the field is left without On Losing Focus:
-	// window closed, or another string, file or language displayed. Direct call to the editor
-	// (set by _STRING_Controller.update()) when possible: a callback would never run if the window is closing
-Function _savePending($context : Object)
+	// The trans-unit edited in the field: values copied from the displayed localisation when the typing starts
+Function _target($context : Object) : Object
 	
-	If (This:C1470.pending=Null:C1517) || ($context=Null:C1517)
+	If ($context=Null:C1517) || ($context.string=Null:C1517)
 		
-		return 
+		return Null:C1517
 		
 	End if 
 	
-	var $text : Text:=String:C10(This:C1470.pending)
+	If (Length:C16(String:C10($context.string.target.xpath))=0) || ($context.root=Null:C1517)
+		
+		return Null:C1517
+		
+	End if 
+	
+	return {\
+		root: $context.root; \
+		lproj: String:C10($context.lproj); \
+		id: String:C10($context.string.id); \
+		xpath: String:C10($context.string.target.xpath); \
+		original: This:C1470.displayed; \
+		editor: $context.editor}
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Saves the text typed in the field to the trans-unit memorized when the typing started, once:
+	// on losing focus, when the window closes or when another string, file or language is displayed.
+	// Direct call to the editor (set by _STRING_Controller.update()): a callback would never run if the window is closing
+Function _savePending() : Boolean
+	
+	var $target : Object:=This:C1470.target
+	var $text : Variant:=This:C1470.pending
+	
+	// Only once
 	This:C1470.pending:=Null:C1517
+	This:C1470.target:=Null:C1517
 	
-	If ($text=This:C1470.original)
+	If ($text=Null:C1517) || ($target=Null:C1517)
 		
-		return  // Nothing changed
+		return False:C215
 		
 	End if 
 	
-	$context.value:=$text
-	
-	If ($context.editor#Null:C1517)
+	If (String:C10($text)=$target.original)
 		
-		$context.editor._UPDATE_LOCALIZED_TARGET($context)
-		
-	Else 
-		
-		This:C1470.form.callMeBack($context; "_UPDATE_LOCALIZED_TARGET")
+		return False:C215  // Nothing changed
 		
 	End if 
+	
+	var $context : Object:={\
+		root: $target.root; \
+		lproj: $target.lproj; \
+		string: {id: $target.id; target: {xpath: $target.xpath}}; \
+		value: String:C10($text)}
+	
+	var $displayed : Object:=Form:C1466._container
+	
+	If ($displayed#Null:C1517)
+		
+		If ($displayed.string#Null:C1517)
+			
+			If ($displayed.root=$target.root)\
+				 && (String:C10($displayed.string.id)=$target.id)
+				
+				$displayed.value:=$context.value  // Still displayed
+				
+			End if 
+		End if 
+	End if 
+	
+	If ($target.editor#Null:C1517)
+		
+		return $target.editor._UPDATE_LOCALIZED_TARGET($context)
+		
+	End if 
+	
+	This:C1470.form.callMeBack($context; "_UPDATE_LOCALIZED_TARGET")
+	return True:C214
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function onLoad()
@@ -187,12 +239,14 @@ Function update()
 		If (Position:C15($state; "needs-translation|new"; *)>0)
 			
 			This:C1470.value.setValue("")
+			This:C1470.displayed:=""
 			This:C1470.value.setPlaceholder(Form:C1466._container.value)
 			This:C1470.value.backgroundColor:=This:C1470.form.darkScheme ? "#3A3E5A" : 16775402
 			
 		Else 
 			
 			This:C1470.value.setValue(Form:C1466._container.value)
+			This:C1470.displayed:=String:C10(Form:C1466._container.value)
 			This:C1470.value.setPlaceholder("")
 			
 			If (Position:C15($state; "needs-review-translation"; *)>0)
