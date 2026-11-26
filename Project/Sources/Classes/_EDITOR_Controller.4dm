@@ -812,6 +812,15 @@ Function _fileListManager($e : cs:C1710.ui.evt)
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _stringListManager($e : cs:C1710.ui.evt; $force : Boolean)
 	
+	If ($e.code=On Getting Focus:K2:7) || ($e.code=On Losing Focus:K2:8)
+		
+		// Focus events (enabled at the form level) carry no row: cellPosition() takes the row under the mouse,
+		// 0 when the user clicks in a field of the string, which deselected the string (stringList.item:=Null)
+		// and made "+ String" do nothing. The current string only changes on a click, a selection change or an expand
+		return 
+		
+	End if 
+	
 	If (Not:C34(Bool:C1537($force)))
 		
 		This:C1470.stringList.cellPosition($e)
