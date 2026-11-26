@@ -1634,7 +1634,7 @@ Function doSelectFile($row : Integer; $e : cs:C1710.ui.evt)
 	This:C1470.fileList.focus()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
-Function doSelectGroup($row : Integer; $e : cs:C1710.ui.evt)
+Function doSelectGroup($row : Integer; $e : cs:C1710.ui.evt; $keepFocus : Boolean)
 	
 	$row:=$row<=0 ? 1 : $row
 	
@@ -1651,7 +1651,11 @@ Function doSelectGroup($row : Integer; $e : cs:C1710.ui.evt)
 	$e.code:=On Selection Change:K2:29
 	This:C1470._stringListManager($e; True:C214)
 	
-	This:C1470.stringList.focus()
+	If (Not:C34($keepFocus))
+		
+		This:C1470.stringList.focus()
+		
+	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function doSelectUnit($row : Integer)
@@ -2220,7 +2224,9 @@ Function _UPDATE_RESNAME($context : Object)
 		
 		This:C1470.stringList.sort(1)
 		$row:=Find in array:C230((This:C1470.groupPtr)->; $target.resname)
-		This:C1470.doSelectGroup($row)
+		
+		// Without giving the focus back to the list: this callback runs after the resname field lost the focus (Tab, see B20)
+		This:C1470.doSelectGroup($row; Null:C1517; True:C214)
 		
 		If (This:C1470.stringList.item.transunits=Null:C1517)\
 			 || (This:C1470.stringList.item.transunits.length=0)
