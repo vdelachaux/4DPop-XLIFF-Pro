@@ -54,6 +54,12 @@ property files : Collection
 property project : Text
 property TRACE : Boolean
 
+// MARK:- Tab navigation (B33) ⇥
+// A resname refused by the STRING form (empty, already taken): the next Tab navigation keeps the focus in the field
+property tabRefused : Boolean
+// Field to focus in the STRING form once it shows the item selected by a Tab navigation ({to: "first"|"last"; at: ms})
+property tabPendingFocus : Object
+
 // MARK:-
 Class constructor()
 	
@@ -239,6 +245,18 @@ Function handleEvents($e : cs:C1710.ui.evt)
 	End if 
 	
 	// MARK: Widget Methods
+	If ($e.objectName="tabPrevious") || ($e.objectName="tabNext")
+		
+		If ($e.code=On Getting Focus:K2:7)
+			
+			This:C1470._tabSentinel($e.objectName; Shift down:C543)
+			
+		End if 
+		
+		return 
+		
+	End if 
+	
 	If ($e.objectName="stringSplitter")
 		
 		This:C1470.stringListConstraints.apply()
@@ -313,7 +331,9 @@ Function onLoad()
 	
 	This:C1470.form.focus(This:C1470.fileList.name)
 	
-	This:C1470.form.setEntryOrder([This:C1470.fileList; This:C1470.stringList; This:C1470.detail])
+	// Two 1-pixel transparent sentinels around the editor (B33): Tab after its last field, Shift-Tab before its first
+	// field land on them, and the navigation goes on to the next / previous item of the string list
+	This:C1470.form.setEntryOrder([This:C1470.fileList.name; This:C1470.stringList.name; "tabPrevious"; This:C1470.detail.name; "tabNext"])
 	
 	// Initialize the search widget
 	This:C1470.searchPicker.data:={\
@@ -594,6 +614,7 @@ Function handleMenus($what : Text)
 				$item.resname+=" (copy)"
 				
 				var $unit : cs:C1710.XliffUnit:=This:C1470.current.createUnit($target; $item.resname)
+				var $pasted : cs:C1710.XliffUnit:=$unit  // $unit is reused below for the localized files
 				
 				For each ($key; $item.attributes)
 					
@@ -615,11 +636,12 @@ Function handleMenus($what : Text)
 				For each ($o; $item.localizations)
 					
 					$xliff:=$o.xliff
-					var $group : cs:C1710.XliffGroup:=$xliff.groups.query("xpath = :1"; $target.xpath).first()
+					// Exact xpath: the query ignores the case ("debit" next to "Debit", B35)
+					var $group : cs:C1710.XliffGroup:=This:C1470.groupByXpath($xliff; $target.xpath)
 					
 					If (Asserted:C1132($group#Null:C1517))
 						
-						$unit:=$xliff.createUnit($group; $item.resname; $unit.id)
+						$unit:=$xliff.createUnit($group; $item.resname; $pasted.id)
 						
 						For each ($key; $item.attributes)
 							
@@ -643,23 +665,24 @@ Function handleMenus($what : Text)
 					End if 
 				End for each 
 				
-				// Update UI
-				If ($target.transunits.length=1)
+				// Update UI: rows found by their content, not by name (Find in array ignores the case, B35)
+				var $row : Integer:=($target.transunits.length=1) ? This:C1470.rowOf($target) : 0
+				
+				If ($row>0)
 					
-					var $row : Integer:=Find in array:C230(This:C1470.groupPtr->; $target.resname)
 					This:C1470.resnamePtr->{$row}:=$item.resname
-					This:C1470.contentPtr->{$row}:=$unit
+					This:C1470.contentPtr->{$row}:=$pasted
 					
 				Else 
 					
 					APPEND TO ARRAY:C911((This:C1470.groupPtr)->; $target.resname)
 					APPEND TO ARRAY:C911((This:C1470.resnamePtr)->; $item.resname)
-					APPEND TO ARRAY:C911((This:C1470.contentPtr)->; $unit)
+					APPEND TO ARRAY:C911((This:C1470.contentPtr)->; $pasted)
 					
 				End if 
 				
 				This:C1470.stringList.sort(2)
-				This:C1470.doSelectUnit(Find in array:C230((This:C1470.resnamePtr)->; $item.resname))
+				This:C1470.doSelectUnit(This:C1470.rowOf($pasted))
 				
 			End if 
 			
@@ -1142,7 +1165,8 @@ Function doNewString()
 	For each ($item; $localizations)
 		
 		var $xliff : cs:C1710.Xliff:=$item.xliff
-		var $group : cs:C1710.XliffGroup:=$xliff.groups.query("xpath = :1"; $target.xpath).pop()
+		// Exact xpath: the query ignores the case ("debit" next to "Debit", B35)
+		var $group : cs:C1710.XliffGroup:=This:C1470.groupByXpath($xliff; $target.xpath)
 		
 		If (Asserted:C1132($group#Null:C1517))
 			
@@ -1278,11 +1302,24 @@ Function doRenameFile($file : 4D:C1709.File; $newName : Text) : Object
 		End if 
 	End if 
 	
-	// Only a final ".xlf" / ".xliff" (My.xlfdata stays My.xlfdata)
+	// No leading or trailing spaces ("Data.xlf " gave "Data.xlf .xlf")
+	While (Length:C16($newName)>0) && ((Character code:C91($newName[[1]])=32) || (Character code:C91($newName[[1]])=9))
+		
+		$newName:=Delete string:C232($newName; 1; 1)
+		
+	End while 
+	
+	While (Length:C16($newName)>0) && ((Character code:C91($newName[[Length:C16($newName)]])=32) || (Character code:C91($newName[[Length:C16($newName)]])=9))
+		
+		$newName:=Delete string:C232($newName; Length:C16($newName); 1)
+		
+	End while 
+	
+	// Only a final ".xlf" / ".xliff" (My.xlfdata stays My.xlfdata). ".xlf" alone leaves an empty name, refused below
 	var $suffix : Text
 	For each ($suffix; [This:C1470.Editor.FILE_EXTENSION; ".xliff"])
 		
-		If (Length:C16($newName)>Length:C16($suffix))\
+		If (Length:C16($newName)>=Length:C16($suffix))\
 			 && (Compare strings(Substring:C12($newName; Length:C16($newName)-Length:C16($suffix)+1); $suffix; sk case insensitive)=0)
 			
 			$newName:=Substring:C12($newName; 1; Length:C16($newName)-Length:C16($suffix))
@@ -1290,7 +1327,8 @@ Function doRenameFile($file : 4D:C1709.File; $newName : Text) : Object
 		End if 
 	End for each 
 	
-	If (Length:C16($newName)=0) || (Position:C15("/"; $newName)>0) || (Position:C15(":"; $newName)>0) || (Position:C15("\\"; $newName)>0)
+	// Empty, or hidden (".xlf" gave the hidden file ".xlf.xlf"), or a path
+	If (Length:C16($newName)=0) || (Position:C15("."; $newName)=1) || (Position:C15("/"; $newName)>0) || (Position:C15(":"; $newName)>0) || (Position:C15("\\"; $newName)>0)
 		
 		$result.errors.push("invalidName")
 		
@@ -1527,7 +1565,8 @@ Function doDeleteString($confirm : Boolean)
 		For each ($language; This:C1470.current.languages)
 			
 			$xliff:=$language.xliff
-			$group:=$xliff.groups.query("xpath = :1"; $target.xpath).pop()
+			// Exact xpath: the query ignores the case and took the last of "debit" / "Debit" (B35)
+			$group:=This:C1470.groupByXpath($xliff; $target.xpath)
 			
 			If ($group=Null:C1517)
 				
@@ -1952,27 +1991,6 @@ Function doSelectGroup($row : Integer; $e : cs:C1710.ui.evt; $keepFocus : Boolea
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Name of the object that has the focus in the editor form
-Function _FOCUS_AFTER_GROUP($context : Object)
-	
-	// A group has only its name in the editor: Tab leaves it for the next object of the EDITOR entry order
-	// (standard order = layering of the objects, the file list comes after the editor). Stay with the group:
-	// the string list, the group selected. Not after a click on another object or another file.
-	// Called by _UPDATE_RESNAME (renamed group, B22) and by the STRING form when the name did not change (B31)
-	If ($context=Null:C1517) || ($context.file=Null:C1517)
-		
-		return 
-		
-	End if 
-	
-	If (This:C1470._focusedObject()=This:C1470.fileList.name)\
-		 && (This:C1470.fileList.item#Null:C1517)\
-		 && (String:C10(This:C1470.fileList.item.path)=$context.file.file.path)
-		
-		This:C1470.stringList.focus()
-		
-	End if 
-	
-	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _focusedObject() : Text
 	
 	return OBJECT Get name:C1087(Object with focus)
@@ -2010,6 +2028,255 @@ Function doSelectUnit($row : Integer)
 	// the list again before _SELECT_STRING runs, the row then shows another string (B25)
 	This:C1470.form.callMeBack({row: $row; item: (This:C1470.contentPtr)->{$row}}; "_SELECT_STRING")
 	This:C1470.stringList.focus()
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// MARK:-Tab navigation (B33)
+	// A sentinel of the entry order got the focus. Tab: fileList > stringList > tabPrevious > detail > tabNext.
+	// $backward = Shift down (Shift-Tab). The work is done by callbacks: they run after the callbacks queued when the
+	// field was left (_UPDATE_RESNAME, _UPDATE_SOURCE), so after a rename, a sort of the list, a refusal
+Function _tabSentinel($name : Text; $backward : Boolean)
+	
+	Case of 
+			
+			//______________________________________________________
+		: ($name="tabPrevious") && Not:C34($backward)
+			
+			// Tab from the string list: into the editor, its first field
+			This:C1470.form.callMeBack({to: "first"}; "_TAB_FOCUS")
+			
+			//______________________________________________________
+		: ($name="tabPrevious")
+			
+			// Shift-Tab from the first field of the editor: the previous item, its last field
+			This:C1470.form.callMeBack({direction: -1}; "_TAB_NAVIGATE")
+			
+			//______________________________________________________
+		: ($backward)
+			
+			// Shift-Tab from the file list (the entry order goes round): the last field of the editor
+			This:C1470.form.callMeBack({to: "last"}; "_TAB_FOCUS")
+			
+			//______________________________________________________
+		Else 
+			
+			// Tab from the last field of the editor: the next item, its first field
+			This:C1470.form.callMeBack({direction: 1}; "_TAB_NAVIGATE")
+			
+			//______________________________________________________
+	End case 
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Order of the Tab navigation, as displayed: every group (its name), then its strings in the order of their rows
+	// (mac/win variants included). An empty group has its own row (its object in the content column)
+Function tabSequence() : Collection
+	
+	var $groups : Collection:=[]
+	var $o; $group; $entry; $g : Object
+	var $row : Integer
+	
+	For ($row; 1; Size of array:C274(This:C1470.contentPtr->))
+		
+		//%W-533.3
+		$o:=(This:C1470.contentPtr)->{$row}
+		//%W+533.3
+		
+		If ($o=Null:C1517)
+			
+			continue
+			
+		End if 
+		
+		$group:=OB Instance of:C1731($o; cs:C1710.XliffGroup) ? $o : This:C1470.parentGroup($o)
+		$entry:=Null:C1517
+		
+		For each ($g; $groups)
+			
+			If ($g.group=$group)
+				
+				$entry:=$g
+				break
+				
+			End if 
+		End for each 
+		
+		If ($entry=Null:C1517)
+			
+			$entry:={group: $group; row: $row; units: []}
+			$groups.push($entry)
+			
+		End if 
+		
+		If (OB Instance of:C1731($o; cs:C1710.XliffUnit))
+			
+			$entry.units.push({item: $o; row: $row})
+			
+		End if 
+	End for 
+	
+	var $sequence : Collection:=[]
+	
+	For each ($g; $groups)
+		
+		$sequence.push({item: $g.group; row: $g.row})
+		$sequence.combine($g.units)
+		
+	End for each 
+	
+	return $sequence
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// The item that follows (direction 1) or precedes (direction -1) $current in the Tab order, Null if none
+Function tabTarget($current : Object; $direction : Integer) : Object
+	
+	var $sequence : Collection:=This:C1470.tabSequence()
+	var $index : Integer:=-1
+	var $i : Integer
+	
+	For ($i; 0; $sequence.length-1)
+		
+		If ($sequence[$i].item=$current)
+			
+			$index:=$i
+			break
+			
+		End if 
+	End for 
+	
+	If ($index<0)
+		
+		return Null:C1517
+		
+	End if 
+	
+	$index+=$direction
+	
+	If ($index<0) || ($index>=$sequence.length)
+		
+		return Null:C1517
+		
+	End if 
+	
+	return $sequence[$index]
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+Function _TAB_NAVIGATE($data : Object)
+	
+	var $direction : Integer:=(Num:C11($data.direction)<0) ? -1 : 1
+	
+	If (This:C1470.tabRefused)
+		
+		// The name was refused (empty, already taken): the focus stays in the field (B34)
+		This:C1470.tabRefused:=False:C215
+		This:C1470._tabFocusDetail("first")
+		return 
+		
+	End if 
+	
+	var $target : Object:=This:C1470.tabTarget(This:C1470.stringList.item; $direction)
+	
+	If ($target=Null:C1517)
+		
+		// After the last string of the last group: on to the file list, as the entry order does.
+		// Before the name of the first group: back to the string list
+		If ($direction>0)
+			
+			This:C1470.fileList.focus()
+			
+		Else 
+			
+			This:C1470.stringList.focus()
+			
+		End if 
+		
+		return 
+		
+	End if 
+	
+	This:C1470._tabSelect($target)
+	
+	// The STRING form shows the item on its next update: it asks for the focus then (_TAB_FOCUS)
+	This:C1470.tabPendingFocus:={to: ($direction>0) ? "first" : "last"; at: Milliseconds:C459}
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Selects the item of a Tab navigation, without taking the focus
+Function _tabSelect($target : Object)
+	
+	If (OB Instance of:C1731($target.item; cs:C1710.XliffGroup))
+		
+		This:C1470.doSelectGroup($target.row; Null:C1517; True:C214)
+		return 
+		
+	End if 
+	
+	// Same guard as doSelectUnit: the Boolean array of the list box can be shorter than the content array
+	var $selection : Pointer:=OBJECT Get pointer:C1124(Object named:K67:5; This:C1470.stringList.name)
+	
+	If (Not:C34(Is nil pointer:C315($selection)))
+		
+		If (Size of array:C274($selection->)<$target.row)
+			
+			INSERT IN ARRAY:C227($selection->; Size of array:C274($selection->)+1; $target.row-Size of array:C274($selection->))
+			
+		End if 
+	End if 
+	
+	This:C1470.stringList.expand($target.row; lk break row:K53:18)
+	This:C1470.stringList.select($target.row)
+	
+	var $e : cs:C1710.ui.evt:=cs:C1710.ui.evt.new()
+	$e.column:=2
+	$e.row:=$target.row
+	$e.code:=On Selection Change:K2:29
+	This:C1470._stringListManager($e; True:C214)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+Function _TAB_FOCUS($data : Object)
+	
+	This:C1470._tabFocusDetail(String:C10($data.to))
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Gives the focus to the first (resname) or the last field (last language shown, or the source) of the editor
+Function _tabFocusDetail($where : Text)
+	
+	If (This:C1470.stringList.item=Null:C1517) || Not:C34(OBJECT Get visible:C1075(*; This:C1470.detail.name))
+		
+		// Nothing shown in the editor
+		If ($where="last")
+			
+			This:C1470.stringList.focus()
+			
+		Else 
+			
+			This:C1470.fileList.focus()
+			
+		End if 
+		
+		return 
+		
+	End if 
+	
+	EXECUTE METHOD IN SUBFORM:C1085(This:C1470.detail.name; Formula:C1597(formGetInstance().tabFocus($1)); *; $where)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Called by the STRING form when it shows an item: the focus asked by the last Tab navigation, if any (recent)
+Function tabTakePendingFocus() : Text
+	
+	var $pending : Object:=This:C1470.tabPendingFocus
+	This:C1470.tabPendingFocus:=Null:C1517
+	
+	If ($pending=Null:C1517)
+		
+		return ""
+		
+	End if 
+	
+	If (Abs:C99(Milliseconds:C459-Num:C11($pending.at))>2000)
+		
+		return ""  // Too old: never move the focus long after the Tab
+		
+	End if 
+	
+	return String:C10($pending.to)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 	// True if another group (for a group) or another string of the displayed file (for a string) has this name,
@@ -2067,6 +2334,26 @@ Function parentGroup($unit : Object) : Object
 	End for each 
 	
 	return This:C1470.current.groups.query("xpath = :1"; $xpath).pop()
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// The group of a file with exactly this xpath (same case): queries ignore the case, "debit" matched "Debit" (B35)
+Function groupByXpath($xliff : cs:C1710.Xliff; $xpath : Text) : cs:C1710.XliffGroup
+	
+	return ($xliff=Null:C1517) ? Null:C1517 : $xliff.groupWithXpath($xpath)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Row of the string list that shows this object (a string, or an empty group), 0 if none
+Function rowOf($item : Object) : Integer
+	
+	If ($item=Null:C1517)
+		
+		return 0
+		
+	End if 
+	
+	var $c : Collection:=[]
+	ARRAY TO COLLECTION:C1563($c; This:C1470.contentPtr->)
+	return $c.indexOf($item)+1
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns a collection of all xliff files for a given language (main by default)
@@ -2237,6 +2524,13 @@ Function _synchronizeAttributes($parent : Object; $string : Object; $attributes 
 		If ($xliff.success)
 			
 			$xliff.setAttributes($node; $attributes; True:C214)
+			
+			// Back to "all": the platform is removed too, not only added (B36)
+			If ($attributes["d4:includeIf"]=Null:C1517)
+				
+				$xliff.removeAttribute($node; "d4:includeIf")
+				
+			End if 
 			
 			This:C1470.save($xliff)
 			
@@ -2731,8 +3025,6 @@ Function _UPDATE_RESNAME($context : Object)
 			This:C1470.stringList.collapse($row)
 			
 		End if 
-		
-		This:C1470._FOCUS_AFTER_GROUP($context)
 		
 		OB REMOVE:C1226($target; "previous")
 		

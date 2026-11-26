@@ -217,6 +217,16 @@ Function update()
 		
 	End if 
 	
+	// Tab navigation (B33): the item is shown, the editor gives the focus to its first or last field. By a callback:
+	// it runs once this update and the language subforms are done (hidden fields cannot get the focus)
+	var $pending : Text:=$parent.tabTakePendingFocus()
+	
+	If (Length:C16($pending)>0)
+		
+		This:C1470.form.callMeBack({to: $pending}; "_TAB_FOCUS")
+		
+	End if 
+	
 	var $colour : cs:C1710.ui.colors:=cs:C1710.ui.colors.new()
 	$colour.foreground:=Foreground color:K23:1
 	$colour.background:=Background color:K23:2
@@ -356,6 +366,9 @@ Function _resnameManager($e : cs:C1710.ui.evt)
 	var $parent : cs:C1710._EDITOR_Controller:=This:C1470.form.container.__SUPER__
 	var $string : Object:=Form:C1466.string
 	
+	// A refusal below keeps the focus in the field for the Tab navigation that follows (B33/B34)
+	$parent.tabRefused:=False:C215
+	
 	// Don't allow empty value
 	var $success : Boolean:=(Length:C16($string.resname)>0)
 	
@@ -363,13 +376,7 @@ Function _resnameManager($e : cs:C1710.ui.evt)
 	If ($success)\
 		 && (Compare strings($string.resname; String:C10(Form:C1466.$backup.resname); sk char codes)=0)
 		
-		// Nothing was changed. A group: Tab must not leave the editor for the file list (B31, as after a rename B22)
-		If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
-			
-			This:C1470.form.callMeBack(This:C1470.context(); "_FOCUS_AFTER_GROUP")
-			
-		End if 
-		
+		// Nothing was changed (Tab goes on with the navigation of the editor, B33)
 		return 
 		
 	End if 
@@ -377,6 +384,10 @@ Function _resnameManager($e : cs:C1710.ui.evt)
 	If (Not:C34($success))
 		
 		ALERT:C41(Localized string:C991("theNameMustNotBeEmpty"))
+		
+		// The previous name comes back (B34): nothing is saved, the field does not stay empty, the focus stays in it
+		This:C1470._restoreResname($string)
+		$parent.tabRefused:=True:C214
 		return 
 		
 	End if 
@@ -399,15 +410,72 @@ Function _resnameManager($e : cs:C1710.ui.evt)
 	If (Not:C34($success))
 		
 		// Restore the old value
-		This:C1470.resname.value:=Form:C1466.$backup.resname
-		This:C1470.resname.highlight().focus()
-		
+		This:C1470._restoreResname($string)
+		$parent.tabRefused:=True:C214
 		return 
 		
 	End if 
 	
 	Form:C1466.$backup.resname:=$string.resname
 	This:C1470.form.callMeBack(This:C1470.context(); "_UPDATE_RESNAME")
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// The name before the entry, in the string (the list and the files never saw the refused name) and in the field
+Function _restoreResname($string : Object)
+	
+	$string.resname:=String:C10(Form:C1466.$backup.resname)
+	This:C1470.resname.value:=$string.resname
+	This:C1470.resname.highlight().focus()
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Tab navigation of the editor (B33), in the context of this form: the first field (resname) or the last one
+	// (the last language shown, the source when the languages are hidden; the name for a group)
+Function tabFocus($where : Text)
+	
+	var $field : Text:=($where="last") ? This:C1470.lastField() : This:C1470.resname.name
+	
+	Case of 
+			
+			//______________________________________________________
+		: (Position:C15("lang_"; $field)=1)
+			
+			EXECUTE METHOD IN SUBFORM:C1085($field; Formula:C1597(formGetInstance().value.focus()); *)
+			
+			//______________________________________________________
+		: ($field=This:C1470.source.name)
+			
+			This:C1470.source.focus()
+			
+			//______________________________________________________
+		Else 
+			
+			This:C1470.resname.focus()
+			
+			//______________________________________________________
+	End case 
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+Function lastField() : Text
+	
+	If (Not:C34(OB Instance of:C1731(Form:C1466.string; cs:C1710.XliffUnit)))
+		
+		return This:C1470.resname.name
+		
+	End if 
+	
+	var $last : Text:=This:C1470.source.name
+	var $language : cs:C1710.language
+	
+	For each ($language; This:C1470.form.container.__SUPER__.languages)
+		
+		If (OBJECT Get visible:C1075(*; "lang_"+$language.lproj))
+			
+			$last:="lang_"+$language.lproj
+			
+		End if 
+	End for each 
+	
+	return $last
+	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _actionManager($e : cs:C1710.ui.evt)
 	

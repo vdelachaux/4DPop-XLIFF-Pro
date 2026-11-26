@@ -93,6 +93,22 @@ Function deleteGroup($group : cs:C1710.XliffGroup) : Boolean
 	return True:C214
 	
 	// === === === === === === === === === === === === === === === === === === ===
+	// The group with exactly this xpath (same case): queries ignore the case, "debit" matched "Debit" (B35)
+Function groupWithXpath($xpath : Text) : cs:C1710.XliffGroup
+	
+	var $group : cs:C1710.XliffGroup
+	For each ($group; This:C1470.groups)
+		
+		If (Compare strings:C1756(String:C10($group.xpath); $xpath; sk char codes)=0)
+			
+			return $group
+			
+		End if 
+	End for each 
+	
+	return Null:C1517
+	
+	// === === === === === === === === === === === === === === === === === === ===
 Function deleteUnit($unit : cs:C1710.XliffUnit) : cs:C1710.XliffGroup
 	
 	// Delete unit
@@ -105,7 +121,7 @@ Function deleteUnit($unit : cs:C1710.XliffUnit) : cs:C1710.XliffGroup
 	// Update group
 	var $c:=Split string:C1554($unit.xpath; "/")
 	$c.pop()
-	var $group : cs:C1710.XliffGroup:=This:C1470.groups.query("xpath = :1"; $c.join("/")).first()
+	var $group : cs:C1710.XliffGroup:=This:C1470.groupWithXpath($c.join("/"))  // exact case (B35)
 	
 	$indx:=$group.transunits.indices("id = :1"; $unit.id)[0]
 	$group.transunits.remove($indx)
@@ -733,7 +749,8 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 		// Ensure that all groups are synchronized
 		For each ($group; This:C1470.groups)
 			
-			If ($xliff.groups.query("resname = :1"; $group.resname).first()=Null:C1517)
+			// Exact case: the query ignored the case, "debit" was never created next to "Debit" (B35)
+			If ($xliff.groupWithXpath($group.xpath)=Null:C1517)
 				
 				// Create the group
 				$groupNode:=$xliff.append($bodyNode; $group.node)
