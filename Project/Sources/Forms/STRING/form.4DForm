@@ -137,7 +137,8 @@
 						"onGettingFocus"
 					],
 					"dataSource": "Form:C1466.string.source.value",
-					"spellcheck": true
+					"spellcheck": true,
+					"writingTools": true
 				},
 				"resname.label": {
 					"type": "text",

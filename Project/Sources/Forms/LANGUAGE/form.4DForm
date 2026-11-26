@@ -34,6 +34,7 @@
 					"sizingY": "grow",
 					"hideFocusRing": true,
 					"spellcheck": true,
+					"writingTools": true,
 					"events": [
 						"onLosingFocus",
 						"onGettingFocus",
