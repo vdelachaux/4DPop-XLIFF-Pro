@@ -1658,6 +1658,12 @@ Function doSelectGroup($row : Integer; $e : cs:C1710.ui.evt; $keepFocus : Boolea
 	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Name of the object that has the focus in the editor form
+Function _focusedObject() : Text
+	
+	return OBJECT Get name:C1087(Object with focus)
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function doSelectUnit($row : Integer)
 	
 	If ($row<1)
@@ -2225,7 +2231,7 @@ Function _UPDATE_RESNAME($context : Object)
 		This:C1470.stringList.sort(1)
 		$row:=Find in array:C230((This:C1470.groupPtr)->; $target.resname)
 		
-		// Without giving the focus back to the list: this callback runs after the resname field lost the focus (Tab, see B20)
+		// Without taking the focus: this callback runs after the resname field lost the focus (Tab, or a click elsewhere)
 		This:C1470.doSelectGroup($row; Null:C1517; True:C214)
 		
 		If (This:C1470.stringList.item.transunits=Null:C1517)\
@@ -2233,6 +2239,17 @@ Function _UPDATE_RESNAME($context : Object)
 			
 			// No trans-unit, so no expansion
 			This:C1470.stringList.collapse($row)
+			
+		End if 
+		
+		// A group has only its name in the editor: Tab leaves it for the next object of the EDITOR entry order
+		// (standard order = layering of the objects, the file list comes after the editor). Stay with the group:
+		// the string list, the group selected. Not after a click on another object or another file
+		If (This:C1470._focusedObject()=This:C1470.fileList.name)\
+			 && (This:C1470.fileList.item#Null:C1517)\
+			 && (String:C10(This:C1470.fileList.item.path)=$context.file.file.path)
+			
+			This:C1470.stringList.focus()
 			
 		End if 
 		
