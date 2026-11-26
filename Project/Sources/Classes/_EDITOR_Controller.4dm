@@ -2223,7 +2223,9 @@ Function _UPDATE_RESNAME($context : Object)
 	$row:=$c.indices("id = :1"; $context.string.id)[0]+1
 	(This:C1470.stringList.columnPtr("unit"))->{$row}:=$target.resname
 	This:C1470.stringList.sort(2)
-	This:C1470.stringList.focus()
+	
+	// No stringList.focus() here: this callback runs after the resname field lost the focus (Tab),
+	// giving the focus back to the list took it away from the next field of the entry order (the languages)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _UPDATE_TRANSLATE($context : Object)
