@@ -504,7 +504,7 @@ En fonction du contenu de votre projet, de la langue du système et de l'applica
           <source>The "{lang}" folder and its contents will be deleted.</source>
           <target>Le dossier "{lang}" et son contenu seront supprimés.</target>
         </trans-unit>
-        <trans-unit id="173" resname="String 1">
+        <trans-unit id="173" resname="remove">
           <source>Remove</source>
           <target>Supprimer</target>
         </trans-unit>
