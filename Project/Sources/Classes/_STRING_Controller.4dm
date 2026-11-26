@@ -84,6 +84,11 @@ Function handleEvents($e : cs:C1710.ui.evt)
 				This:C1470.form.update()
 				
 				//______________________________________________________
+			: ($e.code=On Unload:K2:2)
+				
+				// Enabled so that the LANGUAGE subforms receive On Unload (they save the text being typed)
+				
+				//______________________________________________________
 			Else 
 				
 				ASSERT:C1129(False:C215; "Is the event \""+$e.description+"\" needed to be activated?")
@@ -303,6 +308,7 @@ This.adjustResname(False)
 			
 			// The ref string
 			$localisation.string:=$string
+			$localisation.editor:=$parent  // Lets the LANGUAGE subform save the text being typed when the window closes
 			
 			// Get localisation
 			var $node : Text:=$xliff.findById($localisation.string.id)

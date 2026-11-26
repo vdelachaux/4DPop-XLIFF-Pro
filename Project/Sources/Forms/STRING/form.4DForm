@@ -11,7 +11,8 @@
 		"onLoad",
 		"onClick",
 		"onLosingFocus",
-		"onTimer"
+		"onTimer",
+		"onUnload"
 	],
 	"pageFormat": {
 		"paperName": "A4",
@@ -71,7 +72,8 @@
 					"selectionMode": "multiple",
 					"printFrame": "variable",
 					"events": [
-						"onGettingFocus"
+						"onGettingFocus",
+						"onUnload"
 					],
 					"dataSourceTypeHint": "undefined"
 				},

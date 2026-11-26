@@ -11,6 +11,8 @@
 		"onActivate",
 		"onGettingFocus",
 		"onLosingFocus",
+		"onAfterEdit",
+		"onUnload",
 		"onBoundVariableChange"
 	],
 	"pageFormat": {
@@ -34,7 +36,8 @@
 					"spellcheck": true,
 					"events": [
 						"onLosingFocus",
-						"onGettingFocus"
+						"onGettingFocus",
+						"onAfterEdit"
 					]
 				},
 				"flag": {

@@ -13,6 +13,10 @@ property form : cs:C1710.ui.form
 // MARK: Widgets 🧱
 property flag; value : cs:C1710.ui.input
 
+// MARK: Text being typed (Get edited text), not yet in the variable
+property pending : Variant
+property original : Text
+
 Class constructor
 	
 	// MARK:Delegates 📦
@@ -51,7 +55,16 @@ Function handleEvents($e : cs:C1710.ui.evt)
 				//______________________________________________________
 			: ($e.boundVariableChange)
 				
+				// Another string, file or language is displayed: save what was being typed for the previous one
+				This:C1470._savePending(Form:C1466._container)
+				
 				This:C1470.form.update()
+				
+				//______________________________________________________
+			: ($e.unload)
+				
+				// Window closed without leaving the field: save now, a callback would never run
+				This:C1470._savePending(Form:C1466._container)
 				
 				//______________________________________________________
 			Else 
@@ -76,7 +89,22 @@ Function handleEvents($e : cs:C1710.ui.evt)
 				SPELL SET CURRENT DICTIONARY:C904(Form:C1466._container.lproj)
 				
 				This:C1470.value.backup().highlight()
+				This:C1470.original:=String:C10(This:C1470.value.getValue())
+				This:C1470.pending:=Null:C1517
 				return 
+				
+			End if 
+			
+			If ($e.afterEdit)
+				
+				This:C1470.pending:=Get edited text:C655
+				return 
+				
+			End if 
+			
+			If ($e.losingFocus)
+				
+				This:C1470.pending:=Null:C1517
 				
 			End if 
 			
@@ -100,6 +128,39 @@ Function handleEvents($e : cs:C1710.ui.evt)
 			
 			//==============================================
 	End case 
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Saves the text typed in the field (Get edited text) when the field is left without On Losing Focus:
+	// window closed, or another string, file or language displayed. Direct call to the editor
+	// (set by _STRING_Controller.update()) when possible: a callback would never run if the window is closing
+Function _savePending($context : Object)
+	
+	If (This:C1470.pending=Null:C1517) || ($context=Null:C1517)
+		
+		return 
+		
+	End if 
+	
+	var $text : Text:=String:C10(This:C1470.pending)
+	This:C1470.pending:=Null:C1517
+	
+	If ($text=This:C1470.original)
+		
+		return  // Nothing changed
+		
+	End if 
+	
+	$context.value:=$text
+	
+	If ($context.editor#Null:C1517)
+		
+		$context.editor._UPDATE_LOCALIZED_TARGET($context)
+		
+	Else 
+		
+		This:C1470.form.callMeBack($context; "_UPDATE_LOCALIZED_TARGET")
+		
+	End if 
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function onLoad()
