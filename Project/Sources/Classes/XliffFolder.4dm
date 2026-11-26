@@ -259,7 +259,17 @@ Function renumberIds() : Object
 
 			End for each
 
-			$wxliff.save()  // Also closes the tree
+			// Written only when an id changed: saving an unchanged file rewrote it anyway (attribute order, line
+			// endings, BOM: P12-renum, O3)
+			If ($changed>0)
+
+				$wxliff.save()  // Also closes the tree
+
+			Else
+
+				$wxliff.close()
+
+			End if
 
 			$totalUpdated+=$changed
 

@@ -69,6 +69,13 @@ Function handleEvents($e : cs:C1710.ui.evt)
 				This:C1470._savePending()
 				
 				//______________________________________________________
+			: ($e.gettingFocus) | ($e.losingFocus)
+				
+				// The subform container itself gets or loses the focus (Tab, click): the form method receives the event
+				// without an object name (doc Events/onGettingFocus.md). Nothing to do: the value field handles its own
+				// focus events and saves what was typed (U9: an assertion was raised here)
+				
+				//______________________________________________________
 			Else 
 				
 				ASSERT:C1129(False:C215; "Is the event \""+$e.description+"\" needed to be activated?")

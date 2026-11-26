@@ -2761,7 +2761,7 @@ Function _HIGHLIGHTING_DUPLICATES($data : Object)
 	
 	var $expand : Boolean:=($data#Null:C1517) && Bool:C1537($data.expand)
 	var $current : Object:=This:C1470.stringList.item
-	var $wasDuplicated : Boolean:=OB Instance of:C1731($current; cs:C1710.XliffUnit) && Bool:C1537($current.duplicateResname)
+	var $wasDuplicated : Boolean:=($current#Null:C1517) && Bool:C1537($current.duplicateResname)
 	var $unit; $other : Object
 	var $buckets : Object:={}
 	var $key : Text
@@ -2809,6 +2809,29 @@ Function _HIGHLIGHTING_DUPLICATES($data : Object)
 		End for 
 	End for each 
 	
+	// Groups: same rule as isResnameTaken() for a group (another group of the file with the same resname, ignoring
+	// the case and the accents). The flag colors the name field of a selected group in red (STRING); a break row of
+	// the hierarchical list cannot have its own color (doc FormObjects/listbox_overview.md, "Break rows")
+	var $group : Object
+	For each ($group; This:C1470.current.groups)
+		
+		$group.duplicateResname:=False:C215
+		
+	End for each 
+	
+	For ($i; 0; This:C1470.current.groups.length-2)
+		
+		For ($j; $i+1; This:C1470.current.groups.length-1)
+			
+			If (Compare strings(String:C10(This:C1470.current.groups[$i].resname); String:C10(This:C1470.current.groups[$j].resname); sk case insensitive+sk diacritic insensitive)=0)
+				
+				This:C1470.current.groups[$i].duplicateResname:=True:C214
+				This:C1470.current.groups[$j].duplicateResname:=True:C214
+				
+			End if 
+		End for 
+	End for 
+	
 	This:C1470.current.duplicateResname:=This:C1470.current.allUnits.query("duplicateResname = :1"; True:C214).length>0
 	
 	// UI: every row again (the colors are per row: after a deletion, an insertion or a sort they were on other strings)
@@ -2834,7 +2857,7 @@ Function _HIGHLIGHTING_DUPLICATES($data : Object)
 	
 	// The resname field of the editor (red background, white text) follows the flag of the current string:
 	// refreshed only when it changed (a refresh during a Tab to the languages would disturb the entry, B16/B17)
-	If (OB Instance of:C1731($current; cs:C1710.XliffUnit)) && (Bool:C1537($current.duplicateResname)#$wasDuplicated)
+	If ($current#Null:C1517) && (Bool:C1537($current.duplicateResname)#$wasDuplicated)
 		
 		This:C1470.detail.refresh()
 		
@@ -3140,6 +3163,28 @@ Function _UPDATE_PLATFORM($context : Object)
 	// Update the reference XML tree
 	$xliff:=$context.file
 	$unit:=$xliff.findByXPath($string.xpath)
+	
+	// Same rule as the platform menu (B28), checked again where the file is written: a duplicate (same name, same
+	// platform) is only written when the menu was used with Shift (context.force). Otherwise the platform of the
+	// file is put back in the string and nothing is written (Y-dupPlatform)
+	If (Not:C34(Bool:C1537($context.force))) && (This:C1470.isResnameTaken($string; $xliff))
+		
+		var $written : Variant:=$xliff.getAttributes($unit)["d4:includeIf"]
+		
+		If ($written=Null:C1517)
+			
+			OB REMOVE:C1226($string.attributes; "d4:includeIf")
+			
+		Else 
+			
+			$string.attributes["d4:includeIf"]:=$written
+			
+		End if 
+		
+		This:C1470.detail.refresh()
+		return 
+		
+	End if 
 	
 	If ($string.attributes["d4:includeIf"]=Null:C1517)
 		

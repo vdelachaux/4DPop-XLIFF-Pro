@@ -321,8 +321,9 @@ This.adjustResname(False)
 		
 	Else   // <group>
 		
-		$colour.foreground:=Foreground color:K23:1
-		$colour.background:=Background color:K23:2
+		// Duplicate group name (same rule as isResnameTaken): red, as for a string
+		$colour.foreground:=Bool:C1537($string.duplicateResname) ? "white" : Foreground color:K23:1
+		$colour.background:=Bool:C1537($string.duplicateResname) ? "red" : Background color:K23:2
 		
 		// Show resname if any
 		This:C1470.adjustResname(True:C214)
@@ -600,7 +601,9 @@ Function _menuManager($what : Text)
 			End if 
 			
 			// The same name for the same platform would be a duplicate (B28)
-			If (This:C1470.form.container.__SUPER__.isResnameTaken($string)) && (Not:C34(Shift down:C543))
+			var $force : Boolean:=Shift down:C543
+			
+			If (This:C1470.form.container.__SUPER__.isResnameTaken($string)) && (Not:C34($force))
 				
 				If ($platform=Null:C1517)
 					
@@ -617,7 +620,10 @@ Function _menuManager($what : Text)
 				
 			End if 
 			
-			This:C1470.form.callMeBack(This:C1470.context(); "_UPDATE_PLATFORM")
+			// force: Shift was down, the duplicate is wanted ("I know what I do"); checked again by the editor
+			var $context : Object:=This:C1470.context()
+			$context.force:=$force
+			This:C1470.form.callMeBack($context; "_UPDATE_PLATFORM")
 			// Set the platform indicator
 			This:C1470.mac.show($what="mac")
 			This:C1470.win.show($what="win")
