@@ -295,33 +295,13 @@ This.adjustResname(False)
 				
 			End if 
 			
-			var $localisation : Object:=OB Copy:C1225($language)
-			var $xliff : cs:C1710.Xliff:=$parent.cache.query("root = :1"; $localisation.root).first()
+			var $localisation : Object:=$parent.localisation($string; $language)
 			
-			If ($xliff=Null:C1517)
+			If ($localisation=Null:C1517)
 				
 				// FIXME:Should not!
 				TRACE:C157
 				continue
-				
-			End if 
-			
-			// The ref string
-			$localisation.string:=$string
-			$localisation.editor:=$parent  // Lets the LANGUAGE subform save the text being typed when the window closes
-			
-			// Get localisation
-			var $node : Text:=$xliff.findById($localisation.string.id)
-			
-			If ($xliff.success)
-				
-				$localisation.value:=$xliff.targetValue($node)
-				$localisation.properties:=$xliff.targetAttributes($node)
-				
-			Else 
-				
-				$localisation.value:=""
-				$localisation.properties:={}
 				
 			End if 
 			

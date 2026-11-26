@@ -2392,6 +2392,54 @@ Function _PROPAGATE_REFERENCE($context : Object)
 	This:C1470.detail.refresh()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// The localisation given by _STRING_Controller.update() to the LANGUAGE subform of $language for $string (Null if its file is not loaded)
+Function localisation($string : Object; $language : Object) : Object
+	
+	var $localisation : Object:=OB Copy:C1225($language)
+	
+	// The localized file of this string: $language.root is the one of the last string loaded the first time,
+	// possibly in another file
+	var $own : Object:=$string.localizations=Null:C1517 ? Null:C1517 : $string.localizations.query("language.lproj = :1"; $language.lproj).first()
+	
+	If ($own#Null:C1517)
+		
+		If ($own.xliff#Null:C1517)
+			
+			$localisation.root:=$own.xliff.root
+			
+		End if 
+	End if 
+	
+	var $xliff : cs:C1710.Xliff:=This:C1470.cache.query("root = :1"; $localisation.root).first()
+	
+	If ($xliff=Null:C1517)
+		
+		return Null:C1517
+		
+	End if 
+	
+	// The ref string
+	$localisation.string:=$string
+	$localisation.editor:=This:C1470  // Lets the LANGUAGE subform save the text being typed when the window closes
+	
+	// Get localisation
+	var $node : Text:=$xliff.findById($localisation.string.id)
+	
+	If ($xliff.success)
+		
+		$localisation.value:=$xliff.targetValue($node)
+		$localisation.properties:=$xliff.targetAttributes($node)
+		
+	Else 
+		
+		$localisation.value:=""
+		$localisation.properties:={}
+		
+	End if 
+	
+	return $localisation
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _UPDATE_LOCALIZED_TARGET($context : Object)
 	
 	var $xliff : cs:C1710.Xliff:=This:C1470.cache.query("root = :1"; $context.root).first()
