@@ -476,13 +476,32 @@ Function _menuManager($what : Text)
 			//______________________________________________________
 		: ($what="camelCase")
 			
-			If (This:C1470.isGroup($string))
+			var $old : Text:=$string.resname
+			var $new : Text:=This:C1470.str.lowerCamelCase($string.resname)
+			
+			If (Compare strings($new; $old; sk char codes)=0)
 				
-				$string.previous:=$string.resname
+				return  // Already in camelCase
 				
 			End if 
 			
-			$string.resname:=This:C1470.str.lowerCamelCase($string.resname)
+			// Same check as a name typed in the field (B28): no duplicate (Shift: I know what I do)
+			$string.resname:=$new
+			
+			If (This:C1470.form.container.__SUPER__.isResnameTaken($string)) && (Not:C34(Shift down:C543))
+				
+				$string.resname:=$old
+				ALERT:C41(Replace string:C233(Localized string:C991("theNameIsAlreadyTaken"); "{name}"; $new))
+				return 
+				
+			End if 
+			
+			If (This:C1470.isGroup($string))
+				
+				$string.previous:=$old
+				
+			End if 
+			
 			Form:C1466.$backup.resname:=$string.resname
 			
 			This:C1470.form.callMeBack(This:C1470.context(); "_UPDATE_RESNAME")
@@ -500,6 +519,8 @@ Function _menuManager($what : Text)
 			 | ($what="win")\
 			 | ($what="all")
 			
+			var $platform : Variant:=$string.attributes["d4:includeIf"]
+			
 			If ($what="all")
 				
 				OB REMOVE:C1226($string.attributes; "d4:includeIf")
@@ -507,6 +528,24 @@ Function _menuManager($what : Text)
 			Else 
 				
 				$string.attributes["d4:includeIf"]:=$what
+				
+			End if 
+			
+			// The same name for the same platform would be a duplicate (B28)
+			If (This:C1470.form.container.__SUPER__.isResnameTaken($string)) && (Not:C34(Shift down:C543))
+				
+				If ($platform=Null:C1517)
+					
+					OB REMOVE:C1226($string.attributes; "d4:includeIf")
+					
+				Else 
+					
+					$string.attributes["d4:includeIf"]:=$platform
+					
+				End if 
+				
+				ALERT:C41(Replace string:C233(Localized string:C991("theNameIsAlreadyTaken"); "{name}"; $string.resname))
+				return 
 				
 			End if 
 			

@@ -1278,7 +1278,17 @@ Function doRenameFile($file : 4D:C1709.File; $newName : Text) : Object
 		End if 
 	End if 
 	
-	$newName:=Replace string:C233(Replace string:C233($newName; ".xliff"; ""); This:C1470.Editor.FILE_EXTENSION; "")
+	// Only a final ".xlf" / ".xliff" (My.xlfdata stays My.xlfdata)
+	var $suffix : Text
+	For each ($suffix; [This:C1470.Editor.FILE_EXTENSION; ".xliff"])
+		
+		If (Length:C16($newName)>Length:C16($suffix))\
+			 && (Compare strings(Substring:C12($newName; Length:C16($newName)-Length:C16($suffix)+1); $suffix; sk case insensitive)=0)
+			
+			$newName:=Substring:C12($newName; 1; Length:C16($newName)-Length:C16($suffix))
+			
+		End if 
+	End for each 
 	
 	If (Length:C16($newName)=0) || (Position:C15("/"; $newName)>0) || (Position:C15(":"; $newName)>0) || (Position:C15("\\"; $newName)>0)
 		
@@ -2044,7 +2054,19 @@ Function parentGroup($unit : Object) : Object
 	$c:=Split string:C1554($unit.xpath; "/")
 	$c.pop()
 	
-	return This:C1470.current.groups.query("xpath = :1"; $c.join("/")).pop()
+	// Exact comparison: the query ignores the case and a click on "debit" selected "Debit" (inherited files, B28)
+	var $xpath : Text:=$c.join("/")
+	var $group : Object
+	For each ($group; This:C1470.current.groups)
+		
+		If (Compare strings(String:C10($group.xpath); $xpath; sk char codes)=0)
+			
+			return $group
+			
+		End if 
+	End for each 
+	
+	return This:C1470.current.groups.query("xpath = :1"; $xpath).pop()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 	// Returns a collection of all xliff files for a given language (main by default)
@@ -2414,6 +2436,23 @@ Function _LOAD_STRINGS()
 	This:C1470.form.refresh()
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
+Function _baseLength($text : Text) : Integer
+	
+	var $i; $code; $n : Integer
+	For ($i; 1; Length:C16($text))
+		
+		$code:=Character code:C91($text[[$i]])
+		
+		If ($code<0x0300) || ($code>0x036F)
+			
+			$n+=1
+			
+		End if 
+	End for 
+	
+	return $n
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _HIGHLIGHTING_DUPLICATES($data : Object)
 	
 	// Recomputed from scratch for the whole file, after loading, deleting, creating or renaming: the flags and the red
@@ -2437,8 +2476,9 @@ Function _HIGHLIGHTING_DUPLICATES($data : Object)
 		
 		$unit.duplicateResname:=False:C215
 		
-		// Same length first (cheap), then Compare strings
-		$key:=String:C10(Length:C16(String:C10($unit.resname)))
+		// Same length first (cheap), then Compare strings; the combining marks are not counted: "é" written NFD
+		// (e + U+0301) is equal to "é" (NFC) for Compare strings
+		$key:=String:C10(This:C1470._baseLength(String:C10($unit.resname)))
 		
 		If ($buckets[$key]=Null:C1517)
 			
@@ -2825,6 +2865,8 @@ Function _UPDATE_PLATFORM($context : Object)
 	
 	// Synchronize attributes of other files
 	This:C1470._synchronizeAttributes($parent; $string; $attributes)
+	
+	This:C1470._HIGHLIGHTING_DUPLICATES()  // another platform: a duplicate can appear or disappear (B29)
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _UPDATE_NOTE($context : Object)
