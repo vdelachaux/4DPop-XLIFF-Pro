@@ -58,7 +58,7 @@ This file is distributed under the same license as the product package.
         </trans-unit>
         <trans-unit id="2" resname="CancelButton">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target>Annuler</target>
         </trans-unit>
       </group>
       <group resname="Messages">
@@ -510,7 +510,7 @@ En fonction du contenu de votre projet, de la langue du système et de l'applica
         </trans-unit>
         <trans-unit id="171" resname="availableLanguages">
           <source>AVAILABLE LANGUAGES</source>
-          <target>Le contenu du dossier {lang} sera supprimé</target>
+          <target>LANGUES DISPONIBLES</target>
         </trans-unit>
         <trans-unit id="174" resname="theFolderWillBeDeleted">
           <source>The "{lang}" folder and its contents will be deleted.</source>
