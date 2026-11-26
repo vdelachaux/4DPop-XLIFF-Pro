@@ -1142,15 +1142,39 @@ Function doNewString()
 	End for each 
 	
 	// Update UI
+	// The rows of the group are found by their content, not by the group name: a group renamed without Tab before
+	// "+ String" already has its new name here, the list keeps the old one until the _UPDATE_RESNAME callback (CALL FORM)
+	// runs after this event: Find in array returned -1 for an empty group, error 53
+	var $c : Collection:=[]
+	ARRAY TO COLLECTION:C1563($c; This:C1470.contentPtr->)
+	var $row : Integer:=0
+	var $other : Object
+	
 	If ($target.transunits.length=1)
 		
-		var $row : Integer:=Find in array:C230(This:C1470.groupPtr->; $target.resname)
+		$row:=$c.indexOf($target)+1  // The row of the empty group shows the group
+		
+	Else 
+		
+		For each ($other; $target.transunits)
+			
+			If ($row=0) && ($other.id#$unit.id)
+				
+				$row:=$c.indexOf($other)+1  // A row of another string of the group
+				
+			End if 
+		End for each 
+	End if 
+	
+	If ($target.transunits.length=1) && ($row>0)
+		
 		This:C1470.resnamePtr->{$row}:=$resname
 		This:C1470.contentPtr->{$row}:=$unit
 		
 	Else 
 		
-		APPEND TO ARRAY:C911((This:C1470.groupPtr)->; $target.resname)
+		// Same group name as the other rows of the group (the callback renames them together)
+		APPEND TO ARRAY:C911((This:C1470.groupPtr)->; ($row>0) ? (This:C1470.groupPtr)->{$row} : $target.resname)
 		APPEND TO ARRAY:C911((This:C1470.resnamePtr)->; $resname)
 		APPEND TO ARRAY:C911((This:C1470.contentPtr)->; $unit)
 		
@@ -2217,6 +2241,8 @@ Function _UPDATE_RESNAME($context : Object)
 		End for each 
 		
 		// UI
+		var $selected : Object:=This:C1470.stringList.item  // A string of the group created before this callback ran ("+ String" without Tab)
+		
 		Repeat 
 			
 			$row:=Find in array:C230((This:C1470.groupPtr)->; $target.previous)
@@ -2229,6 +2255,18 @@ Function _UPDATE_RESNAME($context : Object)
 		Until ($row=-1)
 		
 		This:C1470.stringList.sort(1)
+		
+		If (OB Instance of:C1731($selected; cs:C1710.XliffUnit)) && ($target.transunits#Null:C1517) && ($target.transunits.query("id = :1"; String:C10($selected.id)).length>0)
+			
+			// Keep the string selected
+			var $rows : Collection:=[]
+			ARRAY TO COLLECTION:C1563($rows; This:C1470.contentPtr->)
+			This:C1470.doSelectUnit($rows.indexOf($selected)+1)
+			OB REMOVE:C1226($target; "previous")
+			return 
+			
+		End if 
+		
 		$row:=Find in array:C230((This:C1470.groupPtr)->; $target.resname)
 		
 		// Without taking the focus: this callback runs after the resname field lost the focus (Tab, or a click elsewhere)
