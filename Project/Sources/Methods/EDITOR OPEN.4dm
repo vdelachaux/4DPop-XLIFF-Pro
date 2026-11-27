@@ -26,20 +26,7 @@ If ($run)
 	var $data:={}
 	var $pref:=cs:C1710.Preferences.new()
 	
-	var $runWizard:=Not:C34($pref.exists("wizard"))
-	
-	If (Not:C34($runWizard))
-		
-		// Checking for changes…
-		var $editor:=cs:C1710._Editor.new()
-		$runWizard:=$pref.get("sourceLanguage")#$editor.getLanguage($editor.mainLanguage).lproj
-		
-		If (Not:C34($runWizard))
-			
-			$runWizard:=Not:C34($pref.get("targetLanguages").equal($editor.targetLanguages().extract("lproj")))
-			
-		End if 
-	End if 
+	var $runWizard:=cs:C1710._Editor.new().wizardNeeded($pref)
 	
 	If ($runWizard) | Shift down:C543
 		
