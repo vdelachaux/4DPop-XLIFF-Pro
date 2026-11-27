@@ -90,19 +90,19 @@ Function setResname($resname : Text)
 	
 	This:C1470.resname:=$resname
 	This:C1470.attributes.resname:=$resname
-	This:C1470.xpath:="/xliff/file/body/group[@resname="+$resname+"]"
+	This:C1470.xpath:="/xliff/file/body/group[@resname="+XLIFF_xpathLiteral($resname)+"]"
 	This:C1470.attributes.xpath:=This:C1470.xpath
 	
 	// Update trans-units
 	var $unit : cs:C1710.XliffUnit
 	For each ($unit; This:C1470.transunits)
 		
-		$unit.xpath:=This:C1470.xpath+"/trans-unit[@id=\""+$unit.id+"\"]"
+		$unit.xpath:=This:C1470.xpath+"/trans-unit[@id="+XLIFF_xpathLiteral($unit.id)+"]"
 		$unit.source.xpath:=$unit.xpath+"/source"
 		
 		If ($unit.target#Null:C1517)
 			
-			$unit.source.xpath:=$unit.xpath+"/target"
+			$unit.target.xpath:=$unit.xpath+"/target"
 			
 		End if 
 	End for each 
@@ -118,7 +118,7 @@ Function setAttributes($attributes : Object)
 	
 	For each ($unit; This:C1470.transunits)
 		
-		$unit.xpath:=This:C1470.xpath+"/trans-unit[@id=\""+$unit.id+"\"]"
+		$unit.xpath:=This:C1470.xpath+"/trans-unit[@id="+XLIFF_xpathLiteral($unit.id)+"]"
 		$unit.source.xpath:=$unit.xpath+"/source"
 		
 		If ($unit.target#Null:C1517)

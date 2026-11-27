@@ -13,6 +13,12 @@ property form : cs:C1710.ui.form
 // MARK: Widgets 🧱
 property flag; value : cs:C1710.ui.input
 
+// MARK: Text being typed (Get edited text), not yet in the variable, and the trans-unit it belongs to,
+// memorized when the typing starts (never the string displayed when saving)
+property pending : Variant
+property target : Object
+property displayed : Text
+
 Class constructor
 	
 	// MARK:Delegates 📦
@@ -51,7 +57,23 @@ Function handleEvents($e : cs:C1710.ui.evt)
 				//______________________________________________________
 			: ($e.boundVariableChange)
 				
+				// Another string, file or language is displayed: save what was being typed, to its own trans-unit
+				This:C1470._savePending()
+				
 				This:C1470.form.update()
+				
+				//______________________________________________________
+			: ($e.unload)
+				
+				// Window closed without leaving the field: save now, a callback would never run
+				This:C1470._savePending()
+				
+				//______________________________________________________
+			: ($e.gettingFocus) | ($e.losingFocus)
+				
+				// The subform container itself gets or loses the focus (Tab, click): the form method receives the event
+				// without an object name (doc Events/onGettingFocus.md). Nothing to do: the value field handles its own
+				// focus events and saves what was typed (U9: an assertion was raised here)
 				
 				//______________________________________________________
 			Else 
@@ -76,17 +98,36 @@ Function handleEvents($e : cs:C1710.ui.evt)
 				SPELL SET CURRENT DICTIONARY:C904(Form:C1466._container.lproj)
 				
 				This:C1470.value.backup().highlight()
+				This:C1470.pending:=Null:C1517
+				This:C1470.target:=This:C1470._target(Form:C1466._container)
 				return 
 				
 			End if 
 			
-			If ($e.losingFocus)\
-				 && (This:C1470.value.modified)
+			If ($e.afterEdit)
 				
-				Form:C1466._container.value:=This:C1470.value.getValue()
-				This:C1470.form.callMeBack(Form:C1466._container; "_UPDATE_LOCALIZED_TARGET")
-				This:C1470.value.setColors(Foreground color:K23:1; Background color:K23:2)
+				// getValue() returns Get edited text while the field has the focus
+				This:C1470.target:=This:C1470.target || This:C1470._target(Form:C1466._container)
+				This:C1470.pending:=This:C1470.value.getValue()
+				return 
 				
+			End if 
+			
+			If ($e.losingFocus)
+				
+				If (This:C1470.pending=Null:C1517)\
+					 && (This:C1470.target#Null:C1517)\
+					 && (This:C1470.value.modified)
+					
+					This:C1470.pending:=This:C1470.value.getValue()  // Modified without On After Edit
+					
+				End if 
+				
+				If (This:C1470._savePending())
+					
+					This:C1470.value.setColors(Foreground color:K23:1; Background color:K23:2)
+					
+				End if 
 			End if 
 			
 			//==============================================
@@ -100,6 +141,86 @@ Function handleEvents($e : cs:C1710.ui.evt)
 			
 			//==============================================
 	End case 
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// The trans-unit edited in the field: values copied from the displayed localisation when the typing starts
+Function _target($context : Object) : Object
+	
+	If ($context=Null:C1517) || ($context.string=Null:C1517)
+		
+		return Null:C1517
+		
+	End if 
+	
+	If (Length:C16(String:C10($context.string.target.xpath))=0) || ($context.root=Null:C1517)
+		
+		return Null:C1517
+		
+	End if 
+	
+	return {\
+		root: $context.root; \
+		lproj: String:C10($context.lproj); \
+		id: String:C10($context.string.id); \
+		xpath: String:C10($context.string.target.xpath); \
+		original: This:C1470.displayed; \
+		editor: $context.editor}
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Saves the text typed in the field to the trans-unit memorized when the typing started, once:
+	// on losing focus, when the window closes or when another string, file or language is displayed.
+	// Direct call to the editor (set by _STRING_Controller.update()): a callback would never run if the window is closing
+Function _savePending() : Boolean
+	
+	var $target : Object:=This:C1470.target
+	var $text : Variant:=This:C1470.pending
+	
+	// Only once
+	This:C1470.pending:=Null:C1517
+	This:C1470.target:=Null:C1517
+	
+	If ($text=Null:C1517) || ($target=Null:C1517)
+		
+		return False:C215
+		
+	End if 
+	
+	If (String:C10($text)=$target.original)
+		
+		return False:C215  // Nothing changed
+		
+	End if 
+	
+	var $context : Object:={\
+		root: $target.root; \
+		lproj: $target.lproj; \
+		string: {id: $target.id; target: {xpath: $target.xpath}}; \
+		value: String:C10($text)}
+	
+	var $displayed : Object:=Form:C1466._container
+	
+	If ($displayed#Null:C1517)
+		
+		If ($displayed.string#Null:C1517)
+			
+			If ($displayed.root=$target.root)\
+				 && (String:C10($displayed.string.id)=$target.id)
+				
+				$displayed.value:=$context.value  // Still displayed
+				This:C1470.displayed:=$context.value  // Reference for the next typing in the field (update() is not called after a Tab)
+				
+			End if 
+		End if 
+	End if 
+	
+	If ($target.editor#Null:C1517)
+		
+		return $target.editor._UPDATE_LOCALIZED_TARGET($context)
+		
+	End if 
+	
+	This:C1470.form.callMeBack($context; "_UPDATE_LOCALIZED_TARGET")
+	return True:C214
 	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function onLoad()
@@ -126,12 +247,14 @@ Function update()
 		If (Position:C15($state; "needs-translation|new"; *)>0)
 			
 			This:C1470.value.setValue("")
+			This:C1470.displayed:=""
 			This:C1470.value.setPlaceholder(Form:C1466._container.value)
 			This:C1470.value.backgroundColor:=This:C1470.form.darkScheme ? "#3A3E5A" : 16775402
 			
 		Else 
 			
 			This:C1470.value.setValue(Form:C1466._container.value)
+			This:C1470.displayed:=String:C10(Form:C1466._container.value)
 			This:C1470.value.setPlaceholder("")
 			
 			If (Position:C15($state; "needs-review-translation"; *)>0)

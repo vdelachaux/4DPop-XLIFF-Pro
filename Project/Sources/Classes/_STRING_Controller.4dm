@@ -84,6 +84,11 @@ Function handleEvents($e : cs:C1710.ui.evt)
 				This:C1470.form.update()
 				
 				//______________________________________________________
+			: ($e.code=On Unload:K2:2)
+				
+				// Enabled so that the LANGUAGE subforms receive On Unload (they save the text being typed)
+				
+				//______________________________________________________
 			Else 
 				
 				ASSERT:C1129(False:C215; "Is the event \""+$e.description+"\" needed to be activated?")
@@ -212,6 +217,16 @@ Function update()
 		
 	End if 
 	
+	// Tab navigation (B33): the item is shown, the editor gives the focus to its first or last field. By a callback:
+	// it runs once this update and the language subforms are done (hidden fields cannot get the focus)
+	var $pending : Text:=$parent.tabTakePendingFocus()
+	
+	If (Length:C16($pending)>0)
+		
+		This:C1470.form.callMeBack({to: $pending}; "_TAB_FOCUS")
+		
+	End if 
+	
 	var $colour : cs:C1710.ui.colors:=cs:C1710.ui.colors.new()
 	$colour.foreground:=Foreground color:K23:1
 	$colour.background:=Background color:K23:2
@@ -290,32 +305,13 @@ This.adjustResname(False)
 				
 			End if 
 			
-			var $localisation : Object:=OB Copy:C1225($language)
-			var $xliff : cs:C1710.Xliff:=$parent.cache.query("root = :1"; $localisation.root).first()
+			var $localisation : Object:=$parent.localisation($string; $language)
 			
-			If ($xliff=Null:C1517)
+			If ($localisation=Null:C1517)
 				
 				// FIXME:Should not!
 				TRACE:C157
 				continue
-				
-			End if 
-			
-			// The ref string
-			$localisation.string:=$string
-			
-			// Get localisation
-			var $node : Text:=$xliff.findById($localisation.string.id)
-			
-			If ($xliff.success)
-				
-				$localisation.value:=$xliff.targetValue($node)
-				$localisation.properties:=$xliff.targetAttributes($node)
-				
-			Else 
-				
-				$localisation.value:=""
-				$localisation.properties:={}
 				
 			End if 
 			
@@ -325,8 +321,9 @@ This.adjustResname(False)
 		
 	Else   // <group>
 		
-		$colour.foreground:=Foreground color:K23:1
-		$colour.background:=Background color:K23:2
+		// Duplicate group name (same rule as isResnameTaken): red, as for a string
+		$colour.foreground:=Bool:C1537($string.duplicateResname) ? "white" : Foreground color:K23:1
+		$colour.background:=Bool:C1537($string.duplicateResname) ? "red" : Background color:K23:2
 		
 		// Show resname if any
 		This:C1470.adjustResname(True:C214)
@@ -370,13 +367,17 @@ Function _resnameManager($e : cs:C1710.ui.evt)
 	var $parent : cs:C1710._EDITOR_Controller:=This:C1470.form.container.__SUPER__
 	var $string : Object:=Form:C1466.string
 	
+	// A refusal below keeps the focus in the field for the Tab navigation that follows (B33/B34)
+	$parent.tabRefused:=False:C215
+	
 	// Don't allow empty value
 	var $success : Boolean:=(Length:C16($string.resname)>0)
 	
+	// Resnames are case sensitive (XLIFF, Localized string) but "=" ignores the case: "debit" -> "Debit" is a change
 	If ($success)\
-		 && ($string.resname=Form:C1466.$backup.resname)
+		 && (Compare strings($string.resname; String:C10(Form:C1466.$backup.resname); sk char codes)=0)
 		
-		// Nothing was changed
+		// Nothing was changed (Tab goes on with the navigation of the editor, B33)
 		return 
 		
 	End if 
@@ -384,49 +385,98 @@ Function _resnameManager($e : cs:C1710.ui.evt)
 	If (Not:C34($success))
 		
 		ALERT:C41(Localized string:C991("theNameMustNotBeEmpty"))
+		
+		// The previous name comes back (B34): nothing is saved, the field does not stay empty, the focus stays in it
+		This:C1470._restoreResname($string)
+		$parent.tabRefused:=True:C214
 		return 
 		
 	End if 
 	
-	// For a group, do not allow duplicate names
-	If (OB Instance of:C1731($string; cs:C1710.XliffGroup))
+	// No duplicate names: a group like another group, a string like another string of the file (same d4:includeIf)
+	If ($parent.isResnameTaken($string))
 		
-		$success:=$parent.current.groups.query("name = :1"; $string.resname).first()=Null:C1517
+		ALERT:C41(Replace string:C233(Localized string:C991("theNameIsAlreadyTaken"); "{name}"; $string.resname))
+		$success:=Shift down:C543  // I know what I do ;-)
 		
-		If (Not:C34($success))
-			
-			// TODO:diacritical
-			
-		End if 
+	End if 
+	
+	If ($success) && (OB Instance of:C1731($string; cs:C1710.XliffGroup))
 		
-		If (Not:C34($success))
-			
-			// Keep the previous name to allow the updating of the hierarchical list-box
-			
-			ALERT:C41(Replace string:C233(Localized string:C991("theNameIsAlreadyTaken"); "{name}"; $string.resname))
-			$success:=Shift down:C543  // I know what I do ;-)
-			
-		End if 
+		// Keep the previous name to allow the updating of the hierarchical list-box
+		$string.previous:=Form:C1466.$backup.resname
 		
-		If ($success)
-			
-			$string.previous:=Form:C1466.$backup.resname
-			
-		End if 
 	End if 
 	
 	If (Not:C34($success))
 		
 		// Restore the old value
-		This:C1470.resname.value:=Form:C1466.$backup.resname
-		This:C1470.resname.highlight().focus()
-		
+		This:C1470._restoreResname($string)
+		$parent.tabRefused:=True:C214
 		return 
 		
 	End if 
 	
 	Form:C1466.$backup.resname:=$string.resname
 	This:C1470.form.callMeBack(This:C1470.context(); "_UPDATE_RESNAME")
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// The name before the entry, in the string (the list and the files never saw the refused name) and in the field
+Function _restoreResname($string : Object)
+	
+	$string.resname:=String:C10(Form:C1466.$backup.resname)
+	This:C1470.resname.value:=$string.resname
+	This:C1470.resname.highlight().focus()
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+	// Tab navigation of the editor (B33), in the context of this form: the first field (resname) or the last one
+	// (the last language shown, the source when the languages are hidden; the name for a group)
+Function tabFocus($where : Text)
+	
+	var $field : Text:=($where="last") ? This:C1470.lastField() : This:C1470.resname.name
+	
+	Case of 
+			
+			//______________________________________________________
+		: (Position:C15("lang_"; $field)=1)
+			
+			EXECUTE METHOD IN SUBFORM:C1085($field; Formula:C1597(formGetInstance().value.focus()); *)
+			
+			//______________________________________________________
+		: ($field=This:C1470.source.name)
+			
+			This:C1470.source.focus()
+			
+			//______________________________________________________
+		Else 
+			
+			This:C1470.resname.focus()
+			
+			//______________________________________________________
+	End case 
+	
+	// === === === === === === === === === === === === === === === === === === === === === === === ===
+Function lastField() : Text
+	
+	If (Not:C34(OB Instance of:C1731(Form:C1466.string; cs:C1710.XliffUnit)))
+		
+		return This:C1470.resname.name
+		
+	End if 
+	
+	var $last : Text:=This:C1470.source.name
+	var $language : cs:C1710.language
+	
+	For each ($language; This:C1470.form.container.__SUPER__.languages)
+		
+		If (OBJECT Get visible:C1075(*; "lang_"+$language.lproj))
+			
+			$last:="lang_"+$language.lproj
+			
+		End if 
+	End for each 
+	
+	return $last
+	
 	// === === === === === === === === === === === === === === === === === === === === === === === ===
 Function _actionManager($e : cs:C1710.ui.evt)
 	
@@ -495,13 +545,32 @@ Function _menuManager($what : Text)
 			//______________________________________________________
 		: ($what="camelCase")
 			
-			If (This:C1470.isGroup($string))
+			var $old : Text:=$string.resname
+			var $new : Text:=This:C1470.str.lowerCamelCase($string.resname)
+			
+			If (Compare strings($new; $old; sk char codes)=0)
 				
-				$string.previous:=$string.resname
+				return  // Already in camelCase
 				
 			End if 
 			
-			$string.resname:=This:C1470.str.lowerCamelCase($string.resname)
+			// Same check as a name typed in the field (B28): no duplicate (Shift: I know what I do)
+			$string.resname:=$new
+			
+			If (This:C1470.form.container.__SUPER__.isResnameTaken($string)) && (Not:C34(Shift down:C543))
+				
+				$string.resname:=$old
+				ALERT:C41(Replace string:C233(Localized string:C991("theNameIsAlreadyTaken"); "{name}"; $new))
+				return 
+				
+			End if 
+			
+			If (This:C1470.isGroup($string))
+				
+				$string.previous:=$old
+				
+			End if 
+			
 			Form:C1466.$backup.resname:=$string.resname
 			
 			This:C1470.form.callMeBack(This:C1470.context(); "_UPDATE_RESNAME")
@@ -519,6 +588,8 @@ Function _menuManager($what : Text)
 			 | ($what="win")\
 			 | ($what="all")
 			
+			var $platform : Variant:=$string.attributes["d4:includeIf"]
+			
 			If ($what="all")
 				
 				OB REMOVE:C1226($string.attributes; "d4:includeIf")
@@ -529,7 +600,30 @@ Function _menuManager($what : Text)
 				
 			End if 
 			
-			This:C1470.form.callMeBack(This:C1470.context(); "_UPDATE_PLATFORM")
+			// The same name for the same platform would be a duplicate (B28)
+			var $force : Boolean:=Shift down:C543
+			
+			If (This:C1470.form.container.__SUPER__.isResnameTaken($string)) && (Not:C34($force))
+				
+				If ($platform=Null:C1517)
+					
+					OB REMOVE:C1226($string.attributes; "d4:includeIf")
+					
+				Else 
+					
+					$string.attributes["d4:includeIf"]:=$platform
+					
+				End if 
+				
+				ALERT:C41(Replace string:C233(Localized string:C991("theNameIsAlreadyTaken"); "{name}"; $string.resname))
+				return 
+				
+			End if 
+			
+			// force: Shift was down, the duplicate is wanted ("I know what I do"); checked again by the editor
+			var $context : Object:=This:C1470.context()
+			$context.force:=$force
+			This:C1470.form.callMeBack($context; "_UPDATE_PLATFORM")
 			// Set the platform indicator
 			This:C1470.mac.show($what="mac")
 			This:C1470.win.show($what="win")

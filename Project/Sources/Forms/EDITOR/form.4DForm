@@ -477,12 +477,50 @@
 						"onClick"
 					],
 					"class": "dev"
+				},
+				"tabPrevious": {
+					"type": "input",
+					"left": 0,
+					"top": 0,
+					"width": 1,
+					"height": 1,
+					"dataSourceTypeHint": "text",
+					"fill": "transparent",
+					"stroke": "transparent",
+					"borderStyle": "none",
+					"hideFocusRing": true,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "none",
+					"events": [
+						"onGettingFocus"
+					]
+				},
+				"tabNext": {
+					"type": "input",
+					"left": 1,
+					"top": 0,
+					"width": 1,
+					"height": 1,
+					"dataSourceTypeHint": "text",
+					"fill": "transparent",
+					"stroke": "transparent",
+					"borderStyle": "none",
+					"hideFocusRing": true,
+					"contextMenu": "none",
+					"dragging": "none",
+					"dropping": "none",
+					"events": [
+						"onGettingFocus"
+					]
 				}
 			},
 			"entryOrder": [
 				"fileList",
 				"wrap",
+				"tabPrevious",
 				"detail",
+				"tabNext",
 				"stringList",
 				"lockButton",
 				"toolbarSetting",

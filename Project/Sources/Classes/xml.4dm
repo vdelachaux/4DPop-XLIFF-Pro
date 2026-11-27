@@ -320,7 +320,44 @@ Function save($file; $keepStructure : Boolean) : cs:C1710.xml
 		If (This:C1470.success)
 			
 			This:C1470.xml:=$t
-			$file.setText($t)
+			
+			// Keep the encoding declared by the document: a Text is always written as UTF-8,
+			// so a document declared in another encoding (ISO-8859-1, UTF-16...) is exported to a BLOB
+			var $encoding : Text:=DOM Get XML information:C721(This:C1470.root; Encoding)
+			
+			If (Length:C16($encoding)=0) || ($encoding="UTF-8")
+				
+				$file.setText($t)
+				
+			Else 
+				
+				var $content : Blob
+				DOM EXPORT TO VAR:C863(This:C1470.root; $content)
+				This:C1470.success:=Bool:C1537(OK)
+				
+				If (This:C1470.success)
+					
+					// A document declared "UTF-16" must start with a byte order mark: add it if the export has none
+					If ($encoding="UTF-16") && (BLOB size:C605($content)>=2)
+						
+						If (Not:C34((($content{0}=0x00FF) && ($content{1}=0x00FE)) || (($content{0}=0x00FE) && ($content{1}=0x00FF))))
+							
+							var $littleEndian : Boolean:=($content{1}=0x0000)
+							INSERT IN BLOB:C559($content; 0; 2)
+							$content{0}:=$littleEndian ? 0x00FF : 0x00FE
+							$content{1}:=$littleEndian ? 0x00FE : 0x00FF
+							
+						End if 
+					End if 
+					
+					$file.setContent($content)
+					
+				Else 
+					
+					This:C1470.errors.push(Current method name:C684+" -  Failed to export XML")
+					
+				End if 
+			End if 
 			
 		Else 
 			

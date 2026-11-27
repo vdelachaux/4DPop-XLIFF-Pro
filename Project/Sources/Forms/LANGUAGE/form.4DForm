@@ -10,6 +10,9 @@
 		"onLoad",
 		"onActivate",
 		"onGettingFocus",
+		"onLosingFocus",
+		"onAfterEdit",
+		"onUnload",
 		"onBoundVariableChange"
 	],
 	"pageFormat": {
@@ -31,9 +34,11 @@
 					"sizingY": "grow",
 					"hideFocusRing": true,
 					"spellcheck": true,
+					"writingTools": true,
 					"events": [
 						"onLosingFocus",
-						"onGettingFocus"
+						"onGettingFocus",
+						"onAfterEdit"
 					]
 				},
 				"flag": {

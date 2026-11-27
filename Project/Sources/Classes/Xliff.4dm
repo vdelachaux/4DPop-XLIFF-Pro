@@ -32,6 +32,8 @@ property error : Text
 
 property duplicateID; duplicateResname; modified : Boolean
 property lastID : Integer
+property _usedIDs : Object  // Index of the ids in use (keys), see getUID()
+property _usedIDsCount : Integer
 
 Class constructor($file : 4D:C1709.File)
 	
@@ -46,7 +48,7 @@ Function createGroup($resname : Text) : cs:C1710.XliffGroup
 	
 	var $attributes:={resname: $resname}
 	var $node:=This:C1470.create(This:C1470.bodyNode; "group"; $attributes)
-	$attributes.xpath:=This:C1470.XPATH_BODY+"/group[@resname=\""+$resname+"\"]"  // Update me
+	$attributes.xpath:=This:C1470.XPATH_BODY+"/group[@resname="+XLIFF_xpathLiteral($resname)+"]"
 	var $group:=cs:C1710.XliffGroup.new($node; $attributes)
 	
 	This:C1470.groups.push($group)
@@ -55,10 +57,63 @@ Function createGroup($resname : Text) : cs:C1710.XliffGroup
 	return $group
 	
 	// === === === === === === === === === === === === === === === === === === ===
+	/// Deletes a group, its node and its trans-units, also from the collections (B32): a file displayed again from the
+	/// cache showed a deleted group whose node no longer exists (-9926 on the next Delete). False if the group is not
+	/// (any more) one of this file: its node is not touched
+Function deleteGroup($group : cs:C1710.XliffGroup) : Boolean
+	
+	If ($group=Null:C1517) || (This:C1470.groups.indexOf($group)=-1)
+		
+		return False:C215
+		
+	End if 
+	
+	This:C1470.remove($group.node)
+	This:C1470._usedIDs:=Null:C1517  // The index of the ids in use is rebuilt on the next getUID()
+	
+	var $unit : Object
+	var $indx : Integer
+	
+	If ($group.transunits#Null:C1517)
+		
+		For each ($unit; $group.transunits)
+			
+			$indx:=This:C1470.allUnits.indexOf($unit)
+			
+			If ($indx>=0)
+				
+				This:C1470.allUnits.remove($indx)
+				
+			End if 
+		End for each 
+	End if 
+	
+	This:C1470.groups.remove(This:C1470.groups.indexOf($group))
+	
+	return True:C214
+	
+	// === === === === === === === === === === === === === === === === === === ===
+	// The group with exactly this xpath (same case): queries ignore the case, "debit" matched "Debit" (B35)
+Function groupWithXpath($xpath : Text) : cs:C1710.XliffGroup
+	
+	var $group : cs:C1710.XliffGroup
+	For each ($group; This:C1470.groups)
+		
+		If (Compare strings:C1756(String:C10($group.xpath); $xpath; sk char codes)=0)
+			
+			return $group
+			
+		End if 
+	End for each 
+	
+	return Null:C1517
+	
+	// === === === === === === === === === === === === === === === === === === ===
 Function deleteUnit($unit : cs:C1710.XliffUnit) : cs:C1710.XliffGroup
 	
 	// Delete unit
 	This:C1470.remove($unit.node)
+	This:C1470._usedIDs:=Null:C1517  // The index of the ids in use is rebuilt on the next getUID()
 	
 	var $indx : Integer:=This:C1470.allUnits.indices("id = :1"; $unit.id).first()
 	This:C1470.allUnits.remove($indx)
@@ -66,7 +121,7 @@ Function deleteUnit($unit : cs:C1710.XliffUnit) : cs:C1710.XliffGroup
 	// Update group
 	var $c:=Split string:C1554($unit.xpath; "/")
 	$c.pop()
-	var $group : cs:C1710.XliffGroup:=This:C1470.groups.query("xpath = :1"; $c.join("/")).first()
+	var $group : cs:C1710.XliffGroup:=This:C1470.groupWithXpath($c.join("/"))  // exact case (B35)
 	
 	$indx:=$group.transunits.indices("id = :1"; $unit.id)[0]
 	$group.transunits.remove($indx)
@@ -81,7 +136,7 @@ Function createUnit($group : cs:C1710.XliffGroup; $resname : Text; $id : Text) :
 	var $node:=This:C1470.create($group.node; "trans-unit"; $attributes)
 	
 	var $unit:=cs:C1710.XliffUnit.new($node; $attributes)
-	$unit.xpath:=$group.xpath+"/trans-unit[@id=\""+$unit.id+"\"]"
+	$unit.xpath:=$group.xpath+"/trans-unit[@id="+XLIFF_xpathLiteral($unit.id)+"]"
 	
 	$unit.source.node:=This:C1470.create($node; "source")
 	$unit.source.xpath:=$unit.xpath+"/source"
@@ -91,6 +146,19 @@ Function createUnit($group : cs:C1710.XliffGroup; $resname : Text; $id : Text) :
 	
 	This:C1470.allUnits.push($unit)
 	
+	// Keep the index of the ids in use up to date (if it was in sync before the push)
+	If (This:C1470._usedIDs#Null:C1517) && (This:C1470._usedIDsCount=(This:C1470.allUnits.length-1))
+		
+		If (Length:C16($unit.id)>0)
+			
+			This:C1470._usedIDs[$unit.id]:=True:C214
+			
+		End if 
+		
+		This:C1470._usedIDsCount:=This:C1470.allUnits.length
+		
+	End if 
+	
 	$group.transunits.push($unit)
 	$group.transunits:=$group.transunits.orderBy("resname")
 	
@@ -99,17 +167,45 @@ Function createUnit($group : cs:C1710.XliffGroup; $resname : Text; $id : Text) :
 	// === === === === === === === === === === === === === === === === === === ===
 Function getUID() : Text
 	
+	// The ids are Text: look them up as Text, in an index built once
+	// (and rebuilt if allUnits changed outside createUnit), not with one query per candidate id
+	If (This:C1470._usedIDs=Null:C1517) || (This:C1470._usedIDsCount#This:C1470.allUnits.length)
+		
+		This:C1470._indexIDs()
+		
+	End if 
+	
 	var $uid : Integer:=(This:C1470.lastID#Null:C1517 ? This:C1470.lastID : 0)+1
 	
-	While (This:C1470.allUnits.query("id = :1"; $uid).first()#Null:C1517)
+	While (This:C1470._usedIDs[String:C10($uid)]#Null:C1517)
 		
 		$uid+=1
 		
 	End while 
 	
 	This:C1470.lastID:=$uid
+	This:C1470._usedIDs[String:C10($uid)]:=True:C214
 	
 	return String:C10(This:C1470.lastID)
+	
+	// === === === === === === === === === === === === === === === === === === ===
+	// Builds the index of the ids in use: {id: True}
+Function _indexIDs()
+	
+	var $unit : Object
+	
+	This:C1470._usedIDs:={}
+	
+	For each ($unit; This:C1470.allUnits)
+		
+		If (Length:C16(String:C10($unit.id))>0)
+			
+			This:C1470._usedIDs[String:C10($unit.id)]:=True:C214
+			
+		End if 
+	End for each 
+	
+	This:C1470._usedIDsCount:=This:C1470.allUnits.length
 	
 	//<== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <== <==
 Function get fileNode() : Text
@@ -320,7 +416,9 @@ Function parse() : cs:C1710.Xliff
 		
 	End if 
 	
-	This:C1470.attributes:=This:C1470.getAttributes(This:C1470.fileNode)
+	// A well-formed XML document that is not XLIFF has no /xliff/file element
+	var $fileNode : Text:=This:C1470.fileNode
+	This:C1470.attributes:=This:C1470.isReference($fileNode) ? This:C1470.getAttributes($fileNode) : {}
 	
 	This:C1470.datatype:=String:C10(This:C1470.attributes.datatype)
 	
@@ -329,6 +427,7 @@ Function parse() : cs:C1710.Xliff
 		"target"; This:C1470.attributes["target-language"])
 	
 	This:C1470.allUnits:=[]
+	This:C1470._usedIDs:=Null:C1517
 	
 	// Get the groups
 	This:C1470.groups:=[]
@@ -337,7 +436,7 @@ Function parse() : cs:C1710.Xliff
 	For each ($node; This:C1470.groupNodes())
 		
 		var $group:=cs:C1710.XliffGroup.new($node; This:C1470.getAttributes($node))
-		$group.xpath:=This:C1470.XPATH_BODY+"/group[@resname=\""+$group.resname+"\"]"
+		$group.xpath:=This:C1470.XPATH_BODY+"/group[@resname="+XLIFF_xpathLiteral($group.resname)+"]"
 		
 		// Get the trans-units
 		For each ($node; This:C1470.groupUnitNodes($group.node))
@@ -349,7 +448,7 @@ Function parse() : cs:C1710.Xliff
 			End if 
 			
 			var $unit:=cs:C1710.XliffUnit.new($node; This:C1470.getAttributes($node))
-			$unit.xpath:=$group.xpath+"/trans-unit[@id=\""+$unit.id+"\"]"
+			$unit.xpath:=$group.xpath+"/trans-unit[@id="+XLIFF_xpathLiteral($unit.id)+"]"
 			
 			$unit.source.value:=This:C1470.sourceValue($node)
 			$unit.source.xpath:=$unit.xpath+"/source"
@@ -452,6 +551,9 @@ Function deDuplicateIDs($before : Collection; $after : Collection) : Boolean
 			$indx+=1
 			
 		End for each 
+		
+		This:C1470._usedIDs:=Null:C1517  // Ids changed: the index of the ids in use is rebuilt on the next getUID()
+		
 	End if 
 	
 	return This:C1470.success
@@ -575,6 +677,22 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 		// Set all targets state as "new"
 		$xliff:=cs:C1710.Xliff.new($file).parse()
 		
+		// The reference has no target-language attribute: add it
+		If ($xliff.root#Null:C1517)
+			
+			$node:=$xliff.fileNode
+			
+			If ($xliff.isReference($node))
+				
+				If (String:C10($xliff.attributes["target-language"])#$targetLanguage)
+					
+					$xliff.setAttribute($node; "target-language"; $targetLanguage)
+					$xliff.attributes["target-language"]:=$targetLanguage
+					
+				End if 
+			End if 
+		End if 
+		
 		For each ($group; $xliff.groups)
 			
 			For each ($unit; $group.transunits)
@@ -601,10 +719,38 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 		
 		var $bodyNode : Text:=$xliff.findByXPath($xliff.XPATH_BODY)
 		
+		// Units of the localized file by (group, resname, d4:includeIf), to find the same string with another id in the same group
+		var $homonyms : Object:={}
+		var $refIDs : Object:={}
+		var $item : Object
+		var $key : Text
+		var $localizedGroup : cs:C1710.XliffGroup
+		
+		For each ($localizedGroup; $xliff.groups)
+			
+			For each ($item; $localizedGroup.transunits)
+				
+				$key:=This:C1470._homonymKey($item; $localizedGroup.resname)
+				$homonyms[$key]:=$homonyms[$key] || []
+				$homonyms[$key].push($item)
+				
+			End for each 
+		End for each 
+		
+		For each ($item; This:C1470.allUnits)
+			
+			If (Length:C16(String:C10($item.id))>0)
+				
+				$refIDs[String:C10($item.id)]:=True:C214
+				
+			End if 
+		End for each 
+		
 		// Ensure that all groups are synchronized
 		For each ($group; This:C1470.groups)
 			
-			If ($xliff.groups.query("resname = :1"; $group.resname).first()=Null:C1517)
+			// Exact case: the query ignored the case, "debit" was never created next to "Debit" (B35)
+			If ($xliff.groupWithXpath($group.xpath)=Null:C1517)
 				
 				// Create the group
 				$groupNode:=$xliff.append($bodyNode; $group.node)
@@ -639,29 +785,32 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 					
 					$string:=$o.transunits.query("id = :1"; $unit.id).first()
 					
-					If ($string#Null:C1517)
-						
-						// Search for the same resname with a different ID
-						$oo:=$xliff.groups.query("transunits[].resname = :1"; $unit.resname).first()
-						
-						If ($oo#Null:C1517)
-							
-							$oo:=$oo.transunits.query("id != :1 & resname = :2"; $unit.id; $unit.resname).first()
-							
-						End if 
-					End if 
 				End if 
+				
+				// Search, in the same group, for the same resname (and the same d4:includeIf) with a different ID, not used by the reference
+				$oo:=This:C1470._homonym($homonyms; $refIDs; $unit; $group.resname)
 				
 				If ($string=Null:C1517)
 					
-					// Create the unit
-					$node:=$xliff.append($groupNode; $unit.node)
-					
-					If (String:C10($unit.attributes.translate)#"no")
+					If ($oo#Null:C1517)
 						
-						// Set the target state as "new"
-						$xliff.setState($node; This:C1470.STATE_NEW)
+						// Same string with another ID: give it the reference ID, the translation is kept
+						$xliff.setAttribute($oo.node; "id"; $unit.id)
+						$oo.id:=$unit.id
+						$oo.attributes.id:=$unit.id
+						$oo:=Null:C1517
 						
+					Else 
+						
+						// Create the unit
+						$node:=$xliff.append($groupNode; $unit.node)
+						
+						If (String:C10($unit.attributes.translate)#"no")
+							
+							// Set the target state as "new"
+							$xliff.setState($node; This:C1470.STATE_NEW)
+							
+						End if 
 					End if 
 				End if 
 				
@@ -675,6 +824,43 @@ Function synchronize($file : 4D:C1709.File; $targetLanguage : Text)
 	End if 
 	
 	$xliff.save()
+	
+	// === === === === === === === === === === === === === === === === === === ===
+	// Key of a unit for synchronize(): group resname + resname + d4:includeIf (case and accents are significant)
+Function _homonymKey($unit : Object; $groupResname : Text) : Text
+	
+	return $groupResname+"\t"+String:C10($unit.resname)+"\t"+String:C10($unit.attributes["d4:includeIf"])
+	
+	// === === === === === === === === === === === === === === === === === === ===
+	// Returns, and takes out of $homonyms, a unit of the localized file in the same group with the same key as $unit,
+	// another ID, and an ID that the reference does not use
+Function _homonym($homonyms : Object; $refIDs : Object; $unit : Object; $groupResname : Text) : Object
+	
+	var $candidates : Collection:=$homonyms[This:C1470._homonymKey($unit; $groupResname)]
+	
+	If ($candidates=Null:C1517)
+		
+		return Null:C1517
+		
+	End if 
+	
+	var $i : Integer
+	
+	For ($i; 0; $candidates.length-1; 1)
+		
+		var $candidate : Object:=$candidates[$i]
+		var $id : Text:=String:C10($candidate.id)
+		
+		If (Compare strings:C1756($id; String:C10($unit.id); sk char codes)#0)\
+			 && ((Length:C16($id)=0) || ($refIDs[$id]=Null:C1517))
+			
+			$candidates.remove($i)
+			return $candidate
+			
+		End if 
+	End for 
+	
+	return Null:C1517
 	
 	// === === === === === === === === === === === === === === === === === === ===
 Function updateHeader($name : Text; $version : Text)
@@ -760,3 +946,10 @@ Function _child($item; $element : Text) : Text
 		
 	End if 
 	
+	
+	// *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+	// Overrides xml._convert(): XLIFF texts and attribute values are kept as Text,
+	// never converted to Real, Boolean, Date or Collection ("1.50", "true", "2024-01-15", "[draft]"…)
+Function _convert($textValue : Text)->$value
+	
+	$value:=$textValue
